@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
         protocol: "https" as const,
         hostname: "placehold.co",
       },
+      {
+        protocol: "https" as const,
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };

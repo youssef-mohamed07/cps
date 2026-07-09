@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { headers } from "next/headers";
-import { getDictionaryLocal } from "@/content/dictionaries.local";
 import {
   defaultLocale,
   getLocaleFromPathname,
@@ -75,13 +74,10 @@ export default async function NotFound() {
       lang={locale}
     >
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">404</p>
-        <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">{headline}</h1>
-        <p className="mx-auto mt-4 max-w-md text-base leading-7 text-white/70">{body}</p>
-        <Link
-          href={ctaHref}
-          className="mt-8 inline-flex text-sm font-semibold text-accent hover:underline"
-        >
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">404</p>
+        <h1 className="mt-4 text-3xl font-semibold text-foreground sm:text-4xl">{headline}</h1>
+        <p className="mx-auto mt-4 max-w-md text-base leading-7 text-muted">{body}</p>
+        <Link href={ctaHref} className="btn-secondary mt-8 inline-flex">
           {ctaLabel}
         </Link>
       </div>

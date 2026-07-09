@@ -85,6 +85,33 @@ type SanityDictionary = {
   };
 };
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function deepMergeDictionary(base: Dictionary, patch: unknown): Dictionary {
+  if (!isPlainObject(patch)) return base;
+
+  const next: Dictionary = { ...base };
+
+  for (const [key, value] of Object.entries(patch)) {
+    if (value === undefined || value === null) continue;
+
+    const current = next[key as keyof Dictionary];
+    if (isPlainObject(current) && isPlainObject(value)) {
+      next[key as keyof Dictionary] = {
+        ...(current as object),
+        ...value,
+      } as never;
+      continue;
+    }
+
+    next[key as keyof Dictionary] = value as never;
+  }
+
+  return next;
+}
+
 export function toDictionary(
   data: SanityDictionary | null | undefined,
   locale: Locale,
@@ -92,21 +119,50 @@ export function toDictionary(
   const base = getDictionaryLocal(locale);
   if (!data) return null;
 
-  let merged: Dictionary = base;
+  let merged = base;
 
   if (data.content) {
     try {
-      merged = { ...base, ...JSON.parse(data.content) };
+      merged = deepMergeDictionary(base, JSON.parse(data.content));
     } catch {
       merged = base;
     }
   }
 
+  // Always keep a complete local shape so CMS stubs can't blank the homepage.
   return {
+    ...base,
     ...merged,
+    nav: { ...base.nav, ...merged.nav },
+    hero: { ...base.hero, ...merged.hero },
+    about: { ...base.about, ...merged.about },
+    aboutPage: { ...base.aboutPage, ...merged.aboutPage },
+    services: {
+      ...base.services,
+      ...merged.services,
+      items: merged.services?.items?.length ? merged.services.items : base.services.items,
+    },
+    servicesPage: { ...base.servicesPage, ...merged.servicesPage },
+    process: {
+      ...base.process,
+      ...merged.process,
+      steps: merged.process?.steps?.length ? merged.process.steps : base.process.steps,
+    },
+    work: {
+      ...base.work,
+      ...merged.work,
+      items: merged.work?.items?.length ? merged.work.items : base.work.items,
+      viewAll: merged.work?.viewAll ?? base.work.viewAll,
+    },
+    workPage: { ...base.workPage, ...merged.workPage },
+    projectPage: { ...base.projectPage, ...merged.projectPage },
+    contact: { ...base.contact, ...merged.contact },
+    contactPage: { ...base.contactPage, ...merged.contactPage },
+    footer: { ...base.footer, ...merged.footer },
     comingSoon: {
-      title: data.comingSoon?.title ?? merged.comingSoon.title,
-      subtitle: data.comingSoon?.subtitle ?? merged.comingSoon.subtitle,
+      title: data.comingSoon?.title ?? merged.comingSoon.title ?? base.comingSoon.title,
+      subtitle:
+        data.comingSoon?.subtitle ?? merged.comingSoon.subtitle ?? base.comingSoon.subtitle,
     },
   };
 }

@@ -17,13 +17,13 @@ function getLocalizedDefaults(locale: Locale): { title: string; description: str
 
   if (locale === "ar") {
     return {
-      title: `${config.name} — قريباً`,
+      title: `${config.name} — المبدعون المحترفون`,
       description: config.description,
     };
   }
 
   return {
-    title: `${config.name} — Coming Soon`,
+    title: `${config.name} — Creatives Professionals`,
     description: config.description,
   };
 }
@@ -103,10 +103,17 @@ export function buildMetadata({
     creator: config.name,
     publisher: config.name,
     icons: {
-      icon: [{ url: getSiteFavicon(), sizes: "any" }],
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      ],
       apple: [
         { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
       ],
+      shortcut: ["/favicon.ico"],
     },
     alternates: {
       canonical,

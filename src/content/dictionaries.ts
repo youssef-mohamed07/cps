@@ -1,4 +1,4 @@
-export type { ComingSoonContent, Dictionary } from "./dictionaries.local";
+export type { Dictionary } from "./dictionaries.local";
 
 import type { Locale } from "@/lib/i18n";
 import { cache } from "react";

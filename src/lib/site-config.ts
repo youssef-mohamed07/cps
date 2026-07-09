@@ -47,9 +47,10 @@ export function getSiteConfig(): SiteConfigShape {
 
   return {
     name: "CPS",
-    legalName: "CPS",
-    tagline: "Your company tagline",
-    description: "CPS — Coming soon.",
+    legalName: "Creatives Professionals",
+    tagline: "Creatives Professionals",
+    description:
+      "CPS — Creatives Professionals. Strategy, design, and production for brands that want to be seen.",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
     locale: "en_SA",
     email: "hello@cps.com",
@@ -66,6 +67,31 @@ export function getSiteConfig(): SiteConfigShape {
       linkedin: "https://www.linkedin.com/",
       x: "https://x.com/",
     },
+    logo: "/logo.png",
+    favicon: "/favicon.ico",
+    brandColors: {
+      accent: "#2092b4",
+      primary: "#0f3355",
+    },
+    defaultKeywords: [
+      "CPS",
+      "Creatives Professionals",
+      "المبدعون المحترفون",
+      "creative agency",
+    ],
+    defaultSeoByLocale: [
+      {
+        locale: "en",
+        title: "CPS — Creatives Professionals",
+        description:
+          "CPS — Creatives Professionals. Strategy, design, and production for brands that want to be seen.",
+      },
+      {
+        locale: "ar",
+        title: "CPS — المبدعون المحترفون",
+        description: "CPS — المبدعون المحترفون. استراتيجية وتصميم وإنتاج لعلامات تريد أن تُرى.",
+      },
+    ],
   };
 }
 
