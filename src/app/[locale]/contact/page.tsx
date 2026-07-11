@@ -96,12 +96,12 @@ export default async function ContactPage({ params }: PageProps) {
           <Reveal delay={0.1}>
             <div>
               <p className="eyebrow">{page.officeTitle}</p>
-              <p className="mt-5 flex items-start gap-3 text-xl leading-8 text-foreground/90">
+              <div className="mt-5 flex items-start gap-3 text-xl leading-8 text-foreground/90">
                 <MotionIcon name="location" size={32} trigger="in" />
                 <span>
                   {config.address.city}, {config.address.countryName}
                 </span>
-              </p>
+              </div>
               <p className="mt-4 max-w-sm text-base leading-7 text-muted">
                 {dictionary.contact.support}
               </p>

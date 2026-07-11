@@ -10,8 +10,11 @@ export const media = {
   /** Full production lifecycle — workshop / show-floor craft */
   lifecycle: u("photo-1581092160562-40aa08e78837", 1800),
 
-  /** Why CPS — team on the show floor */
+  /** Why CPS bento — workshop, install, show-floor presence */
   whyCps: u("photo-1505373877841-8d25f7d46678", 1800),
+  whyCpsWide: u("photo-1540575467063-178a50c2df87", 2000),
+  whyCpsLeft: u("photo-1565043589221-1a6fd9ae45c7", 1400),
+  whyCpsRight: u("photo-1591115765373-5207764f72e7", 1400),
 
   about: {
     /** Team in workshop / production context */

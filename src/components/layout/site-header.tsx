@@ -27,17 +27,25 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   const pathname = usePathname() || `/${locale}`;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
+  const lastScrollY = useRef(0);
+  const menuLocked = useRef(false);
   const navId = useId();
 
   const items = navigation.items.filter((item) => item.enabled !== false);
   const overlay =
     pathname === `/${locale}` || pathname === `/${locale}/`;
   const isOverlay = overlay && !scrolled && !mobileOpen;
+
+  useEffect(() => {
+    menuLocked.current = mobileOpen || Boolean(openKey);
+    if (menuLocked.current) setHidden(false);
+  }, [mobileOpen, openKey]);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -54,12 +62,43 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, [mobileOpen, scrolled, overlay]);
 
   useEffect(() => {
-    if (!overlay) return;
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    lastScrollY.current = window.scrollY;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastScrollY.current;
+        const nextScrolled = y > 24;
+
+        setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+
+        if (menuLocked.current || y < 72) {
+          setHidden((prev) => (prev ? false : prev));
+        } else if (delta > 8) {
+          setHidden((prev) => (prev ? prev : true));
+          setOpenKey(null);
+        } else if (delta < -8) {
+          setHidden((prev) => (prev ? false : prev));
+        }
+
+        lastScrollY.current = y;
+        ticking = false;
+      });
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [overlay]);
+  }, []);
+
+  useEffect(() => {
+    setOpenKey(null);
+    setMobileOpen(false);
+    setMobileExpanded(null);
+    setHidden(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!openKey) return;
@@ -69,12 +108,6 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [openKey]);
-
-  useEffect(() => {
-    setOpenKey(null);
-    setMobileOpen(false);
-    setMobileExpanded(null);
-  }, [pathname]);
 
   useEffect(() => {
     return () => {
@@ -137,7 +170,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   return (
     <header
       ref={headerRef}
-      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay && !megaOpen ? " is-transparent" : ""}${scrolled || !overlay || megaOpen ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}`}
+      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay && !megaOpen ? " is-transparent" : ""}${scrolled || !overlay || megaOpen ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}${hidden && !mobileOpen && !megaOpen ? " is-hidden" : ""}`}
     >
       <div className="site-container">
         <div className="site-header-bar">

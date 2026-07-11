@@ -27,7 +27,7 @@ export function FeaturedWork({
       <div className="site-container">
         <Reveal>
           <div className="work-section-head">
-            <div>
+            <div className="section-head">
               <p className="eyebrow">{eyebrow}</p>
               <h2 className="display">{title}</h2>
             </div>
@@ -36,15 +36,14 @@ export function FeaturedWork({
               className="btn-secondary shrink-0 inline-flex items-center gap-2"
             >
               {viewAll}
-              <CtaArrow />
+              <CtaArrow size="md" />
             </Link>
           </div>
-        </Reveal>
 
-        <div className="work-stack">
-          {featured.map((item, index) => (
-            <Reveal key={item.slug} delay={index * 0.08}>
+          <div className="work-stack">
+            {featured.map((item, index) => (
               <Link
+                key={item.slug}
                 href={localizePath(`/work/${item.slug}`, locale)}
                 className={`work-feature group ${index === 0 ? "work-feature-lead" : ""}`}
               >
@@ -58,7 +57,8 @@ export function FeaturedWork({
                         ? "100vw"
                         : "(max-width: 900px) 100vw, 50vw"
                     }
-                    className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                    className="object-cover transition duration-300 group-hover:scale-[1.02]"
+                    loading="lazy"
                   />
                 </div>
                 <div className="work-feature-meta">
@@ -69,9 +69,9 @@ export function FeaturedWork({
                   <span className="work-card-year">{item.year}</span>
                 </div>
               </Link>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { FooterConfig, FooterSocial } from "@/content/footer";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { getSiteConfig, getWhatsAppUrl } from "@/lib/site-config";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 
 type FooterColumnLink = { label: string; href: string };
 
@@ -12,8 +13,6 @@ type SiteFooterProps = {
   serviceLinks: FooterColumnLink[];
   boothTypeLinks: FooterColumnLink[];
 };
-
-const MAX_LINKS = 6;
 
 function SocialIcon({ platform }: { platform: string }) {
   const key = platform.toLowerCase();
@@ -78,17 +77,19 @@ function FooterNavColumn({
   locale,
   title,
   links,
+  maxLinks,
   viewAllHref,
   viewAllLabel,
 }: {
   locale: Locale;
   title: string;
   links: FooterColumnLink[];
+  maxLinks?: number;
   viewAllHref?: string;
   viewAllLabel?: string;
 }) {
-  const visible = links.slice(0, MAX_LINKS);
-  const hasMore = links.length > MAX_LINKS || Boolean(viewAllHref);
+  const visible = maxLinks ? links.slice(0, maxLinks) : links;
+  const showViewAll = Boolean(viewAllHref && viewAllLabel);
 
   return (
     <nav className="footer-col" aria-label={title}>
@@ -102,7 +103,7 @@ function FooterNavColumn({
           </li>
         ))}
       </ul>
-      {hasMore && viewAllHref && viewAllLabel ? (
+      {showViewAll && viewAllHref && viewAllLabel ? (
         <Link href={localizePath(viewAllHref, locale)} className="footer-view-all">
           {viewAllLabel}
         </Link>
@@ -120,13 +121,13 @@ export function SiteFooter({
   const config = getSiteConfig();
   const year = new Date().getFullYear();
   const whatsappHref = getWhatsAppUrl();
-  const viewAllLabel = locale === "ar" ? "عرض الكل ←" : "View all →";
+  const viewAllLabel = locale === "ar" ? "عرض الكل" : "View all";
 
   return (
     <footer className="site-footer">
       <div className="site-container footer-main">
-        <div className="footer-grid">
-          <section className="footer-col footer-col-brand" aria-label={config.name}>
+        <div className="footer-brand">
+          <div className="footer-brand-copy">
             <Link href={localizePath("/", locale)} className="footer-logo" aria-label={config.name}>
               <Image
                 src={footer.logo}
@@ -137,8 +138,11 @@ export function SiteFooter({
               />
             </Link>
             <p className="footer-description">{footer.description}</p>
-            <Link href={localizePath(footer.cta.href, locale)} className="btn-primary footer-cta">
-              {footer.cta.label}
+          </div>
+          <div className="footer-brand-actions">
+            <Link href={localizePath(footer.cta.href, locale)} className="footer-cta">
+              <span>{footer.cta.label}</span>
+              <CtaArrow size="md" />
             </Link>
             {footer.socialLinks.length ? (
               <ul className="footer-social">
@@ -158,13 +162,22 @@ export function SiteFooter({
                 ))}
               </ul>
             ) : null}
-          </section>
+          </div>
+        </div>
+
+        <div className="footer-menu">
+          <FooterNavColumn
+            locale={locale}
+            title={footer.companyLinksTitle}
+            links={footer.companyLinks}
+          />
 
           {footer.showServices && serviceLinks.length ? (
             <FooterNavColumn
               locale={locale}
               title={footer.servicesTitle}
               links={serviceLinks}
+              maxLinks={4}
               viewAllHref="/services"
               viewAllLabel={viewAllLabel}
             />
@@ -175,16 +188,11 @@ export function SiteFooter({
               locale={locale}
               title={footer.boothTypesTitle}
               links={boothTypeLinks}
+              maxLinks={4}
               viewAllHref="/booth-types"
               viewAllLabel={viewAllLabel}
             />
           ) : null}
-
-          <FooterNavColumn
-            locale={locale}
-            title={footer.companyLinksTitle}
-            links={footer.companyLinks}
-          />
 
           <section className="footer-col" aria-label={footer.contactTitle}>
             <h3 className="footer-col-title">{footer.contactTitle}</h3>
@@ -193,7 +201,7 @@ export function SiteFooter({
                 <p className="footer-contact-block">{footer.officeAddress}</p>
               ) : null}
               {footer.phoneDisplay ? (
-                <a href={`tel:${footer.phoneHref}`} className="footer-link">
+                <a href={`tel:${footer.phoneHref}`} className="footer-link" dir="ltr">
                   {footer.phoneDisplay}
                 </a>
               ) : null}
@@ -205,9 +213,6 @@ export function SiteFooter({
               <a href={whatsappHref} className="footer-link" target="_blank" rel="noreferrer">
                 {footer.whatsappLabel}
               </a>
-              {footer.businessHours ? (
-                <p className="footer-contact-block footer-hours">{footer.businessHours}</p>
-              ) : null}
             </div>
           </section>
         </div>
@@ -216,8 +221,13 @@ export function SiteFooter({
           <nav className="footer-locations" aria-label={footer.locationsTitle}>
             <p className="footer-locations-label">{footer.locationsTitle}</p>
             <ul className="footer-locations-list">
-              {footer.locations.map((link) => (
+              {footer.locations.map((link, index) => (
                 <li key={link.href}>
+                  {index > 0 ? (
+                    <span className="footer-locations-sep" aria-hidden="true">
+                      ·
+                    </span>
+                  ) : null}
                   <Link href={localizePath(link.href, locale)} className="footer-location-link">
                     {link.label}
                   </Link>

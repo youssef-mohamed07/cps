@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { NavLink, NavMega } from "@/content/navigation";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 
 type MegaMenuPanelProps = {
   locale: Locale;
@@ -43,7 +44,8 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
               className="mega-cta"
               onClick={onNavigate}
             >
-              {mega.cta.label}
+              <span>{mega.cta.label}</span>
+              <CtaArrow size="md" />
             </Link>
           ) : null}
         </div>
@@ -138,7 +140,10 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
                 <p className="mega-featured-eyebrow">{featuredLabel}</p>
                 <p className="mega-featured-title">{featured.title}</p>
                 <p className="mega-featured-desc">{featured.description}</p>
-                <span className="mega-featured-cta">{featured.ctaLabel}</span>
+                <span className="mega-featured-cta">
+                  <span>{featured.ctaLabel}</span>
+                  <CtaArrow size="md" />
+                </span>
               </div>
             </Link>
           ) : null}

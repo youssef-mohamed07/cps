@@ -33,7 +33,7 @@ Bilingual exhibition booth site (`/en`, `/ar`) with CMS-ready IA: services, boot
 | --- | --- | --- |
 | UI chrome strings | `dictionaries.local.ts` | Nav labels fallback, CTAs, section labels |
 | Primary navigation / mega menus | `navigation.ts` + Sanity `navigation` | CMS-first; local seed fallback |
-| Footer | `footer.ts` + Sanity `siteFooter` | 5-col footer, newsletter, trust; services/booth types from collections |
+| Footer | `footer.ts` + Sanity `siteFooter` | Brand band + 4-col menu (Menu / Services / Booth Types / Contact); services/booth types from collections |
 | Services / booth types / industries / locations / news | `catalog.ts` + Sanity collections | Local fallback when CMS empty |
 | Projects | `projects.ts` + Sanity `project` | Filter metadata on local seed |
 | Site config defaults | `site-config.ts` | Overridden by Site Settings |

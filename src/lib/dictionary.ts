@@ -21,14 +21,6 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       langHrefLocale: navigation.langHrefLocale,
     },
     hero: { ...local.hero, ...remote.hero },
-    stats: { ...local.stats, ...remote.stats },
-    processStrip: {
-      ...local.processStrip,
-      ...remote.processStrip,
-      items: remote.processStrip?.items?.length
-        ? remote.processStrip.items
-        : local.processStrip.items,
-    },
     lifecycle: {
       ...local.lifecycle,
       ...remote.lifecycle,
@@ -50,7 +42,9 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     whyCps: {
       ...local.whyCps,
       ...remote.whyCps,
-      items: remote.whyCps?.items?.length ? remote.whyCps.items : local.whyCps.items,
+      primary: { ...local.whyCps.primary, ...remote.whyCps?.primary },
+      secondary: { ...local.whyCps.secondary, ...remote.whyCps?.secondary },
+      images: { ...local.whyCps.images, ...remote.whyCps?.images },
     },
     faq: {
       ...local.faq,

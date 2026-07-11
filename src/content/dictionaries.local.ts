@@ -52,13 +52,6 @@ export interface Dictionary {
     secondaryCta: string;
     reviews?: string;
   };
-  stats: {
-    items: { value: string; label: string }[];
-  };
-  processStrip: {
-    title: string;
-    items: { from: string; to: string }[];
-  };
   lifecycle: {
     eyebrow: string;
     title: string;
@@ -104,13 +97,18 @@ export interface Dictionary {
   whyCps: {
     eyebrow: string;
     title: string;
-    support: string;
-    imageAlt: string;
-    items: { title: string; description: string }[];
+    primary: { title: string; description: string; cta: string; href: string };
+    secondary: { title: string; description: string; cta: string; href: string };
+    images: {
+      wideAlt: string;
+      leftAlt: string;
+      rightAlt: string;
+    };
   };
   faq: {
     eyebrow: string;
     title: string;
+    support: string;
     items: { question: string; answer: string }[];
   };
   servicesPage: {
@@ -206,22 +204,6 @@ const dictionaries: Record<Locale, Dictionary> = {
         "From design to teardown, CPS handles the full exhibition booth process in-house — no subcontractors, no delays.",
       primaryCta: "Request a Quote",
       secondaryCta: "View Our Work",
-    },
-    stats: {
-      items: [
-        { value: "150+", label: "Projects" },
-        { value: "16+", label: "Years" },
-        { value: "300+", label: "Clients" },
-      ],
-    },
-    processStrip: {
-      title: "In the Atelier → At the Event",
-      items: [
-        { from: "Precision", to: "Memories" },
-        { from: "Craftsmanship", to: "Impact" },
-        { from: "Materials", to: "Presence" },
-        { from: "Detail", to: "Experience" },
-      ],
     },
     lifecycle: {
       eyebrow: "Full lifecycle",
@@ -384,47 +366,51 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     whyCps: {
       eyebrow: "Why CPS",
-      title: "Everything handled in-house, from start to finish.",
-      support: "No subcontractors. Full control at every step of your booth lifecycle.",
-      imageAlt: "Finished exhibition booth on the show floor",
-      items: [
-        {
-          title: "All In-House",
-          description: "No subcontractors — full control at every step.",
-        },
-        {
-          title: "Full Lifecycle Support",
-          description: "Design, build, install, store, and reinstall under one roof.",
-        },
-        {
-          title: "Behind Every Booth",
-          description: "A dedicated team from concept sketches to opening day.",
-        },
-      ],
+      title: "One team. Every show.",
+      primary: {
+        title: "Built in-house, made for the floor",
+        description:
+          "Design, fabrication, and install under one roof — no subcontractors, no gaps between concept and opening day.",
+        cta: "Request a quote",
+        href: "/contact",
+      },
+      secondary: {
+        title: "Full lifecycle support",
+        description:
+          "From first sketches to teardown and storage — one team stays with your booth across every show.",
+        cta: "See our services",
+        href: "/services",
+      },
+      images: {
+        wideAlt: "Exhibition hall with branded booth presence",
+        leftAlt: "Custom booth fabrication in the CPS workshop",
+        rightAlt: "Finished custom exhibition booth on the show floor",
+      },
     },
     faq: {
       eyebrow: "FAQ",
-      title: "Common questions",
+      title: "Before you brief us",
+      support: "Straight answers on timelines, install, reuse, and coverage — before the brief.",
       items: [
         {
-          question: "How long does a custom booth take to build?",
+          question: "How long does a custom booth take?",
           answer:
-            "Timelines depend on size and complexity. Most custom booths need 4–8 weeks from approved design to install-ready.",
+            "Most custom booths need 4–8 weeks from approved design to install-ready. Size, materials, and venue rules set the pace.",
         },
         {
-          question: "Do you handle installation at the venue?",
+          question: "Do you install at the venue?",
           answer:
-            "Yes. Our crew installs on-site and dismantles after the event. Storage and reinstallation are available too.",
+            "Yes. Our crew installs on-site and dismantles after the show. Storage and reinstallation are available when you need them.",
         },
         {
-          question: "Can you reuse a booth for multiple shows?",
+          question: "Can one booth cover multiple shows?",
           answer:
-            "Absolutely. Modular builds and our storage program make it easy to refresh and redeploy.",
+            "Yes. Modular builds and our storage program make it practical to refresh and redeploy across the season.",
         },
         {
           question: "Do you work outside Saudi Arabia?",
           answer:
-            "We primarily serve Saudi Arabia and the wider GCC. Contact us with your venue and dates.",
+            "We primarily serve Saudi Arabia and the wider GCC. Share your venue and dates and we’ll confirm coverage.",
         },
       ],
     },
@@ -531,22 +517,6 @@ const dictionaries: Record<Locale, Dictionary> = {
         "من التصميم إلى التفكيك، CPS تدير دورة حياة جناح المعرض بالكامل داخلياً — بلا مقاولين فرعيين ولا تأخير.",
       primaryCta: "اطلب عرض سعر",
       secondaryCta: "شاهد أعمالنا",
-    },
-    stats: {
-      items: [
-        { value: "+150", label: "مشروع" },
-        { value: "+16", label: "سنة" },
-        { value: "+300", label: "عميل" },
-      ],
-    },
-    processStrip: {
-      title: "في الأتيليه ← في الحدث",
-      items: [
-        { from: "الدقة", to: "ذكريات" },
-        { from: "الحِرفة", to: "أثر" },
-        { from: "المواد", to: "حضور" },
-        { from: "التفاصيل", to: "تجربة" },
-      ],
     },
     lifecycle: {
       eyebrow: "دورة حياة كاملة",
@@ -709,47 +679,51 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     whyCps: {
       eyebrow: "لماذا CPS",
-      title: "كل شيء داخلياً — من البداية للنهاية.",
-      support: "بلا مقاولين فرعيين. تحكم كامل في كل خطوة من دورة حياة جناحك.",
-      imageAlt: "جناح معرض جاهز على أرض المعرض",
-      items: [
-        {
-          title: "كل شيء داخلياً",
-          description: "بلا مقاولين فرعيين — تحكم كامل في كل خطوة.",
-        },
-        {
-          title: "دعم دورة حياة كاملة",
-          description: "تصميم وبناء وتركيب وتخزين وإعادة تركيب تحت سقف واحد.",
-        },
-        {
-          title: "خلف كل جناح",
-          description: "فريق مخصص من المسودات حتى يوم الافتتاح.",
-        },
-      ],
+      title: "فريق واحد. كل معرض.",
+      primary: {
+        title: "صُنع داخلياً — لأرض المعرض",
+        description:
+          "تصميم وتصنيع وتركيب تحت سقف واحد — بلا مقاولين فرعيين وبلا فجوات بين الفكرة ويوم الافتتاح.",
+        cta: "اطلب عرض سعر",
+        href: "/contact",
+      },
+      secondary: {
+        title: "دعم دورة حياة كاملة",
+        description:
+          "من المسودات الأولى إلى التفكيك والتخزين — فريق واحد يبقى مع جناحك عبر كل معرض.",
+        cta: "شاهد خدماتنا",
+        href: "/services",
+      },
+      images: {
+        wideAlt: "قاعة معرض بحضور جناح علامة",
+        leftAlt: "تصنيع جناح مخصص في ورشة CPS",
+        rightAlt: "جناح معرض مخصص جاهز على أرض المعرض",
+      },
     },
     faq: {
       eyebrow: "أسئلة شائعة",
-      title: "أسئلة متكررة",
+      title: "قبل ما ترسل البريف",
+      support: "إجابات مباشرة عن الجداول والتركيب وإعادة الاستخدام والتغطية — قبل البريف.",
       items: [
         {
           question: "كم يستغرق بناء جناح مخصص؟",
           answer:
-            "تعتمد المدة على الحجم والتعقيد. معظم الأجنحة المخصصة تحتاج 4–8 أسابيع من اعتماد التصميم حتى الجاهزية للتركيب.",
+            "معظم الأجنحة المخصصة تحتاج 4–8 أسابيع من اعتماد التصميم حتى الجاهزية للتركيب. الحجم والمواد وقواعد الموقع تحدد الإيقاع.",
         },
         {
-          question: "هل تتولون التركيب في موقع المعرض؟",
+          question: "هل تركّبون في موقع المعرض؟",
           answer:
-            "نعم. فريقنا يركّب في الموقع ويفكّك بعد الحدث. التخزين وإعادة التركيب متاحان أيضاً.",
+            "نعم. فريقنا يركّب في الموقع ويفكّك بعد الحدث. التخزين وإعادة التركيب متاحان عند الحاجة.",
         },
         {
-          question: "هل يمكن إعادة استخدام الجناح لمعارض متعددة؟",
+          question: "هل يكفي جناح واحد لأكثر من معرض؟",
           answer:
-            "بالتأكيد. البناء المعياري وبرنامج التخزين لدينا يسهّل التحديث وإعادة النشر.",
+            "نعم. البناء المعياري وبرنامج التخزين يسهّلان التحديث وإعادة النشر عبر الموسم.",
         },
         {
           question: "هل تعملون خارج السعودية؟",
           answer:
-            "نخدم بشكل أساسي السعودية ودول الخليج. تواصل معنا بموقع الحدث والتواريخ.",
+            "نخدم بشكل أساسي السعودية ودول الخليج. أرسل موقع الحدث والتواريخ وسنؤكد التغطية.",
         },
       ],
     },

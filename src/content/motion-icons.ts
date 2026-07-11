@@ -61,17 +61,7 @@ export const boothTypeIcons: Record<string, MotionIconName> = {
   sustainable: "growth",
 };
 
-export const processIcons: MotionIconName[] = [
-  "magnifier",
-  "demand",
-  "edit",
-  "factory",
-  "check",
-  "consultation",
-];
-
-export const lifecycleIcons: MotionIconName[] = ["edit", "factory", "tool", "suitcase"];
-export const whyIcons: MotionIconName[] = ["lock", "clock", "consultation"];
+export const lifecycleIcons: MotionIconName[] = ["layers", "factory", "tool", "check"];
 
 export function isLottieKey(key: string): key is LottieIconKey {
   return key in lottieIcons;

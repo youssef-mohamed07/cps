@@ -79,7 +79,7 @@ function mapFeatured(featured: {
     title,
     description,
     href,
-    ctaLabel: featured.ctaLabel || "View →",
+    ctaLabel: featured.ctaLabel || "View",
     image,
     imageAlt: featured.image?.alt || source?.image?.alt || title,
   };

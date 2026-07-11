@@ -50,25 +50,32 @@ export default async function BoothTypesPage({ params }: PageProps) {
         />
         <section className="section-pad">
           <div className="site-container">
-            <div className="booth-types-grid">
-              {items.map((item) => (
-                <Link
-                  key={item.slug}
-                  href={localizePath(`/booth-types/${item.slug}`, locale)}
-                  className="booth-type-card group"
-                >
-                  <div className="booth-type-media">
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 50vw, 25vw"
-                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <h2 className="booth-type-title">{item.title}</h2>
-                </Link>
-              ))}
+            <div className="booth-types-panel">
+              <div className="booth-types-grid">
+                {items.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={localizePath(`/booth-types/${item.slug}`, locale)}
+                    className="booth-type-card group"
+                  >
+                    <div className="booth-type-media">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        fill
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                        className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="booth-type-meta">
+                      <h2 className="booth-type-title">{item.title}</h2>
+                      {item.excerpt ? (
+                        <p className="booth-type-excerpt">{item.excerpt}</p>
+                      ) : null}
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>

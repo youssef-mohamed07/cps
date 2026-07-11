@@ -40,7 +40,7 @@ function HeroRail({
             fill
             sizes="(max-width: 900px) 20vw, 12vw"
             className="hero-rail-image object-cover"
-            priority={i === 1}
+            loading="lazy"
           />
         </div>
       ))}
@@ -56,7 +56,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
         alt=""
         fill
         priority
-        quality={90}
+        quality={75}
         sizes="100vw"
         className="home-hero-bg object-cover"
       />
@@ -74,9 +74,8 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
                 ? "CPS — المبدعون المحترفون"
                 : "CPS — Creatives Professionals"
             }
-            width={1524}
-            height={540}
-            priority
+            width={380}
+            height={135}
             className="home-hero-logo"
           />
           <h1 className="home-hero-headline">{content.headline}</h1>
@@ -84,7 +83,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
           <div className="home-hero-actions">
             <Link href={localizePath("/contact", locale)} className="hero-cta">
               {content.primaryCta}
-              <CtaArrow tone="navy" />
+              <CtaArrow tone="navy" size="lg" />
             </Link>
             <Link href={localizePath("/work", locale)} className="hero-cta-ghost">
               {content.secondaryCta}
