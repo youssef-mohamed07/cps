@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getBoothType, localizeBoothType } from "@/content/catalog";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { Reveal } from "@/components/motion/reveal";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 
 type BoothTypeItem = { title: string; image: string; imageAlt: string; slug?: string };
 
@@ -23,20 +24,21 @@ export function BoothTypesSection({
   items,
 }: BoothTypesSectionProps) {
   return (
-    <section id="booth-types" className="section-pad scroll-mt-24">
+    <section id="booth-types" className="section-pad booth-types-section scroll-mt-24">
       <div className="site-container">
-        <div className="booth-types-panel">
-          <Reveal>
+        <Reveal>
+          <div className="booth-types-layout">
             <div className="booth-types-head">
               <div className="section-head">
                 <p className="eyebrow">{eyebrow}</p>
-                <h2 className="display">{title}</h2>
+                <h2 className="display booth-types-title">{title}</h2>
               </div>
               <Link
                 href={localizePath("/booth-types", locale)}
                 className="booth-types-all"
               >
-                {cta}
+                <span>{cta}</span>
+                <CtaArrow size="md" />
               </Link>
             </div>
 
@@ -77,8 +79,8 @@ export function BoothTypesSection({
                 );
               })}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

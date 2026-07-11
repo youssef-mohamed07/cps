@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n";
 import { getLocalizedProject, projects } from "@/content/projects";
 import { media } from "@/content/media";
+import { getBriefFormCopy, type BriefFormCopy } from "@/content/brief-form.copy";
 
 export interface NavItem {
   label: string;
@@ -59,6 +60,28 @@ export interface Dictionary {
     imageAlt: string;
     items: { title: string; description: string }[];
   };
+  stats: {
+    eyebrow: string;
+    title: string;
+    support?: string;
+    items: {
+      value: number;
+      prefix?: string;
+      suffix?: string;
+      label: string;
+      detail?: string;
+    }[];
+  };
+  clients: {
+    eyebrow: string;
+    items: {
+      quote: string;
+      name: string;
+      role: string;
+      image: string;
+      imageAlt: string;
+    }[];
+  };
   about: {
     eyebrow: string;
     title: string;
@@ -105,6 +128,18 @@ export interface Dictionary {
       rightAlt: string;
     };
   };
+  beforeAfter: {
+    enabled?: boolean;
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    beforeItems: string[];
+    afterItems: string[];
+    beforeImage: string;
+    afterImage: string;
+    beforeVideo?: string;
+    afterVideo?: string;
+  };
   faq: {
     eyebrow: string;
     title: string;
@@ -150,6 +185,7 @@ export interface Dictionary {
     emailLabel: string;
     whatsappLabel: string;
   };
+  briefForm: BriefFormCopy;
   contactPage: {
     eyebrow: string;
     title: string;
@@ -198,10 +234,10 @@ const dictionaries: Record<Locale, Dictionary> = {
       langHrefLocale: "ar",
     },
     hero: {
-      badge: "#1 Exhibition Booth Design & Production in Saudi Arabia",
+      badge: "#1 Exhibition Booth Design & Production in {City}",
       headline: "Everything your booth needs, under one roof.",
       support:
-        "From design to teardown, CPS handles the full exhibition booth process in-house — no subcontractors, no delays.",
+        "Full-lifecycle exhibition booth production across Saudi Arabia — design, build, install, dismantle, and storage, all in-house.",
       primaryCta: "Request a Quote",
       secondaryCta: "View Our Work",
     },
@@ -226,6 +262,88 @@ const dictionaries: Record<Locale, Dictionary> = {
         {
           title: "We Take It Down",
           description: "Dismantling and storage handled for your next show.",
+        },
+      ],
+    },
+    stats: {
+      eyebrow: "Track record",
+      title: "Built at show-floor scale",
+      support:
+        "Years of in-house production across Saudi Arabia and the GCC — one team from brief to build.",
+      items: [
+        {
+          value: 500,
+          suffix: "+",
+          label: "Booths delivered",
+          detail: "Custom, modular & pavilion builds",
+        },
+        {
+          value: 15,
+          suffix: "+",
+          label: "Years in exhibitions",
+          detail: "Design through dismantle",
+        },
+        {
+          value: 12,
+          suffix: "+",
+          label: "GCC cities",
+          detail: "Riyadh to Dubai and beyond",
+        },
+        {
+          value: 100,
+          suffix: "%",
+          label: "In-house production",
+          detail: "No subcontractor handoffs",
+        },
+      ],
+    },
+    clients: {
+      eyebrow: "Clients",
+      items: [
+        {
+          quote:
+            "I've never felt more confident walking up to our booth than I do now. CPS understood our brand from the first brief.",
+          name: "Sarah Mitchell",
+          role: "Marketing Director",
+          image:
+            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "Sarah Mitchell",
+        },
+        {
+          quote:
+            "The booth landed on time and the quality on the floor beat the renders. One team handled everything.",
+          name: "Omar Al-Rashid",
+          role: "Events Lead",
+          image:
+            "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "Omar Al-Rashid",
+        },
+        {
+          quote:
+            "One crew from design to dismantle. That alone saved us weeks of coordination across vendors.",
+          name: "Adrian Cole",
+          role: "Brand Strategist",
+          image:
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "Adrian Cole",
+        },
+        {
+          quote:
+            "Visitors actually stopped. Our custom build pulled foot traffic we had not seen at previous shows.",
+          name: "Lina Hassan",
+          role: "VP Marketing",
+          image:
+            "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "Lina Hassan",
+        },
+        {
+          quote:
+            "Modular rebuild for the next city worked flawlessly. Storage and reinstall were completely painless.",
+          name: "Marco Silva",
+          role: "Trade Show Manager",
+          image:
+            "https://images.unsplash.com/photo-1519081909018-445c88991a1d?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "Marco Silva",
         },
       ],
     },
@@ -387,6 +505,26 @@ const dictionaries: Record<Locale, Dictionary> = {
         rightAlt: "Finished custom exhibition booth on the show floor",
       },
     },
+    beforeAfter: {
+      eyebrow: "Before & After",
+      title: "See the booth difference",
+      subtitle:
+        "From a generic shell to a branded presence that pulls visitors in — one team, one process.",
+      beforeImage: media.beforeAfter.before,
+      afterImage: media.beforeAfter.after,
+      beforeItems: [
+        "Generic shell booth",
+        "Scattered vendors",
+        "Last-minute fixes",
+        "Weak brand presence",
+      ],
+      afterItems: [
+        "Custom branded build",
+        "One CPS team",
+        "On-time install",
+        "Show-floor impact",
+      ],
+    },
     faq: {
       eyebrow: "FAQ",
       title: "Before you brief us",
@@ -470,6 +608,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       emailLabel: "Request a Quote",
       whatsappLabel: "WhatsApp",
     },
+    briefForm: getBriefFormCopy("en"),
     contactPage: {
       eyebrow: "Contact",
       title: "Start with a conversation.",
@@ -511,10 +650,10 @@ const dictionaries: Record<Locale, Dictionary> = {
       langHrefLocale: "en",
     },
     hero: {
-      badge: "الأول في تصميم وإنتاج أجنحة المعارض في السعودية",
+      badge: "الأول في تصميم وإنتاج أجنحة المعارض في {City}",
       headline: "كل ما يحتاجه جناحك — تحت سقف واحد.",
       support:
-        "من التصميم إلى التفكيك، CPS تدير دورة حياة جناح المعرض بالكامل داخلياً — بلا مقاولين فرعيين ولا تأخير.",
+        "إنتاج متكامل لأجنحة المعارض في أنحاء السعودية — تصميم، تصنيع، تركيب، تفكيك وتخزين، بالكامل داخل CPS.",
       primaryCta: "اطلب عرض سعر",
       secondaryCta: "شاهد أعمالنا",
     },
@@ -539,6 +678,88 @@ const dictionaries: Record<Locale, Dictionary> = {
         {
           title: "نفكّكه",
           description: "تفكيك وتخزين جاهز للمعرض القادم.",
+        },
+      ],
+    },
+    stats: {
+      eyebrow: "سجلنا",
+      title: "بُني على نطاق المعارض",
+      support:
+        "سنوات من الإنتاج الداخلي في السعودية والخليج — فريق واحد من البريف للبناء.",
+      items: [
+        {
+          value: 500,
+          suffix: "+",
+          label: "جناح مُسلّم",
+          detail: "مخصص ومعياري وأجنحة وطنية",
+        },
+        {
+          value: 15,
+          suffix: "+",
+          label: "سنة في المعارض",
+          detail: "من التصميم للتفكيك",
+        },
+        {
+          value: 12,
+          suffix: "+",
+          label: "مدينة في الخليج",
+          detail: "من الرياض إلى دبي وما بعدها",
+        },
+        {
+          value: 100,
+          suffix: "%",
+          label: "إنتاج داخلي",
+          detail: "بدون تسليم لمقاولين",
+        },
+      ],
+    },
+    clients: {
+      eyebrow: "العملاء",
+      items: [
+        {
+          quote:
+            "ما حسيت بثقة أكبر وأنا باقترب من جناحنا زي دلوقتي. CPS فهمت علامتنا من أول بريف.",
+          name: "سارة العتيبي",
+          role: "مديرة التسويق",
+          image:
+            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "سارة العتيبي",
+        },
+        {
+          quote:
+            "الجناح وصل في الموعد والجودة على الأرض أفضل من الـ renders. فريق واحد تولى كل حاجة.",
+          name: "عمر الراشد",
+          role: "مسؤول الفعاليات",
+          image:
+            "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "عمر الراشد",
+        },
+        {
+          quote:
+            "فريق واحد من التصميم للتفكيك. ده لوحده وفر علينا أسابيع تنسيق مع مقاولين.",
+          name: "أدريان كول",
+          role: "استراتيجي العلامة",
+          image:
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "أدريان كول",
+        },
+        {
+          quote:
+            "الزوار فعلاً وقفوا. البناء المخصص جذب حركة زي ما ما شفناش في معارض قبل كدا.",
+          name: "لينا Hassan",
+          role: "نائبة التسويق",
+          image:
+            "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "لينا Hassan",
+        },
+        {
+          quote:
+            "إعادة البناء المعياري للمدينة الجاية كانت سلسة. التخزين وإعادة التركيب كانوا بدون تعب.",
+          name: "مارco silva",
+          role: "مدير المعارض",
+          image:
+            "https://images.unsplash.com/photo-1519081909018-445c88991a1d?auto=format&fit=crop&w=200&h=200&q=80",
+          imageAlt: "مارco silva",
         },
       ],
     },
@@ -700,6 +921,26 @@ const dictionaries: Record<Locale, Dictionary> = {
         rightAlt: "جناح معرض مخصص جاهز على أرض المعرض",
       },
     },
+    beforeAfter: {
+      eyebrow: "قبل وبعد",
+      title: "شوف فرق الجناح",
+      subtitle:
+        "من جناح عام إلى حضور علامة يجذب الزوار — فريق واحد وعملية واحدة.",
+      beforeImage: media.beforeAfter.before,
+      afterImage: media.beforeAfter.after,
+      beforeItems: [
+        "جناح shell عام",
+        "مقاولين متفرقين",
+        "تعديلات last-minute",
+        "حضور ضعيف للعلامة",
+      ],
+      afterItems: [
+        "بناء مخصص للعلامة",
+        "فريق CPS واحد",
+        "تركيب في الموعد",
+        "تأثير على أرض المعرض",
+      ],
+    },
     faq: {
       eyebrow: "أسئلة شائعة",
       title: "قبل ما ترسل البريف",
@@ -783,6 +1024,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       emailLabel: "اطلب عرض سعر",
       whatsappLabel: "واتساب",
     },
+    briefForm: getBriefFormCopy("ar"),
     contactPage: {
       eyebrow: "تواصل",
       title: "نبدأ بمحادثة.",

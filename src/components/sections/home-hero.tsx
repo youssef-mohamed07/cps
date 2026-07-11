@@ -4,6 +4,7 @@ import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { HeroAmbient } from "@/components/motion/hero-ambient";
+import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 
 type HomeHeroProps = {
@@ -78,6 +79,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
             height={135}
             className="home-hero-logo"
           />
+          <HeroCityRotator locale={locale} template={content.badge} />
           <h1 className="home-hero-headline">{content.headline}</h1>
           <p className="home-hero-support">{content.support}</p>
           <div className="home-hero-actions">

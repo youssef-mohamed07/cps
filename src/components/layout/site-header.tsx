@@ -22,11 +22,26 @@ type SiteHeaderProps = {
 
 const OPEN_DELAY_MS = 150;
 const CLOSE_DELAY_MS = 120;
+const HEADER_HIDE_AFTER = 72;
+
+function getScrollY() {
+  return (
+    window.scrollY ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0
+  );
+}
 
 export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   const pathname = usePathname() || `/${locale}`;
+  const items = navigation.items.filter((item) => item.enabled !== false);
+  const isHome =
+    pathname === `/${locale}` || pathname === `/${locale}/`;
+
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [heroInView, setHeroInView] = useState(isHome);
+  const [pageScrolled, setPageScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -37,15 +52,46 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   const menuLocked = useRef(false);
   const navId = useId();
 
-  const items = navigation.items.filter((item) => item.enabled !== false);
-  const overlay =
-    pathname === `/${locale}` || pathname === `/${locale}/`;
-  const isOverlay = overlay && !scrolled && !mobileOpen;
+  const activeMegaItem = openKey
+    ? items.find(
+        (item) =>
+          `${item.href}-${item.label}` === openKey &&
+          item.kind === "mega" &&
+          item.mega?.enabled !== false,
+      )
+    : undefined;
+  const megaOpen = Boolean(activeMegaItem?.mega);
+  const megaPanelId = `${navId}-mega`;
+  const atTop = isHome && heroInView && !mobileOpen && !megaOpen;
+  const isScrolled = isHome ? !heroInView : pageScrolled;
 
   useEffect(() => {
     menuLocked.current = mobileOpen || Boolean(openKey);
     if (menuLocked.current) setHidden(false);
   }, [mobileOpen, openKey]);
+
+  useEffect(() => {
+    if (!isHome) {
+      setHeroInView(false);
+      return;
+    }
+
+    const hero = document.querySelector(".home-hero");
+    if (!hero) {
+      setHeroInView(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroInView(entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "-72px 0px 0px 0px" },
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [isHome, pathname]);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -59,39 +105,95 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     syncOffset();
     window.addEventListener("resize", syncOffset);
     return () => window.removeEventListener("resize", syncOffset);
-  }, [mobileOpen, scrolled, overlay]);
+  }, [mobileOpen, megaOpen, isScrolled, isHome]);
 
   useEffect(() => {
-    lastScrollY.current = window.scrollY;
-    let ticking = false;
+    const syncScrollState = (y: number) => {
+      if (!isHome) {
+        setPageScrolled(y > 16);
+      }
+    };
+
+    const setHeaderHidden = (nextHidden: boolean) => {
+      setHidden((current) => (current === nextHidden ? current : nextHidden));
+    };
+
+    const updateHeaderVisibility = (y: number, direction: "up" | "down" | "none") => {
+      if (menuLocked.current) {
+        setHeaderHidden(false);
+        return;
+      }
+
+      if (y <= HEADER_HIDE_AFTER) {
+        setHeaderHidden(false);
+        return;
+      }
+
+      if (direction === "down") {
+        setHeaderHidden(true);
+        setOpenKey(null);
+      } else if (direction === "up") {
+        setHeaderHidden(false);
+      }
+    };
+
+    lastScrollY.current = getScrollY();
+    syncScrollState(lastScrollY.current);
 
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const delta = y - lastScrollY.current;
-        const nextScrolled = y > 24;
+      const y = getScrollY();
+      const delta = y - lastScrollY.current;
+      const direction = delta > 0 ? "down" : delta < 0 ? "up" : "none";
 
-        setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+      syncScrollState(y);
+      updateHeaderVisibility(y, direction);
+      lastScrollY.current = y;
+    };
 
-        if (menuLocked.current || y < 72) {
-          setHidden((prev) => (prev ? false : prev));
-        } else if (delta > 8) {
-          setHidden((prev) => (prev ? prev : true));
-          setOpenKey(null);
-        } else if (delta < -8) {
-          setHidden((prev) => (prev ? false : prev));
-        }
+    const onWheel = (event: WheelEvent) => {
+      const y = getScrollY();
+      syncScrollState(y);
 
-        lastScrollY.current = y;
-        ticking = false;
-      });
+      if (event.deltaY > 0) {
+        updateHeaderVisibility(y, "down");
+      } else if (event.deltaY < 0) {
+        updateHeaderVisibility(y, "up");
+      }
+
+      lastScrollY.current = y;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("wheel", onWheel, { passive: true });
+
+    let touchStartY = 0;
+
+    const onTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? 0;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      const touchY = event.touches[0]?.clientY ?? touchStartY;
+      const delta = touchStartY - touchY;
+      const y = getScrollY();
+
+      if (delta > 6) {
+        updateHeaderVisibility(y, "down");
+      } else if (delta < -6) {
+        updateHeaderVisibility(y, "up");
+      }
+    };
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [isHome]);
 
   useEffect(() => {
     setOpenKey(null);
@@ -157,39 +259,41 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     }
   };
 
-  const megaOpen = Boolean(
-    openKey &&
-      items.some(
-        (item) =>
-          `${item.href}-${item.label}` === openKey &&
-          item.kind === "mega" &&
-          item.mega?.enabled !== false,
-      ),
-  );
-
   return (
     <header
       ref={headerRef}
-      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay && !megaOpen ? " is-transparent" : ""}${scrolled || !overlay || megaOpen ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}${hidden && !mobileOpen && !megaOpen ? " is-hidden" : ""}`}
+      className={`site-header${isHome ? " is-home is-overlay" : ""}${atTop ? " is-at-top" : " is-solid"}${isScrolled ? " is-scrolled" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}${hidden && !mobileOpen && !megaOpen ? " is-hidden" : ""}`}
     >
-      <div className="site-container">
-        <div className="site-header-bar">
-          <Link
-            href={localizePath("/", locale)}
-            className="site-brand"
-            aria-label="CPS"
-            onClick={closeAll}
-          >
-            <Image
-              src="/icon.png"
-              alt=""
-              width={28}
-              height={28}
-              priority
-              className="site-brand-icon"
-            />
-            <span className="site-brand-text">CPS</span>
-          </Link>
+      <div className="site-container site-header-wrap">
+        <div
+          className="site-header-shell"
+          onMouseLeave={megaOpen ? scheduleClose : undefined}
+        >
+          <div className="site-header-bar">
+            <Link
+              href={localizePath("/", locale)}
+              className="site-brand"
+              aria-label={
+                locale === "ar"
+                  ? "CPS — المبدعون المحترفون"
+                  : "CPS — Creatives Professionals"
+              }
+              onClick={closeAll}
+            >
+              <Image
+                src="/icon.png"
+                alt=""
+                width={44}
+                height={44}
+                priority
+                className="site-brand-icon"
+              />
+              <span className="site-brand-name">
+                {locale === "ar"
+                  ? "المبدعون المحترفون"
+                  : "Creatives Professionals"}
+              </span>
+            </Link>
 
           <nav className="site-nav-desktop" aria-label="Primary">
             {items.map((item) => {
@@ -213,47 +317,42 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                 );
               }
 
+              const isMega = item.kind === "mega" && item.mega?.enabled !== false;
+
               return (
                 <div
                   key={key}
                   className={`site-nav-item${open ? " is-open" : ""}`}
                   onMouseEnter={() => scheduleOpen(key)}
-                  onMouseLeave={scheduleClose}
+                  onMouseLeave={isMega ? undefined : scheduleClose}
                 >
                   <button
                     type="button"
                     className={`site-nav-trigger${active ? " is-active" : ""}`}
                     aria-expanded={open}
-                    aria-haspopup={item.kind === "mega" ? "dialog" : "menu"}
-                    aria-controls={`${navId}-${key}`}
+                    aria-haspopup={isMega ? "dialog" : "menu"}
+                    aria-controls={isMega ? megaPanelId : `${navId}-${key}`}
                     onClick={() => setOpenKey(open ? null : key)}
                     onKeyDown={(event) => onTriggerKeyDown(event, item, key)}
                   >
                     <span>{item.label}</span>
                     <span className="site-nav-chevron" aria-hidden="true" />
                   </button>
-                  <div
-                    id={`${navId}-${key}`}
-                    className={`site-nav-panel${open ? " is-visible" : ""}`}
-                    hidden={!open}
-                    onMouseEnter={() => scheduleOpen(key)}
-                    onMouseLeave={scheduleClose}
-                  >
-                    {item.kind === "mega" && item.mega ? (
-                      <MegaMenuPanel
-                        locale={locale}
-                        mega={item.mega}
-                        onNavigate={closeAll}
-                      />
-                    ) : null}
-                    {item.kind === "dropdown" && item.dropdown ? (
+                  {item.kind === "dropdown" && item.dropdown ? (
+                    <div
+                      id={`${navId}-${key}`}
+                      className={`site-nav-panel${open ? " is-visible" : ""}`}
+                      hidden={!open}
+                      onMouseEnter={() => scheduleOpen(key)}
+                      onMouseLeave={scheduleClose}
+                    >
                       <DropdownPanel
                         locale={locale}
                         links={item.dropdown}
                         onNavigate={closeAll}
                       />
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                 </div>
               );
             })}
@@ -283,7 +382,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
             </Link>
             <Link
               href={localizePath(navigation.cta.href, locale)}
-              className="btn-primary site-header-cta"
+              className="site-header-cta"
               onClick={closeAll}
             >
               {navigation.cta.label}
@@ -310,7 +409,21 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               </span>
             </button>
           </div>
-        </div>
+          </div>
+
+          {activeMegaItem?.mega ? (
+            <div
+              id={megaPanelId}
+              className="site-header-mega"
+              onMouseEnter={() => scheduleOpen(openKey!)}
+            >
+              <MegaMenuPanel
+                locale={locale}
+                mega={activeMegaItem.mega}
+                onNavigate={closeAll}
+              />
+            </div>
+          ) : null}
 
         {mobileOpen ? (
           <div id="mobile-nav" className="site-mobile-nav">
@@ -394,6 +507,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
             </nav>
           </div>
         ) : null}
+        </div>
       </div>
     </header>
   );

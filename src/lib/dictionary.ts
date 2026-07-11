@@ -26,6 +26,16 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ...remote.lifecycle,
       items: remote.lifecycle?.items?.length ? remote.lifecycle.items : local.lifecycle.items,
     },
+    stats: {
+      ...local.stats,
+      ...remote.stats,
+      items: remote.stats?.items?.length ? remote.stats.items : local.stats.items,
+    },
+    clients: {
+      ...local.clients,
+      ...remote.clients,
+      items: remote.clients?.items?.length ? remote.clients.items : local.clients.items,
+    },
     about: { ...local.about, ...remote.about },
     aboutPage: { ...local.aboutPage, ...remote.aboutPage },
     services: {
@@ -45,6 +55,16 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       primary: { ...local.whyCps.primary, ...remote.whyCps?.primary },
       secondary: { ...local.whyCps.secondary, ...remote.whyCps?.secondary },
       images: { ...local.whyCps.images, ...remote.whyCps?.images },
+    },
+    beforeAfter: {
+      ...local.beforeAfter,
+      ...remote.beforeAfter,
+      beforeItems: remote.beforeAfter?.beforeItems?.length
+        ? remote.beforeAfter.beforeItems
+        : local.beforeAfter.beforeItems,
+      afterItems: remote.beforeAfter?.afterItems?.length
+        ? remote.beforeAfter.afterItems
+        : local.beforeAfter.afterItems,
     },
     faq: {
       ...local.faq,
@@ -66,6 +86,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     workPage: { ...local.workPage, ...remote.workPage },
     projectPage: { ...local.projectPage, ...remote.projectPage },
     contact: { ...local.contact, ...remote.contact },
+    briefForm: { ...local.briefForm, ...remote.briefForm },
     contactPage: { ...local.contactPage, ...remote.contactPage },
     footer: {
       ...local.footer,

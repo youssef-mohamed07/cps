@@ -16,6 +16,12 @@ export const media = {
   whyCpsLeft: u("photo-1565043589221-1a6fd9ae45c7", 1400),
   whyCpsRight: u("photo-1591115765373-5207764f72e7", 1400),
 
+  /** Before / after comparison — plain vs finished booth */
+  beforeAfter: {
+    before: u("photo-1475721027785-f74eccf877e2", 2000),
+    after: u("photo-1591115765373-5207764f72e7", 2000),
+  },
+
   about: {
     /** Team in workshop / production context */
     hero: u("photo-1581094794329-c8112a89af12", 2000),

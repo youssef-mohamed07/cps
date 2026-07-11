@@ -60,13 +60,20 @@ export function FeaturedWork({
                     className="object-cover transition duration-300 group-hover:scale-[1.02]"
                     loading="lazy"
                   />
+                  <div className="work-feature-shade" aria-hidden="true" />
                 </div>
                 <div className="work-feature-meta">
                   <div>
+                    <span className="work-card-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                     <h3 className="work-card-title">{item.title}</h3>
                     <p className="work-card-cat">{item.category}</p>
                   </div>
-                  <span className="work-card-year">{item.year}</span>
+                  <div className="work-card-side">
+                    <span className="work-card-year">{item.year}</span>
+                    <CtaArrow size="md" />
+                  </div>
                 </div>
               </Link>
             ))}
