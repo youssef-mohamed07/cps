@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { HeroAmbient } from "@/components/motion/hero-ambient";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 
 type HomeHeroProps = {
   locale: Locale;
@@ -59,6 +61,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
         className="home-hero-bg object-cover"
       />
       <div className="home-hero-overlay" aria-hidden="true" />
+      <HeroAmbient />
 
       <div className="home-hero-stage">
         <HeroRail images={LEFT} side="left" />
@@ -81,6 +84,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
           <div className="home-hero-actions">
             <Link href={localizePath("/contact", locale)} className="hero-cta">
               {content.primaryCta}
+              <CtaArrow tone="navy" />
             </Link>
             <Link href={localizePath("/work", locale)} className="hero-cta-ghost">
               {content.secondaryCta}

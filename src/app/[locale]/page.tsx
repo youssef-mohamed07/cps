@@ -8,6 +8,7 @@ import { HomeHero } from "@/components/sections/home-hero";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
 import { ProcessStrip } from "@/components/sections/process-strip";
 import { ServicesSection } from "@/components/sections/services-section";
+import { StatsBar } from "@/components/sections/stats-bar";
 import { WhyCpsSection } from "@/components/sections/why-cps-section";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -39,47 +40,48 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
-        <HomeHero locale={locale} content={dictionary.hero} />
-        <ProcessStrip
-          title={dictionary.processStrip.title}
-          items={dictionary.processStrip.items}
-        />
-        <LifecycleSection
-          eyebrow={dictionary.lifecycle.eyebrow}
-          title={dictionary.lifecycle.title}
-          support={dictionary.lifecycle.support}
-          imageAlt={dictionary.lifecycle.imageAlt}
-          items={dictionary.lifecycle.items}
-        />
-        <ServicesSection locale={locale} content={dictionary.services} />
-        <BoothTypesSection
-          locale={locale}
-          eyebrow={dictionary.boothTypes.eyebrow}
-          title={dictionary.boothTypes.title}
-          support={dictionary.boothTypes.support}
-          cta={dictionary.boothTypes.cta}
-          items={dictionary.boothTypes.items}
-        />
-        <WhyCpsSection
-          eyebrow={dictionary.whyCps.eyebrow}
-          title={dictionary.whyCps.title}
-          support={dictionary.whyCps.support}
-          imageAlt={dictionary.whyCps.imageAlt}
-          items={dictionary.whyCps.items}
-        />
-        <FeaturedWork
-          locale={locale}
-          eyebrow={dictionary.work.eyebrow}
-          title={dictionary.work.title}
-          viewAll={dictionary.work.viewAll}
-          items={dictionary.work.items}
-        />
-        <FaqSection
-          eyebrow={dictionary.faq.eyebrow}
-          title={dictionary.faq.title}
-          items={dictionary.faq.items}
-        />
-        <ContactSection content={dictionary.contact} />
+      <HomeHero locale={locale} content={dictionary.hero} />
+      <StatsBar items={dictionary.stats.items} />
+      <ProcessStrip
+        title={dictionary.processStrip.title}
+        items={dictionary.processStrip.items}
+      />
+      <LifecycleSection
+        eyebrow={dictionary.lifecycle.eyebrow}
+        title={dictionary.lifecycle.title}
+        support={dictionary.lifecycle.support}
+        imageAlt={dictionary.lifecycle.imageAlt}
+        items={dictionary.lifecycle.items}
+      />
+      <ServicesSection locale={locale} content={dictionary.services} />
+      <BoothTypesSection
+        locale={locale}
+        eyebrow={dictionary.boothTypes.eyebrow}
+        title={dictionary.boothTypes.title}
+        support={dictionary.boothTypes.support}
+        cta={dictionary.boothTypes.cta}
+        items={dictionary.boothTypes.items}
+      />
+      <WhyCpsSection
+        eyebrow={dictionary.whyCps.eyebrow}
+        title={dictionary.whyCps.title}
+        support={dictionary.whyCps.support}
+        imageAlt={dictionary.whyCps.imageAlt}
+        items={dictionary.whyCps.items}
+      />
+      <FeaturedWork
+        locale={locale}
+        eyebrow={dictionary.work.eyebrow}
+        title={dictionary.work.title}
+        viewAll={dictionary.work.viewAll}
+        items={dictionary.work.items}
+      />
+      <FaqSection
+        eyebrow={dictionary.faq.eyebrow}
+        title={dictionary.faq.title}
+        items={dictionary.faq.items}
+      />
+      <ContactSection content={dictionary.contact} />
     </>
   );
 }

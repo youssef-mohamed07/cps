@@ -124,10 +124,20 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     }
   };
 
+  const megaOpen = Boolean(
+    openKey &&
+      items.some(
+        (item) =>
+          `${item.href}-${item.label}` === openKey &&
+          item.kind === "mega" &&
+          item.mega?.enabled !== false,
+      ),
+  );
+
   return (
     <header
       ref={headerRef}
-      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay ? " is-transparent" : ""}${scrolled || !overlay ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}`}
+      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay && !megaOpen ? " is-transparent" : ""}${scrolled || !overlay || megaOpen ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}`}
     >
       <div className="site-container">
         <div className="site-header-bar">

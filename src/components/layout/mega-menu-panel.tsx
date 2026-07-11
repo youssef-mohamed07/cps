@@ -21,21 +21,37 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
   const isBoothTypes = mega.layout === "boothTypes";
   const links = flattenLinks(mega);
   const hasImages = links.some((link) => Boolean(link.image));
+  const featuredLabel = locale === "ar" ? "مميز" : "Featured";
 
   return (
-    <div className="mega-panel" role="region" aria-label={mega.title}>
-      <div className="site-container">
+    <div
+      className={`mega-panel${isServices ? " is-services" : ""}${isBoothTypes ? " is-booth-types" : ""}`}
+      role="region"
+      aria-label={mega.title}
+    >
+      <div className="site-container mega-panel-inner">
+        <div className="mega-panel-top">
+          <div className="mega-panel-intro">
+            <p className="mega-panel-title">{mega.title}</p>
+            {mega.description ? (
+              <p className="mega-panel-desc">{mega.description}</p>
+            ) : null}
+          </div>
+          {mega.cta ? (
+            <Link
+              href={localizePath(mega.cta.href, locale)}
+              className="mega-cta"
+              onClick={onNavigate}
+            >
+              {mega.cta.label}
+            </Link>
+          ) : null}
+        </div>
+
         <div
-          className={`mega-panel-grid${isServices ? " is-services" : ""}${isBoothTypes ? " is-booth-types" : ""}${hasImages ? " has-images" : ""}`}
+          className={`mega-panel-grid${hasImages ? " has-images" : ""}${featured ? " has-featured" : ""}`}
         >
           <div className="mega-panel-main">
-            <div className="mega-panel-intro">
-              <p className="mega-panel-title">{mega.title}</p>
-              {mega.description ? (
-                <p className="mega-panel-desc">{mega.description}</p>
-              ) : null}
-            </div>
-
             {hasImages ? (
               <ul
                 className={`mega-card-grid${isBoothTypes ? " is-booth" : " is-services"}`}
@@ -55,8 +71,8 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
                             fill
                             sizes={
                               isBoothTypes
-                                ? "(max-width: 1024px) 40vw, 12vw"
-                                : "(max-width: 1024px) 45vw, 18vw"
+                                ? "(max-width: 1024px) 40vw, 11vw"
+                                : "(max-width: 1024px) 40vw, 8vw"
                             }
                             className="object-cover"
                           />
@@ -101,18 +117,6 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
                 ))}
               </div>
             )}
-
-            {mega.cta ? (
-              <div className="mega-panel-cta">
-                <Link
-                  href={localizePath(mega.cta.href, locale)}
-                  className="mega-cta"
-                  onClick={onNavigate}
-                >
-                  {mega.cta.label}
-                </Link>
-              </div>
-            ) : null}
           </div>
 
           {featured ? (
@@ -126,14 +130,12 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
                   src={featured.image}
                   alt={featured.imageAlt}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 28vw"
+                  sizes="(max-width: 1024px) 100vw, 26vw"
                   className="object-cover"
                 />
               </div>
               <div className="mega-featured-copy">
-                    <p className="mega-featured-eyebrow">
-                      {locale === "ar" ? "مميز" : "Featured"}
-                    </p>
+                <p className="mega-featured-eyebrow">{featuredLabel}</p>
                 <p className="mega-featured-title">{featured.title}</p>
                 <p className="mega-featured-desc">{featured.description}</p>
                 <span className="mega-featured-cta">{featured.ctaLabel}</span>
