@@ -6,15 +6,13 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing routing
 
 ## Current state
 
-Plain white homepage: logo + headline + support + CTAs.
-Normal white header and footer. No hero image, no glass.
-
-Inner routes (about / services / work / contact) exist and use `SiteChrome`.
+Bilingual exhibition booth site (`/en`, `/ar`) with CMS-ready IA: services, booth types, work (filters), industries, locations (GCC + Egypt), news/insights. About is one page with section anchors.
 
 ## Stack
 
 - Locale routes: `/en`, `/ar`
-- UI strings: `src/content/dictionaries.local.ts`
+- UI chrome strings: `src/content/dictionaries.local.ts`
+- Structured seed content: `src/content/catalog.ts` (services, booth types, industries, locations, news)
 - Projects: `src/content/projects.ts`
 - Site config: `src/lib/site-config.ts`
 - Brand assets: `public/logo.png`, `public/icon.png`, `public/favicon.ico`
@@ -23,19 +21,24 @@ Inner routes (about / services / work / contact) exist and use `SiteChrome`.
 ## When you build / extend the site
 
 1. Add or reuse sections under `src/components/sections/`
-2. Add copy to `src/content/dictionaries.local.ts` (EN + AR)
-3. Wire sections in `src/app/[locale]/page.tsx` (or the relevant page)
-4. Keep layout chrome in `src/components/layout/`
-5. Update docs under `docs/` if behavior or structure changes
+2. Add chrome copy to `src/content/dictionaries.local.ts` (EN + AR)
+3. Add structured content to `src/content/catalog.ts` / `projects.ts` (local fallback)
+4. Wire pages under `src/app/[locale]/…` with loaders from `src/sanity/load-collections.ts`
+5. Keep layout chrome in `src/components/layout/`
+6. Update docs under `docs/` if behavior or structure changes
 
-## Content
+## Content ownership
 
-| Layer | Location |
-| --- | --- |
-| UI strings | `src/content/dictionaries.local.ts` |
-| Projects | `src/content/projects.ts` |
-| Site config defaults | `src/lib/site-config.ts` |
-| CMS override | Sanity → Site Settings + UI Copy |
+| Layer | Location | Notes |
+| --- | --- | --- |
+| UI chrome strings | `dictionaries.local.ts` | Nav labels fallback, CTAs, section labels |
+| Primary navigation / mega menus | `navigation.ts` + Sanity `navigation` | CMS-first; local seed fallback |
+| Footer | `footer.ts` + Sanity `siteFooter` | 5-col footer, newsletter, trust; services/booth types from collections |
+| Services / booth types / industries / locations / news | `catalog.ts` + Sanity collections | Local fallback when CMS empty |
+| Projects | `projects.ts` + Sanity `project` | Filter metadata on local seed |
+| Site config defaults | `site-config.ts` | Overridden by Site Settings |
+| Navigation | dictionary nav + Sanity `navigation` | CMS primary menu wins when set |
+| Deprecated | `dictionary.content` JSON blob | Prefer structured docs |
 
 ## Components
 

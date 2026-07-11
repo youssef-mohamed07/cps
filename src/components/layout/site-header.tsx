@@ -3,103 +3,350 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
+import { DropdownPanel, MegaMenuPanel } from "@/components/layout/mega-menu-panel";
+import type { NavigationConfig, NavPrimaryItem } from "@/content/navigation";
 import { localizePath, switchLocalePath, type Locale } from "@/lib/i18n";
-import type { Dictionary } from "@/content/dictionaries.local";
 
 type SiteHeaderProps = {
   locale: Locale;
-  nav: Dictionary["nav"];
+  navigation: NavigationConfig;
 };
 
-export function SiteHeader({ locale, nav }: SiteHeaderProps) {
-  const [open, setOpen] = useState(false);
+const OPEN_DELAY_MS = 150;
+const CLOSE_DELAY_MS = 120;
+
+export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   const pathname = usePathname() || `/${locale}`;
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [openKey, setOpenKey] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const navId = useId();
+
+  const items = navigation.items.filter((item) => item.enabled !== false);
+  const overlay =
+    pathname === `/${locale}` || pathname === `/${locale}/`;
+  const isOverlay = overlay && !scrolled && !mobileOpen;
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const syncOffset = () => {
+      document.documentElement.style.setProperty(
+        "--site-header-offset",
+        `${el.getBoundingClientRect().height}px`,
+      );
+    };
+    syncOffset();
+    window.addEventListener("resize", syncOffset);
+    return () => window.removeEventListener("resize", syncOffset);
+  }, [mobileOpen, scrolled, overlay]);
+
+  useEffect(() => {
+    if (!overlay) return;
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [overlay]);
+
+  useEffect(() => {
+    if (!openKey) return;
+    const onKey = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") setOpenKey(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openKey]);
+
+  useEffect(() => {
+    setOpenKey(null);
+    setMobileOpen(false);
+    setMobileExpanded(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (openTimer.current) clearTimeout(openTimer.current);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
+
+  const clearTimers = () => {
+    if (openTimer.current) clearTimeout(openTimer.current);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+
+  const scheduleOpen = useCallback((key: string) => {
+    clearTimers();
+    openTimer.current = setTimeout(() => setOpenKey(key), OPEN_DELAY_MS);
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    clearTimers();
+    closeTimer.current = setTimeout(() => setOpenKey(null), CLOSE_DELAY_MS);
+  }, []);
+
+  const closeAll = useCallback(() => {
+    clearTimers();
+    setOpenKey(null);
+    setMobileOpen(false);
+    setMobileExpanded(null);
+  }, []);
+
+  const isActive = (href: string) => {
+    const full = localizePath(href, locale);
+    if (href === "/") return pathname === full;
+    return pathname === full || pathname.startsWith(`${full}/`);
+  };
+
+  const onTriggerKeyDown = (event: KeyboardEvent, item: NavPrimaryItem, key: string) => {
+    if (event.key === "Escape") {
+      setOpenKey(null);
+      return;
+    }
+    if (event.key === "Enter" || event.key === " " || event.key === "ArrowDown") {
+      if (item.kind === "mega" || item.kind === "dropdown") {
+        event.preventDefault();
+        setOpenKey(key);
+      }
+    }
+  };
 
   return (
-    <header className="site-header">
+    <header
+      ref={headerRef}
+      className={`site-header${overlay ? " is-overlay" : ""}${isOverlay ? " is-transparent" : ""}${scrolled || !overlay ? " is-solid" : ""}${mobileOpen ? " is-mobile-open" : ""}`}
+    >
       <div className="site-container">
-        <div className="site-header-bar flex h-16 items-center justify-between gap-4">
+        <div className="site-header-bar">
           <Link
             href={localizePath("/", locale)}
-            className="inline-flex shrink-0 items-center gap-2.5"
+            className="site-brand"
             aria-label="CPS"
+            onClick={closeAll}
           >
-            <Image src="/icon.png" alt="" width={28} height={28} priority className="h-7 w-7" />
-            <span className="site-brand-text text-sm font-semibold tracking-[0.18em] uppercase">
-              CPS
-            </span>
+            <Image
+              src="/icon.png"
+              alt=""
+              width={28}
+              height={28}
+              priority
+              className="site-brand-icon"
+            />
+            <span className="site-brand-text">CPS</span>
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
-            {nav.items.map((item) => (
-              <Link
-                key={item.href}
-                href={localizePath(item.href, locale)}
-                className="nav-link"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav className="site-nav-desktop" aria-label="Primary">
+            {items.map((item) => {
+              const key = `${item.href}-${item.label}`;
+              const hasPanel =
+                (item.kind === "mega" && item.mega?.enabled !== false) ||
+                (item.kind === "dropdown" && (item.dropdown?.length ?? 0) > 0);
+              const open = openKey === key;
+              const active = isActive(item.href);
+
+              if (!hasPanel) {
+                return (
+                  <Link
+                    key={key}
+                    href={localizePath(item.href, locale)}
+                    className={`site-nav-link${active ? " is-active" : ""}`}
+                    onClick={closeAll}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={key}
+                  className={`site-nav-item${open ? " is-open" : ""}`}
+                  onMouseEnter={() => scheduleOpen(key)}
+                  onMouseLeave={scheduleClose}
+                >
+                  <button
+                    type="button"
+                    className={`site-nav-trigger${active ? " is-active" : ""}`}
+                    aria-expanded={open}
+                    aria-haspopup={item.kind === "mega" ? "dialog" : "menu"}
+                    aria-controls={`${navId}-${key}`}
+                    onClick={() => setOpenKey(open ? null : key)}
+                    onKeyDown={(event) => onTriggerKeyDown(event, item, key)}
+                  >
+                    <span>{item.label}</span>
+                    <span className="site-nav-chevron" aria-hidden="true" />
+                  </button>
+                  <div
+                    id={`${navId}-${key}`}
+                    className={`site-nav-panel${open ? " is-visible" : ""}`}
+                    hidden={!open}
+                    onMouseEnter={() => scheduleOpen(key)}
+                    onMouseLeave={scheduleClose}
+                  >
+                    {item.kind === "mega" && item.mega ? (
+                      <MegaMenuPanel
+                        locale={locale}
+                        mega={item.mega}
+                        onNavigate={closeAll}
+                      />
+                    ) : null}
+                    {item.kind === "dropdown" && item.dropdown ? (
+                      <DropdownPanel
+                        locale={locale}
+                        links={item.dropdown}
+                        onNavigate={closeAll}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-4">
+          <div className="site-header-actions">
             <Link
-              href={switchLocalePath(pathname, nav.langHrefLocale)}
+              href={switchLocalePath(pathname, navigation.langHrefLocale)}
               className="lang-switch"
-              hrefLang={nav.langHrefLocale}
+              hrefLang={navigation.langHrefLocale}
+              aria-label={navigation.langLabel}
+              title={navigation.langLabel}
             >
-              {nav.langLabel}
+              <Image
+                src={
+                  navigation.langHrefLocale === "ar"
+                    ? "/lang_switch/sa.png"
+                    : "/lang_switch/gb.png"
+                }
+                alt=""
+                width={22}
+                height={15}
+                className="lang-switch-flag"
+                unoptimized
+              />
+              <span className="sr-only">{navigation.langLabel}</span>
             </Link>
             <Link
-              href={localizePath("/contact", locale)}
-              className="btn-primary hidden min-h-10 px-4 text-sm sm:inline-flex"
+              href={localizePath(navigation.cta.href, locale)}
+              className="btn-primary site-header-cta"
+              onClick={closeAll}
             >
-              {nav.cta}
+              {navigation.cta.label}
             </Link>
             <button
               type="button"
-              className="menu-toggle inline-flex h-10 w-10 items-center justify-center lg:hidden"
-              aria-expanded={open}
+              className="menu-toggle"
+              aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
-              aria-label={open ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((value) => !value)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen((value) => !value)}
             >
               <span className="sr-only">Menu</span>
               <span className="relative block h-3.5 w-5">
                 <span
-                  className={`absolute inset-x-0 top-0 h-px bg-current transition ${open ? "translate-y-[7px] rotate-45" : ""}`}
+                  className={`absolute inset-x-0 top-0 h-px bg-current transition ${mobileOpen ? "translate-y-[7px] rotate-45" : ""}`}
                 />
                 <span
-                  className={`absolute inset-x-0 top-[7px] h-px bg-current transition ${open ? "opacity-0" : ""}`}
+                  className={`absolute inset-x-0 top-[7px] h-px bg-current transition ${mobileOpen ? "opacity-0" : ""}`}
                 />
                 <span
-                  className={`absolute inset-x-0 bottom-0 h-px bg-current transition ${open ? "-translate-y-[7px] -rotate-45" : ""}`}
+                  className={`absolute inset-x-0 bottom-0 h-px bg-current transition ${mobileOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
                 />
               </span>
             </button>
           </div>
         </div>
 
-        {open ? (
-          <div id="mobile-nav" className="lg:hidden">
-            <nav className="flex flex-col py-3" aria-label="Mobile">
-              {nav.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={localizePath(item.href, locale)}
-                  className="nav-link py-3 text-base"
-                  onClick={() => setOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+        {mobileOpen ? (
+          <div id="mobile-nav" className="site-mobile-nav">
+            <nav className="site-mobile-accordion" aria-label="Mobile">
+              {items.map((item) => {
+                const key = `${item.href}-${item.label}`;
+                const hasChildren =
+                  (item.kind === "mega" && item.mega?.enabled !== false) ||
+                  (item.kind === "dropdown" && (item.dropdown?.length ?? 0) > 0);
+                const expanded = mobileExpanded === key;
+
+                if (!hasChildren) {
+                  return (
+                    <Link
+                      key={key}
+                      href={localizePath(item.href, locale)}
+                      className={`site-mobile-link${isActive(item.href) ? " is-active" : ""}`}
+                      onClick={closeAll}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                }
+
+                const childLinks =
+                  item.kind === "mega"
+                    ? item.mega?.columns.flatMap((column) => column.links) ?? []
+                    : item.dropdown ?? [];
+
+                return (
+                  <div key={key} className="site-mobile-group">
+                    <button
+                      type="button"
+                      className={`site-mobile-trigger${expanded ? " is-open" : ""}`}
+                      aria-expanded={expanded}
+                      onClick={() => setMobileExpanded(expanded ? null : key)}
+                    >
+                      <span>{item.label}</span>
+                      <span className="site-nav-chevron" aria-hidden="true" />
+                    </button>
+                    {expanded ? (
+                      <div className="site-mobile-children">
+                        <Link
+                          href={localizePath(item.href, locale)}
+                          className="site-mobile-child"
+                          onClick={closeAll}
+                        >
+                          {item.label}
+                        </Link>
+                        {childLinks.map((link) => (
+                          <Link
+                            key={link.href + link.label}
+                            href={localizePath(link.href, locale)}
+                            className="site-mobile-child"
+                            onClick={closeAll}
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                        {item.mega?.cta ? (
+                          <Link
+                            href={localizePath(item.mega.cta.href, locale)}
+                            className="site-mobile-child is-cta"
+                            onClick={closeAll}
+                          >
+                            {item.mega.cta.label}
+                          </Link>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
               <Link
-                href={localizePath("/contact", locale)}
-                className="btn-primary mt-2 w-full"
-                onClick={() => setOpen(false)}
+                href={localizePath(navigation.cta.href, locale)}
+                className="btn-primary mt-3 w-full"
+                onClick={closeAll}
               >
-                {nav.cta}
+                {navigation.cta.label}
               </Link>
             </nav>
           </div>

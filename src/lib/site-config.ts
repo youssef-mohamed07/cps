@@ -48,9 +48,9 @@ export function getSiteConfig(): SiteConfigShape {
   return {
     name: "CPS",
     legalName: "Creatives Professionals",
-    tagline: "Creatives Professionals",
+    tagline: "Exhibition Booth Design & Production",
     description:
-      "CPS — Creatives Professionals. Strategy, design, and production for brands that want to be seen.",
+      "CPS — full-lifecycle exhibition booth design, fabrication, installation, and storage across Saudi Arabia.",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
     locale: "en_SA",
     email: "hello@cps.com",
@@ -70,7 +70,7 @@ export function getSiteConfig(): SiteConfigShape {
     logo: "/logo.png",
     favicon: "/favicon.ico",
     brandColors: {
-      accent: "#2092b4",
+      accent: "#2192b4",
       primary: "#0f3355",
     },
     defaultKeywords: [

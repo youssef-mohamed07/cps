@@ -1,4 +1,19 @@
 import { defineField, defineType } from "sanity";
+import {
+  benefitItem,
+  ctaBlock,
+  faqItem,
+  galleryImage,
+  navItem,
+  processStep,
+} from "./shared";
+import {
+  navColumn,
+  navFeatured,
+  navLink,
+  navMega,
+  navPrimaryItem,
+} from "./navigation";
 
 export const seoMeta = defineType({
   name: "seoMeta",
@@ -16,13 +31,15 @@ export const seoMeta = defineType({
     defineField({
       name: "ogImage",
       type: "image",
-      title: "Open Graph image",
+      title: "Open Graph / social share image",
       options: { hotspot: true },
       fields: [
         defineField({ name: "alt", type: "string", title: "Alt text" }),
         defineField({ name: "caption", type: "string", title: "Caption" }),
       ],
     }),
+    defineField({ name: "twitterTitle", type: "string", title: "Twitter title" }),
+    defineField({ name: "twitterDescription", type: "text", rows: 2, title: "Twitter description" }),
     defineField({ name: "canonicalUrl", type: "url", title: "Canonical URL" }),
     defineField({ name: "noIndex", type: "boolean", title: "No index" }),
     defineField({
@@ -30,6 +47,12 @@ export const seoMeta = defineType({
       type: "string",
       title: "Robots directive",
       description: "e.g. index,follow or noindex,nofollow",
+    }),
+    defineField({
+      name: "structuredDataType",
+      type: "string",
+      title: "Structured data type",
+      description: "e.g. Service, Article, Project, LocalBusiness",
     }),
   ],
 });
@@ -45,7 +68,12 @@ export const serviceImage = defineType({
       title: "Image",
       options: { hotspot: true },
     }),
-    defineField({ name: "alt", type: "string", title: "Alt text", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "alt",
+      type: "string",
+      title: "Alt text",
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({ name: "caption", type: "string", title: "Caption" }),
     defineField({ name: "width", type: "number", title: "Width" }),
     defineField({ name: "height", type: "number", title: "Height" }),
@@ -171,4 +199,15 @@ export const objectTypes = [
   socialLink,
   footerLink,
   footerLinkGroup,
+  ctaBlock,
+  benefitItem,
+  processStep,
+  galleryImage,
+  navItem,
+  faqItem,
+  navLink,
+  navColumn,
+  navFeatured,
+  navMega,
+  navPrimaryItem,
 ];

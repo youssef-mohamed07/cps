@@ -14,8 +14,8 @@ const PUBLIC_BRAND_ASSETS = new Set([
   "/clients/riyad-bank.svg",
   "/clients/saudi-aramco.svg",
   "/clients/stc.svg",
-  "/lang_switch/gb.svg",
-  "/lang_switch/sa.svg",
+  "/lang_switch/gb.png",
+  "/lang_switch/sa.png",
 ]);
 
 function isRemoteUrl(src: string): boolean {

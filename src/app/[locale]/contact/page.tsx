@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SiteChrome } from "@/components/layout/site-chrome";
 import { BleedImage } from "@/components/media/bleed-image";
 import { PageHero } from "@/components/sections/page-hero";
+import { media } from "@/content/media";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
@@ -34,63 +34,63 @@ export default async function ContactPage({ params }: PageProps) {
   const config = getSiteConfig();
 
   return (
-    <SiteChrome locale={locale} dictionary={dictionary}>
-      <PageHero eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
+    <>
+        <PageHero eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
 
-      <div className="site-container">
-        <BleedImage
-          src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2000&q=80"
-          alt={locale === "ar" ? "مساحة استوديو مضيئة" : "Bright studio space"}
-          className="media-bleed-wide"
-          priority
-        />
-      </div>
-
-      <section className="section-pad">
-        <div className="site-container grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
-          <div>
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <a
-                href={getMailtoUrl({ subject: "Project inquiry — CPS" })}
-                className="btn-primary"
-              >
-                {dictionary.contact.emailLabel}
-              </a>
-              <a
-                href={getWhatsAppUrl()}
-                className="btn-secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {dictionary.contact.whatsappLabel}
-              </a>
-            </div>
-
-            <div className="mt-12 flex flex-col gap-5">
-              <a href={`mailto:${config.email}`} className="contact-link w-fit">
-                {config.email}
-              </a>
-              <a
-                href={`tel:${config.phone}`}
-                className="contact-link w-fit"
-                dir="ltr"
-              >
-                {config.phoneDisplay}
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <p className="eyebrow">{page.officeTitle}</p>
-            <p className="mt-5 text-xl leading-8 text-foreground/90">
-              {config.address.city}, {config.address.countryName}
-            </p>
-            <p className="mt-4 max-w-sm text-base leading-7 text-muted">
-              {dictionary.contact.support}
-            </p>
-          </div>
+        <div className="site-container">
+          <BleedImage
+            src={media.contact.hero}
+            alt={locale === "ar" ? "مقر الشركة وقاعة الاستقبال" : "Company headquarters reception"}
+            className="media-bleed-wide"
+            priority
+          />
         </div>
-      </section>
-    </SiteChrome>
+
+        <section className="section-pad">
+          <div className="site-container grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+            <div>
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+                <a
+                  href={getMailtoUrl({ subject: "Project inquiry — CPS" })}
+                  className="btn-primary"
+                >
+                  {dictionary.contact.emailLabel}
+                </a>
+                <a
+                  href={getWhatsAppUrl()}
+                  className="btn-secondary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {dictionary.contact.whatsappLabel}
+                </a>
+              </div>
+
+              <div className="mt-12 flex flex-col gap-5">
+                <a href={`mailto:${config.email}`} className="contact-link w-fit">
+                  {config.email}
+                </a>
+                <a
+                  href={`tel:${config.phone}`}
+                  className="contact-link w-fit"
+                  dir="ltr"
+                >
+                  {config.phoneDisplay}
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <p className="eyebrow">{page.officeTitle}</p>
+              <p className="mt-5 text-xl leading-8 text-foreground/90">
+                {config.address.city}, {config.address.countryName}
+              </p>
+              <p className="mt-4 max-w-sm text-base leading-7 text-muted">
+                {dictionary.contact.support}
+              </p>
+            </div>
+          </div>
+        </section>
+    </>
   );
 }

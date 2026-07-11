@@ -10,7 +10,7 @@
 | `favicon-16.png` / `favicon-32.png` | PNG favicons |
 | `apple-touch-icon.png` | iOS home screen (mark on navy) |
 
-Source branding originally came from the client Drive pack (logo + Alexandria font).
+Source branding: [Google Drive pack](https://drive.google.com/drive/folders/1IL4Up3AfoVhSnbUXukUAs7J-PslSBwU_) (logo, Alexandria font, color guide).
 
 ### Regenerating favicons
 
@@ -28,8 +28,8 @@ Metadata icons are declared in `src/lib/seo.ts`.
 | Token | Hex | Role |
 | --- | --- | --- |
 | Navy / primary | `#0f3355` | Text, header brand, primary buttons |
-| Teal / accent | `#2092b4` | Eyebrows, accents, hover |
-| Cyan | `#01e2fe` | Selection / highlight accents |
+| Teal / accent | `#2192b4` | Eyebrows, accents, hover |
+| Cyan | `#00e3fe` | Selection / highlight accents |
 | White | `#ffffff` | Page background |
 
 CSS variables live in `src/app/globals.css` (`@theme inline`) and can be overridden by Sanity `brandColors` via root layout.

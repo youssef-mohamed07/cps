@@ -16,7 +16,7 @@ export function ContactSection({ content }: ContactSectionProps) {
           <h2 className="display contact-title">{content.title}</h2>
           <div className="contact-actions">
             <a
-              href={getMailtoUrl({ subject: "Project inquiry — CPS" })}
+              href={getMailtoUrl({ subject: "Quote request — CPS" })}
               className="btn-primary"
             >
               {content.emailLabel}

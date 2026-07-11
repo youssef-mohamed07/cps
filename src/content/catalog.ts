@@ -1,0 +1,1124 @@
+import type { Locale } from "@/lib/i18n";
+import { media } from "@/content/media";
+
+export type ContentSeo = {
+  title?: string;
+  description?: string;
+};
+
+export type ServiceRecord = {
+  slug: string;
+  order: number;
+  image: string;
+  imageAlt: string;
+  en: {
+    title: string;
+    excerpt: string;
+    overview: string;
+    benefits: { title: string; description: string }[];
+    process: { title: string; description: string }[];
+    faq: { question: string; answer: string }[];
+  };
+  ar: {
+    title: string;
+    excerpt: string;
+    overview: string;
+    benefits: { title: string; description: string }[];
+    process: { title: string; description: string }[];
+    faq: { question: string; answer: string }[];
+  };
+};
+
+export type BoothTypeRecord = {
+  slug: string;
+  order: number;
+  image: string;
+  imageAlt: string;
+  en: {
+    title: string;
+    excerpt: string;
+    description: string;
+    features: string[];
+    advantages: { title: string; description: string }[];
+    useCases: string[];
+  };
+  ar: {
+    title: string;
+    excerpt: string;
+    description: string;
+    features: string[];
+    advantages: { title: string; description: string }[];
+    useCases: string[];
+  };
+};
+
+export type IndustryRecord = {
+  slug: string;
+  order: number;
+  image: string;
+  imageAlt: string;
+  recommendedBoothTypeSlugs: string[];
+  en: {
+    title: string;
+    excerpt: string;
+    overview: string;
+    challenges: { title: string; description: string }[];
+    solutions: { title: string; description: string }[];
+  };
+  ar: {
+    title: string;
+    excerpt: string;
+    overview: string;
+    challenges: { title: string; description: string }[];
+    solutions: { title: string; description: string }[];
+  };
+};
+
+export type LocationRecord = {
+  slug: string;
+  order: number;
+  countryCode: string;
+  image: string;
+  imageAlt: string;
+  en: {
+    title: string;
+    excerpt: string;
+    localExperience: string;
+  };
+  ar: {
+    title: string;
+    excerpt: string;
+    localExperience: string;
+  };
+};
+
+export type NewsRecord = {
+  slug: string;
+  publishedAt: string;
+  readingTime: number;
+  image: string;
+  imageAlt: string;
+  category: string;
+  tags: string[];
+  author: string;
+  en: {
+    title: string;
+    excerpt: string;
+    body: string[];
+  };
+  ar: {
+    title: string;
+    excerpt: string;
+    body: string[];
+  };
+};
+
+export const services: ServiceRecord[] = [
+  {
+    slug: "full-booth-management",
+    order: 1,
+    image: media.services.management,
+    imageAlt: "Full booth management",
+    en: {
+      title: "Full Booth Management",
+      excerpt: "End-to-end ownership from brief to teardown.",
+      overview:
+        "CPS manages the full exhibition booth lifecycle in-house — design, fabrication, install, dismantle, and storage — so you work with one accountable team.",
+      benefits: [
+        { title: "Single owner", description: "One team across every stage — no vendor handoffs." },
+        { title: "On-time delivery", description: "In-house production keeps schedules under control." },
+        { title: "Reuse ready", description: "Storage and reinstallation planned from day one." },
+      ],
+      process: [
+        { title: "Brief", description: "Goals, footprint, brand, and event constraints." },
+        { title: "Design & build", description: "Concept, engineering, and fabrication." },
+        { title: "Install & support", description: "On-site setup, show support, and teardown." },
+      ],
+      faq: [
+        {
+          question: "Do you handle permits and venue coordination?",
+          answer: "Yes. We coordinate with organizers and venues as part of full management.",
+        },
+      ],
+    },
+    ar: {
+      title: "إدارة الجناح الكاملة",
+      excerpt: "ملكية كاملة من الموجز إلى التفكيك.",
+      overview:
+        "CPS تدير دورة حياة جناح المعرض بالكامل داخلياً — تصميم وتصنيع وتركيب وتفكيك وتخزين — بفريق واحد مسؤول.",
+      benefits: [
+        { title: "مسؤول واحد", description: "فريق واحد عبر كل مرحلة — بلا تسليم بين موردين." },
+        { title: "تسليم في الموعد", description: "الإنتاج الداخلي يبقي الجداول تحت السيطرة." },
+        { title: "جاهز لإعادة الاستخدام", description: "التخزين وإعادة التركيب يُخططان من اليوم الأول." },
+      ],
+      process: [
+        { title: "الموجز", description: "الأهداف والمساحة والعلامة وقيود الحدث." },
+        { title: "تصميم وبناء", description: "مفهوم وهندسة وتصنيع." },
+        { title: "تركيب ودعم", description: "إعداد في الموقع ودعم أثناء المعرض وتفكيك." },
+      ],
+      faq: [
+        {
+          question: "هل تتولون التصاريح والتنسيق مع الجهة المنظمة؟",
+          answer: "نعم. ننسّق مع المنظمين والمواقع كجزء من الإدارة الكاملة.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "booth-design",
+    order: 2,
+    image: media.services.design,
+    imageAlt: "Booth design",
+    en: {
+      title: "Booth Design",
+      excerpt: "Concepts and layouts built around your brand and floor plan.",
+      overview:
+        "From first sketches to build-ready drawings, we design booths that attract, guide, and convert visitors on the show floor.",
+      benefits: [
+        { title: "Brand-led", description: "Layouts that express your identity clearly." },
+        { title: "Visitor flow", description: "Circulation planned for engagement and demos." },
+        { title: "Buildable", description: "Designs engineered for real fabrication timelines." },
+      ],
+      process: [
+        { title: "Discovery", description: "Brand, audience, and venue constraints." },
+        { title: "Concept", description: "Options, mood, and spatial strategy." },
+        { title: "Detailing", description: "Drawings, materials, and AV integration." },
+      ],
+      faq: [
+        {
+          question: "Can we review a 3D preview before build?",
+          answer: "Yes. We present 3D views and walkthroughs before fabrication starts.",
+        },
+      ],
+    },
+    ar: {
+      title: "تصميم الأجنحة",
+      excerpt: "مفاهيم ومخططات مبنية حول علامتك ومخطط الأرضية.",
+      overview:
+        "من المسودات الأولى إلى رسومات جاهزة للبناء، نصمم أجنحة تجذب الزوار وتوجّههم وتحوّلهم على أرض المعرض.",
+      benefits: [
+        { title: "بقيادة العلامة", description: "مخططات تعبّر عن هويتك بوضوح." },
+        { title: "تدفق الزوار", description: "حركة مخططة للتفاعل والعروض." },
+        { title: "قابل للبناء", description: "تصاميم مهندسة لجداول تصنيع حقيقية." },
+      ],
+      process: [
+        { title: "اكتشاف", description: "العلامة والجمهور وقيود الموقع." },
+        { title: "مفهوم", description: "خيارات ومزاج واستراتيجية فراغية." },
+        { title: "تفاصيل", description: "رسومات ومواد ودمج AV." },
+      ],
+      faq: [
+        {
+          question: "هل يمكن مراجعة معاينة ثلاثية الأبعاد قبل البناء؟",
+          answer: "نعم. نقدّم مشاهد ثلاثية الأبعاد وجولات قبل بدء التصنيع.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "custom-fabrication",
+    order: 3,
+    image: media.services.fabrication,
+    imageAlt: "Custom fabrication",
+    en: {
+      title: "Custom Fabrication & Manufacturing",
+      excerpt: "Built from scratch to match your brand and space.",
+      overview:
+        "In-house fabrication means tighter quality control, faster iteration, and booths engineered for the show — and the next one.",
+      benefits: [
+        { title: "In-house craft", description: "No outsourcing of critical build stages." },
+        { title: "Material control", description: "Finishes and structures selected for durability." },
+        { title: "AV embedded", description: "Tech and lighting planned into the build." },
+      ],
+      process: [
+        { title: "Engineering", description: "Shop drawings and material specs." },
+        { title: "Production", description: "Fabrication, finishing, and QC." },
+        { title: "Pack & ship", description: "Crate, label, and stage for install." },
+      ],
+      faq: [
+        {
+          question: "Do you use sustainable materials?",
+          answer: "Yes. We offer eco options and can prioritize reusable modular systems.",
+        },
+      ],
+    },
+    ar: {
+      title: "تصنيع وتفصيل مخصص",
+      excerpt: "يُبنى من الصفر ليتوافق مع علامتك ومساحتك.",
+      overview:
+        "التصنيع الداخلي يعني رقابة جودة أدق وتكراراً أسرع وأجنحة مهندسة للمعرض — وللمرة القادمة أيضاً.",
+      benefits: [
+        { title: "حِرفة داخلية", description: "بلا إسناد لمراحل البناء الحرجة." },
+        { title: "تحكم بالمواد", description: "تشطيبات وهياكل مختارة للمتانة." },
+        { title: "AV مدمج", description: "التقنية والإضاءة تُخططان ضمن البناء." },
+      ],
+      process: [
+        { title: "هندسة", description: "رسومات ورشة ومواصفات مواد." },
+        { title: "إنتاج", description: "تصنيع وتشطيب ومراقبة جودة." },
+        { title: "تعبئة وشحن", description: "تغليف ووسم وتجهيز للتركيب." },
+      ],
+      faq: [
+        {
+          question: "هل تستخدمون مواد مستدامة؟",
+          answer: "نعم. نوفر خيارات صديقة للبيئة ويمكننا إعطاء الأولوية للأنظمة المعيارية القابلة لإعادة الاستخدام.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "installation-dismantling",
+    order: 4,
+    image: media.services.installation,
+    imageAlt: "Installation and dismantling",
+    en: {
+      title: "Installation & Dismantling",
+      excerpt: "On-site setup and careful teardown by our crew.",
+      overview:
+        "Our install teams arrive early, build cleanly, and dismantle with the next show in mind — protecting assets and timelines.",
+      benefits: [
+        { title: "Venue-ready", description: "Crews familiar with exhibition logistics." },
+        { title: "Safe teardown", description: "Components protected for reuse." },
+        { title: "Show support", description: "On-floor adjustments when needed." },
+      ],
+      process: [
+        { title: "Site survey", description: "Access, power, and schedule alignment." },
+        { title: "Install", description: "Build, dress, and test before doors open." },
+        { title: "Dismantle", description: "Teardown, inventory, and outbound logistics." },
+      ],
+      faq: [
+        {
+          question: "Do you work overnight install windows?",
+          answer: "Yes. We plan crews around venue access windows, including overnight builds.",
+        },
+      ],
+    },
+    ar: {
+      title: "التركيب والتفكيك",
+      excerpt: "إعداد في الموقع وتفكيك دقيق بفريقنا.",
+      overview:
+        "فرق التركيب تصل مبكراً وتبني بوضوح وتفكّك مع مراعاة المعرض التالي — لحماية الأصول والجداول.",
+      benefits: [
+        { title: "جاهز للموقع", description: "فرق معتادة على لوجستيات المعارض." },
+        { title: "تفكيك آمن", description: "مكونات محمية لإعادة الاستخدام." },
+        { title: "دعم أثناء المعرض", description: "تعديلات على الأرض عند الحاجة." },
+      ],
+      process: [
+        { title: "مسح الموقع", description: "الوصول والطاقة ومواءمة الجدول." },
+        { title: "تركيب", description: "بناء وتجهيز واختبار قبل الافتتاح." },
+        { title: "تفكيك", description: "إنزال وجرد ولوجستيات الخروج." },
+      ],
+      faq: [
+        {
+          question: "هل تعملون في نوافذ تركيب ليلية؟",
+          answer: "نعم. نخطط الفرق وفق نوافذ وصول الموقع، بما في ذلك البناء الليلي.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "storage-reinstallation",
+    order: 5,
+    image: media.services.storage,
+    imageAlt: "Storage and reinstallation",
+    en: {
+      title: "Storage & Reinstallation",
+      excerpt: "Safe storage and redeploy for the next show.",
+      overview:
+        "Keep your booth investment working across seasons with inventory, storage, refresh, and reinstall programs.",
+      benefits: [
+        { title: "Asset care", description: "Tracked inventory and protected storage." },
+        { title: "Faster redeploy", description: "Known kits reinstall with less risk." },
+        { title: "Refresh options", description: "Update graphics and modules between shows." },
+      ],
+      process: [
+        { title: "Intake", description: "Inventory, condition check, and labeling." },
+        { title: "Store", description: "Secure storage until the next event." },
+        { title: "Redeploy", description: "Refresh, ship, and reinstall." },
+      ],
+      faq: [
+        {
+          question: "How long can you store a booth?",
+          answer: "We offer flexible storage terms — from one show cycle to multi-year programs.",
+        },
+      ],
+    },
+    ar: {
+      title: "التخزين وإعادة التركيب",
+      excerpt: "تخزين آمن وإعادة نشر للمعرض القادم.",
+      overview:
+        "أبقِ استثمار جناحك يعمل عبر المواسم عبر برامج الجرد والتخزين والتحديث وإعادة التركيب.",
+      benefits: [
+        { title: "رعاية الأصول", description: "جرد متتبع وتخزين محمي." },
+        { title: "إعادة نشر أسرع", description: "مجموعات معروفة تُعاد بتركيب أقل مخاطرة." },
+        { title: "خيارات تحديث", description: "تحديث الرسومات والوحدات بين المعارض." },
+      ],
+      process: [
+        { title: "استلام", description: "جرد وفحص حالة ووسم." },
+        { title: "تخزين", description: "تخزين آمن حتى الحدث التالي." },
+        { title: "إعادة نشر", description: "تحديث وشحن وإعادة تركيب." },
+      ],
+      faq: [
+        {
+          question: "كم يمكنكم تخزين الجناح؟",
+          answer: "نوفر شروط تخزين مرنة — من دورة معرض واحدة إلى برامج متعددة السنوات.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "visual-branding-print",
+    order: 6,
+    image: media.services.branding,
+    imageAlt: "Visual branding and print",
+    en: {
+      title: "Visual Branding & Print Solutions",
+      excerpt: "Decals, banners, flags, and window graphics.",
+      overview:
+        "Print and environmental graphics that keep your booth on-brand from fascia to floor.",
+      benefits: [
+        { title: "Color fidelity", description: "Production matched to brand standards." },
+        { title: "Show durability", description: "Materials selected for traffic and lighting." },
+        { title: "Fast refresh", description: "Swap graphics between events without full rebuilds." },
+      ],
+      process: [
+        { title: "Artwork", description: "Templates, proofs, and brand checks." },
+        { title: "Produce", description: "Print, finish, and quality control." },
+        { title: "Apply", description: "Install on-site or pre-dress in the shop." },
+      ],
+      faq: [
+        {
+          question: "Can you match existing brand guidelines?",
+          answer: "Yes. We work from your brand book and approved artwork files.",
+        },
+      ],
+    },
+    ar: {
+      title: "الهوية البصرية والطباعة",
+      excerpt: "ملصقات ولافتات وأعلام ورسومات نوافذ.",
+      overview:
+        "طباعة ورسومات بيئية تبقي جناحك متسقاً مع العلامة من الواجهة إلى الأرضية.",
+      benefits: [
+        { title: "دقة الألوان", description: "إنتاج مطابق لمعايير العلامة." },
+        { title: "متانة المعرض", description: "مواد مختارة للحركة والإضاءة." },
+        { title: "تحديث سريع", description: "تبديل الرسومات بين الأحداث دون إعادة بناء كاملة." },
+      ],
+      process: [
+        { title: "أعمال فنية", description: "قوالب وبروفات وفحوصات علامة." },
+        { title: "إنتاج", description: "طباعة وتشطيب ومراقبة جودة." },
+        { title: "تطبيق", description: "تركيب في الموقع أو تجهيز مسبق في الورشة." },
+      ],
+      faq: [
+        {
+          question: "هل يمكنكم مطابقة دليل العلامة الحالي؟",
+          answer: "نعم. نعمل من دليل علامتكم وملفات الأعمال الفنية المعتمدة.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "lightbox-retail-display",
+    order: 7,
+    image: media.services.lightbox,
+    imageAlt: "Lightbox and retail display",
+    en: {
+      title: "Lightbox Signage & Retail Display Solutions",
+      excerpt: "LED signage that gets your brand noticed.",
+      overview:
+        "Lightboxes and retail-ready displays that extend your presence beyond the booth footprint.",
+      benefits: [
+        { title: "High visibility", description: "Illuminated messaging that cuts through the hall." },
+        { title: "Modular frames", description: "Systems that travel and reconfigure easily." },
+        { title: "Retail crossover", description: "Solutions that work in stores and showrooms too." },
+      ],
+      process: [
+        { title: "Specify", description: "Size, brightness, and mounting." },
+        { title: "Build", description: "Frames, LEDs, and graphic faces." },
+        { title: "Install", description: "Power, alignment, and final check." },
+      ],
+      faq: [
+        {
+          question: "Are lightboxes available as standalone products?",
+          answer: "Yes. They can ship with a booth or as standalone retail/signage packages.",
+        },
+      ],
+    },
+    ar: {
+      title: "لافتات Lightbox وحلول العرض للتجزئة",
+      excerpt: "لافتات LED تلفت الانتباه لعلامتك.",
+      overview:
+        "صناديق إضاءة وعروض جاهزة للتجزئة توسّع حضورك خارج مساحة الجناح.",
+      benefits: [
+        { title: "ظهور عالٍ", description: "رسائل مضاءة تخترق ضجيج القاعة." },
+        { title: "إطارات معيارية", description: "أنظمة تنتقل وتُعاد تهيئتها بسهولة." },
+        { title: "عبور للتجزئة", description: "حلول تعمل في المتاجر وصالات العرض أيضاً." },
+      ],
+      process: [
+        { title: "تحديد", description: "الحجم والسطوع والتثبيت." },
+        { title: "بناء", description: "إطارات وLED وواجهات رسومية." },
+        { title: "تركيب", description: "طاقة ومحاذاة وفحص نهائي." },
+      ],
+      faq: [
+        {
+          question: "هل الـ lightbox متاحة كمنتجات مستقلة؟",
+          answer: "نعم. يمكن شحنها مع الجناح أو كحزم لافتات/تجزئة مستقلة.",
+        },
+      ],
+    },
+  },
+];
+
+export const boothTypes: BoothTypeRecord[] = [
+  {
+    slug: "custom",
+    order: 1,
+    image: media.boothTypes.custom,
+    imageAlt: "Custom exhibition booth",
+    en: {
+      title: "Custom Exhibition Booths",
+      excerpt: "Bespoke builds shaped around your brand story.",
+      description:
+        "Fully custom booths designed and fabricated for maximum presence — unique architecture, finishes, and visitor experience.",
+      features: ["Bespoke structure", "Custom finishes", "Integrated AV", "Brand storytelling zones"],
+      advantages: [
+        { title: "Differentiation", description: "Stand out with a one-of-one presence." },
+        { title: "Experience control", description: "Every zone designed for a purpose." },
+      ],
+      useCases: ["Flagship launches", "Major trade shows", "Brand pavilions"],
+    },
+    ar: {
+      title: "أجنحة معارض مخصصة",
+      excerpt: "بناء مخصص حول قصة علامتك.",
+      description:
+        "أجنحة مخصصة بالكامل تُصمَّم وتُصنَّع لأقصى حضور — عمارة وتشطيبات وتجربة زائر فريدة.",
+      features: ["هيكل مخصص", "تشطيبات خاصة", "AV مدمج", "مناطق سرد العلامة"],
+      advantages: [
+        { title: "تميّز", description: "بروز بحضور فريد." },
+        { title: "تحكم بالتجربة", description: "كل منطقة مصممة لغرض." },
+      ],
+      useCases: ["إطلاقات رئيسية", "معارض كبرى", "أجنحة علامة"],
+    },
+  },
+  {
+    slug: "modular",
+    order: 2,
+    image: media.boothTypes.modular,
+    imageAlt: "Modular system booth",
+    en: {
+      title: "Modular / System Booths",
+      excerpt: "Flexible systems that reconfigure across events.",
+      description:
+        "Modular booths balance speed, cost, and brand impact — ideal when you need repeatable presence across a season.",
+      features: ["Reconfigurable frames", "Fast install", "Graphic refresh", "Scalable footprints"],
+      advantages: [
+        { title: "Efficiency", description: "Lower cost per show over a season." },
+        { title: "Speed", description: "Faster install and teardown windows." },
+      ],
+      useCases: ["Multi-show calendars", "Regional tours", "Growing brands"],
+    },
+    ar: {
+      title: "أجنحة معيارية / نظام",
+      excerpt: "أنظمة مرنة تُعاد تهيئتها عبر الأحداث.",
+      description:
+        "الأجنحة المعيارية توازن السرعة والتكلفة وأثر العلامة — مثالية عندما تحتاج حضوراً متكرراً عبر الموسم.",
+      features: ["إطارات قابلة لإعادة التهيئة", "تركيب سريع", "تحديث رسومي", "مساحات قابلة للتوسع"],
+      advantages: [
+        { title: "كفاءة", description: "تكلفة أقل لكل معرض عبر الموسم." },
+        { title: "سرعة", description: "نوافذ تركيب وتفكيك أسرع." },
+      ],
+      useCases: ["تقويمات متعددة المعارض", "جولات إقليمية", "علامات نامية"],
+    },
+  },
+  {
+    slug: "double-deck",
+    order: 3,
+    image: media.boothTypes.doubleDeck,
+    imageAlt: "Double-deck booth",
+    en: {
+      title: "Double-Deck Booths",
+      excerpt: "Two levels for meetings, demos, and presence.",
+      description:
+        "Double-deck designs maximize footprint value with private upper floors for hospitality and negotiation.",
+      features: ["Upper meeting suites", "Structural engineering", "Stair & lift options", "High visibility"],
+      advantages: [
+        { title: "Space efficiency", description: "More usable area on the same plot." },
+        { title: "Privacy", description: "Quiet rooms above the show floor noise." },
+      ],
+      useCases: ["Large footprints", "VIP hospitality", "Complex demos"],
+    },
+    ar: {
+      title: "أجنحة طابقين",
+      excerpt: "مستويان للاجتماعات والعروض والحضور.",
+      description:
+        "تصاميم الطابقين تعظّم قيمة المساحة بطوابق علوية خاصة للضيافة والتفاوض.",
+      features: ["أجنحة اجتماعات علوية", "هندسة إنشائية", "خيارات درج ومصعد", "ظهور عالٍ"],
+      advantages: [
+        { title: "كفاءة المساحة", description: "مساحة قابلة للاستخدام أكبر على نفس القطعة." },
+        { title: "خصوصية", description: "غرف هادئة فوق ضجيج أرض المعرض." },
+      ],
+      useCases: ["مساحات كبيرة", "ضيافة VIP", "عروض معقدة"],
+    },
+  },
+  {
+    slug: "portable",
+    order: 4,
+    image: media.boothTypes.portable,
+    imageAlt: "Portable pop-up display",
+    en: {
+      title: "Portable & Pop-Up Displays",
+      excerpt: "Lightweight kits for fast regional presence.",
+      description:
+        "Portable systems for teams that need sharp brand presence without a full custom build every time.",
+      features: ["Lightweight kits", "Quick setup", "Travel cases", "Graphic packs"],
+      advantages: [
+        { title: "Mobility", description: "Easy to ship and redeploy." },
+        { title: "Budget control", description: "Strong presence at lower cost." },
+      ],
+      useCases: ["Roadshows", "Partner events", "Small footprints"],
+    },
+    ar: {
+      title: "عروض محمولة و Pop-Up",
+      excerpt: "مجموعات خفيفة لحضور إقليمي سريع.",
+      description:
+        "أنظمة محمولة للفرق التي تحتاج حضوراً واضحاً للعلامة دون بناء مخصص كامل في كل مرة.",
+      features: ["مجموعات خفيفة", "إعداد سريع", "حقائب سفر", "حزم رسومية"],
+      advantages: [
+        { title: "تنقّل", description: "سهولة الشحن وإعادة النشر." },
+        { title: "تحكم بالميزانية", description: "حضور قوي بتكلفة أقل." },
+      ],
+      useCases: ["جولات", "فعاليات شركاء", "مساحات صغيرة"],
+    },
+  },
+  {
+    slug: "kiosks",
+    order: 5,
+    image: media.boothTypes.kiosk,
+    imageAlt: "Exhibition kiosk",
+    en: {
+      title: "Exhibition Kiosks",
+      excerpt: "Compact stands for focused engagement.",
+      description:
+        "Kiosks and small-footprint stands designed for lead capture, demos, and retail-like interactions.",
+      features: ["Compact footprints", "Counter & storage", "Screen mounts", "Brand fascia"],
+      advantages: [
+        { title: "Focus", description: "One clear job for visitors." },
+        { title: "Density", description: "High impact in limited square meters." },
+      ],
+      useCases: ["Lead capture", "Product demos", "Retail corners"],
+    },
+    ar: {
+      title: "أكشاك المعارض",
+      excerpt: "أكشاك مدمجة لتفاعل مركّز.",
+      description:
+        "أكشاك ومساحات صغيرة مصممة لالتقاط العملاء والعروض وتفاعلات شبيهة بالتجزئة.",
+      features: ["مساحات مدمجة", "كاونتر وتخزين", "حوامل شاشات", "واجهة علامة"],
+      advantages: [
+        { title: "تركيز", description: "مهمة واحدة واضحة للزوار." },
+        { title: "كثافة", description: "أثر عالٍ في أمتار مربعة محدودة." },
+      ],
+      useCases: ["التقاط عملاء", "عروض منتج", "زوايا تجزئة"],
+    },
+  },
+  {
+    slug: "outdoor",
+    order: 6,
+    image: media.boothTypes.outdoor,
+    imageAlt: "Outdoor activation",
+    en: {
+      title: "Outdoor Structures & Brand Activations",
+      excerpt: "Weather-ready structures for outdoor events.",
+      description:
+        "Outdoor builds and activations engineered for visibility, flow, and environmental conditions.",
+      features: ["Weather considerations", "Large-format branding", "Crowd flow", "Power & AV"],
+      advantages: [
+        { title: "Scale", description: "Presence that reads from a distance." },
+        { title: "Experience", description: "Activations beyond a standard booth." },
+      ],
+      useCases: ["Festivals", "Outdoor expos", "Brand experiences"],
+    },
+    ar: {
+      title: "هياكل خارجية وتفعيلات علامة",
+      excerpt: "هياكل جاهزة للطقس للفعاليات الخارجية.",
+      description:
+        "بناء خارجي وتفعيلات مهندسة للظهور والتدفق وظروف البيئة.",
+      features: ["اعتبارات الطقس", "علامة كبيرة الحجم", "تدفق الحشود", "طاقة وAV"],
+      advantages: [
+        { title: "مقياس", description: "حضور يُقرأ من مسافة." },
+        { title: "تجربة", description: "تفعيلات تتجاوز الجناح التقليدي." },
+      ],
+      useCases: ["مهرجانات", "معارض خارجية", "تجارب علامة"],
+    },
+  },
+  {
+    slug: "pavilions",
+    order: 7,
+    image: media.boothTypes.pavilion,
+    imageAlt: "National pavilion",
+    en: {
+      title: "Country / National Pavilions",
+      excerpt: "Large-scale pavilions for national presence.",
+      description:
+        "Pavilion programs that represent countries and institutions with architecture, content, and hospitality at scale.",
+      features: ["Large architecture", "Multi-zone planning", "Content integration", "VIP hospitality"],
+      advantages: [
+        { title: "Representation", description: "A coherent national or institutional story." },
+        { title: "Capacity", description: "Space for audiences, media, and dignitaries." },
+      ],
+      useCases: ["Expos", "National days", "Institutional showcases"],
+    },
+    ar: {
+      title: "أجنحة / أجنحة وطنية",
+      excerpt: "أجنحة واسعة للحضور الوطني.",
+      description:
+        "برامج أجنحة تمثّل الدول والمؤسسات بعمارة ومحتوى وضيافة على نطاق واسع.",
+      features: ["عمارة كبيرة", "تخطيط متعدد المناطق", "دمج محتوى", "ضيافة VIP"],
+      advantages: [
+        { title: "تمثيل", description: "قصة وطنية أو مؤسسية متماسكة." },
+        { title: "سعة", description: "مساحة للجمهور والإعلام وكبار الزوار." },
+      ],
+      useCases: ["إكسبو", "أيام وطنية", "عروض مؤسسية"],
+    },
+  },
+  {
+    slug: "sustainable",
+    order: 8,
+    image: media.boothTypes.sustainable,
+    imageAlt: "Sustainable eco booth",
+    en: {
+      title: "Sustainable / Eco Booths",
+      excerpt: "Lower-impact builds designed for reuse.",
+      description:
+        "Sustainable booth strategies using reusable systems, responsible materials, and designs that live beyond a single show.",
+      features: ["Reusable modules", "Responsible materials", "Reduced waste", "Lifecycle planning"],
+      advantages: [
+        { title: "Impact", description: "Lower environmental footprint per show." },
+        { title: "Value", description: "Assets that return across multiple events." },
+      ],
+      useCases: ["ESG-led brands", "Repeat exhibitors", "Long-term programs"],
+    },
+    ar: {
+      title: "أجنحة مستدامة / eco",
+      excerpt: "بناء أقل أثراً مصمم لإعادة الاستخدام.",
+      description:
+        "استراتيجيات أجنحة مستدامة باستخدام أنظمة قابلة لإعادة الاستخدام ومواد مسؤولة وتصاميم تدوم أبعد من معرض واحد.",
+      features: ["وحدات قابلة لإعادة الاستخدام", "مواد مسؤولة", "نفايات أقل", "تخطيط دورة حياة"],
+      advantages: [
+        { title: "أثر", description: "بصمة بيئية أقل لكل معرض." },
+        { title: "قيمة", description: "أصول تعود عبر أحداث متعددة." },
+      ],
+      useCases: ["علامات بقيادة ESG", "عارضون متكررون", "برامج طويلة الأمد"],
+    },
+  },
+];
+
+export function getService(slug: string) {
+  return services.find((item) => item.slug === slug);
+}
+
+export function getBoothType(slug: string) {
+  return boothTypes.find((item) => item.slug === slug);
+}
+
+export function localizeService(service: ServiceRecord, locale: Locale) {
+  return { ...service, ...service[locale], image: service.image, imageAlt: service.imageAlt, slug: service.slug };
+}
+
+export function localizeBoothType(boothType: BoothTypeRecord, locale: Locale) {
+  return {
+    ...boothType,
+    ...boothType[locale],
+    image: boothType.image,
+    imageAlt: boothType.imageAlt,
+    slug: boothType.slug,
+  };
+}
+
+export const industries: IndustryRecord[] = [
+  {
+    slug: "technology",
+    order: 1,
+    image: media.industries.technology,
+    imageAlt: "Technology exhibition booth",
+    recommendedBoothTypeSlugs: ["custom", "double-deck", "modular"],
+    en: {
+      title: "Technology & Electronics",
+      excerpt: "Booths built for demos, launches, and high-traffic tech shows.",
+      overview:
+        "Technology exhibitors need clear demo zones, AV reliability, and a presence that reads as innovative without chaos.",
+      challenges: [
+        { title: "Demo density", description: "Too many products fighting for attention." },
+        { title: "AV risk", description: "Power, screens, and lighting must work under show pressure." },
+      ],
+      solutions: [
+        { title: "Zoned storytelling", description: "Clear paths from attraction to conversion." },
+        { title: "Integrated tech", description: "AV planned into the structure from day one." },
+      ],
+    },
+    ar: {
+      title: "التقنية والإلكترونيات",
+      excerpt: "أجنحة مبنية للعروض والإطلاقات ومعارض التقنية عالية الحركة.",
+      overview:
+        "عارضو التقنية يحتاجون مناطق عرض واضحة وموثوقية AV وحضوراً يقرأ كابتكار دون فوضى.",
+      challenges: [
+        { title: "كثافة العروض", description: "منتجات كثيرة تتنافس على الانتباه." },
+        { title: "مخاطر AV", description: "الطاقة والشاشات والإضاءة يجب أن تعمل تحت ضغط المعرض." },
+      ],
+      solutions: [
+        { title: "سرد مناطقي", description: "مسارات واضحة من الجذب إلى التحويل." },
+        { title: "تقنية مدمجة", description: "AV يُخطط ضمن الهيكل من اليوم الأول." },
+      ],
+    },
+  },
+  {
+    slug: "healthcare",
+    order: 2,
+    image: media.industries.healthcare,
+    imageAlt: "Healthcare exhibition booth",
+    recommendedBoothTypeSlugs: ["modular", "custom", "kiosks"],
+    en: {
+      title: "Healthcare & Pharma",
+      excerpt: "Compliant, calm environments for clinical and commercial conversations.",
+      overview:
+        "Healthcare brands need trust, privacy for discussions, and materials that feel precise and professional.",
+      challenges: [
+        { title: "Trust signals", description: "The space must feel clinical and credible." },
+        { title: "Private talks", description: "Meeting rooms without losing floor presence." },
+      ],
+      solutions: [
+        { title: "Quiet hospitality", description: "Meeting suites and soft zones for longer conversations." },
+        { title: "Clear hierarchy", description: "Messaging that prioritizes science and outcomes." },
+      ],
+    },
+    ar: {
+      title: "الرعاية الصحية والأدوية",
+      excerpt: "بيئات هادئة ومتوافقة للمحادثات السريرية والتجارية.",
+      overview:
+        "علامات الرعاية الصحية تحتاج ثقة وخصوصية للنقاشات ومواد تبدو دقيقة ومهنية.",
+      challenges: [
+        { title: "إشارات الثقة", description: "المساحة يجب أن تبدو سريرية وموثوقة." },
+        { title: "محادثات خاصة", description: "غرف اجتماعات دون فقدان الحضور على الأرض." },
+      ],
+      solutions: [
+        { title: "ضيافة هادئة", description: "أجنحة اجتماعات ومناطق ناعمة لمحادثات أطول." },
+        { title: "تسلسل واضح", description: "رسائل تعطي الأولوية للعلم والنتائج." },
+      ],
+    },
+  },
+  {
+    slug: "energy",
+    order: 3,
+    image: media.industries.energy,
+    imageAlt: "Energy sector pavilion",
+    recommendedBoothTypeSlugs: ["custom", "pavilions", "outdoor"],
+    en: {
+      title: "Energy & Industrial",
+      excerpt: "Large-scale presence for industrial and energy programs.",
+      overview:
+        "Energy and industrial exhibitors often need scale, structural confidence, and space for technical storytelling.",
+      challenges: [
+        { title: "Scale", description: "Large footprints that still feel intentional." },
+        { title: "Technical depth", description: "Complex offerings need clear narrative layers." },
+      ],
+      solutions: [
+        { title: "Architectural presence", description: "Structures that signal capability at a distance." },
+        { title: "Layered content", description: "From headline impact to deep technical rooms." },
+      ],
+    },
+    ar: {
+      title: "الطاقة والصناعة",
+      excerpt: "حضور واسع لبرامج الطاقة والصناعة.",
+      overview:
+        "عارضو الطاقة والصناعة غالباً يحتاجون مقياساً وثقة إنشائية ومساحة لسرد تقني.",
+      challenges: [
+        { title: "المقياس", description: "مساحات كبيرة تبقى مقصودة." },
+        { title: "عمق تقني", description: "عروض معقدة تحتاج طبقات سرد واضحة." },
+      ],
+      solutions: [
+        { title: "حضور معماري", description: "هياكل تشير إلى القدرة من مسافة." },
+        { title: "محتوى طبقي", description: "من أثر العنوان إلى غرف تقنية عميقة." },
+      ],
+    },
+  },
+  {
+    slug: "fmcg",
+    order: 4,
+    image: media.industries.fmcg,
+    imageAlt: "FMCG retail booth",
+    recommendedBoothTypeSlugs: ["kiosks", "portable", "modular"],
+    en: {
+      title: "FMCG & Retail",
+      excerpt: "High-energy stands for sampling, launches, and retail brands.",
+      overview:
+        "Retail and FMCG booths win on attraction, sampling flow, and brand immersion that feels shoppable.",
+      challenges: [
+        { title: "Attraction", description: "Compete with dense neighboring stands." },
+        { title: "Throughput", description: "Move visitors through sampling without bottlenecks." },
+      ],
+      solutions: [
+        { title: "Retail logic", description: "Counters, storage, and flow designed like a store." },
+        { title: "Graphic punch", description: "Fast-read branding that works in crowded halls." },
+      ],
+    },
+    ar: {
+      title: "السلع الاستهلاكية والتجزئة",
+      excerpt: "أكشاك عالية الطاقة للعينات والإطلاقات وعلامات التجزئة.",
+      overview:
+        "أجنحة التجزئة والسلع الاستهلاكية تفوز بالجذب وتدفق العينات والانغماس في العلامة بإحساس قابل للتسوق.",
+      challenges: [
+        { title: "الجذب", description: "المنافسة مع أكشاك مجاورة كثيفة." },
+        { title: "الإنتاجية", description: "تحريك الزوار عبر العينات دون اختناقات." },
+      ],
+      solutions: [
+        { title: "منطق التجزئة", description: "كاونترات وتخزين وتدفق مصممة كمتجر." },
+        { title: "قوة رسومية", description: "علامة سريعة القراءة تعمل في قاعات مزدحمة." },
+      ],
+    },
+  },
+];
+
+export const locations: LocationRecord[] = [
+  {
+    slug: "saudi-arabia",
+    order: 1,
+    countryCode: "SA",
+    image: media.locations.saudiArabia,
+    imageAlt: "Exhibition in Saudi Arabia",
+    en: {
+      title: "Saudi Arabia",
+      excerpt: "Home base for design, fabrication, and on-site delivery.",
+      localExperience:
+        "CPS is based in Saudi Arabia with in-house production and crews experienced across major venues and exhibition calendars.",
+    },
+    ar: {
+      title: "المملكة العربية السعودية",
+      excerpt: "القاعدة للتصميم والتصنيع والتسليم في الموقع.",
+      localExperience:
+        "CPS مقرها في السعودية بإنتاج داخلي وفرق ذات خبرة عبر المواقع الرئيسية وتقويمات المعارض.",
+    },
+  },
+  {
+    slug: "uae",
+    order: 2,
+    countryCode: "AE",
+    image: media.locations.uae,
+    imageAlt: "Exhibition in the UAE",
+    en: {
+      title: "United Arab Emirates",
+      excerpt: "Dubai and Abu Dhabi trade shows and activations.",
+      localExperience:
+        "We support UAE exhibitions with logistics planning, install crews, and booth programs tuned to regional venues.",
+    },
+    ar: {
+      title: "الإمارات العربية المتحدة",
+      excerpt: "معارض وتفعيلات دبي وأبوظبي.",
+      localExperience:
+        "ندعم معارض الإمارات بتخطيط لوجستي وفرق تركيب وبرامج أجنحة متوافقة مع المواقع الإقليمية.",
+    },
+  },
+  {
+    slug: "qatar",
+    order: 3,
+    countryCode: "QA",
+    image: media.locations.qatar,
+    imageAlt: "Exhibition in Qatar",
+    en: {
+      title: "Qatar",
+      excerpt: "Doha exhibitions and pavilion-scale programs.",
+      localExperience:
+        "From compact stands to larger presence builds, we deliver Qatar projects with schedule discipline and venue coordination.",
+    },
+    ar: {
+      title: "قطر",
+      excerpt: "معارض الدوحة وبرامج على نطاق الأجنحة.",
+      localExperience:
+        "من الأكشاك المدمجة إلى الحضور الأوسع، نسلّم مشاريع قطر بانضباط جدولي وتنسيق مع المواقع.",
+    },
+  },
+  {
+    slug: "kuwait",
+    order: 4,
+    countryCode: "KW",
+    image: media.locations.kuwait,
+    imageAlt: "Exhibition in Kuwait",
+    en: {
+      title: "Kuwait",
+      excerpt: "Trade shows and brand activations across Kuwait.",
+      localExperience:
+        "We plan Kuwait installs around venue access windows and provide storage/redeploy options for repeat exhibitors.",
+    },
+    ar: {
+      title: "الكويت",
+      excerpt: "معارض وتفعيلات علامة عبر الكويت.",
+      localExperience:
+        "نخطط تركيبات الكويت وفق نوافذ وصول المواقع ونوفر خيارات تخزين وإعادة نشر للعارضين المتكررين.",
+    },
+  },
+  {
+    slug: "bahrain",
+    order: 5,
+    countryCode: "BH",
+    image: media.locations.bahrain,
+    imageAlt: "Exhibition in Bahrain",
+    en: {
+      title: "Bahrain",
+      excerpt: "Compact and modular booth programs for Bahrain events.",
+      localExperience:
+        "Bahrain projects often favor efficient modular systems with strong brand graphics and fast install.",
+    },
+    ar: {
+      title: "البحرين",
+      excerpt: "برامج أجنحة مدمجة ومعيارية لفعاليات البحرين.",
+      localExperience:
+        "مشاريع البحرين غالباً تفضّل أنظمة معيارية فعّالة مع رسومات علامة قوية وتركيب سريع.",
+    },
+  },
+  {
+    slug: "oman",
+    order: 6,
+    countryCode: "OM",
+    image: media.locations.oman,
+    imageAlt: "Exhibition in Oman",
+    en: {
+      title: "Oman",
+      excerpt: "Exhibition support across Muscat and regional events.",
+      localExperience:
+        "We deliver Oman booths with logistics planning suited to regional shipping and venue requirements.",
+    },
+    ar: {
+      title: "عُمان",
+      excerpt: "دعم معارض عبر مسقط والفعاليات الإقليمية.",
+      localExperience:
+        "نسلّم أجنحة عُمان بتخطيط لوجستي يناسب الشحن الإقليمي ومتطلبات المواقع.",
+    },
+  },
+  {
+    slug: "egypt",
+    order: 7,
+    countryCode: "EG",
+    image: media.locations.egypt,
+    imageAlt: "Exhibition in Egypt",
+    en: {
+      title: "Egypt",
+      excerpt: "Cairo and regional exhibition programs.",
+      localExperience:
+        "Egypt projects combine brand-led design with practical fabrication and install planning for local venues.",
+    },
+    ar: {
+      title: "مصر",
+      excerpt: "برامج معارض القاهرة والمنطقة.",
+      localExperience:
+        "مشاريع مصر تجمع تصميماً بقيادة العلامة مع تصنيع عملي وتخطيط تركيب للمواقع المحلية.",
+    },
+  },
+];
+
+export const newsArticles: NewsRecord[] = [
+  {
+    slug: "in-house-booth-production",
+    publishedAt: "2025-11-12",
+    readingTime: 4,
+    image: media.news.hall,
+    imageAlt: "In-house booth production",
+    category: "Insights",
+    tags: ["production", "process"],
+    author: "CPS Studio",
+    en: {
+      title: "Why in-house booth production changes the outcome",
+      excerpt: "Owning design and fabrication under one roof reduces handoffs and protects timelines.",
+      body: [
+        "Most exhibition delays come from fragmented ownership — design in one place, fabrication in another, install somewhere else.",
+        "When CPS keeps the full lifecycle in-house, decisions move faster, quality stays consistent, and the booth that opens on day one matches the approved concept.",
+        "That is the difference between a vendor chain and a single accountable atelier.",
+      ],
+    },
+    ar: {
+      title: "لماذا يغيّر الإنتاج الداخلي نتيجة الجناح",
+      excerpt: "امتلاك التصميم والتصنيع تحت سقف واحد يقلل التسليمات ويحمي الجداول.",
+      body: [
+        "معظم تأخيرات المعارض تأتي من ملكية مجزأة — تصميم في مكان وتصنيع في آخر وتركيب في مكان ثالث.",
+        "عندما تبقي CPS دورة الحياة كاملة داخلياً، تتحرك القرارات أسرع وتبقى الجودة متسقة ويطابق الجناح في يوم الافتتاح المفهوم المعتمد.",
+        "هذا هو الفرق بين سلسلة موردين وأتelier واحد مسؤول.",
+      ],
+    },
+  },
+  {
+    slug: "modular-vs-custom",
+    publishedAt: "2025-09-03",
+    readingTime: 5,
+    image: media.news.keynote,
+    imageAlt: "Modular versus custom booth",
+    category: "Booth strategy",
+    tags: ["modular", "custom"],
+    author: "CPS Studio",
+    en: {
+      title: "Modular vs custom: choosing the right booth strategy",
+      excerpt: "A practical guide to matching booth type to calendar, budget, and brand ambition.",
+      body: [
+        "Custom booths win when differentiation and experience are the priority. Modular systems win when you need speed and reuse across a season.",
+        "The best programs often mix both — a custom hero presence for flagship shows, and modular kits for regional dates.",
+        "Start with your calendar and goals, then choose the structure that protects both brand and budget.",
+      ],
+    },
+    ar: {
+      title: "معياري مقابل مخصص: اختيار استراتيجية الجناح الصحيحة",
+      excerpt: "دليل عملي لمواءمة نوع الجناح مع التقويم والميزانية وطموح العلامة.",
+      body: [
+        "الأجنحة المخصصة تفوز عندما يكون التميّز والتجربة هما الأولوية. الأنظمة المعيارية تفوز عندما تحتاج سرعة وإعادة استخدام عبر الموسم.",
+        "أفضل البرامج غالباً تمزج الاثنين — حضور مخصص للمعارض الرئيسية ومجموعات معيارية للمواعيد الإقليمية.",
+        "ابدأ بتقويمك وأهدافك، ثم اختر الهيكل الذي يحمي العلامة والميزانية معاً.",
+      ],
+    },
+  },
+];
+
+export function getIndustry(slug: string) {
+  return industries.find((item) => item.slug === slug);
+}
+
+export function getLocation(slug: string) {
+  return locations.find((item) => item.slug === slug);
+}
+
+export function getNewsArticle(slug: string) {
+  return newsArticles.find((item) => item.slug === slug);
+}
+
+export function localizeIndustry(industry: IndustryRecord, locale: Locale) {
+  return {
+    ...industry,
+    ...industry[locale],
+    image: industry.image,
+    imageAlt: industry.imageAlt,
+    slug: industry.slug,
+    recommendedBoothTypeSlugs: industry.recommendedBoothTypeSlugs,
+  };
+}
+
+export function localizeLocation(location: LocationRecord, locale: Locale) {
+  return {
+    ...location,
+    ...location[locale],
+    image: location.image,
+    imageAlt: location.imageAlt,
+    slug: location.slug,
+    countryCode: location.countryCode,
+  };
+}
+
+export function localizeNews(article: NewsRecord, locale: Locale) {
+  return {
+    ...article,
+    ...article[locale],
+    image: article.image,
+    imageAlt: article.imageAlt,
+    slug: article.slug,
+    publishedAt: article.publishedAt,
+    readingTime: article.readingTime,
+    category: article.category,
+    tags: article.tags,
+    author: article.author,
+  };
+}
+
+export const redirects = [
+  { from: "/portfolio", to: "/work", status: 301 as const },
+  { from: "/blog", to: "/news", status: 301 as const },
+];

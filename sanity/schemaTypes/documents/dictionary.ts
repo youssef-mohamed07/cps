@@ -23,7 +23,9 @@ export const dictionary = defineType({
     defineField({
       name: "content",
       type: "text",
-      title: "Dictionary JSON (advanced override)",
+      title: "Dictionary JSON (deprecated)",
+      description:
+        "Deprecated. Prefer structured documents (services, projects, pages, navigation). Kept only for residual chrome overrides.",
       rows: 16,
     }),
   ],

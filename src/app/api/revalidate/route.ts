@@ -5,6 +5,24 @@ const REVALIDATE_TAGS = [
   "siteSettings",
   "dictionary",
   "notFoundPage",
+  "homePage",
+  "aboutPageDoc",
+  "contactPageDoc",
+  "navigation",
+  "globalSeo",
+  "siteFooter",
+  "service",
+  "boothType",
+  "project",
+  "industry",
+  "location",
+  "newsArticle",
+  "client",
+  "category",
+  "author",
+  "faq",
+  "testimonial",
+  "redirect",
 ] as const;
 
 export async function POST(request: NextRequest) {
@@ -37,11 +55,19 @@ export async function POST(request: NextRequest) {
   for (const locale of ["en", "ar"] as const) {
     revalidateTag(`dictionary-${locale}`, "max");
     revalidateTag(`notFoundPage-${locale}`, "max");
+    revalidateTag(`service-${locale}`, "max");
+    revalidateTag(`boothType-${locale}`, "max");
+    revalidateTag(`project-${locale}`, "max");
+    revalidateTag(`industry-${locale}`, "max");
+    revalidateTag(`location-${locale}`, "max");
+    revalidateTag(`newsArticle-${locale}`, "max");
+    revalidateTag(`navigation-${locale}`, "max");
+    revalidateTag(`siteFooter-${locale}`, "max");
   }
 
   revalidatePath("/", "layout");
-  revalidatePath("/en", "page");
-  revalidatePath("/ar", "page");
+  revalidatePath("/en", "layout");
+  revalidatePath("/ar", "layout");
 
   return NextResponse.json({ ok: true, revalidated: true, dev: isDev });
 }

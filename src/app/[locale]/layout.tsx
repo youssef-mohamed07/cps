@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
 import { LocaleSync } from "@/app/[locale]/locale-sync";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 import { getDirection, isLocale, locales, type Locale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
@@ -45,7 +46,7 @@ export default async function LocaleLayout({
   return (
     <div lang={locale} dir={dir} className="min-h-full">
       <LocaleSync locale={locale} />
-      {children}
+      <SiteChrome locale={locale}>{children}</SiteChrome>
       <Analytics />
     </div>
   );

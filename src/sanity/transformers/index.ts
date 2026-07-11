@@ -158,7 +158,13 @@ export function toDictionary(
     projectPage: { ...base.projectPage, ...merged.projectPage },
     contact: { ...base.contact, ...merged.contact },
     contactPage: { ...base.contactPage, ...merged.contactPage },
-    footer: { ...base.footer, ...merged.footer },
+    footer: {
+      ...base.footer,
+      ...merged.footer,
+      locations: merged.footer?.locations?.length
+        ? merged.footer.locations
+        : base.footer.locations,
+    },
     comingSoon: {
       title: data.comingSoon?.title ?? merged.comingSoon.title ?? base.comingSoon.title,
       subtitle:

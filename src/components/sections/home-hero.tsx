@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
+import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
 
 type HomeHeroProps = {
@@ -8,32 +9,86 @@ type HomeHeroProps = {
   content: Dictionary["hero"];
 };
 
+const LEFT = [
+  media.boothTypes.custom,
+  media.services.design,
+  media.boothTypes.pavilion,
+] as const;
+
+const RIGHT = [
+  media.boothTypes.modular,
+  media.services.lightbox,
+  media.boothTypes.outdoor,
+] as const;
+
+function HeroRail({
+  images,
+  side,
+}: {
+  images: readonly string[];
+  side: "left" | "right";
+}) {
+  return (
+    <div className={`hero-rail hero-rail-${side}`} aria-hidden="true">
+      {images.map((src, i) => (
+        <div key={src} className="hero-rail-tile" data-i={i}>
+          <Image
+            src={src}
+            alt=""
+            fill
+            sizes="(max-width: 900px) 20vw, 12vw"
+            className="hero-rail-image object-cover"
+            priority={i === 1}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function HomeHero({ locale, content }: HomeHeroProps) {
   return (
     <section className="home-hero">
-      <div className="site-container home-hero-content">
-        <Image
-          src="/logo.png"
-          alt={
-            locale === "ar"
-              ? "CPS — المبدعون المحترفون"
-              : "CPS — Creatives Professionals"
-          }
-          width={1524}
-          height={540}
-          priority
-          className="home-hero-logo"
-        />
-        <h1 className="home-hero-headline">{content.headline}</h1>
-        <p className="home-hero-support">{content.support}</p>
-        <div className="home-hero-actions">
-          <Link href={localizePath("/contact", locale)} className="btn-primary">
-            {content.primaryCta}
-          </Link>
-          <Link href={localizePath("/work", locale)} className="btn-secondary">
-            {content.secondaryCta}
-          </Link>
+      <Image
+        src={media.homeHero}
+        alt=""
+        fill
+        priority
+        quality={90}
+        sizes="100vw"
+        className="home-hero-bg object-cover"
+      />
+      <div className="home-hero-overlay" aria-hidden="true" />
+
+      <div className="home-hero-stage">
+        <HeroRail images={LEFT} side="left" />
+
+        <div className="home-hero-copy">
+          <Image
+            src="/logo.png"
+            alt={
+              locale === "ar"
+                ? "CPS — المبدعون المحترفون"
+                : "CPS — Creatives Professionals"
+            }
+            width={1524}
+            height={540}
+            priority
+            className="home-hero-logo"
+          />
+          <h1 className="home-hero-headline">{content.headline}</h1>
+          <p className="home-hero-support">{content.support}</p>
+          <div className="home-hero-actions">
+            <Link href={localizePath("/contact", locale)} className="hero-cta">
+              {content.primaryCta}
+            </Link>
+            <Link href={localizePath("/work", locale)} className="hero-cta-ghost">
+              {content.secondaryCta}
+            </Link>
+          </div>
         </div>
+
+        <HeroRail images={RIGHT} side="right" />
       </div>
     </section>
   );

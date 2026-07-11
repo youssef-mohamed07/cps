@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getLocalizedProject, projects } from "@/content/projects";
+import { media } from "@/content/media";
 
 export interface NavItem {
   label: string;
@@ -9,6 +10,16 @@ export interface NavItem {
 export interface ServiceItem {
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
+  slug?: string;
+}
+
+export interface BoothTypeItem {
+  title: string;
+  image: string;
+  imageAlt: string;
+  slug?: string;
 }
 
 export interface ProcessStep {
@@ -34,10 +45,26 @@ export interface Dictionary {
     langHrefLocale: Locale;
   };
   hero: {
+    badge?: string;
     headline: string;
     support: string;
     primaryCta: string;
     secondaryCta: string;
+    reviews?: string;
+  };
+  stats: {
+    items: { value: string; label: string }[];
+  };
+  processStrip: {
+    title: string;
+    items: { from: string; to: string }[];
+  };
+  lifecycle: {
+    eyebrow: string;
+    title: string;
+    support: string;
+    imageAlt: string;
+    items: { title: string; description: string }[];
   };
   about: {
     eyebrow: string;
@@ -59,7 +86,32 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     support: string;
+    cta?: string;
     items: ServiceItem[];
+  };
+  boothTypes: {
+    eyebrow: string;
+    title: string;
+    support: string;
+    cta: string;
+    items: BoothTypeItem[];
+  };
+  boothTypesPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
+  whyCps: {
+    eyebrow: string;
+    title: string;
+    support: string;
+    imageAlt: string;
+    items: { title: string; description: string }[];
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    items: { question: string; answer: string }[];
   };
   servicesPage: {
     eyebrow: string;
@@ -109,6 +161,8 @@ export interface Dictionary {
   footer: {
     tagline: string;
     rights: string;
+    locationsTitle: string;
+    locations: NavItem[];
   };
   /** @deprecated kept for Sanity CMS merge compatibility */
   comingSoon: { title: string; subtitle: string };
@@ -133,21 +187,65 @@ const dictionaries: Record<Locale, Dictionary> = {
   en: {
     nav: {
       items: [
-        { label: "Work", href: "/work" },
+        { label: "Home", href: "/" },
+        { label: "About Us", href: "/about" },
         { label: "Services", href: "/services" },
-        { label: "About", href: "/about" },
+        { label: "Booth Types", href: "/booth-types" },
+        { label: "Portfolio", href: "/work" },
+        { label: "News & Insights", href: "/news" },
         { label: "Contact", href: "/contact" },
       ],
-      cta: "Start a project",
+      cta: "Request a Quote",
       langLabel: "العربية",
       langHrefLocale: "ar",
     },
     hero: {
-      headline: "Presence with purpose.",
+      badge: "#1 Exhibition Booth Design & Production in Saudi Arabia",
+      headline: "Everything your booth needs, under one roof.",
       support:
-        "A bilingual creative studio for brands that want strategy, craft, and cultural clarity.",
-      primaryCta: "Start a project",
-      secondaryCta: "View selected work",
+        "From design to teardown, CPS handles the full exhibition booth process in-house — no subcontractors, no delays.",
+      primaryCta: "Request a Quote",
+      secondaryCta: "View Our Work",
+    },
+    stats: {
+      items: [
+        { value: "150+", label: "Projects" },
+        { value: "16+", label: "Years" },
+        { value: "300+", label: "Clients" },
+      ],
+    },
+    processStrip: {
+      title: "In the Atelier → At the Event",
+      items: [
+        { from: "Precision", to: "Memories" },
+        { from: "Craftsmanship", to: "Impact" },
+        { from: "Materials", to: "Presence" },
+        { from: "Detail", to: "Experience" },
+      ],
+    },
+    lifecycle: {
+      eyebrow: "Full lifecycle",
+      title: "Full Production, Handled In-House",
+      support: "Every service your event or space needs — no outsourcing, no gaps.",
+      imageAlt: "CPS team building an exhibition booth in the workshop",
+      items: [
+        {
+          title: "We Design It",
+          description: "Custom booth concepts built around your brand and floor plan.",
+        },
+        {
+          title: "We Build It",
+          description: "Fabricated in-house — not outsourced to third parties.",
+        },
+        {
+          title: "We Install It",
+          description: "Set up on-site, ready before doors open.",
+        },
+        {
+          title: "We Take It Down",
+          description: "Dismantling and storage handled for your next show.",
+        },
+      ],
     },
     about: {
       eyebrow: "Who we are",
@@ -182,32 +280,151 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     services: {
       eyebrow: "What we do",
-      title: "From idea to impact",
-      support: "End-to-end creative work, focused on clarity and presence.",
+      title: "Full Production, Handled In-House",
+      support: "Five core services — design through signage — delivered by one team.",
+      cta: "See All Services",
       items: [
         {
-          title: "Brand strategy",
-          description: "Positioning, messaging, and identity systems that give brands a clear voice.",
+          title: "Custom Fabrication & Manufacturing",
+          description: "Built from scratch to match your brand and space.",
+          image: media.services.fabrication,
+          imageAlt: "Custom booth fabrication in progress",
+          slug: "custom-fabrication",
         },
         {
-          title: "Visual identity",
-          description: "Logos, guidelines, and design languages built to scale across every touchpoint.",
+          title: "Design",
+          description: "Concepts and layouts designed around your goals.",
+          image: media.services.design,
+          imageAlt: "Exhibition booth design render",
+          slug: "booth-design",
         },
         {
-          title: "Campaigns",
-          description: "Concept-led campaigns for launch moments, always-on content, and cultural spikes.",
+          title: "Dismantling, Storage & Reinstallation",
+          description: "Careful teardown, safe storage, ready for next time.",
+          image: media.services.storage,
+          imageAlt: "Booth components in storage",
+          slug: "storage-reinstallation",
         },
         {
-          title: "Digital experiences",
-          description: "Websites and product interfaces that feel intentional, fast, and on-brand.",
+          title: "Visual Branding & Print Solutions",
+          description: "Decals, banners, flags, and window graphics.",
+          image: media.services.branding,
+          imageAlt: "Printed branding on an exhibition stand",
+          slug: "visual-branding-print",
         },
         {
-          title: "Content production",
-          description: "Photography, motion, and art direction that make the story land.",
+          title: "Lightbox Signage & Storefront",
+          description: "LED signage that gets your brand noticed.",
+          image: media.services.lightbox,
+          imageAlt: "Lightbox signage on a trade show booth",
+          slug: "lightbox-retail-display",
+        },
+      ],
+    },
+    boothTypes: {
+      eyebrow: "Booth types",
+      title: "From small stands to national pavilions",
+      support: "From small stands to big pavilions — built to fit your needs.",
+      cta: "Explore booth types",
+      items: [
+        {
+          title: "Custom-Built Booths",
+          image: media.boothTypes.custom,
+          imageAlt: "Custom-built exhibition booth",
+          slug: "custom",
         },
         {
-          title: "Creative direction",
-          description: "A single vision across teams, vendors, and channels — from brief to delivery.",
+          title: "Modular / System Booths",
+          image: media.boothTypes.modular,
+          imageAlt: "Modular system booth",
+          slug: "modular",
+        },
+        {
+          title: "Double-Deck Booths",
+          image: media.boothTypes.doubleDeck,
+          imageAlt: "Double-deck exhibition booth",
+          slug: "double-deck",
+        },
+        {
+          title: "Portable & Pop-Up Displays",
+          image: media.boothTypes.portable,
+          imageAlt: "Portable pop-up display",
+          slug: "portable",
+        },
+        {
+          title: "Kiosks & Small Footprint Stands",
+          image: media.boothTypes.kiosk,
+          imageAlt: "Small footprint kiosk stand",
+          slug: "kiosks",
+        },
+        {
+          title: "Outdoor Structures & Activations",
+          image: media.boothTypes.outdoor,
+          imageAlt: "Outdoor activation structure",
+          slug: "outdoor",
+        },
+        {
+          title: "Country / National Pavilions",
+          image: media.boothTypes.pavilion,
+          imageAlt: "Country pavilion booth",
+          slug: "pavilions",
+        },
+        {
+          title: "Sustainable / Eco Booths",
+          image: media.boothTypes.sustainable,
+          imageAlt: "Sustainable eco booth",
+          slug: "sustainable",
+        },
+      ],
+    },
+    boothTypesPage: {
+      eyebrow: "Booth types",
+      title: "Built for every footprint and format.",
+      lead: "Whether you need a compact kiosk or a double-deck pavilion, CPS designs and builds in-house.",
+    },
+    whyCps: {
+      eyebrow: "Why CPS",
+      title: "Everything handled in-house, from start to finish.",
+      support: "No subcontractors. Full control at every step of your booth lifecycle.",
+      imageAlt: "Finished exhibition booth on the show floor",
+      items: [
+        {
+          title: "All In-House",
+          description: "No subcontractors — full control at every step.",
+        },
+        {
+          title: "Full Lifecycle Support",
+          description: "Design, build, install, store, and reinstall under one roof.",
+        },
+        {
+          title: "Behind Every Booth",
+          description: "A dedicated team from concept sketches to opening day.",
+        },
+      ],
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "Common questions",
+      items: [
+        {
+          question: "How long does a custom booth take to build?",
+          answer:
+            "Timelines depend on size and complexity. Most custom booths need 4–8 weeks from approved design to install-ready.",
+        },
+        {
+          question: "Do you handle installation at the venue?",
+          answer:
+            "Yes. Our crew installs on-site and dismantles after the event. Storage and reinstallation are available too.",
+        },
+        {
+          question: "Can you reuse a booth for multiple shows?",
+          answer:
+            "Absolutely. Modular builds and our storage program make it easy to refresh and redeploy.",
+        },
+        {
+          question: "Do you work outside Saudi Arabia?",
+          answer:
+            "We primarily serve Saudi Arabia and the wider GCC. Contact us with your venue and dates.",
         },
       ],
     },
@@ -241,11 +458,11 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     work: {
-      eyebrow: "Selected work",
-      title: "Recent collaborations",
-      support: "A sample of brand and campaign work across industries.",
+      eyebrow: "Case studies",
+      title: "Behind Every Booth",
+      support: "Selected exhibition builds across industries and formats.",
       items: workItems("en"),
-      viewAll: "See all work",
+      viewAll: "View all projects",
     },
     workPage: {
       eyebrow: "Work",
@@ -262,9 +479,9 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Let’s build what’s next",
-      support: "Tell us about the brand, the moment, and the outcome you need.",
-      emailLabel: "Email us",
+      title: "Let's plan your next booth",
+      support: "Share your event, footprint, and timeline — we'll reply with a clear next step.",
+      emailLabel: "Request a Quote",
       whatsappLabel: "WhatsApp",
     },
     contactPage: {
@@ -276,6 +493,16 @@ const dictionaries: Record<Locale, Dictionary> = {
     footer: {
       tagline: "Creatives Professionals",
       rights: "All rights reserved.",
+      locationsTitle: "Locations",
+      locations: [
+        { label: "Saudi Arabia", href: "/locations/saudi-arabia" },
+        { label: "UAE", href: "/locations/uae" },
+        { label: "Qatar", href: "/locations/qatar" },
+        { label: "Kuwait", href: "/locations/kuwait" },
+        { label: "Bahrain", href: "/locations/bahrain" },
+        { label: "Oman", href: "/locations/oman" },
+        { label: "Egypt", href: "/locations/egypt" },
+      ],
     },
     comingSoon: {
       title: "CPS",
@@ -285,20 +512,65 @@ const dictionaries: Record<Locale, Dictionary> = {
   ar: {
     nav: {
       items: [
-        { label: "أعمالنا", href: "/work" },
-        { label: "خدماتنا", href: "/services" },
+        { label: "الرئيسية", href: "/" },
         { label: "من نحن", href: "/about" },
+        { label: "خدماتنا", href: "/services" },
+        { label: "أنواع الأجنحة", href: "/booth-types" },
+        { label: "أعمالنا", href: "/work" },
+        { label: "أخبار ورؤى", href: "/news" },
         { label: "تواصل", href: "/contact" },
       ],
-      cta: "ابدأ مشروعك",
+      cta: "اطلب عرض سعر",
       langLabel: "English",
       langHrefLocale: "en",
     },
     hero: {
-      headline: "حضور له معنى.",
-      support: "استوديو إبداعي ثنائي اللغة للعلامات التي تريد استراتيجية وحِرفة ووضوحاً ثقافياً.",
-      primaryCta: "ابدأ مشروعك",
-      secondaryCta: "أعمال مختارة",
+      badge: "الأول في تصميم وإنتاج أجنحة المعارض في السعودية",
+      headline: "كل ما يحتاجه جناحك — تحت سقف واحد.",
+      support:
+        "من التصميم إلى التفكيك، CPS تدير دورة حياة جناح المعرض بالكامل داخلياً — بلا مقاولين فرعيين ولا تأخير.",
+      primaryCta: "اطلب عرض سعر",
+      secondaryCta: "شاهد أعمالنا",
+    },
+    stats: {
+      items: [
+        { value: "+150", label: "مشروع" },
+        { value: "+16", label: "سنة" },
+        { value: "+300", label: "عميل" },
+      ],
+    },
+    processStrip: {
+      title: "في الأتيليه ← في الحدث",
+      items: [
+        { from: "الدقة", to: "ذكريات" },
+        { from: "الحِرفة", to: "أثر" },
+        { from: "المواد", to: "حضور" },
+        { from: "التفاصيل", to: "تجربة" },
+      ],
+    },
+    lifecycle: {
+      eyebrow: "دورة حياة كاملة",
+      title: "إنتاج متكامل — داخلياً",
+      support: "كل خدمة يحتاجها حدثك أو مساحتك — بلا إسناد خارجي وبلا فجوات.",
+      imageAlt: "فريق CPS يبني جناح معرض في الورشة",
+      items: [
+        {
+          title: "نصمّمه",
+          description: "مفاهيم مخصصة مبنية حول علامتك ومخطط الأرضية.",
+        },
+        {
+          title: "نبنيه",
+          description: "تصنيع داخلي — لا يُسند لطرف ثالث.",
+        },
+        {
+          title: "نركّبه",
+          description: "تركيب في الموقع، جاهز قبل افتتاح الأبواب.",
+        },
+        {
+          title: "نفكّكه",
+          description: "تفكيك وتخزين جاهز للمعرض القادم.",
+        },
+      ],
     },
     about: {
       eyebrow: "من نحن",
@@ -333,32 +605,151 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     services: {
       eyebrow: "ماذا نقدم",
-      title: "من الفكرة إلى الأثر",
-      support: "عمل إبداعي متكامل، بتركيز على الوضوح والحضور.",
+      title: "إنتاج متكامل — داخلياً",
+      support: "خمس خدمات أساسية — من التصميم إلى اللافتات — بفريق واحد.",
+      cta: "كل الخدمات",
       items: [
         {
-          title: "استراتيجية العلامة",
-          description: "تموضع ورسائل وأنظمة هوية تمنح العلامة صوتاً واضحاً.",
+          title: "تصنيع وتفصيل مخصص",
+          description: "يُبنى من الصفر ليتوافق مع علامتك ومساحتك.",
+          image: media.services.fabrication,
+          imageAlt: "تصنيع جناح مخصص",
+          slug: "custom-fabrication",
         },
         {
-          title: "الهوية البصرية",
-          description: "شعارات وأدلة وأنظمة تصميم قابلة للتوسع عبر كل نقطة تواصل.",
+          title: "التصميم",
+          description: "مفاهيم ومخططات مبنية حول أهدافك.",
+          image: media.services.design,
+          imageAlt: "تصميم جناح معرض",
+          slug: "booth-design",
         },
         {
-          title: "الحملات",
-          description: "حملات مبنية على فكرة قوية للإطلاق والمحتوى المستمر واللحظات الثقافية.",
+          title: "التفكيك والتخزين وإعادة التركيب",
+          description: "تفكيك آمن وتخزين جاهز للمرة القادمة.",
+          image: media.services.storage,
+          imageAlt: "مكونات جناح في التخزين",
+          slug: "storage-reinstallation",
         },
         {
-          title: "التجارب الرقمية",
-          description: "مواقع وواجهات منتجات مقصودة وسريعة ومتسقة مع العلامة.",
+          title: "الهوية البصرية والطباعة",
+          description: "ملصقات ولافتات وأعلام ورسومات نوافذ.",
+          image: media.services.branding,
+          imageAlt: "طباعة على جناح معرض",
+          slug: "visual-branding-print",
         },
         {
-          title: "إنتاج المحتوى",
-          description: "تصوير وحركة وإخراج فني يجعل القصة تصل.",
+          title: "لافتات Lightbox والواجهات",
+          description: "لافتات LED تلفت الانتباه لعلامتك.",
+          image: media.services.lightbox,
+          imageAlt: "لافتة lightbox على جناح",
+          slug: "lightbox-retail-display",
+        },
+      ],
+    },
+    boothTypes: {
+      eyebrow: "أنواع الأجنحة",
+      title: "من الأكشاك الصغيرة إلى الأجنحة الوطنية",
+      support: "من الأكشاك الصغيرة إلى الأجنحة الكبيرة — نبنيها لتناسب احتياجك.",
+      cta: "استكشف أنواع الأجنحة",
+      items: [
+        {
+          title: "أجنحة مخصصة",
+          image: media.boothTypes.custom,
+          imageAlt: "جناح معرض مخصص",
+          slug: "custom",
         },
         {
-          title: "الإخراج الإبداعي",
-          description: "رؤية واحدة عبر الفرق والموردين والقنوات — من الموجز إلى التسليم.",
+          title: "أجنحة معيارية / نظام",
+          image: media.boothTypes.modular,
+          imageAlt: "جناح نظام معياري",
+          slug: "modular",
+        },
+        {
+          title: "أجنحة طابقين",
+          image: media.boothTypes.doubleDeck,
+          imageAlt: "جناح معرض بطابقين",
+          slug: "double-deck",
+        },
+        {
+          title: "عروض محمولة و Pop-Up",
+          image: media.boothTypes.portable,
+          imageAlt: "عرض pop-up محمول",
+          slug: "portable",
+        },
+        {
+          title: "أكشاك ومساحات صغيرة",
+          image: media.boothTypes.kiosk,
+          imageAlt: "كشك بمساحة صغيرة",
+          slug: "kiosks",
+        },
+        {
+          title: "هياكل خارجية وتفعيلات",
+          image: media.boothTypes.outdoor,
+          imageAlt: "هيكل تفعيل خارجي",
+          slug: "outdoor",
+        },
+        {
+          title: "أجنحة / أجنحة وطنية",
+          image: media.boothTypes.pavilion,
+          imageAlt: "جناح وطني",
+          slug: "pavilions",
+        },
+        {
+          title: "أجنحة مستدامة / eco",
+          image: media.boothTypes.sustainable,
+          imageAlt: "جناح مستدام",
+          slug: "sustainable",
+        },
+      ],
+    },
+    boothTypesPage: {
+      eyebrow: "أنواع الأجنحة",
+      title: "مبنية لكل مساحة وتنسيق.",
+      lead: "سواء كنت تحتاج كشكاً مدمجاً أو جناحاً بطابقين، CPS تصمّم وتبني داخلياً.",
+    },
+    whyCps: {
+      eyebrow: "لماذا CPS",
+      title: "كل شيء داخلياً — من البداية للنهاية.",
+      support: "بلا مقاولين فرعيين. تحكم كامل في كل خطوة من دورة حياة جناحك.",
+      imageAlt: "جناح معرض جاهز على أرض المعرض",
+      items: [
+        {
+          title: "كل شيء داخلياً",
+          description: "بلا مقاولين فرعيين — تحكم كامل في كل خطوة.",
+        },
+        {
+          title: "دعم دورة حياة كاملة",
+          description: "تصميم وبناء وتركيب وتخزين وإعادة تركيب تحت سقف واحد.",
+        },
+        {
+          title: "خلف كل جناح",
+          description: "فريق مخصص من المسودات حتى يوم الافتتاح.",
+        },
+      ],
+    },
+    faq: {
+      eyebrow: "أسئلة شائعة",
+      title: "أسئلة متكررة",
+      items: [
+        {
+          question: "كم يستغرق بناء جناح مخصص؟",
+          answer:
+            "تعتمد المدة على الحجم والتعقيد. معظم الأجنحة المخصصة تحتاج 4–8 أسابيع من اعتماد التصميم حتى الجاهزية للتركيب.",
+        },
+        {
+          question: "هل تتولون التركيب في موقع المعرض؟",
+          answer:
+            "نعم. فريقنا يركّب في الموقع ويفكّك بعد الحدث. التخزين وإعادة التركيب متاحان أيضاً.",
+        },
+        {
+          question: "هل يمكن إعادة استخدام الجناح لمعارض متعددة؟",
+          answer:
+            "بالتأكيد. البناء المعياري وبرنامج التخزين لدينا يسهّل التحديث وإعادة النشر.",
+        },
+        {
+          question: "هل تعملون خارج السعودية؟",
+          answer:
+            "نخدم بشكل أساسي السعودية ودول الخليج. تواصل معنا بموقع الحدث والتواريخ.",
         },
       ],
     },
@@ -392,11 +783,11 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     work: {
-      eyebrow: "أعمال مختارة",
-      title: "تعاونات حديثة",
-      support: "عيّنة من أعمال العلامات والحملات عبر قطاعات مختلفة.",
+      eyebrow: "دراسات حالة",
+      title: "خلف كل جناح",
+      support: "عيّنة من أجنحة المعارض عبر قطاعات وتنسيقات مختلفة.",
       items: workItems("ar"),
-      viewAll: "كل الأعمال",
+      viewAll: "كل المشاريع",
     },
     workPage: {
       eyebrow: "الأعمال",
@@ -413,9 +804,9 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     contact: {
       eyebrow: "تواصل",
-      title: "لنبنِ الخطوة التالية",
-      support: "أخبرنا عن العلامة واللحظة والنتيجة التي تحتاجها.",
-      emailLabel: "راسلنا",
+      title: "لنخطّط لجناحك القادم",
+      support: "شاركنا الحدث والمساحة والجدول — نعود بخطوة تالية واضحة.",
+      emailLabel: "اطلب عرض سعر",
       whatsappLabel: "واتساب",
     },
     contactPage: {
@@ -427,6 +818,16 @@ const dictionaries: Record<Locale, Dictionary> = {
     footer: {
       tagline: "المبدعون المحترفون",
       rights: "جميع الحقوق محفوظة.",
+      locationsTitle: "المواقع",
+      locations: [
+        { label: "السعودية", href: "/locations/saudi-arabia" },
+        { label: "الإمارات", href: "/locations/uae" },
+        { label: "قطر", href: "/locations/qatar" },
+        { label: "الكويت", href: "/locations/kuwait" },
+        { label: "البحرين", href: "/locations/bahrain" },
+        { label: "عُمان", href: "/locations/oman" },
+        { label: "مصر", href: "/locations/egypt" },
+      ],
     },
     comingSoon: {
       title: "CPS",

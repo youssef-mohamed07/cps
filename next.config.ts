@@ -21,6 +21,16 @@ const nextConfig: NextConfig = {
         destination: "/studio/:path*",
         permanent: false,
       },
+      {
+        source: "/:locale(en|ar)/portfolio",
+        destination: "/:locale/work",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/blog",
+        destination: "/:locale/news",
+        permanent: true,
+      },
     ];
   },
   images: {

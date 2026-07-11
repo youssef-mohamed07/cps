@@ -1,23 +1,61 @@
 import { getDictionary, getDictionaryLocal } from "@/content/dictionaries";
 import type { Dictionary } from "@/content/dictionaries.local";
 import type { Locale } from "@/lib/i18n";
+import { resolveNavigation } from "@/lib/navigation";
 
 /** Merge remote CMS copy onto local defaults so pages never lose required fields. */
 export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
   const local = getDictionaryLocal(locale);
   const remote = await getDictionary(locale);
+  const navigation = await resolveNavigation(locale);
 
   return {
     ...local,
     ...remote,
-    nav: { ...local.nav, ...remote.nav },
+    nav: {
+      ...local.nav,
+      ...remote.nav,
+      items: navigation.items.map((item) => ({ label: item.label, href: item.href })),
+      cta: navigation.cta.label,
+      langLabel: navigation.langLabel,
+      langHrefLocale: navigation.langHrefLocale,
+    },
     hero: { ...local.hero, ...remote.hero },
+    stats: { ...local.stats, ...remote.stats },
+    processStrip: {
+      ...local.processStrip,
+      ...remote.processStrip,
+      items: remote.processStrip?.items?.length
+        ? remote.processStrip.items
+        : local.processStrip.items,
+    },
+    lifecycle: {
+      ...local.lifecycle,
+      ...remote.lifecycle,
+      items: remote.lifecycle?.items?.length ? remote.lifecycle.items : local.lifecycle.items,
+    },
     about: { ...local.about, ...remote.about },
     aboutPage: { ...local.aboutPage, ...remote.aboutPage },
     services: {
       ...local.services,
       ...remote.services,
       items: remote.services?.items?.length ? remote.services.items : local.services.items,
+    },
+    boothTypes: {
+      ...local.boothTypes,
+      ...remote.boothTypes,
+      items: remote.boothTypes?.items?.length ? remote.boothTypes.items : local.boothTypes.items,
+    },
+    boothTypesPage: { ...local.boothTypesPage, ...remote.boothTypesPage },
+    whyCps: {
+      ...local.whyCps,
+      ...remote.whyCps,
+      items: remote.whyCps?.items?.length ? remote.whyCps.items : local.whyCps.items,
+    },
+    faq: {
+      ...local.faq,
+      ...remote.faq,
+      items: remote.faq?.items?.length ? remote.faq.items : local.faq.items,
     },
     servicesPage: { ...local.servicesPage, ...remote.servicesPage },
     process: {
@@ -35,6 +73,12 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     projectPage: { ...local.projectPage, ...remote.projectPage },
     contact: { ...local.contact, ...remote.contact },
     contactPage: { ...local.contactPage, ...remote.contactPage },
-    footer: { ...local.footer, ...remote.footer },
+    footer: {
+      ...local.footer,
+      ...remote.footer,
+      locations: remote.footer?.locations?.length
+        ? remote.footer.locations
+        : local.footer.locations,
+    },
   };
 }
