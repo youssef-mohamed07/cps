@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ElementType } from "react";
+import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 
 const CITIES: Record<Locale, string[]> = {
@@ -8,10 +8,12 @@ const CITIES: Record<Locale, string[]> = {
   ar: ["الرياض", "جدة", "الدمام"],
 };
 
+type HeroCityTag = "p" | "span" | "div" | "h1" | "h2";
+
 type HeroCityRotatorProps = {
   locale: Locale;
   template?: string;
-  as?: ElementType;
+  as?: HeroCityTag;
   className?: string;
   cityClassName?: string;
 };
