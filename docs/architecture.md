@@ -20,7 +20,9 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/[locale]/industries` | Industries hub | SEO hubs |
 | `/[locale]/industries/[slug]` | Industry detail | |
 | `/[locale]/locations` | Locations hub | GCC + Egypt (footer, not primary nav) |
-| `/[locale]/locations/[slug]` | Location detail | |
+| `/[locale]/locations/[slug]` | Location detail | Links to service × location + booth type × location |
+| `/[locale]/locations/[slug]/services/[serviceSlug]` | Programmatic SEO | 7 locations × 7 services |
+| `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Programmatic SEO | 7 locations × 8 booth types |
 | `/[locale]/news` | Insights index | |
 | `/[locale]/news/[slug]` | Article | |
 | `/[locale]/contact` | Contact page | Email / WhatsApp helpers |
@@ -50,6 +52,7 @@ src/
   content/
     dictionaries.local.ts  # EN/AR UI chrome
     catalog.ts             # services, booth types, industries, locations, news seed
+    programmatic-seo.ts    # location × service / booth type page builders
     projects.ts            # portfolio seed + filter metadata
   lib/
     dictionary.ts      # resolveDictionary() + navigation merge

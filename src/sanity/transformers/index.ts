@@ -157,7 +157,12 @@ export function toDictionary(
     workPage: { ...base.workPage, ...merged.workPage },
     projectPage: { ...base.projectPage, ...merged.projectPage },
     contact: { ...base.contact, ...merged.contact },
-    contactPage: { ...base.contactPage, ...merged.contactPage },
+    contactPage: {
+      ...base.contactPage,
+      ...merged.contactPage,
+      info: { ...base.contactPage.info, ...merged.contactPage?.info },
+      map: { ...base.contactPage.map, ...merged.contactPage?.map },
+    },
     footer: {
       ...base.footer,
       ...merged.footer,

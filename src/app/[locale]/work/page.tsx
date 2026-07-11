@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CtaArrow } from "@/components/motion/cta-arrow";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
+import { WorkFilters } from "@/components/sections/work-filters";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -22,40 +25,6 @@ type PageProps = {
 
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
-}
-
-function FilterRow({
-  label,
-  allHref,
-  allLabel,
-  options,
-}: {
-  label: string;
-  allHref: string;
-  allLabel: string;
-  options: { label: string; href: string; active: boolean }[];
-}) {
-  const anyActive = options.some((option) => option.active);
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="me-2 text-sm text-muted">{label}</span>
-      <Link
-        href={allHref}
-        className={`text-sm ${!anyActive ? "text-foreground underline" : "text-muted"}`}
-      >
-        {allLabel}
-      </Link>
-      {options.map((option) => (
-        <Link
-          key={option.href}
-          href={option.href}
-          className={`text-sm ${option.active ? "text-foreground underline" : "text-muted"}`}
-        >
-          {option.label}
-        </Link>
-      ))}
-    </div>
-  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -109,31 +78,7 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
   );
 
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
-  const allLabel = locale === "ar" ? "الكل" : "All";
-  const filterLabels = {
-    boothType: locale === "ar" ? "نوع الجناح" : "Booth type",
-    industry: locale === "ar" ? "القطاع" : "Industry",
-    country: locale === "ar" ? "الدولة" : "Country",
-    event: locale === "ar" ? "الحدث" : "Event",
-    size: locale === "ar" ? "المساحة" : "Size",
-  };
-
-  function hrefFor(next: Record<string, string | undefined>) {
-    const params = new URLSearchParams();
-    const merged = {
-      boothType,
-      industry,
-      country,
-      event,
-      size,
-      ...next,
-    };
-    for (const [key, value] of Object.entries(merged)) {
-      if (value) params.set(key, value);
-    }
-    const query = params.toString();
-    return `${localizePath("/work", locale)}${query ? `?${query}` : ""}`;
-  }
+  const basePath = localizePath("/work", locale);
 
   return (
     <>
@@ -144,95 +89,106 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
           { label: page.title },
         ]}
       />
-      <PageHero eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
+      <PageHero
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lead={page.lead}
+        image={projects[0]?.image}
+        imageAlt={projects[0]?.imageAlt}
+        cta={{
+          label: locale === "ar" ? "ابدأ مشروعك" : "Start your project",
+          href: "#work-brief",
+        }}
+      />
 
-      <section className="pb-8">
-        <div className="site-container grid gap-6">
-          <FilterRow
-            label={filterLabels.boothType}
-            allHref={hrefFor({ boothType: undefined })}
-            allLabel={allLabel}
-            options={boothTypes.map((item) => ({
-              label: item.title,
-              href: hrefFor({ boothType: item.slug }),
-              active: boothType === item.slug,
-            }))}
-          />
-          <FilterRow
-            label={filterLabels.industry}
-            allHref={hrefFor({ industry: undefined })}
-            allLabel={allLabel}
-            options={industries.map((item) => ({
-              label: item.title,
-              href: hrefFor({ industry: item.slug }),
-              active: industry === item.slug,
-            }))}
-          />
-          <FilterRow
-            label={filterLabels.country}
-            allHref={hrefFor({ country: undefined })}
-            allLabel={allLabel}
-            options={locations.map((item) => ({
-              label: item.title,
-              href: hrefFor({ country: item.slug }),
-              active: country === item.slug,
-            }))}
-          />
-          {events.length ? (
-            <FilterRow
-              label={filterLabels.event}
-              allHref={hrefFor({ event: undefined })}
-              allLabel={allLabel}
-              options={events.map((item) => ({
-                label: item,
-                href: hrefFor({ event: item }),
-                active: event === item,
-              }))}
-            />
-          ) : null}
-          {sizes.length ? (
-            <FilterRow
-              label={filterLabels.size}
-              allHref={hrefFor({ size: undefined })}
-              allLabel={allLabel}
-              options={sizes.map((item) => ({
-                label: item,
-                href: hrefFor({ size: item }),
-                active: size === item,
-              }))}
-            />
-          ) : null}
+      <WorkFilters
+        locale={locale}
+        basePath={basePath}
+        values={{ boothType, industry, country, event, size }}
+        options={{
+          boothType: boothTypes.map((item) => ({
+            value: item.slug,
+            label: item.title,
+          })),
+          industry: industries.map((item) => ({
+            value: item.slug,
+            label: item.title,
+          })),
+          country: locations.map((item) => ({
+            value: item.slug,
+            label: item.title,
+          })),
+          event: events.map((item) => ({ value: item, label: item })),
+          size: sizes.map((item) => ({ value: item, label: item })),
+        }}
+        labels={{
+          boothType: locale === "ar" ? "نوع الجناح" : "Booth type",
+          industry: locale === "ar" ? "القطاع" : "Industry",
+          country: locale === "ar" ? "الدولة" : "Country",
+          event: locale === "ar" ? "الحدث" : "Event",
+          size: locale === "ar" ? "المساحة" : "Size",
+          all: locale === "ar" ? "الكل" : "All",
+          clear: locale === "ar" ? "مسح الكل" : "Clear all",
+          filters: locale === "ar" ? "تصفية" : "Filter",
+        }}
+      />
+
+      <section className="work-gallery-section">
+        <div className="site-container">
+          <div className="work-gallery-bar">
+            <p className="work-gallery-count">
+              {filtered.length}{" "}
+              {locale === "ar"
+                ? "مشروع"
+                : filtered.length === 1
+                  ? "project"
+                  : "projects"}
+            </p>
+          </div>
+          {filtered.length ? (
+            <div className="work-gallery-grid">
+              {filtered.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={localizePath(`/work/${item.slug}`, locale)}
+                  className="work-card group"
+                >
+                  <div className="work-card-media">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      fill
+                      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    />
+                    <span className="work-card-tag">{item.category}</span>
+                  </div>
+                  <div className="work-card-copy">
+                    <p className="work-card-meta">{item.year}</p>
+                    <h2 className="work-card-title">{item.title}</h2>
+                    <p className="work-card-summary">{item.summary}</p>
+                    <span className="work-card-cta">
+                      {locale === "ar" ? "عرض المشروع" : "View project"}
+                      <CtaArrow size="sm" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="work-gallery-empty">
+              {locale === "ar"
+                ? "لا توجد مشاريع مطابقة لهذه الفلاتر."
+                : "No projects match these filters."}
+            </p>
+          )}
         </div>
       </section>
-
-      <section className="pb-[clamp(4.5rem,10vw,7rem)]">
-        <div className="site-container work-index">
-          {filtered.map((item) => (
-            <Link
-              key={item.slug}
-              href={localizePath(`/work/${item.slug}`, locale)}
-              className="work-index-item group"
-            >
-              <div className="work-index-media">
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  fill
-                  sizes="(max-width: 900px) 100vw, 55vw"
-                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="work-index-copy">
-                <p className="text-sm text-muted">
-                  {item.category} · {item.year}
-                </p>
-                <h2 className="mt-3">{item.title}</h2>
-                <p>{item.summary}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <InnerPageEngagement
+        locale={locale}
+        dictionary={dictionary}
+        namespace="work"
+      />
     </>
   );
 }

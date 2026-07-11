@@ -49,20 +49,20 @@ const en: BriefFormCopy = {
     "Four quick steps — whether you're a brand, agency, or organizer. We use this to scope design, build, and install accurately.",
   steps: [
     {
-      title: "You",
+      title: "Contact details",
       description: "Who we should reach and how you prefer to be contacted.",
     },
     {
-      title: "Organization",
-      description: "Company or entity details — helps us understand context.",
+      title: "Company details",
+      description: "Organization context that helps us scope the project correctly.",
     },
     {
       title: "Event & booth",
-      description: "Show, footprint, format, and services you need from CPS.",
+      description: "Show, footprint, format, and the services you need from CPS.",
     },
     {
-      title: "Scope & send",
-      description: "Budget, timeline, goals — then submit your brief.",
+      title: "Budget & notes",
+      description: "Timeline, budget range, and anything else we should know.",
     },
   ],
   labels: {
@@ -218,20 +218,20 @@ const ar: BriefFormCopy = {
     "أربع خطوات سريعة — سواء كنت علامة أو وكالة أو منظّم. بنستخدم البيانات دي لتقدير التصميم والبناء والتركيب بدقة.",
   steps: [
     {
-      title: "أنت",
-      description: "مين نتواصل معاه وإزاي تفضل التواصل.",
+      title: "بيانات التواصل",
+      description: "مين نتواصل معاه وإزاي تفضّل طريقة التواصل.",
     },
     {
-      title: "الجهة",
-      description: "بيانات الشركة أو الجهة — تساعدنا نفهم السياق.",
+      title: "بيانات الجهة",
+      description: "سياق الشركة أو الجهة عشان نقدّر المشروع صح.",
     },
     {
       title: "الحدث والجناح",
-      description: "المعرض، المساحة، النوع، والخدمات اللي محتاجها من CPS.",
+      description: "المعرض والمساحة والنوع والخدمات المطلوبة من CPS.",
     },
     {
-      title: "النطاق والإرسال",
-      description: "الميزانية، الجدول، الأهداف — وبعدين أرسل البريف.",
+      title: "الميزانية والملاحظات",
+      description: "الجدول والميزانية وأي تفاصيل إضافية نحتاجها.",
     },
   ],
   labels: {

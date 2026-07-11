@@ -40,8 +40,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     pathname === `/${locale}` || pathname === `/${locale}/`;
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [heroInView, setHeroInView] = useState(isHome);
-  const [pageScrolled, setPageScrolled] = useState(false);
+  const [heroInView, setHeroInView] = useState(true);
   const [hidden, setHidden] = useState(false);
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -62,8 +61,8 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     : undefined;
   const megaOpen = Boolean(activeMegaItem?.mega);
   const megaPanelId = `${navId}-mega`;
-  const atTop = isHome && heroInView && !mobileOpen && !megaOpen;
-  const isScrolled = isHome ? !heroInView : pageScrolled;
+  const atTop = heroInView && !mobileOpen && !megaOpen;
+  const isScrolled = !heroInView;
 
   useEffect(() => {
     menuLocked.current = mobileOpen || Boolean(openKey);
@@ -71,49 +70,41 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, [mobileOpen, openKey]);
 
   useEffect(() => {
-    if (!isHome) {
-      setHeroInView(false);
-      return;
-    }
-
-    const hero = document.querySelector(".home-hero");
-    if (!hero) {
-      setHeroInView(false);
-      return;
-    }
+    const hero = document.querySelector(".home-hero, .page-hero");
+    if (!hero) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setHeroInView(entry.isIntersecting);
+        setHeroInView(entry?.isIntersecting ?? false);
       },
       { threshold: 0, rootMargin: "-72px 0px 0px 0px" },
     );
 
     observer.observe(hero);
     return () => observer.disconnect();
-  }, [isHome, pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
     const syncOffset = () => {
+      const bar = el.querySelector<HTMLElement>(".site-header-bar");
+      const headerRect = el.getBoundingClientRect();
+      const bottomPadding = Number.parseFloat(getComputedStyle(el).paddingBottom) || 0;
+      const height = bar
+        ? bar.getBoundingClientRect().bottom - headerRect.top + bottomPadding
+        : headerRect.height;
       document.documentElement.style.setProperty(
         "--site-header-offset",
-        `${el.getBoundingClientRect().height}px`,
+        `${height}px`,
       );
     };
     syncOffset();
     window.addEventListener("resize", syncOffset);
     return () => window.removeEventListener("resize", syncOffset);
-  }, [mobileOpen, megaOpen, isScrolled, isHome]);
+  }, [mobileOpen, megaOpen, isScrolled]);
 
   useEffect(() => {
-    const syncScrollState = (y: number) => {
-      if (!isHome) {
-        setPageScrolled(y > 16);
-      }
-    };
-
     const setHeaderHidden = (nextHidden: boolean) => {
       setHidden((current) => (current === nextHidden ? current : nextHidden));
     };
@@ -138,21 +129,18 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     };
 
     lastScrollY.current = getScrollY();
-    syncScrollState(lastScrollY.current);
 
     const onScroll = () => {
       const y = getScrollY();
       const delta = y - lastScrollY.current;
       const direction = delta > 0 ? "down" : delta < 0 ? "up" : "none";
 
-      syncScrollState(y);
       updateHeaderVisibility(y, direction);
       lastScrollY.current = y;
     };
 
     const onWheel = (event: WheelEvent) => {
       const y = getScrollY();
-      syncScrollState(y);
 
       if (event.deltaY > 0) {
         updateHeaderVisibility(y, "down");
@@ -193,7 +181,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
     };
-  }, [isHome]);
+  }, []);
 
   useEffect(() => {
     setOpenKey(null);
@@ -262,7 +250,19 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   return (
     <header
       ref={headerRef}
-      className={`site-header${isHome ? " is-home is-overlay" : ""}${atTop ? " is-at-top" : " is-solid"}${isScrolled ? " is-scrolled" : ""}${mobileOpen ? " is-mobile-open" : ""}${megaOpen ? " is-mega-open" : ""}${hidden && !mobileOpen && !megaOpen ? " is-hidden" : ""}`}
+      className={[
+        "site-header",
+        "is-home",
+        "is-overlay",
+        isHome ? "is-home-page" : "",
+        atTop ? "is-at-top" : "is-solid",
+        isScrolled ? "is-scrolled" : "",
+        mobileOpen ? "is-mobile-open" : "",
+        megaOpen ? "is-mega-open" : "",
+        hidden && !mobileOpen && !megaOpen ? "is-hidden" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <div className="site-container site-header-wrap">
         <div

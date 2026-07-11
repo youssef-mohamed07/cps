@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ElementType } from "react";
 import type { Locale } from "@/lib/i18n";
 
 const CITIES: Record<Locale, string[]> = {
@@ -11,9 +11,18 @@ const CITIES: Record<Locale, string[]> = {
 type HeroCityRotatorProps = {
   locale: Locale;
   template?: string;
+  as?: ElementType;
+  className?: string;
+  cityClassName?: string;
 };
 
-export function HeroCityRotator({ locale, template }: HeroCityRotatorProps) {
+export function HeroCityRotator({
+  locale,
+  template,
+  as: Tag = "p",
+  className = "home-hero-badge",
+  cityClassName = "home-hero-city",
+}: HeroCityRotatorProps) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -27,18 +36,18 @@ export function HeroCityRotator({ locale, template }: HeroCityRotatorProps) {
   if (!template) return null;
 
   if (!template.includes("{City}")) {
-    return <p className="home-hero-badge">{template}</p>;
+    return <Tag className={className}>{template}</Tag>;
   }
 
   const [before, after = ""] = template.split("{City}");
 
   return (
-    <p className="home-hero-badge">
+    <Tag className={className}>
       <span>{before}</span>
-      <span key={`${locale}-${index}`} className="home-hero-city">
+      <span key={`${locale}-${index}`} className={cityClassName}>
         {CITIES[locale][index]}
       </span>
       <span>{after}</span>
-    </p>
+    </Tag>
   );
 }

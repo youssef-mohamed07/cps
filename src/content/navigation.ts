@@ -297,7 +297,24 @@ function navigationEn(): NavigationConfig {
           layout: "services",
           title: "Our Services",
           description: "Complete exhibition stand solutions from concept to execution.",
-          columns: [{ links: servicesLinksEn }],
+          columns: [
+            {
+              title: "Creative",
+              links: [
+                servicesLinksEn[1],
+                servicesLinksEn[5],
+                servicesLinksEn[6],
+              ],
+            },
+            {
+              title: "Production & Delivery",
+              links: [
+                servicesLinksEn[2],
+                servicesLinksEn[3],
+                servicesLinksEn[4],
+              ],
+            },
+          ],
           featured: {
             enabled: true,
             title: "Full Booth Management",
@@ -363,7 +380,24 @@ function navigationAr(): NavigationConfig {
           layout: "services",
           title: "خدماتنا",
           description: "حلول أجنحة معارض متكاملة من المفهوم إلى التنفيذ.",
-          columns: [{ links: servicesLinksAr }],
+          columns: [
+            {
+              title: "الإبداع",
+              links: [
+                servicesLinksAr[1],
+                servicesLinksAr[5],
+                servicesLinksAr[6],
+              ],
+            },
+            {
+              title: "الإنتاج والتسليم",
+              links: [
+                servicesLinksAr[2],
+                servicesLinksAr[3],
+                servicesLinksAr[4],
+              ],
+            },
+          ],
           featured: {
             enabled: true,
             title: "إدارة الجناح الكاملة",

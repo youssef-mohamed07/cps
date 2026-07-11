@@ -69,6 +69,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...locations.flatMap((item) =>
       entry(`/locations/${item.slug}`, { changeFrequency: "monthly", priority: 0.6 }),
     ),
+    ...locations.flatMap((location) =>
+      services.flatMap((service) =>
+        entry(`/locations/${location.slug}/services/${service.slug}`, {
+          changeFrequency: "monthly",
+          priority: 0.55,
+        }),
+      ),
+    ),
+    ...locations.flatMap((location) =>
+      boothTypes.flatMap((boothType) =>
+        entry(`/locations/${location.slug}/booth-types/${boothType.slug}`, {
+          changeFrequency: "monthly",
+          priority: 0.55,
+        }),
+      ),
+    ),
     ...newsArticles.flatMap((item) =>
       entry(`/news/${item.slug}`, { changeFrequency: "weekly", priority: 0.6 }),
     ),

@@ -4,15 +4,16 @@ import { FaqAccordion } from "@/components/sections/faq-accordion";
 type FaqItem = { question: string; answer: string };
 
 type FaqSectionProps = {
+  id?: string;
   eyebrow: string;
   title: string;
   support: string;
   items: FaqItem[];
 };
 
-export function FaqSection({ eyebrow, title, support, items }: FaqSectionProps) {
+export function FaqSection({ id, eyebrow, title, support, items }: FaqSectionProps) {
   return (
-    <section className="section-pad faq-section scroll-mt-24">
+    <section id={id} className="section-pad faq-section scroll-mt-24">
       <div className="site-container">
         <Reveal>
           <div className="faq-layout">

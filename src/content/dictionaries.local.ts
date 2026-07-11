@@ -74,6 +74,8 @@ export interface Dictionary {
   };
   clients: {
     eyebrow: string;
+    title: string;
+    support: string;
     items: {
       quote: string;
       name: string;
@@ -150,6 +152,8 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     lead: string;
+    primaryCta: string;
+    secondaryCta: string;
     detailTitle: string;
   };
   process: {
@@ -190,7 +194,20 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     lead: string;
-    officeTitle: string;
+    info: {
+      emailLabel: string;
+      phoneLabel: string;
+      whatsappLabel: string;
+      addressLabel: string;
+      socialLabel: string;
+    };
+    map: {
+      eyebrow: string;
+      title: string;
+      support: string;
+      openMaps: string;
+      hqLabel: string;
+    };
   };
   footer: {
     tagline: string;
@@ -299,6 +316,9 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     clients: {
       eyebrow: "Clients",
+      title: "Built to impress. Trusted to deliver.",
+      support:
+        "From the first sketch to show day, our clients count on one team to make every detail work.",
       items: [
         {
           quote:
@@ -553,9 +573,12 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     servicesPage: {
-      eyebrow: "Capabilities",
-      title: "Creative systems that hold under pressure.",
-      lead: "Strategy, identity, campaigns, and digital — connected as one practice, not separate vendors.",
+      eyebrow: "Services",
+      title: "#1 Exhibition Booth Design & Production in {City}",
+      lead:
+        "Full-lifecycle exhibition booth production across Saudi Arabia — design, build, install, dismantle, and storage, all in-house.",
+      primaryCta: "Request a Quote",
+      secondaryCta: "View Our Work",
       detailTitle: "Where we go deep",
     },
     process: {
@@ -597,7 +620,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       challenge: "Challenge",
       approach: "Approach",
       outcome: "Outcome",
-      gallery: "Selected frames",
+      gallery: "Gallery",
       next: "Next project",
       back: "All work",
     },
@@ -612,8 +635,21 @@ const dictionaries: Record<Locale, Dictionary> = {
     contactPage: {
       eyebrow: "Contact",
       title: "Start with a conversation.",
-      lead: "Share the brief, the timeline, and what success looks like. We’ll come back with a clear next step.",
-      officeTitle: "Studio",
+      lead: "Share your brief — we’ll reply with a clear next step.",
+      info: {
+        emailLabel: "Email",
+        phoneLabel: "Phone",
+        whatsappLabel: "WhatsApp",
+        addressLabel: "Studio",
+        socialLabel: "Follow",
+      },
+      map: {
+        eyebrow: "Location",
+        title: "Find our studio.",
+        support: "Based in Riyadh — delivering exhibitions across Saudi Arabia, the GCC, and Egypt.",
+        openMaps: "Open in Google Maps",
+        hqLabel: "Headquarters",
+      },
     },
     footer: {
       tagline: "Creatives Professionals",
@@ -715,6 +751,9 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     clients: {
       eyebrow: "العملاء",
+      title: "نبهر الزوار. ونكسب ثقة عملائنا.",
+      support:
+        "من أول اسكتش ليوم المعرض، فريق واحد يحوّل كل تفصيلة إلى تجربة ناجحة على أرض الواقع.",
       items: [
         {
           quote:
@@ -969,9 +1008,12 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     servicesPage: {
-      eyebrow: "القدرات",
-      title: "أنظمة إبداعية تصمد تحت الضغط.",
-      lead: "استراتيجية وهوية وحملات ورقمي — ممارسة واحدة، لا موردين منفصلين.",
+      eyebrow: "الخدمات",
+      title: "الأول في تصميم وإنتاج أجنحة المعارض في {City}",
+      lead:
+        "إنتاج متكامل لأجنحة المعارض في أنحاء السعودية — تصميم، تصنيع، تركيب، تفكيك وتخزين، بالكامل داخل CPS.",
+      primaryCta: "اطلب عرض سعر",
+      secondaryCta: "شاهد أعمالنا",
       detailTitle: "أين نتعمّق",
     },
     process: {
@@ -1013,7 +1055,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       challenge: "التحدي",
       approach: "المنهج",
       outcome: "النتيجة",
-      gallery: "لقطات مختارة",
+      gallery: "المعرض",
       next: "المشروع التالي",
       back: "كل الأعمال",
     },
@@ -1028,8 +1070,21 @@ const dictionaries: Record<Locale, Dictionary> = {
     contactPage: {
       eyebrow: "تواصل",
       title: "نبدأ بمحادثة.",
-      lead: "شاركنا الموجز والجدول وما يبدو عليه النجاح. نعود بخطوة تالية واضحة.",
-      officeTitle: "الاستوديو",
+      lead: "شاركنا الموجز — نعود بخطوة تالية واضحة.",
+      info: {
+        emailLabel: "البريد",
+        phoneLabel: "الهاتف",
+        whatsappLabel: "واتساب",
+        addressLabel: "الاستوديو",
+        socialLabel: "تابعنا",
+      },
+      map: {
+        eyebrow: "الموقع",
+        title: "اعثر على استوديونا.",
+        support: "مقرنا الرياض — نسلّم معارض عبر السعودية والخليج ومصر.",
+        openMaps: "افتح في Google Maps",
+        hqLabel: "المقر",
+      },
     },
     footer: {
       tagline: "المبدعون المحترفون",

@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { GeometricPointer } from "@/components/motion/geometric-pointer";
 import type { Locale } from "@/lib/i18n";
 import { resolveFooter } from "@/lib/footer";
 import { resolveNavigation } from "@/lib/navigation";
@@ -20,6 +21,7 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
 
   return (
     <div className="site-shell">
+      <GeometricPointer />
       <SiteHeader locale={locale} navigation={navigation} />
       <main className="site-main">{children}</main>
       <SiteFooter

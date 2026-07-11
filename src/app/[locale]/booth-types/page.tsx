@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CollectionGrid } from "@/components/sections/collection-grid";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
@@ -47,38 +47,31 @@ export default async function BoothTypesPage({ params }: PageProps) {
           eyebrow={dictionary.boothTypesPage.eyebrow}
           title={dictionary.boothTypesPage.title}
           lead={dictionary.boothTypesPage.lead}
+          image={items[0]?.image}
+          imageAlt={items[0]?.imageAlt}
+          cta={{
+            label: locale === "ar" ? "اختر نوع جناحك" : "Find your booth type",
+            href: "#booth-types-brief",
+          }}
         />
-        <section className="section-pad">
-          <div className="site-container">
-            <div className="booth-types-panel">
-              <div className="booth-types-grid">
-                {items.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={localizePath(`/booth-types/${item.slug}`, locale)}
-                    className="booth-type-card group"
-                  >
-                    <div className="booth-type-media">
-                      <Image
-                        src={item.image}
-                        alt={item.imageAlt}
-                        fill
-                        sizes="(max-width: 640px) 50vw, 25vw"
-                        className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      />
-                    </div>
-                    <div className="booth-type-meta">
-                      <h2 className="booth-type-title">{item.title}</h2>
-                      {item.excerpt ? (
-                        <p className="booth-type-excerpt">{item.excerpt}</p>
-                      ) : null}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <CollectionGrid
+          columns={4}
+          eyebrow={locale === "ar" ? "حلول مرنة" : "Flexible formats"}
+          title={locale === "ar" ? "جناح يناسب مساحتك وطموحك" : "A booth for every footprint and ambition"}
+          ctaLabel={locale === "ar" ? "عرض النوع" : "View booth type"}
+          items={items.map((item) => ({
+            href: localizePath(`/booth-types/${item.slug}`, locale),
+            title: item.title,
+            excerpt: item.excerpt,
+            image: item.image,
+            imageAlt: item.imageAlt,
+          }))}
+        />
+        <InnerPageEngagement
+          locale={locale}
+          dictionary={dictionary}
+          namespace="booth-types"
+        />
     </>
   );
 }

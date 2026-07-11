@@ -4,13 +4,14 @@ import type { BriefFormCopy } from "@/content/brief-form.copy";
 import type { Locale } from "@/lib/i18n";
 
 type BriefFormSectionProps = {
+  id?: string;
   locale: Locale;
   copy: BriefFormCopy;
 };
 
-export function BriefFormSection({ locale, copy }: BriefFormSectionProps) {
+export function BriefFormSection({ id = "brief", locale, copy }: BriefFormSectionProps) {
   return (
-    <section id="brief" className="section-pad brief-form-section scroll-mt-24">
+    <section id={id} className="section-pad brief-form-section scroll-mt-24">
       <div className="site-container">
         <Reveal>
           <div className="brief-form-layout">

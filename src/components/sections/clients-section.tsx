@@ -11,7 +11,10 @@ type ClientItem = {
 };
 
 type ClientsSectionProps = {
+  id?: string;
   eyebrow: string;
+  title: string;
+  support: string;
   items: ClientItem[];
 };
 
@@ -77,13 +80,23 @@ function ClientCard({ item, stagger, hidden }: ClientCardProps) {
   );
 }
 
-export function ClientsSection({ eyebrow, items }: ClientsSectionProps) {
+export function ClientsSection({
+  id,
+  eyebrow,
+  title,
+  support,
+  items,
+}: ClientsSectionProps) {
   const track = [...items, ...items];
 
   return (
-    <section className="clients-section scroll-mt-24" aria-label={eyebrow}>
+    <section id={id} className="clients-section scroll-mt-24" aria-label={title}>
       <div className="site-container">
-        <p className="eyebrow clients-eyebrow">{eyebrow}</p>
+        <div className="clients-head">
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 className="display clients-title">{title}</h2>
+          <p className="lede clients-support">{support}</p>
+        </div>
       </div>
 
       <div className="clients-marquee" role="presentation">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CollectionGrid } from "@/components/sections/collection-grid";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
@@ -56,32 +56,31 @@ export default async function LocationsPage({ params }: PageProps) {
           eyebrow={locale === "ar" ? "أين نعمل" : "Where we work"}
           title={title}
           lead={lead}
+          image={items[0]?.image}
+          imageAlt={items[0]?.imageAlt}
+          cta={{
+            label: locale === "ar" ? "خطط لمعرضك" : "Plan your show",
+            href: "#locations-brief",
+          }}
         />
-        <section className="section-pad">
-          <div className="site-container grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <Link
-                key={item.slug}
-                href={localizePath(`/locations/${item.slug}`, locale)}
-                className="group grid gap-4"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#d9e2e8]">
-                  <Image
-                    src={item.image}
-                    alt={item.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold tracking-tight">{item.title}</h2>
-                  <p className="mt-2 text-base leading-7 text-muted">{item.excerpt}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <CollectionGrid
+          columns={3}
+          eyebrow={locale === "ar" ? "تغطية إقليمية" : "Regional coverage"}
+          title={locale === "ar" ? "تنفيذ محلي بمعايير ثابتة" : "Local delivery. One consistent standard."}
+          ctaLabel={locale === "ar" ? "اكتشف الموقع" : "Explore location"}
+          items={items.map((item) => ({
+            href: localizePath(`/locations/${item.slug}`, locale),
+            title: item.title,
+            excerpt: item.excerpt,
+            image: item.image,
+            imageAlt: item.imageAlt,
+          }))}
+        />
+        <InnerPageEngagement
+          locale={locale}
+          dictionary={dictionary}
+          namespace="locations"
+        />
     </>
   );
 }

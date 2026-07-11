@@ -87,7 +87,12 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     projectPage: { ...local.projectPage, ...remote.projectPage },
     contact: { ...local.contact, ...remote.contact },
     briefForm: { ...local.briefForm, ...remote.briefForm },
-    contactPage: { ...local.contactPage, ...remote.contactPage },
+    contactPage: {
+      ...local.contactPage,
+      ...remote.contactPage,
+      info: { ...local.contactPage.info, ...remote.contactPage?.info },
+      map: { ...local.contactPage.map, ...remote.contactPage?.map },
+    },
     footer: {
       ...local.footer,
       ...remote.footer,

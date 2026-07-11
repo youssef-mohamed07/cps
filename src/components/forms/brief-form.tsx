@@ -655,25 +655,39 @@ export function BriefForm({ locale, copy }: BriefFormProps) {
   return (
     <form className="brief-form" onSubmit={onSubmit} noValidate>
       <div className="brief-form-head">
-        <div className="brief-steps" aria-hidden="true">
+        <div className="brief-head-meta">
+          <span className="brief-step-count">
+            {locale === "ar"
+              ? `الخطوة ${step + 1} من ${copy.steps.length}`
+              : `Step ${step + 1} of ${copy.steps.length}`}
+          </span>
+          <div
+            className="brief-progress"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progress}
+          >
+            <span className="brief-progress-bar" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
+        <nav className="brief-step-nav" aria-label={locale === "ar" ? "خطوات النموذج" : "Form steps"}>
           {copy.steps.map((item, index) => (
             <span
               key={item.title}
-              className={`brief-step-dot${index === step ? " is-active" : ""}${index < step ? " is-done" : ""}`}
-            />
+              className={`brief-step-chip${index === step ? " is-active" : ""}${index < step ? " is-done" : ""}`}
+            >
+              <span className="brief-step-chip-index">{String(index + 1).padStart(2, "0")}</span>
+              <span className="brief-step-chip-label">{item.title}</span>
+            </span>
           ))}
+        </nav>
+
+        <div className="brief-step-copy">
+          <h3 className="brief-step-title">{copy.steps[step]?.title}</h3>
+          <p className="brief-step-desc">{copy.steps[step]?.description}</p>
         </div>
-        <div
-          className="brief-progress"
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-        >
-          <span className="brief-progress-bar" style={{ width: `${progress}%` }} />
-        </div>
-        <h3 className="brief-step-title">{copy.steps[step]?.title}</h3>
-        <p className="brief-step-desc">{copy.steps[step]?.description}</p>
       </div>
 
       {renderStepFields()}

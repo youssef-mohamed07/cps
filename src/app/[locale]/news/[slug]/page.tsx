@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BleedImage } from "@/components/media/bleed-image";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { articleJsonLd, JsonLd } from "@/components/seo/json-ld";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { newsArticles } from "@/content/catalog";
-import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadNewsArticle } from "@/sanity/load-collections";
@@ -74,28 +73,14 @@ export default async function NewsArticlePage({ params }: PageProps) {
             { label: article.title },
           ]}
         />
-        <PageHero title={article.title} lead={article.excerpt} />
-
-        <div className="site-container">
-          <p className="text-sm text-muted">
-            {article.author}
-            {article.publishedAt
-              ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}`
-              : ""}
-            {` · ${article.readingTime} ${locale === "ar" ? "دقيقة قراءة" : "min read"}`}
-          </p>
-        </div>
-
-        {article.image ? (
-          <div className="site-container mt-8">
-            <BleedImage
-              src={article.image}
-              alt={article.imageAlt}
-              className="media-bleed-wide"
-              priority
-            />
-          </div>
-        ) : null}
+        <PageHero
+          eyebrow={article.category || hubLabel}
+          title={article.title}
+          lead={article.excerpt}
+          image={article.image}
+          imageAlt={article.imageAlt}
+          meta={`${article.author}${article.publishedAt ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}` : ""} · ${article.readingTime} ${locale === "ar" ? "دقيقة قراءة" : "min read"}`}
+        />
 
         <section className="section-pad">
           <div className="site-container max-w-3xl grid gap-6">
@@ -106,14 +91,11 @@ export default async function NewsArticlePage({ params }: PageProps) {
             ))}
           </div>
         </section>
-
-        <section className="section-pad">
-          <div className="site-container">
-            <Link href={localizePath("/news", locale)} className="btn-secondary">
-              {locale === "ar" ? "العودة إلى الرؤى" : "Back to insights"}
-            </Link>
-          </div>
-        </section>
+        <InnerPageEngagement
+          locale={locale}
+          dictionary={dictionary}
+          namespace={`news-${slug}`}
+        />
     </>
   );
 }

@@ -16,6 +16,48 @@ function flattenLinks(mega: NavMega): NavLink[] {
   return mega.columns.flatMap((column) => column.links);
 }
 
+function MegaCard({
+  link,
+  locale,
+  onNavigate,
+  variant,
+}: {
+  link: NavLink;
+  locale: Locale;
+  onNavigate: () => void;
+  variant: "services" | "booth";
+}) {
+  return (
+    <Link
+      href={localizePath(link.href, locale)}
+      className={`mega-card is-${variant}`}
+      onClick={onNavigate}
+    >
+      {link.image ? (
+        <span className="mega-card-media">
+          <Image
+            src={link.image}
+            alt={link.imageAlt || link.label}
+            fill
+            sizes={
+              variant === "booth"
+                ? "(max-width: 1024px) 40vw, 11vw"
+                : "(max-width: 1024px) 40vw, 9vw"
+            }
+            className="object-cover"
+          />
+        </span>
+      ) : null}
+      <span className="mega-card-copy">
+        <span className="mega-card-label">{link.label}</span>
+        {link.description ? (
+          <span className="mega-card-desc">{link.description}</span>
+        ) : null}
+      </span>
+    </Link>
+  );
+}
+
 export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) {
   const featured = mega.featured?.enabled ? mega.featured : undefined;
   const isServices = mega.layout === "services";
@@ -51,42 +93,43 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
         </div>
 
         <div
-          className={`mega-panel-grid${hasImages ? " has-images" : ""}${featured ? " has-featured" : ""}`}
+          className={`mega-panel-grid${hasImages ? " has-images" : ""}${featured ? " has-featured" : ""}${isServices ? " is-services-layout" : ""}`}
         >
           <div className="mega-panel-main">
-            {hasImages ? (
+            {isServices && hasImages ? (
+              <div className="mega-services-layout">
+                {mega.columns.map((column, index) => (
+                  <div key={column.title || index} className="mega-services-group">
+                    {column.title ? (
+                      <p className="mega-group-title">{column.title}</p>
+                    ) : null}
+                    <ul className="mega-card-grid is-services">
+                      {column.links.map((link) => (
+                        <li key={link.href + link.label}>
+                          <MegaCard
+                            link={link}
+                            locale={locale}
+                            onNavigate={onNavigate}
+                            variant="services"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : hasImages ? (
               <ul
                 className={`mega-card-grid${isBoothTypes ? " is-booth" : " is-services"}`}
               >
                 {links.map((link) => (
                   <li key={link.href + link.label}>
-                    <Link
-                      href={localizePath(link.href, locale)}
-                      className="mega-card"
-                      onClick={onNavigate}
-                    >
-                      {link.image ? (
-                        <span className="mega-card-media">
-                          <Image
-                            src={link.image}
-                            alt={link.imageAlt || link.label}
-                            fill
-                            sizes={
-                              isBoothTypes
-                                ? "(max-width: 1024px) 40vw, 11vw"
-                                : "(max-width: 1024px) 40vw, 8vw"
-                            }
-                            className="object-cover"
-                          />
-                        </span>
-                      ) : null}
-                      <span className="mega-card-copy">
-                        <span className="mega-card-label">{link.label}</span>
-                        {link.description ? (
-                          <span className="mega-card-desc">{link.description}</span>
-                        ) : null}
-                      </span>
-                    </Link>
+                    <MegaCard
+                      link={link}
+                      locale={locale}
+                      onNavigate={onNavigate}
+                      variant={isBoothTypes ? "booth" : "services"}
+                    />
                   </li>
                 ))}
               </ul>
@@ -142,7 +185,7 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
                 <p className="mega-featured-desc">{featured.description}</p>
                 <span className="mega-featured-cta">
                   <span>{featured.ctaLabel}</span>
-                  <CtaArrow size="md" />
+                  <CtaArrow tone="cyan" size="md" />
                 </span>
               </div>
             </Link>

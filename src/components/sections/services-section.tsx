@@ -18,7 +18,7 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
   const exploreLabel = locale === "ar" ? "استكشف الخدمة" : "Explore service";
 
   return (
-    <section id="services" className="section-pad section-rule scroll-mt-24">
+    <section id="services" className="section-pad section-rule services-section scroll-mt-24">
       <div className="site-container">
         <Reveal>
           <div className="section-head">

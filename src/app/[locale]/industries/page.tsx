@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CollectionGrid } from "@/components/sections/collection-grid";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
@@ -45,43 +45,46 @@ export default async function IndustriesPage({ params }: PageProps) {
 
   return (
     <>
-        <Breadcrumbs
-          locale={locale}
-          items={[
-            { label: homeLabel, href: "/" },
-            { label: title },
-          ]}
-        />
-        <PageHero
-          eyebrow={locale === "ar" ? "قطاعاتنا" : "Sectors"}
-          title={title}
-          lead={lead}
-        />
-        <section className="section-pad">
-          <div className="site-container grid gap-10 md:grid-cols-2">
-            {items.map((item) => (
-              <Link
-                key={item.slug}
-                href={localizePath(`/industries/${item.slug}`, locale)}
-                className="group grid gap-5"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#d9e2e8]">
-                  <Image
-                    src={item.image}
-                    alt={item.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">{item.title}</h2>
-                  <p className="mt-3 text-base leading-7 text-muted">{item.excerpt}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: homeLabel, href: "/" },
+          { label: title },
+        ]}
+      />
+      <PageHero
+        eyebrow={locale === "ar" ? "قطاعاتنا" : "Sectors"}
+        title={title}
+        lead={lead}
+        image={items[0]?.image}
+        imageAlt={items[0]?.imageAlt}
+        cta={{
+          label: locale === "ar" ? "ناقش مشروعك" : "Discuss your project",
+          href: "#industries-brief",
+        }}
+      />
+      <CollectionGrid
+        columns={2}
+        eyebrow={locale === "ar" ? "خبرة متخصصة" : "Sector expertise"}
+        title={
+          locale === "ar"
+            ? "نفهم جمهورك قبل أن نصمم مساحتك."
+            : "We understand your audience before we shape your space."
+        }
+        ctaLabel={locale === "ar" ? "اكتشف الحلول" : "Explore solutions"}
+        items={items.map((item) => ({
+          href: localizePath(`/industries/${item.slug}`, locale),
+          title: item.title,
+          excerpt: item.excerpt,
+          image: item.image,
+          imageAlt: item.imageAlt,
+        }))}
+      />
+      <InnerPageEngagement
+        locale={locale}
+        dictionary={dictionary}
+        namespace="industries"
+      />
     </>
   );
 }

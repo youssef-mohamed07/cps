@@ -71,6 +71,8 @@ export default async function HomePage({ params }: PageProps) {
       <BeforeAfterSection content={dictionary.beforeAfter} />
       <ClientsSection
         eyebrow={dictionary.clients.eyebrow}
+        title={dictionary.clients.title}
+        support={dictionary.clients.support}
         items={dictionary.clients.items}
       />
       <FeaturedWork

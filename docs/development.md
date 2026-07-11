@@ -1,3 +1,17 @@
+# Inner page composition
+
+Public inner pages use the shared `PageHero`, `CollectionGrid`, and
+`InnerPageEngagement` components under `src/components/sections/`.
+
+- Commercial listing and detail pages close with the shared Stats, Clients,
+  FAQ, and Brief Form sequence.
+- Detail pages may pass context-specific FAQ items to `InnerPageEngagement`.
+- Contact (`/contact`) is intentionally lean: form + contact details, then a
+  regional presence map — no hero and no engagement bundle.
+- Legal routes use `LegalPage` and intentionally omit marketing sections.
+- Pass a unique `namespace` when composing engagement sections so generated
+  anchor IDs stay unique.
+
 # Development guide
 
 For whoever continues the site after the current white homepage.

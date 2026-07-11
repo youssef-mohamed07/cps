@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PageHero } from "@/components/sections/page-hero";
+import { LegalPage } from "@/components/sections/legal-page";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
-import { resolveDictionary } from "@/lib/dictionary";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -45,21 +44,7 @@ export default async function CookiesPage({ params }: PageProps) {
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
-  const dictionary = await resolveDictionary(locale);
   const page = copy[locale];
 
-  return (
-    <>
-        <PageHero title={page.title} lead={page.lead} />
-        <section className="section-pad">
-          <div className="site-container max-w-3xl grid gap-5">
-            {page.body.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)} className="text-base leading-7 text-muted">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </section>
-    </>
-  );
+  return <LegalPage locale={locale} title={page.title} lead={page.lead} body={page.body} />;
 }

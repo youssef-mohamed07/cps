@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BleedImage } from "@/components/media/bleed-image";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { faqJsonLd, JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
+import { ServiceDetailSections } from "@/components/sections/service-detail-sections";
 import { services } from "@/content/catalog";
-import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
-import { loadService } from "@/sanity/load-collections";
+import { loadLocations, loadService, loadServices } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = {
@@ -46,111 +46,99 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const service = await loadService(locale, slug);
+  const [service, allServices, locations, dictionary] = await Promise.all([
+    loadService(locale, slug),
+    loadServices(locale),
+    loadLocations(locale),
+    resolveDictionary(locale),
+  ]);
   if (!service) notFound();
 
-  const dictionary = await resolveDictionary(locale);
+  const related = allServices
+    .filter((item) => item.slug !== slug)
+    .slice(0, 3)
+    .map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      excerpt: item.excerpt,
+      overview: item.overview,
+      image: item.image,
+      imageAlt: item.imageAlt,
+      benefits: item.benefits,
+      process: item.process,
+    }));
+
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const servicesLabel = locale === "ar" ? "الخدمات" : "Services";
+  const briefHref = `#service-${slug}-brief`;
   const faq = faqJsonLd(service.faq);
 
   return (
     <>
-        <JsonLd
-          data={serviceJsonLd({
-            name: service.title,
-            description: service.overview || service.excerpt,
-            path: `/services/${slug}`,
-            locale,
-            image: service.image,
-          })}
-        />
-        {faq ? <JsonLd data={faq} /> : null}
+      <JsonLd
+        data={serviceJsonLd({
+          name: service.title,
+          description: service.overview || service.excerpt,
+          path: `/services/${slug}`,
+          locale,
+          image: service.image,
+        })}
+      />
+      {faq ? <JsonLd data={faq} /> : null}
 
-        <Breadcrumbs
-          locale={locale}
-          items={[
-            { label: homeLabel, href: "/" },
-            { label: servicesLabel, href: "/services" },
-            { label: service.title },
-          ]}
-        />
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: homeLabel, href: "/" },
+          { label: servicesLabel, href: "/services" },
+          { label: service.title },
+        ]}
+      />
 
-        <PageHero title={service.title} lead={service.excerpt || service.overview} />
+      <PageHero
+        eyebrow={servicesLabel}
+        title={service.title}
+        lead={service.excerpt || service.overview}
+        image={service.image}
+        imageAlt={service.imageAlt}
+        cta={{
+          label: dictionary.nav.cta,
+          href: briefHref,
+        }}
+      />
 
-        {service.image ? (
-          <div className="site-container">
-            <BleedImage
-              src={service.image}
-              alt={service.imageAlt}
-              className="media-bleed-wide"
-              priority
-            />
-          </div>
-        ) : null}
+      <ServiceDetailSections
+        locale={locale}
+        service={{
+          slug: service.slug,
+          title: service.title,
+          excerpt: service.excerpt,
+          overview: service.overview,
+          image: service.image,
+          imageAlt: service.imageAlt,
+          benefits: service.benefits,
+          process: service.process,
+        }}
+        related={related}
+        locations={locations.map((item) => ({
+          slug: item.slug,
+          title: item.title,
+        }))}
+        briefHref={briefHref}
+        ctaLabel={dictionary.nav.cta}
+      />
 
-        <section className="section-pad">
-          <div className="site-container max-w-3xl">
-            <p className="text-lg leading-8 text-muted">{service.overview}</p>
-          </div>
-        </section>
-
-        {service.benefits.length ? (
-          <section className="section-pad section-rule">
-            <div className="site-container">
-              <p className="eyebrow">{locale === "ar" ? "الفوائد" : "Benefits"}</p>
-              <div className="value-list mt-10">
-                {service.benefits.map((item) => (
-                  <article key={item.title}>
-                    <h2 className="text-2xl font-semibold tracking-tight">{item.title}</h2>
-                    <p className="mt-3 text-base leading-7 text-muted">{item.description}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {service.process.length ? (
-          <section className="section-pad section-rule">
-            <div className="site-container">
-              <p className="eyebrow">{locale === "ar" ? "العملية" : "Process"}</p>
-              <div className="mt-10 grid gap-8 md:grid-cols-3">
-                {service.process.map((step, index) => (
-                  <article key={step.title}>
-                    <p className="service-index">{String(index + 1).padStart(2, "0")}</p>
-                    <h2 className="mt-3 text-xl font-semibold">{step.title}</h2>
-                    <p className="mt-3 text-base leading-7 text-muted">{step.description}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {service.faq.length ? (
-          <section className="section-pad section-rule">
-            <div className="site-container max-w-3xl">
-              <p className="eyebrow">FAQ</p>
-              <div className="mt-8 grid gap-6">
-                {service.faq.map((item) => (
-                  <article key={item.question}>
-                    <h2 className="text-xl font-semibold">{item.question}</h2>
-                    <p className="mt-3 text-base leading-7 text-muted">{item.answer}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="section-pad">
-          <div className="site-container">
-            <Link href={localizePath("/contact", locale)} className="btn-primary">
-              {dictionary.nav.cta}
-            </Link>
-          </div>
-        </section>
+      <InnerPageEngagement
+        locale={locale}
+        dictionary={dictionary}
+        faqItems={service.faq}
+        faqTitle={
+          locale === "ar"
+            ? `أسئلة شائعة عن ${service.title}`
+            : `Questions about ${service.title}`
+        }
+        namespace={`service-${slug}`}
+      />
     </>
   );
 }

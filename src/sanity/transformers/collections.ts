@@ -23,6 +23,7 @@ export type CmsService = CmsListItem & {
 
 export type CmsBoothType = CmsListItem & {
   description: string;
+  model3d?: string;
   features: string[];
   advantages: { title: string; description: string }[];
   useCases: string[];
@@ -64,6 +65,7 @@ export type CmsIndustry = CmsListItem & {
 export type CmsLocation = CmsListItem & {
   countryCode: string;
   localExperience: string;
+  capabilities: { title: string; description: string }[];
   cta?: { label: string; href: string };
 };
 
@@ -270,6 +272,7 @@ export function mapLocation(doc: {
     countryCode: doc.countryCode ?? "",
     excerpt: doc.excerpt ?? "",
     localExperience: doc.localExperience ?? "",
+    capabilities: [],
     order: doc.order,
     image: toImageSrc(doc.hero),
     imageAlt: doc.hero?.alt ?? doc.title,

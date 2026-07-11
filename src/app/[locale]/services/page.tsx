@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BeforeAfterSection } from "@/components/sections/before-after-section";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
+import { LifecycleSection } from "@/components/sections/lifecycle-section";
+import { LogosSection } from "@/components/sections/logos-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { ServicesSection } from "@/components/sections/services-section";
+import { WhyCpsSection } from "@/components/sections/why-cps-section";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -20,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildPageMetadata({
     path: "/services",
     locale: localeParam,
-    fallbackTitle: `CPS — ${dictionary.servicesPage.title}`,
+    fallbackTitle: `CPS — ${dictionary.servicesPage.title.replace("{City}", localeParam === "ar" ? "السعودية" : "Saudi Arabia")}`,
     fallbackDescription: dictionary.servicesPage.lead,
   });
 }
@@ -41,46 +45,42 @@ export default async function ServicesPage({ params }: PageProps) {
           locale={locale}
           items={[
             { label: homeLabel, href: "/" },
-            { label: page.title },
+            { label: page.eyebrow },
           ]}
         />
-        <PageHero eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
-
-        <section className="section-pad">
-          <div className="site-container">
-            <p className="eyebrow">{page.detailTitle}</p>
-            <div className="mt-12 grid gap-10 md:grid-cols-2">
-              {items.map((item, index) => (
-                <Link
-                  key={item.slug}
-                  href={localizePath(`/services/${item.slug}`, locale)}
-                  className="group grid gap-5"
-                >
-                  {item.image ? (
-                    <div className="relative aspect-[16/10] overflow-hidden bg-[#d9e2e8]">
-                      <Image
-                        src={item.image}
-                        alt={item.imageAlt}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      />
-                    </div>
-                  ) : null}
-                  <div>
-                    <p className="service-index">{String(index + 1).padStart(2, "0")}</p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-                      {item.title}
-                    </h2>
-                    <p className="mt-3 text-base leading-7 text-muted">
-                      {item.excerpt || item.overview}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+        <PageHero
+          locale={locale}
+          title={page.title}
+          lead={page.lead}
+          image={items[0]?.image}
+          imageAlt={items[0]?.imageAlt}
+          animated
+          className="page-hero--services"
+          cta={{
+            label: page.primaryCta,
+            href: localizePath("/contact", locale),
+          }}
+          secondaryCta={{
+            label: page.secondaryCta,
+            href: localizePath("/work", locale),
+          }}
+        />
+        <LogosSection locale={locale} />
+        <LifecycleSection
+          eyebrow={dictionary.lifecycle.eyebrow}
+          title={dictionary.lifecycle.title}
+          support={dictionary.lifecycle.support}
+          imageAlt={dictionary.lifecycle.imageAlt}
+          items={dictionary.lifecycle.items}
+        />
+        <ServicesSection locale={locale} content={dictionary.services} />
+        <BeforeAfterSection content={dictionary.beforeAfter} />
+        <WhyCpsSection locale={locale} content={dictionary.whyCps} />
+        <InnerPageEngagement
+          locale={locale}
+          dictionary={dictionary}
+          namespace="services"
+        />
     </>
   );
 }
