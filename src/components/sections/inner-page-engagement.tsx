@@ -36,17 +36,17 @@ export function InnerPageEngagement({
         support={dictionary.clients.support}
         items={dictionary.clients.items}
       />
+      <BriefFormSection
+        id={`${namespace}-brief`}
+        locale={locale}
+        copy={dictionary.briefForm}
+      />
       <FaqSection
         id={`${namespace}-faq`}
         eyebrow={dictionary.faq.eyebrow}
         title={faqTitle ?? dictionary.faq.title}
         support={dictionary.faq.support}
         items={faqItems?.length ? faqItems : dictionary.faq.items}
-      />
-      <BriefFormSection
-        id={`${namespace}-brief`}
-        locale={locale}
-        copy={dictionary.briefForm}
       />
     </div>
   );

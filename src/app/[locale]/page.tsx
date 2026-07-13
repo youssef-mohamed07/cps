@@ -82,13 +82,13 @@ export default async function HomePage({ params }: PageProps) {
         viewAll={dictionary.work.viewAll}
         items={dictionary.work.items}
       />
+      <BriefFormSection locale={locale} copy={dictionary.briefForm} />
       <FaqSection
         eyebrow={dictionary.faq.eyebrow}
         title={dictionary.faq.title}
         support={dictionary.faq.support}
         items={dictionary.faq.items}
       />
-      <BriefFormSection locale={locale} copy={dictionary.briefForm} />
       <ContactSection locale={locale} content={dictionary.contact} />
     </>
   );

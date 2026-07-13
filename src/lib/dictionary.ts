@@ -71,7 +71,13 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ...remote.faq,
       items: remote.faq?.items?.length ? remote.faq.items : local.faq.items,
     },
-    servicesPage: { ...local.servicesPage, ...remote.servicesPage },
+    servicesPage: {
+      ...local.servicesPage,
+      ...remote.servicesPage,
+      faqItems: remote.servicesPage?.faqItems?.length
+        ? remote.servicesPage.faqItems
+        : local.servicesPage.faqItems,
+    },
     process: {
       ...local.process,
       ...remote.process,

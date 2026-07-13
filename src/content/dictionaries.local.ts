@@ -155,6 +155,7 @@ export interface Dictionary {
     primaryCta: string;
     secondaryCta: string;
     detailTitle: string;
+    faqItems: { question: string; answer: string }[];
   };
   process: {
     eyebrow: string;
@@ -551,24 +552,34 @@ const dictionaries: Record<Locale, Dictionary> = {
       support: "Straight answers on timelines, install, reuse, and coverage — before the brief.",
       items: [
         {
-          question: "How long does a custom booth take?",
+          question: "What does CPS do?",
           answer:
-            "Most custom booths need 4–8 weeks from approved design to install-ready. Size, materials, and venue rules set the pace.",
+            "We design, build, and manage exhibition booths from start to finish — including branding, signage, installation, dismantling, and storage, all in-house.",
         },
         {
-          question: "Do you install at the venue?",
+          question: "Do I need to use every service, or can I choose just one?",
           answer:
-            "Yes. Our crew installs on-site and dismantles after the show. Storage and reinstallation are available when you need them.",
+            "Every service is available individually. You can book just Booth Design, just Fabrication, or the full A to Z Solution if you want everything handled.",
         },
         {
-          question: "Can one booth cover multiple shows?",
+          question: "What cities do you cover?",
           answer:
-            "Yes. Modular builds and our storage program make it practical to refresh and redeploy across the season.",
+            "We deliver across major cities in Saudi Arabia. Let us know your event location and we'll confirm coverage.",
         },
         {
-          question: "Do you work outside Saudi Arabia?",
+          question: "How do I get a quote?",
           answer:
-            "We primarily serve Saudi Arabia and the wider GCC. Share your venue and dates and we’ll confirm coverage.",
+            "Fill out our quote request form with your event details, or contact us directly — we'll follow up to discuss your project.",
+        },
+        {
+          question: "How far in advance should I book?",
+          answer:
+            "We recommend reaching out as soon as your event date is confirmed, ideally a few weeks ahead for custom builds — though we can accommodate tighter timelines depending on the project.",
+        },
+        {
+          question: "Can you handle a booth for a one-time event, not just recurring exhibitors?",
+          answer:
+            "Yes, we work with both first-time exhibitors and companies attending events regularly.",
         },
       ],
     },
@@ -580,6 +591,44 @@ const dictionaries: Record<Locale, Dictionary> = {
       primaryCta: "Request a Quote",
       secondaryCta: "View Our Work",
       detailTitle: "Where we go deep",
+      faqItems: [
+        {
+          question: "What happens if I need changes during the event?",
+          answer:
+            "Our team stays reachable during your event for any on-site adjustments or urgent fixes, so you're never left without support.",
+        },
+        {
+          question: "Can you handle multiple booths across different cities at the same time?",
+          answer:
+            "Yes. Our production and installation teams operate across major cities in Saudi Arabia, so we can manage multiple builds in parallel.",
+        },
+        {
+          question:
+            "What if I only need part of the process, like design and fabrication, but want to handle installation myself?",
+          answer:
+            "That's fine — the A to Z Solution is flexible. We can scope the package around exactly what you need done and what you'd rather manage yourself.",
+        },
+        {
+          question: "Is my booth reusable for future events?",
+          answer:
+            "In most cases, yes. We design with reusability in mind where possible, and our storage service keeps your booth ready for reinstallation at your next event.",
+        },
+        {
+          question: "What materials do you use for fabrication?",
+          answer:
+            "We select materials based on your design, budget, and durability needs — including sustainable and eco-friendly options where suitable.",
+        },
+        {
+          question: "Who owns the booth after the event?",
+          answer:
+            "The booth is yours. We simply offer storage and reinstallation as a convenience so you don't have to manage logistics between events.",
+        },
+        {
+          question: "Do you provide insurance or liability coverage during transport and installation?",
+          answer:
+            "Yes, our logistics and installation processes include coverage to protect your booth throughout transport, setup, and dismantling.",
+        },
+      ],
     },
     process: {
       eyebrow: "How we work",
@@ -986,24 +1035,34 @@ const dictionaries: Record<Locale, Dictionary> = {
       support: "إجابات مباشرة عن الجداول والتركيب وإعادة الاستخدام والتغطية — قبل البريف.",
       items: [
         {
-          question: "كم يستغرق بناء جناح مخصص؟",
+          question: "ماذا تفعل CPS؟",
           answer:
-            "معظم الأجنحة المخصصة تحتاج 4–8 أسابيع من اعتماد التصميم حتى الجاهزية للتركيب. الحجم والمواد وقواعد الموقع تحدد الإيقاع.",
+            "نصمّم ونبني وندير أجنحة المعارض من البداية للنهاية — بما في ذلك الهوية واللافتات والتركيب والتفكيك والتخزين، بالكامل داخل الشركة.",
         },
         {
-          question: "هل تركّبون في موقع المعرض؟",
+          question: "هل يجب استخدام كل الخدمات، أم يمكن اختيار خدمة واحدة فقط؟",
           answer:
-            "نعم. فريقنا يركّب في الموقع ويفكّك بعد الحدث. التخزين وإعادة التركيب متاحان عند الحاجة.",
+            "كل خدمة متاحة بشكل منفرد. يمكنك حجز تصميم الجناح فقط، أو التصنيع فقط، أو الحل المتكامل من الألف إلى الياء إذا أردت أن نتولى كل شيء.",
         },
         {
-          question: "هل يكفي جناح واحد لأكثر من معرض؟",
+          question: "ما المدن التي تغطونها؟",
           answer:
-            "نعم. البناء المعياري وبرنامج التخزين يسهّلان التحديث وإعادة النشر عبر الموسم.",
+            "ننفّذ في المدن الرئيسية في المملكة العربية السعودية. أخبرنا بموقع فعاليتك وسنؤكد التغطية.",
         },
         {
-          question: "هل تعملون خارج السعودية؟",
+          question: "كيف أحصل على عرض سعر؟",
           answer:
-            "نخدم بشكل أساسي السعودية ودول الخليج. أرسل موقع الحدث والتواريخ وسنؤكد التغطية.",
+            "املأ نموذج طلب عرض السعر بتفاصيل فعاليتك، أو تواصل معنا مباشرة — وسنعاود الاتصال لمناقشة مشروعك.",
+        },
+        {
+          question: "قبل الفعالية بكم يجب الحجز؟",
+          answer:
+            "ننصح بالتواصل فور تأكيد تاريخ الفعالية، ويفضّل قبل أسابيع قليلة للأجنحة المخصصة — مع إمكانية استيعاب جداول أضيق حسب طبيعة المشروع.",
+        },
+        {
+          question: "هل يمكنكم تنفيذ جناح لفعالية لمرة واحدة، وليس فقط للعارضين المتكررين؟",
+          answer:
+            "نعم، نعمل مع العارضين لأول مرة ومع الشركات التي تشارك في المعارض بانتظام.",
         },
       ],
     },
@@ -1015,6 +1074,44 @@ const dictionaries: Record<Locale, Dictionary> = {
       primaryCta: "اطلب عرض سعر",
       secondaryCta: "شاهد أعمالنا",
       detailTitle: "أين نتعمّق",
+      faqItems: [
+        {
+          question: "ماذا يحدث إذا احتجت تعديلات أثناء الفعالية؟",
+          answer:
+            "فريقنا يبقى متاحاً أثناء فعاليتك لأي تعديلات في الموقع أو إصلاحات عاجلة، فلن تبقى بدون دعم.",
+        },
+        {
+          question: "هل يمكنكم تنفيذ عدة أجنحة في مدن مختلفة في الوقت نفسه؟",
+          answer:
+            "نعم. فرق الإنتاج والتركيب لدينا تعمل عبر المدن الرئيسية في السعودية، ويمكننا إدارة عدة مشاريع بالتوازي.",
+        },
+        {
+          question:
+            "ماذا لو احتجت جزءاً فقط من العملية، مثل التصميم والتصنيع، وأردت تنفيذ التركيب بنفسي؟",
+          answer:
+            "لا مشكلة — حل الألف إلى الياء مرن. يمكننا تحديد نطاق الباقة حسب ما تحتاجه بالضبط وما تفضّل إدارته بنفسك.",
+        },
+        {
+          question: "هل يمكن إعادة استخدام جناحي في فعاليات لاحقة؟",
+          answer:
+            "في معظم الحالات، نعم. نصمّم مع مراعاة إمكانية إعادة الاستخدام حيث أمكن، وخدمة التخزين لدينا تبقي جناحك جاهزاً لإعادة التركيب في فعاليتك التالية.",
+        },
+        {
+          question: "ما المواد التي تستخدمونها في التصنيع؟",
+          answer:
+            "نختار المواد وفق تصميمك وميزانيتك واحتياجات المتانة — بما في ذلك خيارات مستدامة وصديقة للبيئة عند المناسبة.",
+        },
+        {
+          question: "من يملك الجناح بعد الفعالية؟",
+          answer:
+            "الجناح ملكك. نحن نقدّم التخزين وإعادة التركيب كخدمة لتسهيل الأمر حتى لا تضطر لإدارة اللوجستيات بين الفعاليات.",
+        },
+        {
+          question: "هل توفرون تأميناً أو تغطية مسؤولية أثناء النقل والتركيب؟",
+          answer:
+            "نعم، عمليات اللوجستيات والتركيب لدينا تشمل تغطية لحماية جناحك خلال النقل والإعداد والتفكيك.",
+        },
+      ],
     },
     process: {
       eyebrow: "كيف نعمل",

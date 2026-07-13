@@ -80,6 +80,7 @@ export default async function ServicesPage({ params }: PageProps) {
           locale={locale}
           dictionary={dictionary}
           namespace="services"
+          faqItems={page.faqItems}
         />
     </>
   );
