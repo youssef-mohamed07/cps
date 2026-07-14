@@ -1,5 +1,6 @@
 import {
   boothTypes,
+  formatBoothTypeTitle,
   getBoothType,
   getLocation,
   getService,
@@ -175,7 +176,7 @@ export function buildServiceLocationPage(
       const localized = localizeBoothType(item, locale);
       return {
         slug: item.slug,
-        title: localized.title,
+        title: formatBoothTypeTitle(localized.title),
         href: boothTypePath(locationSlug, item.slug),
       };
     }),
@@ -205,14 +206,17 @@ export function buildBoothTypeLocationPage(
   const location = localizeLocation(locationRecord, locale);
   const boothType = localizeBoothType(boothTypeRecord, locale);
   const isArabic = locale === "ar";
+  const boothTitle = formatBoothTypeTitle(boothType.title, location.title);
 
-  const title = isArabic
-    ? `${boothType.title} في ${location.title}`
-    : `${boothType.title} in ${location.title}`;
+  const title = boothType.title.includes("{City}")
+    ? boothTitle
+    : isArabic
+      ? `${boothTitle} في ${location.title}`
+      : `${boothTitle} in ${location.title}`;
 
   const lead = isArabic
-    ? `${boothType.title} لمعارض ${location.title} — بناء يناسب المساحة والعلامة وتقويم الحدث.`
-    : `${boothType.title} for shows in ${location.title} — built around footprint, brand, and the event calendar.`;
+    ? `${boothTitle} لمعارض ${location.title} — بناء يناسب المساحة والعلامة وتقويم الحدث.`
+    : `${boothTitle} for shows in ${location.title} — built around footprint, brand, and the event calendar.`;
 
   const overview = isArabic
     ? `${boothType.description} نقدّم هذا النوع في ${location.title} مع تنسيق المواقع والتركيب واللوجستيات. ${location.localExperience}`
@@ -244,11 +248,11 @@ export function buildBoothTypeLocationPage(
   const faqs = [
     {
       question: isArabic
-        ? `هل يمكن تنفيذ ${boothType.title} في ${location.title}؟`
-        : `Can you build ${boothType.title} in ${location.title}?`,
+        ? `هل يمكن تنفيذ ${boothTitle} في ${location.title}؟`
+        : `Can you build ${boothTitle} in ${location.title}?`,
       answer: isArabic
-        ? `نعم. CPS تنفّذ ${boothType.title} في ${location.title} مع تخطيط للوصول والتركيب وفق قواعد المواقع.`
-        : `Yes. CPS builds ${boothType.title} in ${location.title}, planning access and install around venue rules.`,
+        ? `نعم. CPS تنفّذ ${boothTitle} في ${location.title} مع تخطيط للوصول والتركيب وفق قواعد المواقع.`
+        : `Yes. CPS builds ${boothTitle} in ${location.title}, planning access and install around venue rules.`,
     },
     {
       question: isArabic
@@ -269,7 +273,7 @@ export function buildBoothTypeLocationPage(
     locationSlug,
     entitySlug: boothTypeSlug,
     locationTitle: location.title,
-    entityTitle: boothType.title,
+    entityTitle: boothTitle,
     countryCode: location.countryCode,
     path: boothTypePath(locationSlug, boothTypeSlug),
     title,
@@ -279,17 +283,17 @@ export function buildBoothTypeLocationPage(
     imageAlt: boothType.imageAlt || location.imageAlt,
     keywords: isArabic
       ? [
-          boothType.title,
+          boothTitle,
           location.title,
           `أجنحة ${location.title}`,
-          `${boothType.title} ${location.title}`,
+          `${boothTitle} ${location.title}`,
           "CPS",
         ]
       : [
-          boothType.title,
+          boothTitle,
           location.title,
           `exhibition booths ${location.title}`,
-          `${boothType.title} ${location.title}`,
+          `${boothTitle} ${location.title}`,
           "CPS",
         ],
     highlights,
@@ -309,7 +313,7 @@ export function buildBoothTypeLocationPage(
         const localized = localizeBoothType(item, locale);
         return {
           slug: item.slug,
-          title: localized.title,
+          title: formatBoothTypeTitle(localized.title),
           href: boothTypePath(locationSlug, item.slug),
         };
       }),

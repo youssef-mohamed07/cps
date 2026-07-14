@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProjectGalleryMarquee } from "@/components/sections/project-gallery-marquee";
+import { ProjectMotionSection } from "@/components/sections/project-motion-section";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { localizePath, type Locale } from "@/lib/i18n";
@@ -17,6 +18,7 @@ export type ProjectDetailItem = {
   image: string;
   imageAlt: string;
   gallery: string[];
+  motionVideo?: string;
   event?: string;
   size?: string;
   technologies?: string[];
@@ -38,7 +40,7 @@ type ProjectDetailSectionsProps = {
   locale: Locale;
   project: ProjectDetailItem;
   labels: ProjectPageLabels;
-  nextProject?: ProjectDetailItem | null;
+  relatedProjects?: ProjectDetailItem[];
 };
 
 function uniqueImages(images: string[]) {
@@ -54,7 +56,7 @@ export function ProjectDetailSections({
   locale,
   project,
   labels,
-  nextProject,
+  relatedProjects = [],
 }: ProjectDetailSectionsProps) {
   const isArabic = locale === "ar";
 
@@ -130,6 +132,20 @@ export function ProjectDetailSections({
         </section>
       ) : null}
 
+      <ProjectMotionSection
+        title={project.title}
+        poster={project.image}
+        images={project.gallery}
+        videoSrc={project.motionVideo}
+        eyebrow={isArabic ? "موشن" : "Motion"}
+        heading={isArabic ? "شاهد الجناح يتحرّك." : "See the booth in motion."}
+        support={
+          isArabic
+            ? "لقطة سينمائية من أرض المعرض والتنفيذ."
+            : "A cinematic cut from the build and show floor."
+        }
+      />
+
       {story.length ? (
         <section className="project-detail-story">
           <div className="site-container">
@@ -191,36 +207,51 @@ export function ProjectDetailSections({
         </section>
       ) : null}
 
-      {nextProject ? (
-        <section className="project-detail-next">
+      {relatedProjects.length ? (
+        <section className="project-detail-related">
           <div className="site-container">
             <Reveal>
-              <Link
-                href={localizePath(`/work/${nextProject.slug}`, locale)}
-                className="project-detail-next-card group"
-              >
-                <div className="project-detail-next-copy">
-                  <p className="eyebrow eyebrow-on-dark">{labels.next}</p>
-                  <h2>{nextProject.title}</h2>
-                  <p>
-                    {nextProject.category} · {nextProject.year}
-                  </p>
-                  <span>
-                    {isArabic ? "عرض المشروع" : "View project"}
-                    <CtaArrow tone="cyan" size="sm" />
-                  </span>
-                </div>
-                <div className="project-detail-next-media">
-                  <Image
-                    src={nextProject.image}
-                    alt={nextProject.imageAlt}
-                    fill
-                    sizes="(max-width: 900px) 100vw, 48vw"
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </Link>
+              <div className="project-detail-related-head">
+                <p className="eyebrow">{isArabic ? "المزيد" : "More work"}</p>
+                <h2 className="project-detail-related-title">
+                  {isArabic ? "مشاريع أخرى." : "More projects."}
+                </h2>
+                <Link
+                  href={localizePath("/work", locale)}
+                  className="project-detail-related-all"
+                >
+                  <span>{labels.back}</span>
+                  <CtaArrow size="sm" />
+                </Link>
+              </div>
             </Reveal>
+
+            <div className="project-detail-related-grid">
+              {relatedProjects.map((item, index) => (
+                <Reveal key={item.slug} delay={index * 0.05}>
+                  <Link
+                    href={localizePath(`/work/${item.slug}`, locale)}
+                    className="project-detail-related-card"
+                  >
+                    <div className="project-detail-related-media">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        fill
+                        sizes="(max-width: 767px) 100vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="project-detail-related-copy">
+                      <p>
+                        {item.category} · {item.year}
+                      </p>
+                      <h3>{item.title}</h3>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}

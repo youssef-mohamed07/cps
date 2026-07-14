@@ -23,10 +23,12 @@ export type CmsService = CmsListItem & {
 
 export type CmsBoothType = CmsListItem & {
   description: string;
+  overviewTitle: string;
   model3d?: string;
-  features: string[];
+  features: { title: string; description: string }[];
   advantages: { title: string; description: string }[];
   useCases: string[];
+  faq: { question: string; answer: string }[];
   gallery: { src: string; alt: string }[];
   cta?: { label: string; href: string };
 };
@@ -42,6 +44,7 @@ export type CmsProject = {
   image: string;
   imageAlt: string;
   gallery: string[];
+  motionVideo?: string;
   technologies: string[];
   event?: string;
   size?: string;
@@ -131,12 +134,14 @@ export function mapBoothType(doc: {
   title?: string;
   slug?: string;
   excerpt?: string;
+  overviewTitle?: string;
   description?: string;
   order?: number;
   hero?: SanityImage;
-  features?: string[];
+  features?: ({ title?: string; description?: string } | string)[];
   advantages?: { title?: string; description?: string }[];
   useCases?: string[];
+  faq?: { question?: string; answer?: string }[];
   gallery?: { image?: SanityImage; alt?: string }[];
   cta?: { label?: string; href?: string };
   seo?: Parameters<typeof toSeoMeta>[0];
@@ -146,15 +151,23 @@ export function mapBoothType(doc: {
     slug: doc.slug,
     title: doc.title,
     excerpt: doc.excerpt ?? "",
+    overviewTitle: doc.overviewTitle ?? "",
     description: doc.description ?? "",
     order: doc.order,
     image: toImageSrc(doc.hero),
     imageAlt: doc.hero?.alt ?? doc.title,
-    features: doc.features ?? [],
+    features: (doc.features ?? []).map((item) =>
+      typeof item === "string"
+        ? { title: item, description: "" }
+        : { title: item.title ?? "", description: item.description ?? "" },
+    ).filter((item) => item.title),
     advantages: (doc.advantages ?? [])
       .filter((item) => item.title)
       .map((item) => ({ title: item.title!, description: item.description ?? "" })),
     useCases: doc.useCases ?? [],
+    faq: (doc.faq ?? [])
+      .filter((item) => item.question)
+      .map((item) => ({ question: item.question!, answer: item.answer ?? "" })),
     gallery: (doc.gallery ?? [])
       .map((item) => ({
         src: toImageSrc(item.image),
@@ -181,6 +194,7 @@ export function mapProject(doc: {
   event?: string;
   size?: string;
   featured?: boolean;
+  motionVideo?: string;
   hero?: SanityImage;
   gallery?: { image?: SanityImage; alt?: string }[];
   industrySlug?: string;
@@ -204,6 +218,7 @@ export function mapProject(doc: {
     image: toImageSrc(doc.hero),
     imageAlt: doc.hero?.alt ?? doc.title,
     gallery,
+    motionVideo: doc.motionVideo || undefined,
     technologies: doc.technologies ?? [],
     event: doc.event,
     size: doc.size,

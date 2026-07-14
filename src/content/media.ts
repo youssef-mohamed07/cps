@@ -24,11 +24,11 @@ export const media = {
 
   about: {
     /** Team in workshop / production context */
-    hero: u("photo-1581094794329-c8112a89af12", 2000),
+    hero: u("photo-1581092160562-40aa08e78837", 2000),
     /** Mission — collaboration in a bright modern workspace */
     mission: u("photo-1522071820081-009f0129c71c", 1600),
     /** Studio / atelier atmosphere */
-    studio: u("photo-1497366216548-37526070297c", 1800),
+    studio: u("photo-1565043589221-1a6fd9ae45c7", 1800),
   },
 
   contact: {

@@ -34,7 +34,7 @@ export default async function AboutPage({ params }: PageProps) {
   const dictionary = await resolveDictionary(locale);
   const page = dictionary.aboutPage;
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
-  const faq = faqJsonLd(dictionary.faq.items);
+  const faq = faqJsonLd(page.faqItems);
 
   return (
     <>
@@ -60,16 +60,14 @@ export default async function AboutPage({ params }: PageProps) {
           />
         </div>
 
-        <AboutPageSections
-          locale={locale}
-          page={page}
-          process={dictionary.process}
-        />
+        <AboutPageSections locale={locale} page={page} />
 
         <InnerPageEngagement
           locale={locale}
           dictionary={dictionary}
           namespace="about"
+          faqItems={page.faqItems}
+          faqTitle={locale === "ar" ? "أسئلة عن CPS" : "Questions about CPS"}
         />
     </>
   );

@@ -4,6 +4,7 @@ import { CollectionGrid } from "@/components/sections/collection-grid";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { formatBoothTypeTitle } from "@/content/catalog";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
@@ -61,7 +62,7 @@ export default async function BoothTypesPage({ params }: PageProps) {
           ctaLabel={locale === "ar" ? "عرض النوع" : "View booth type"}
           items={items.map((item) => ({
             href: localizePath(`/booth-types/${item.slug}`, locale),
-            title: item.title,
+            title: formatBoothTypeTitle(item.title),
             excerpt: item.excerpt,
             image: item.image,
             imageAlt: item.imageAlt,

@@ -37,7 +37,22 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       items: remote.clients?.items?.length ? remote.clients.items : local.clients.items,
     },
     about: { ...local.about, ...remote.about },
-    aboutPage: { ...local.aboutPage, ...remote.aboutPage },
+    aboutPage: {
+      ...local.aboutPage,
+      ...remote.aboutPage,
+      values: remote.aboutPage?.values?.length
+        ? remote.aboutPage.values
+        : local.aboutPage.values,
+      studioItems: remote.aboutPage?.studioItems?.length
+        ? remote.aboutPage.studioItems
+        : local.aboutPage.studioItems,
+      industriesItems: remote.aboutPage?.industriesItems?.length
+        ? remote.aboutPage.industriesItems
+        : local.aboutPage.industriesItems,
+      faqItems: remote.aboutPage?.faqItems?.length
+        ? remote.aboutPage.faqItems
+        : local.aboutPage.faqItems,
+    },
     services: {
       ...local.services,
       ...remote.services,

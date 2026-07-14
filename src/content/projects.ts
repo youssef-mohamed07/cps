@@ -6,6 +6,7 @@ export type Project = {
   image: string;
   imageAlt: string;
   gallery: string[];
+  motionVideo?: string;
   industrySlug?: string;
   boothTypeSlug?: string;
   locationSlug?: string;

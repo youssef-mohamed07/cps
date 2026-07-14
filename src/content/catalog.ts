@@ -29,6 +29,11 @@ export type ServiceRecord = {
   };
 };
 
+export type BoothTypeFeature = {
+  title: string;
+  description: string;
+};
+
 export type BoothTypeRecord = {
   slug: string;
   order: number;
@@ -38,18 +43,22 @@ export type BoothTypeRecord = {
   en: {
     title: string;
     excerpt: string;
+    overviewTitle: string;
     description: string;
-    features: string[];
+    features: BoothTypeFeature[];
     advantages: { title: string; description: string }[];
     useCases: string[];
+    faq: { question: string; answer: string }[];
   };
   ar: {
     title: string;
     excerpt: string;
+    overviewTitle: string;
     description: string;
-    features: string[];
+    features: BoothTypeFeature[];
     advantages: { title: string; description: string }[];
     useCases: string[];
+    faq: { question: string; answer: string }[];
   };
 };
 
@@ -476,28 +485,155 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.custom,
     imageAlt: "Custom exhibition booth",
     en: {
-      title: "Custom Exhibition Booths",
-      excerpt: "Bespoke builds shaped around your brand story.",
-      description:
-        "Fully custom booths designed and fabricated for maximum presence — unique architecture, finishes, and visitor experience.",
-      features: ["Bespoke structure", "Custom finishes", "Integrated AV", "Brand storytelling zones"],
-      advantages: [
-        { title: "Differentiation", description: "Stand out with a one-of-one presence." },
-        { title: "Experience control", description: "Every zone designed for a purpose." },
+      title: "Custom-Built Booths in {City}",
+      excerpt: "Fully bespoke booths, designed and built around your brand.",
+      overviewTitle: "No Templates. Just Your Booth.",
+      description: "Built from scratch, shaped entirely around your goals.",
+      features: [
+        {
+          title: "Fully Bespoke",
+          description: "No reused molds or templates, every booth is original.",
+        },
+        {
+          title: "Built for Impact",
+          description: "Designed to stand out on a crowded show floor.",
+        },
+        {
+          title: "Any Size, Any Shape",
+          description: "Built to fit your space exactly.",
+        },
+        {
+          title: "One Team, Full Control",
+          description: "Design and fabrication under one roof.",
+        },
       ],
-      useCases: ["Flagship launches", "Major trade shows", "Brand pavilions"],
+      advantages: [
+        {
+          title: "Custom Design",
+          description: "A concept built entirely around your brand and goals.",
+        },
+        {
+          title: "Structural Fabrication",
+          description: "Built from the ground up, not adapted from existing frames.",
+        },
+        {
+          title: "Branding Integration",
+          description: "Every surface and detail carries your identity.",
+        },
+        {
+          title: "Premium Finishes",
+          description: "Materials and textures chosen to match your brand's positioning.",
+        },
+      ],
+      useCases: [
+        "Flagship presence at major exhibitions",
+        "Brands wanting a standout, memorable booth",
+        "Events where the booth itself is part of the brand statement",
+        "Clients with specific space or design requirements standard booths can't meet",
+      ],
+      faq: [
+        {
+          question: "How is a custom-built booth different from a modular one?",
+          answer:
+            "A custom-built booth is designed and fabricated entirely from scratch for your specific brand and space — nothing is reused from a standard system.",
+        },
+        {
+          question: "How long does a custom booth take to build?",
+          answer:
+            "Timelines depend on size and complexity — we'll confirm a clear schedule once your design is finalized.",
+        },
+        {
+          question: "Can a custom-built booth be reused for future events?",
+          answer:
+            "Yes, with proper storage and reinstallation, most custom booths can be used again.",
+        },
+        {
+          question: "What's the size range for custom booths?",
+          answer:
+            "There's no fixed limit — custom booths are built to whatever footprint your event requires.",
+        },
+        {
+          question:
+            "Do you handle custom booths for international exhibitions, or only in Saudi Arabia?",
+          answer:
+            "Our current focus is delivery across Saudi Arabia — let us know your event location and we'll confirm feasibility.",
+        },
+      ],
     },
     ar: {
-      title: "أجنحة معارض مخصصة",
-      excerpt: "بناء مخصص حول قصة علامتك.",
-      description:
-        "أجنحة مخصصة بالكامل تُصمَّم وتُصنَّع لأقصى حضور — عمارة وتشطيبات وتجربة زائر فريدة.",
-      features: ["هيكل مخصص", "تشطيبات خاصة", "AV مدمج", "مناطق سرد العلامة"],
-      advantages: [
-        { title: "تميّز", description: "بروز بحضور فريد." },
-        { title: "تحكم بالتجربة", description: "كل منطقة مصممة لغرض." },
+      title: "أجنحة مخصصة بالكامل في {City}",
+      excerpt: "أجنحة مصممة ومبنية بالكامل حول علامتك.",
+      overviewTitle: "بلا قوالب. جناحك فقط.",
+      description: "يُبنى من الصفر، ويُشكَّل بالكامل حول أهدافك.",
+      features: [
+        {
+          title: "مخصص بالكامل",
+          description: "بدون قوالب أو نماذج معاد استخدامها، كل جناح أصلي.",
+        },
+        {
+          title: "مصمم للأثر",
+          description: "مصمم ليبرز وسط أرض معرض مزدحمة.",
+        },
+        {
+          title: "أي حجم وأي شكل",
+          description: "يُبنى ليلائم مساحتك بالضبط.",
+        },
+        {
+          title: "فريق واحد وتحكم كامل",
+          description: "التصميم والتصنيع تحت سقف واحد.",
+        },
       ],
-      useCases: ["إطلاقات رئيسية", "معارض كبرى", "أجنحة علامة"],
+      advantages: [
+        {
+          title: "تصميم مخصص",
+          description: "مفهوم يُبنى بالكامل حول علامتك وأهدافك.",
+        },
+        {
+          title: "تصنيع إنشائي",
+          description: "يُبنى من الأساس، لا يُعدَّل من إطارات قائمة.",
+        },
+        {
+          title: "دمج الهوية",
+          description: "كل سطح وتفصيل يحمل هويتك.",
+        },
+        {
+          title: "تشطيبات فاخرة",
+          description: "مواد وملامس مختارة لتطابق موقع علامتك.",
+        },
+      ],
+      useCases: [
+        "حضور رئيسي في المعارض الكبرى",
+        "علامات تريد جناحاً مميزاً لا يُنسى",
+        "فعاليات يكون الجناح نفسه جزءاً من رسالة العلامة",
+        "عملاء لديهم متطلبات مساحة أو تصميم لا تلبيها الأجنحة القياسية",
+      ],
+      faq: [
+        {
+          question: "ما الفرق بين الجناح المخصص والجناح المعياري؟",
+          answer:
+            "الجناح المخصص يُصمَّم ويُصنَّع بالكامل من الصفر لعلامتك ومساحتك تحديداً — دون إعادة استخدام من نظام قياسي.",
+        },
+        {
+          question: "كم يستغرق بناء جناح مخصص؟",
+          answer:
+            "الجداول تعتمد على الحجم والتعقيد — سنؤكد جدولاً واضحاً بعد اعتماد التصميم.",
+        },
+        {
+          question: "هل يمكن إعادة استخدام الجناح المخصص في فعاليات لاحقة؟",
+          answer:
+            "نعم، مع التخزين وإعادة التركيب المناسبين يمكن استخدام معظم الأجنحة المخصصة مرة أخرى.",
+        },
+        {
+          question: "ما نطاق أحجام الأجنحة المخصصة؟",
+          answer:
+            "لا يوجد حد ثابت — تُبنى الأجنحة المخصصة وفق المساحة التي تتطلبها فعاليتك.",
+        },
+        {
+          question: "هل تنفّذون أجنحة مخصصة لمعارض دولية، أم في السعودية فقط؟",
+          answer:
+            "تركيزنا الحالي هو التنفيذ عبر السعودية — أخبرنا بموقع فعاليتك وسنؤكد إمكانية التنفيذ.",
+        },
+      ],
     },
   },
   {
@@ -506,28 +642,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.modular,
     imageAlt: "Modular system booth",
     en: {
+
       title: "Modular / System Booths",
       excerpt: "Flexible systems that reconfigure across events.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Modular booths balance speed, cost, and brand impact — ideal when you need repeatable presence across a season.",
-      features: ["Reconfigurable frames", "Fast install", "Graphic refresh", "Scalable footprints"],
+      features: [
+        { title: "Reconfigurable frames", description: "" },
+        { title: "Fast install", description: "" },
+        { title: "Graphic refresh", description: "" },
+        { title: "Scalable footprints", description: "" },
+      ],
       advantages: [
         { title: "Efficiency", description: "Lower cost per show over a season." },
         { title: "Speed", description: "Faster install and teardown windows." },
       ],
       useCases: ["Multi-show calendars", "Regional tours", "Growing brands"],
+      faq: [],
     },
     ar: {
+
       title: "أجنحة معيارية / نظام",
       excerpt: "أنظمة مرنة تُعاد تهيئتها عبر الأحداث.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "الأجنحة المعيارية توازن السرعة والتكلفة وأثر العلامة — مثالية عندما تحتاج حضوراً متكرراً عبر الموسم.",
-      features: ["إطارات قابلة لإعادة التهيئة", "تركيب سريع", "تحديث رسومي", "مساحات قابلة للتوسع"],
+      features: [
+        { title: "إطارات قابلة لإعادة التهيئة", description: "" },
+        { title: "تركيب سريع", description: "" },
+        { title: "تحديث رسومي", description: "" },
+        { title: "مساحات قابلة للتوسع", description: "" },
+      ],
       advantages: [
         { title: "كفاءة", description: "تكلفة أقل لكل معرض عبر الموسم." },
         { title: "سرعة", description: "نوافذ تركيب وتفكيك أسرع." },
       ],
       useCases: ["تقويمات متعددة المعارض", "جولات إقليمية", "علامات نامية"],
+      faq: [],
     },
   },
   {
@@ -536,28 +688,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.doubleDeck,
     imageAlt: "Double-deck booth",
     en: {
+
       title: "Double-Deck Booths",
       excerpt: "Two levels for meetings, demos, and presence.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Double-deck designs maximize footprint value with private upper floors for hospitality and negotiation.",
-      features: ["Upper meeting suites", "Structural engineering", "Stair & lift options", "High visibility"],
+      features: [
+        { title: "Upper meeting suites", description: "" },
+        { title: "Structural engineering", description: "" },
+        { title: "Stair & lift options", description: "" },
+        { title: "High visibility", description: "" },
+      ],
       advantages: [
         { title: "Space efficiency", description: "More usable area on the same plot." },
         { title: "Privacy", description: "Quiet rooms above the show floor noise." },
       ],
       useCases: ["Large footprints", "VIP hospitality", "Complex demos"],
+      faq: [],
     },
     ar: {
+
       title: "أجنحة طابقين",
       excerpt: "مستويان للاجتماعات والعروض والحضور.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "تصاميم الطابقين تعظّم قيمة المساحة بطوابق علوية خاصة للضيافة والتفاوض.",
-      features: ["أجنحة اجتماعات علوية", "هندسة إنشائية", "خيارات درج ومصعد", "ظهور عالٍ"],
+      features: [
+        { title: "أجنحة اجتماعات علوية", description: "" },
+        { title: "هندسة إنشائية", description: "" },
+        { title: "خيارات درج ومصعد", description: "" },
+        { title: "ظهور عالٍ", description: "" },
+      ],
       advantages: [
         { title: "كفاءة المساحة", description: "مساحة قابلة للاستخدام أكبر على نفس القطعة." },
         { title: "خصوصية", description: "غرف هادئة فوق ضجيج أرض المعرض." },
       ],
       useCases: ["مساحات كبيرة", "ضيافة VIP", "عروض معقدة"],
+      faq: [],
     },
   },
   {
@@ -566,28 +734,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.portable,
     imageAlt: "Portable pop-up display",
     en: {
+
       title: "Portable & Pop-Up Displays",
       excerpt: "Lightweight kits for fast regional presence.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Portable systems for teams that need sharp brand presence without a full custom build every time.",
-      features: ["Lightweight kits", "Quick setup", "Travel cases", "Graphic packs"],
+      features: [
+        { title: "Lightweight kits", description: "" },
+        { title: "Quick setup", description: "" },
+        { title: "Travel cases", description: "" },
+        { title: "Graphic packs", description: "" },
+      ],
       advantages: [
         { title: "Mobility", description: "Easy to ship and redeploy." },
         { title: "Budget control", description: "Strong presence at lower cost." },
       ],
       useCases: ["Roadshows", "Partner events", "Small footprints"],
+      faq: [],
     },
     ar: {
+
       title: "عروض محمولة و Pop-Up",
       excerpt: "مجموعات خفيفة لحضور إقليمي سريع.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "أنظمة محمولة للفرق التي تحتاج حضوراً واضحاً للعلامة دون بناء مخصص كامل في كل مرة.",
-      features: ["مجموعات خفيفة", "إعداد سريع", "حقائب سفر", "حزم رسومية"],
+      features: [
+        { title: "مجموعات خفيفة", description: "" },
+        { title: "إعداد سريع", description: "" },
+        { title: "حقائب سفر", description: "" },
+        { title: "حزم رسومية", description: "" },
+      ],
       advantages: [
         { title: "تنقّل", description: "سهولة الشحن وإعادة النشر." },
         { title: "تحكم بالميزانية", description: "حضور قوي بتكلفة أقل." },
       ],
       useCases: ["جولات", "فعاليات شركاء", "مساحات صغيرة"],
+      faq: [],
     },
   },
   {
@@ -596,28 +780,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.kiosk,
     imageAlt: "Exhibition kiosk",
     en: {
+
       title: "Exhibition Kiosks",
       excerpt: "Compact stands for focused engagement.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Kiosks and small-footprint stands designed for lead capture, demos, and retail-like interactions.",
-      features: ["Compact footprints", "Counter & storage", "Screen mounts", "Brand fascia"],
+      features: [
+        { title: "Compact footprints", description: "" },
+        { title: "Counter & storage", description: "" },
+        { title: "Screen mounts", description: "" },
+        { title: "Brand fascia", description: "" },
+      ],
       advantages: [
         { title: "Focus", description: "One clear job for visitors." },
         { title: "Density", description: "High impact in limited square meters." },
       ],
       useCases: ["Lead capture", "Product demos", "Retail corners"],
+      faq: [],
     },
     ar: {
+
       title: "أكشاك المعارض",
       excerpt: "أكشاك مدمجة لتفاعل مركّز.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "أكشاك ومساحات صغيرة مصممة لالتقاط العملاء والعروض وتفاعلات شبيهة بالتجزئة.",
-      features: ["مساحات مدمجة", "كاونتر وتخزين", "حوامل شاشات", "واجهة علامة"],
+      features: [
+        { title: "مساحات مدمجة", description: "" },
+        { title: "كاونتر وتخزين", description: "" },
+        { title: "حوامل شاشات", description: "" },
+        { title: "واجهة علامة", description: "" },
+      ],
       advantages: [
         { title: "تركيز", description: "مهمة واحدة واضحة للزوار." },
         { title: "كثافة", description: "أثر عالٍ في أمتار مربعة محدودة." },
       ],
       useCases: ["التقاط عملاء", "عروض منتج", "زوايا تجزئة"],
+      faq: [],
     },
   },
   {
@@ -626,28 +826,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.outdoor,
     imageAlt: "Outdoor activation",
     en: {
+
       title: "Outdoor Structures & Brand Activations",
       excerpt: "Weather-ready structures for outdoor events.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Outdoor builds and activations engineered for visibility, flow, and environmental conditions.",
-      features: ["Weather considerations", "Large-format branding", "Crowd flow", "Power & AV"],
+      features: [
+        { title: "Weather considerations", description: "" },
+        { title: "Large-format branding", description: "" },
+        { title: "Crowd flow", description: "" },
+        { title: "Power & AV", description: "" },
+      ],
       advantages: [
         { title: "Scale", description: "Presence that reads from a distance." },
         { title: "Experience", description: "Activations beyond a standard booth." },
       ],
       useCases: ["Festivals", "Outdoor expos", "Brand experiences"],
+      faq: [],
     },
     ar: {
+
       title: "هياكل خارجية وتفعيلات علامة",
       excerpt: "هياكل جاهزة للطقس للفعاليات الخارجية.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "بناء خارجي وتفعيلات مهندسة للظهور والتدفق وظروف البيئة.",
-      features: ["اعتبارات الطقس", "علامة كبيرة الحجم", "تدفق الحشود", "طاقة وAV"],
+      features: [
+        { title: "اعتبارات الطقس", description: "" },
+        { title: "علامة كبيرة الحجم", description: "" },
+        { title: "تدفق الحشود", description: "" },
+        { title: "طاقة وAV", description: "" },
+      ],
       advantages: [
         { title: "مقياس", description: "حضور يُقرأ من مسافة." },
         { title: "تجربة", description: "تفعيلات تتجاوز الجناح التقليدي." },
       ],
       useCases: ["مهرجانات", "معارض خارجية", "تجارب علامة"],
+      faq: [],
     },
   },
   {
@@ -656,28 +872,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.pavilion,
     imageAlt: "National pavilion",
     en: {
+
       title: "Country / National Pavilions",
       excerpt: "Large-scale pavilions for national presence.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Pavilion programs that represent countries and institutions with architecture, content, and hospitality at scale.",
-      features: ["Large architecture", "Multi-zone planning", "Content integration", "VIP hospitality"],
+      features: [
+        { title: "Large architecture", description: "" },
+        { title: "Multi-zone planning", description: "" },
+        { title: "Content integration", description: "" },
+        { title: "VIP hospitality", description: "" },
+      ],
       advantages: [
         { title: "Representation", description: "A coherent national or institutional story." },
         { title: "Capacity", description: "Space for audiences, media, and dignitaries." },
       ],
       useCases: ["Expos", "National days", "Institutional showcases"],
+      faq: [],
     },
     ar: {
+
       title: "أجنحة / أجنحة وطنية",
       excerpt: "أجنحة واسعة للحضور الوطني.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "برامج أجنحة تمثّل الدول والمؤسسات بعمارة ومحتوى وضيافة على نطاق واسع.",
-      features: ["عمارة كبيرة", "تخطيط متعدد المناطق", "دمج محتوى", "ضيافة VIP"],
+      features: [
+        { title: "عمارة كبيرة", description: "" },
+        { title: "تخطيط متعدد المناطق", description: "" },
+        { title: "دمج محتوى", description: "" },
+        { title: "ضيافة VIP", description: "" },
+      ],
       advantages: [
         { title: "تمثيل", description: "قصة وطنية أو مؤسسية متماسكة." },
         { title: "سعة", description: "مساحة للجمهور والإعلام وكبار الزوار." },
       ],
       useCases: ["إكسبو", "أيام وطنية", "عروض مؤسسية"],
+      faq: [],
     },
   },
   {
@@ -686,28 +918,44 @@ export const boothTypes: BoothTypeRecord[] = [
     image: media.boothTypes.sustainable,
     imageAlt: "Sustainable eco booth",
     en: {
+
       title: "Sustainable / Eco Booths",
       excerpt: "Lower-impact builds designed for reuse.",
+      overviewTitle: "Built for stronger presence on the show floor.",
       description:
         "Sustainable booth strategies using reusable systems, responsible materials, and designs that live beyond a single show.",
-      features: ["Reusable modules", "Responsible materials", "Reduced waste", "Lifecycle planning"],
+      features: [
+        { title: "Reusable modules", description: "" },
+        { title: "Responsible materials", description: "" },
+        { title: "Reduced waste", description: "" },
+        { title: "Lifecycle planning", description: "" },
+      ],
       advantages: [
         { title: "Impact", description: "Lower environmental footprint per show." },
         { title: "Value", description: "Assets that return across multiple events." },
       ],
       useCases: ["ESG-led brands", "Repeat exhibitors", "Long-term programs"],
+      faq: [],
     },
     ar: {
+
       title: "أجنحة مستدامة / eco",
       excerpt: "بناء أقل أثراً مصمم لإعادة الاستخدام.",
+      overviewTitle: "صُمم هذا النوع لحضور أقوى على أرض المعرض.",
       description:
         "استراتيجيات أجنحة مستدامة باستخدام أنظمة قابلة لإعادة الاستخدام ومواد مسؤولة وتصاميم تدوم أبعد من معرض واحد.",
-      features: ["وحدات قابلة لإعادة الاستخدام", "مواد مسؤولة", "نفايات أقل", "تخطيط دورة حياة"],
+      features: [
+        { title: "وحدات قابلة لإعادة الاستخدام", description: "" },
+        { title: "مواد مسؤولة", description: "" },
+        { title: "نفايات أقل", description: "" },
+        { title: "تخطيط دورة حياة", description: "" },
+      ],
       advantages: [
         { title: "أثر", description: "بصمة بيئية أقل لكل معرض." },
         { title: "قيمة", description: "أصول تعود عبر أحداث متعددة." },
       ],
       useCases: ["علامات بقيادة ESG", "عارضون متكررون", "برامج طويلة الأمد"],
+      faq: [],
     },
   },
 ];
@@ -732,6 +980,18 @@ export function localizeBoothType(boothType: BoothTypeRecord, locale: Locale) {
     imageAlt: boothType.imageAlt,
     slug: boothType.slug,
   };
+}
+
+/** Replace `{City}` in a booth-type title, or strip it when no city is provided. */
+export function formatBoothTypeTitle(title: string, city?: string) {
+  if (title.includes("{City}")) {
+    if (city) return title.replaceAll("{City}", city);
+    return title
+      .replace(/\s*in \{City\}/gi, "")
+      .replace(/\s*في \{City\}/g, "")
+      .trim();
+  }
+  return title;
 }
 
 export const industries: IndustryRecord[] = [

@@ -80,6 +80,7 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
     slug: localized.slug,
     title: localized.title,
     excerpt: localized.excerpt,
+    overviewTitle: localized.overviewTitle,
     description: localized.description,
     order: record.order,
     image: localized.image,
@@ -88,6 +89,7 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
     features: localized.features,
     advantages: localized.advantages,
     useCases: localized.useCases,
+    faq: localized.faq,
     gallery: [],
   };
 }
@@ -105,6 +107,7 @@ function localProject(project: Project, locale: Locale): CmsProject {
     image: localized.image,
     imageAlt: localized.imageAlt,
     gallery: localized.gallery,
+    motionVideo: project.motionVideo,
     technologies: project.technologies ?? [],
     event: project.event,
     size: project.size,

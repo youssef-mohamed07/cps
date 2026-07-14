@@ -94,11 +94,20 @@ export interface Dictionary {
     title: string;
     lead: string;
     storyTitle: string;
+    storyHeadline: string;
     story: string;
+    storySecond: string;
     valuesTitle: string;
+    valuesSupport: string;
     values: { title: string; description: string }[];
     studioTitle: string;
-    studioBody: string;
+    studioSupport: string;
+    studioItems: { title: string; description: string }[];
+    industriesTitle: string;
+    industriesItems: string[];
+    industriesMore: string;
+    industriesLogosTitle: string;
+    faqItems: { question: string; answer: string }[];
   };
   services: {
     eyebrow: string;
@@ -374,30 +383,97 @@ const dictionaries: Record<Locale, Dictionary> = {
       body: "CPS is a bilingual creative studio shaping brand systems, campaigns, and digital experiences across the region. We pair sharp strategy with craft that holds up in the real world.",
     },
     aboutPage: {
-      eyebrow: "Studio",
-      title: "Built for brands that want to be seen clearly.",
-      lead: "We work like a European atelier with regional instinct — precise, bilingual, and obsessed with how a brand feels in culture.",
-      storyTitle: "The studio",
+      eyebrow: "About",
+      title: "About CPS",
+      lead: "Exhibition booth design and production, built in-house, across Saudi Arabia.",
+      storyTitle: "Our story",
+      storyHeadline: "Built to Do It All, Ourselves",
       story:
-        "CPS started as a small creative practice and grew into a studio that moves between strategy rooms, production floors, and product teams. We care about systems that last longer than a campaign cycle.",
-      valuesTitle: "How we think",
+        "CPS was built around a simple idea — exhibitions deserve better than fragmented vendors and lost details between handoffs. From design to fabrication, installation to storage, we handle the entire booth lifecycle under one roof, with one team accountable for every step.",
+      storySecond:
+        "Today, we work with brands across Saudi Arabia's biggest industries, delivering booths that are designed with intention and built to last.",
+      valuesTitle: "Clear Principles Behind Every Build",
+      valuesSupport: "The standards that guide how we design, build, and deliver.",
       values: [
         {
-          title: "Clarity first",
-          description: "If the idea is soft, the work will be soft. We push for a sharp point of view.",
+          title: "In-House, Always",
+          description: "No subcontractors, full control over quality.",
         },
         {
-          title: "Craft under pressure",
-          description: "Beautiful work that cannot ship is unfinished. We design for real constraints.",
+          title: "Detail-Driven",
+          description: "Nothing gets lost between design and delivery.",
         },
         {
-          title: "Bilingual by nature",
-          description: "Arabic and English are not afterthoughts. They shape the concept from day one.",
+          title: "Built to Last",
+          description: "Durable materials, real-world tested.",
+        },
+        {
+          title: "Accountable, Start to Finish",
+          description: "One team, one point of contact.",
         },
       ],
-      studioTitle: "In the room",
-      studioBody:
-        "From brand workshops to campaign reviews, we keep teams aligned around one visual and verbal direction.",
+      studioTitle: "Where Every Booth Is Built",
+      studioSupport: "Our own workshop, our own team, from raw material to finished booth.",
+      studioItems: [
+        {
+          title: "Fully Equipped Workshop",
+          description: "Everything needed to fabricate in-house, start to finish.",
+        },
+        {
+          title: "Skilled In-House Team",
+          description: "Craftsmen and technicians, not subcontracted labor.",
+        },
+        {
+          title: "Quality Control at Every Stage",
+          description: "Checked before it ever leaves the factory.",
+        },
+        {
+          title: "Built for Scale",
+          description: "Capable of handling multiple projects at once.",
+        },
+      ],
+      industriesTitle: "Trusted Across Industries",
+      industriesItems: [
+        "Banking & Finance",
+        "Government & Public Sector",
+        "Real Estate & Construction",
+        "Telecom & Technology",
+        "Oil, Gas & Energy",
+      ],
+      industriesMore: "+15 others",
+      industriesLogosTitle: "Trusted Across Industries",
+      faqItems: [
+        {
+          question: "Is CPS a design company, a production company, or both?",
+          answer:
+            "Both. We handle the full booth lifecycle in-house — design, fabrication, branding, installation, and everything after.",
+        },
+        {
+          question: "Do you work with clients outside Saudi Arabia?",
+          answer:
+            "Our current focus is delivering across Saudi Arabia. If your event is elsewhere, reach out and we'll confirm what's possible.",
+        },
+        {
+          question: "What industries do you typically work with?",
+          answer:
+            "We work across a wide range of sectors, including finance, government, real estate, telecom, energy, healthcare, and retail.",
+        },
+        {
+          question: "How is CPS different from other booth companies?",
+          answer:
+            "Everything is handled by one in-house team — no subcontractors, no handoffs between vendors. What you approve is exactly what gets built.",
+        },
+        {
+          question: "Can CPS handle projects of any size?",
+          answer:
+            "Yes, from small kiosks to large-scale national pavilions, our team and facilities are built to handle projects at any scale.",
+        },
+        {
+          question: "How do I start a project with CPS?",
+          answer:
+            "Reach out through our contact form or request a quote — we'll schedule a brief to understand your goals and event details.",
+        },
+      ],
     },
     services: {
       eyebrow: "What we do",
@@ -857,30 +933,97 @@ const dictionaries: Record<Locale, Dictionary> = {
       body: "CPS استوديو إبداعي ثنائي اللغة يصوغ أنظمة العلامات والحملات والتجارب الرقمية في المنطقة. نجمع بين استراتيجية حادة وحِرفة تصمد في الواقع.",
     },
     aboutPage: {
-      eyebrow: "الاستوديو",
-      title: "نُبنى للعلامات التي تريد أن تُرى بوضوح.",
-      lead: "نعمل بروح أتيليه أوروبي وغريزة محلية — دقيقون، ثنائيو اللغة، ومهووسون بإحساس العلامة في الثقافة.",
-      storyTitle: "الاستوديو",
+      eyebrow: "عنّا",
+      title: "عن CPS",
+      lead: "تصميم وإنتاج أجنحة المعارض، بالكامل داخل الشركة، عبر المملكة العربية السعودية.",
+      storyTitle: "قصتنا",
+      storyHeadline: "بُنينا لننفّذ كل شيء بأنفسنا",
       story:
-        "بدأت CPS كممارسة إبداعية صغيرة ونمت إلى استوديو يتنقل بين غرف الاستراتيجية وأرضيات الإنتاج وفرق المنتج. نهتم بالأنظمة التي تدوم أطول من دورة حملة.",
-      valuesTitle: "كيف نفكر",
+        "بُنيت CPS حول فكرة بسيطة — المعارض تستحق أفضل من مزوّدين مجزّأين وتفاصيل تضيع بين التسليمات. من التصميم إلى التصنيع، ومن التركيب إلى التخزين، نتولى دورة حياة الجناح كاملة تحت سقف واحد، بفريق واحد مسؤول عن كل خطوة.",
+      storySecond:
+        "اليوم نعمل مع علامات عبر أهم القطاعات في السعودية، ونقدّم أجنحة تُصمَّم بقصد وتُبنى لتدوم.",
+      valuesTitle: "مبادئ واضحة خلف كل بناء",
+      valuesSupport: "المعايير التي توجّه كيف نصمّم ونبني ونسلّم.",
       values: [
         {
-          title: "الوضوح أولاً",
-          description: "إذا كانت الفكرة رخوة، سيكون العمل رخواً. ندفع نحو وجهة نظر حادة.",
+          title: "داخلي دائماً",
+          description: "بدون مقاولين من الباطن، وتحكم كامل بالجودة.",
         },
         {
-          title: "حِرفة تحت الضغط",
-          description: "العمل الجميل الذي لا يُطلق غير مكتمل. نصمم وفق قيود حقيقية.",
+          title: "مدفوعون بالتفاصيل",
+          description: "لا شيء يضيع بين التصميم والتسليم.",
         },
         {
-          title: "ثنائيو اللغة بطبعنا",
-          description: "العربية والإنجليزية ليستا لاحقاً. هما تشكلان الفكرة من اليوم الأول.",
+          title: "مبني ليدوم",
+          description: "مواد متينة ومختبرة في الواقع.",
+        },
+        {
+          title: "مسؤولون من البداية للنهاية",
+          description: "فريق واحد، ونقطة تواصل واحدة.",
         },
       ],
-      studioTitle: "في الغرفة",
-      studioBody:
-        "من ورش العلامة إلى مراجعات الحملات، نبقي الفرق متوافقة حول اتجاه بصري ولفظي واحد.",
+      studioTitle: "حيث يُبنى كل جناح",
+      studioSupport: "ورشتنا الخاصة، وفريقنا الخاص، من المادة الخام إلى الجناح النهائي.",
+      studioItems: [
+        {
+          title: "ورشة مجهزة بالكامل",
+          description: "كل ما يلزم للتصنيع داخلياً من البداية للنهاية.",
+        },
+        {
+          title: "فريق داخلي ماهر",
+          description: "حرفيون وفنيون، وليس عمالة متعاقدة من الخارج.",
+        },
+        {
+          title: "رقابة جودة في كل مرحلة",
+          description: "يُراجع قبل أن يغادر المصنع.",
+        },
+        {
+          title: "مبني للتوسّع",
+          description: "قادر على إدارة عدة مشاريع في الوقت نفسه.",
+        },
+      ],
+      industriesTitle: "موثوقون عبر القطاعات",
+      industriesItems: [
+        "البنوك والمالية",
+        "الحكومة والقطاع العام",
+        "العقارات والإنشاءات",
+        "الاتصالات والتقنية",
+        "النفط والغاز والطاقة",
+      ],
+      industriesMore: "+١٥ قطاعاً آخر",
+      industriesLogosTitle: "موثوقون عبر القطاعات",
+      faqItems: [
+        {
+          question: "هل CPS شركة تصميم أم إنتاج أم الاثنين؟",
+          answer:
+            "الاثنين. نتولى دورة حياة الجناح كاملة داخل الشركة — التصميم والتصنيع والهوية والتركيب وكل ما يلي ذلك.",
+        },
+        {
+          question: "هل تعملون مع عملاء خارج السعودية؟",
+          answer:
+            "تركيزنا الحالي هو التنفيذ عبر السعودية. إذا كانت فعاليتك في مكان آخر، تواصل معنا وسنؤكد ما هو ممكن.",
+        },
+        {
+          question: "ما القطاعات التي تعملون معها عادة؟",
+          answer:
+            "نعمل عبر قطاعات واسعة، بما في ذلك المالية والحكومة والعقارات والاتصالات والطاقة والرعاية الصحية والتجزئة.",
+        },
+        {
+          question: "ما الذي يميّز CPS عن شركات الأجنحة الأخرى؟",
+          answer:
+            "كل شيء يتولاه فريق داخلي واحد — بدون مقاولين من الباطن وبدون تسليمات بين مزوّدين. ما تعتمده هو بالضبط ما يُبنى.",
+        },
+        {
+          question: "هل تستطيع CPS التعامل مع مشاريع بأي حجم؟",
+          answer:
+            "نعم، من الأكشاك الصغيرة إلى الأجنحة الوطنية واسعة النطاق، فريقنا ومرافقنا مبنية للتعامل مع المشاريع بأي مقياس.",
+        },
+        {
+          question: "كيف أبدأ مشروعاً مع CPS؟",
+          answer:
+            "تواصل عبر نموذج الاتصال أو اطلب عرض سعر — وسنحدد موعداً لنبريف لفهم أهدافك وتفاصيل الفعالية.",
+        },
+      ],
     },
     services: {
       eyebrow: "ماذا نقدم",

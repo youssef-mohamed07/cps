@@ -25,6 +25,12 @@ export const project = defineType({
       of: [{ type: "galleryImage" }],
       title: "Gallery",
     }),
+    defineField({
+      name: "motionVideo",
+      type: "url",
+      title: "Motion video URL",
+      description: "Optional MP4/WebM URL for the motion section between facts and story.",
+    }),
     defineField({ name: "challenge", type: "text", rows: 4, title: "Challenge" }),
     defineField({ name: "solution", type: "text", rows: 4, title: "Solution / Approach" }),
     defineField({ name: "result", type: "text", rows: 4, title: "Result / Outcome" }),
