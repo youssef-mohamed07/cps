@@ -4,17 +4,20 @@ import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
+import type { BoothTypeFeature } from "@/content/catalog";
+import { formatBoothTypeTitle } from "@/content/catalog";
 import { localizePath, type Locale } from "@/lib/i18n";
 
 export type BoothTypeDetailItem = {
   slug: string;
   title: string;
   excerpt: string;
+  overviewTitle: string;
   description: string;
   image?: string;
   imageAlt?: string;
   model3d?: string;
-  features: string[];
+  features: BoothTypeFeature[];
   advantages: { title: string; description: string }[];
   useCases: string[];
 };
@@ -45,12 +48,31 @@ export function BoothTypeDetailSections({
         <div className="site-container booth-detail-overview-grid">
           <Reveal className="booth-detail-overview-copy">
             <p className="eyebrow">{isArabic ? "نظرة عامة" : "Overview"}</p>
-            <h2 className="booth-detail-overview-title">
-              {isArabic
-                ? "صُمم هذا النوع لحضور أقوى على أرض المعرض."
-                : "Built for stronger presence on the show floor."}
-            </h2>
+            <h2 className="booth-detail-overview-title">{boothType.overviewTitle}</h2>
             <p className="booth-detail-overview-body">{boothType.description}</p>
+            {boothType.features.length ? (
+              <ul className="booth-detail-overview-bullets">
+                {boothType.features.map((feature) => (
+                  <li key={feature.title}>
+                    <span className="booth-detail-overview-bullet-mark" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path
+                          d="M4 10.5l3.5 3.5L16 5.5"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span className="booth-detail-overview-bullet-copy">
+                      <strong>{feature.title}</strong>
+                      {feature.description ? <span>{feature.description}</span> : null}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <Link href={briefHref} className="booth-detail-overview-cta">
               <span>{ctaLabel}</span>
               <CtaArrow size="md" />
@@ -73,7 +95,7 @@ export function BoothTypeDetailSections({
 
       <BoothTypeModelSection
         locale={locale}
-        title={boothType.title}
+        title={formatBoothTypeTitle(boothType.title)}
         variant={modelVariant}
         modelUrl={boothType.model3d}
       />
@@ -91,7 +113,7 @@ export function BoothTypeDetailSections({
                 </h2>
                 <ul className="booth-detail-feature-list">
                   {boothType.features.map((feature) => (
-                    <li key={feature}>
+                    <li key={feature.title}>
                       <span className="booth-detail-feature-check" aria-hidden="true">
                         <svg viewBox="0 0 20 20" fill="none">
                           <path
@@ -103,7 +125,7 @@ export function BoothTypeDetailSections({
                           />
                         </svg>
                       </span>
-                      <span>{feature}</span>
+                      <span>{feature.title}</span>
                     </li>
                   ))}
                 </ul>
@@ -113,20 +135,16 @@ export function BoothTypeDetailSections({
             {boothType.useCases.length ? (
               <Reveal delay={0.08} className="booth-detail-spec-block booth-detail-spec-block--usecases">
                 <p className="eyebrow eyebrow-on-dark">
-                  {isArabic ? "حالات الاستخدام" : "Use cases"}
+                  {isArabic ? "لمن هذا" : "Who this is for"}
                 </p>
                 <h2 className="booth-detail-spec-title booth-detail-spec-title--light">
-                  {isArabic
-                    ? "الأنسب لهذه السياقات."
-                    : "Best suited for these moments."}
+                  {isArabic ? "لمن يناسب هذا النوع." : "Who This Is For"}
                 </h2>
-                <div className="booth-detail-usecase-chips">
+                <ul className="booth-detail-usecase-list">
                   {boothType.useCases.map((useCase) => (
-                    <span key={useCase} className="booth-detail-usecase-chip">
-                      {useCase}
-                    </span>
+                    <li key={useCase}>{useCase}</li>
                   ))}
-                </div>
+                </ul>
               </Reveal>
             ) : null}
           </div>
@@ -138,11 +156,9 @@ export function BoothTypeDetailSections({
           <div className="site-container">
             <Reveal>
               <div className="booth-detail-section-head">
-                <p className="eyebrow">{isArabic ? "المزايا" : "Advantages"}</p>
+                <p className="eyebrow">{isArabic ? "ماذا نغطي" : "What we cover"}</p>
                 <h2 className="booth-detail-section-title">
-                  {isArabic
-                    ? "لماذا تختار هذا النوع من الأجنحة."
-                    : "Why brands choose this booth type."}
+                  {isArabic ? "ماذا نغطي." : "What We Cover"}
                 </h2>
               </div>
             </Reveal>
@@ -174,8 +190,8 @@ export function BoothTypeDetailSections({
                 </p>
                 <h2 className="booth-detail-section-title">
                   {isArabic
-                    ? `${boothType.title} عبر مواقعنا.`
-                    : `${boothType.title} across our locations.`}
+                    ? `${formatBoothTypeTitle(boothType.title)} عبر مواقعنا.`
+                    : `${formatBoothTypeTitle(boothType.title)} across our locations.`}
                 </h2>
               </div>
             </Reveal>
@@ -233,7 +249,7 @@ export function BoothTypeDetailSections({
                       </div>
                     ) : null}
                     <div className="booth-detail-related-copy">
-                      <h3>{item.title}</h3>
+                      <h3>{formatBoothTypeTitle(item.title)}</h3>
                       <p>{item.excerpt}</p>
                       <span>
                         {isArabic ? "عرض النوع" : "View type"}

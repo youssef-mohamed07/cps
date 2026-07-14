@@ -8,6 +8,7 @@ import {
   type ProjectDetailItem,
 } from "@/components/sections/project-detail-sections";
 import { projects } from "@/content/projects";
+import { formatBoothTypeTitle } from "@/content/catalog";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
@@ -45,6 +46,7 @@ function toDetailItem(
     image: project.image,
     imageAlt: project.imageAlt,
     gallery: project.gallery,
+    motionVideo: project.motionVideo,
     event: project.event,
     size: project.size,
     technologies: project.technologies,
@@ -101,24 +103,25 @@ export default async function ProjectPage({ params }: PageProps) {
 
   const detail = toDetailItem(project, {
     industry: industries.find((item) => item.slug === project.industrySlug)?.title,
-    boothType: boothTypes.find((item) => item.slug === project.boothTypeSlug)?.title,
+    boothType: formatBoothTypeTitle(
+      boothTypes.find((item) => item.slug === project.boothTypeSlug)?.title ?? "",
+    ),
     location: locations.find((item) => item.slug === project.locationSlug)?.title,
   })!;
 
-  const currentIndex = allProjects.findIndex((entry) => entry.slug === slug);
-  const nextSource =
-    allProjects[(currentIndex + 1) % allProjects.length] ?? allProjects[0];
-  const nextProject =
-    nextSource && nextSource.slug !== slug
-      ? toDetailItem(nextSource, {
-          industry: industries.find((item) => item.slug === nextSource.industrySlug)
-            ?.title,
-          boothType: boothTypes.find((item) => item.slug === nextSource.boothTypeSlug)
-            ?.title,
-          location: locations.find((item) => item.slug === nextSource.locationSlug)
-            ?.title,
-        })
-      : null;
+  const relatedProjects = allProjects
+    .filter((entry) => entry.slug !== slug)
+    .slice(0, 3)
+    .map((entry) =>
+      toDetailItem(entry, {
+        industry: industries.find((item) => item.slug === entry.industrySlug)?.title,
+        boothType: formatBoothTypeTitle(
+          boothTypes.find((item) => item.slug === entry.boothTypeSlug)?.title ?? "",
+        ),
+        location: locations.find((item) => item.slug === entry.locationSlug)?.title,
+      }),
+    )
+    .filter((item): item is ProjectDetailItem => Boolean(item));
 
   return (
     <>
@@ -159,7 +162,7 @@ export default async function ProjectPage({ params }: PageProps) {
         locale={locale}
         project={detail}
         labels={labels}
-        nextProject={nextProject}
+        relatedProjects={relatedProjects}
       />
     </>
   );
