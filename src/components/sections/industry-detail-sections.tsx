@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { locationBoothTypePath } from "@/lib/locations";
 
 export type IndustryDetailItem = {
   slug: string;
@@ -168,7 +169,7 @@ export function IndustryDetailSections({
               {recommended.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/booth-types/${item.slug}`, locale)}
+                    href={localizePath(locationBoothTypePath(item.slug), locale)}
                     className="industry-detail-booth-card group"
                   >
                     {item.image ? (

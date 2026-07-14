@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { faqJsonLd, JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
-import { ProgrammaticLocationSections } from "@/components/sections/programmatic-location-sections";
 import { PageHero } from "@/components/sections/page-hero";
+import { ServiceDetailSections } from "@/components/sections/service-detail-sections";
 import {
   buildServiceLocationPage,
   getAllProgrammaticServiceParams,
@@ -12,6 +12,12 @@ import {
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import {
+  loadLocation,
+  loadLocations,
+  loadService,
+  loadServices,
+} from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = {
@@ -49,15 +55,37 @@ export default async function LocationServicePage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const page = buildServiceLocationPage(locale, slug, serviceSlug);
-  if (!page) notFound();
+  const [page, service, allServices, locations, dictionary] = await Promise.all([
+    Promise.resolve(buildServiceLocationPage(locale, slug, serviceSlug)),
+    loadService(locale, serviceSlug),
+    loadServices(locale),
+    loadLocations(locale),
+    resolveDictionary(locale),
+  ]);
+  if (!page || !service) notFound();
 
-  const dictionary = await resolveDictionary(locale);
+  const location = await loadLocation(locale, slug);
+  if (!location) notFound();
+
+  const related = allServices
+    .filter((item) => item.slug !== serviceSlug)
+    .slice(0, 3)
+    .map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      excerpt: item.excerpt,
+      overview: item.overview,
+      image: item.image,
+      imageAlt: item.imageAlt,
+      benefits: item.benefits,
+      process: item.process,
+    }));
+
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const locationsLabel = locale === "ar" ? "المواقع" : "Locations";
   const servicesLabel = locale === "ar" ? "الخدمات" : "Services";
   const briefHref = `#location-service-${slug}-${serviceSlug}-brief`;
-  const faq = faqJsonLd(page.faqs);
+  const faq = faqJsonLd(service.faq.length ? service.faq : page.faqs);
 
   return (
     <>
@@ -77,27 +105,42 @@ export default async function LocationServicePage({ params }: PageProps) {
         items={[
           { label: homeLabel, href: "/" },
           { label: locationsLabel, href: "/locations" },
-          { label: page.locationTitle, href: `/locations/${slug}` },
+          { label: location.title, href: `/locations/${slug}` },
           { label: servicesLabel, href: "/services" },
-          { label: page.entityTitle },
+          { label: service.title },
         ]}
       />
 
       <PageHero
-        eyebrow={`${page.locationTitle} · ${servicesLabel}`}
+        eyebrow={`${location.title} · ${servicesLabel}`}
         title={page.title}
         lead={page.lead}
-        image={page.image}
-        imageAlt={page.imageAlt}
+        image={service.image}
+        imageAlt={service.imageAlt}
         cta={{
           label: dictionary.nav.cta,
           href: briefHref,
         }}
       />
 
-      <ProgrammaticLocationSections
+      <ServiceDetailSections
         locale={locale}
-        page={page}
+        locationSlug={slug}
+        service={{
+          slug: service.slug,
+          title: service.title,
+          excerpt: service.excerpt,
+          overview: service.overview,
+          image: service.image,
+          imageAlt: service.imageAlt,
+          benefits: service.benefits,
+          process: service.process,
+        }}
+        related={related}
+        locations={locations.map((item) => ({
+          slug: item.slug,
+          title: item.title,
+        }))}
         briefHref={briefHref}
         ctaLabel={dictionary.nav.cta}
       />
@@ -105,7 +148,7 @@ export default async function LocationServicePage({ params }: PageProps) {
       <InnerPageEngagement
         locale={locale}
         dictionary={dictionary}
-        faqItems={page.faqs}
+        faqItems={service.faq.length ? service.faq : page.faqs}
         faqTitle={
           locale === "ar"
             ? `أسئلة عن ${page.title}`

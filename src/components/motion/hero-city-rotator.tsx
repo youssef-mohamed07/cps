@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 
 const CITIES: Record<Locale, string[]> = {
-  en: ["Riyadh", "Jeddah", "Dammam"],
-  ar: ["الرياض", "جدة", "الدمام"],
+  en: ["Riyadh", "Jeddah", "Dammam", "Khobar", "Makkah", "Madinah", "NEOM"],
+  ar: ["الرياض", "جدة", "الدمام", "الخبر", "مكة", "المدينة", "نيوم"],
 };
 
 type HeroCityTag = "p" | "span" | "div" | "h1" | "h2";

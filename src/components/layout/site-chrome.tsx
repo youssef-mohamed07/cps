@@ -4,6 +4,7 @@ import { GeometricPointer } from "@/components/motion/geometric-pointer";
 import type { Locale } from "@/lib/i18n";
 import { resolveFooter } from "@/lib/footer";
 import { resolveNavigation } from "@/lib/navigation";
+import { locationBoothTypePath, locationServicePath } from "@/lib/locations";
 import { loadBoothTypes, loadServices } from "@/sanity/load-collections";
 
 type SiteChromeProps = {
@@ -29,11 +30,11 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
         footer={footer}
         serviceLinks={services.map((item) => ({
           label: item.title,
-          href: `/services/${item.slug}`,
+          href: locationServicePath(item.slug),
         }))}
         boothTypeLinks={boothTypes.map((item) => ({
           label: item.title,
-          href: `/booth-types/${item.slug}`,
+          href: locationBoothTypePath(item.slug),
         }))}
       />
     </div>

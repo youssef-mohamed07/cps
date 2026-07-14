@@ -39,8 +39,8 @@ export default async function LocationsPage({ params }: PageProps) {
   const title = locale === "ar" ? "المواقع" : "Locations";
   const lead =
     locale === "ar"
-      ? "حضور إقليمي عبر السعودية ودول الخليج ومصر."
-      : "Regional presence across Saudi Arabia, the GCC, and Egypt.";
+      ? "حضور عبر أبرز مدن المملكة العربية السعودية."
+      : "Presence across Saudi Arabia’s key exhibition cities.";
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
   return (
@@ -65,9 +65,9 @@ export default async function LocationsPage({ params }: PageProps) {
         />
         <CollectionGrid
           columns={3}
-          eyebrow={locale === "ar" ? "تغطية إقليمية" : "Regional coverage"}
+          eyebrow={locale === "ar" ? "تغطية المدن" : "City coverage"}
           title={locale === "ar" ? "تنفيذ محلي بمعايير ثابتة" : "Local delivery. One consistent standard."}
-          ctaLabel={locale === "ar" ? "اكتشف الموقع" : "Explore location"}
+          ctaLabel={locale === "ar" ? "اكتشف المدينة" : "Explore city"}
           items={items.map((item) => ({
             href: localizePath(`/locations/${item.slug}`, locale),
             title: item.title,

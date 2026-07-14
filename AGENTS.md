@@ -6,7 +6,14 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing routing
 
 ## Current state
 
-Bilingual exhibition booth site (`/en`, `/ar`) with CMS-ready IA: services, booth types, work (filters), industries, locations (GCC + Egypt), news/insights. About is one page with section anchors.
+Bilingual exhibition booth site (`/en`, `/ar`) with CMS-ready IA: services, booth types, work (filters), industries, locations (7 Saudi cities), news/insights. About is one page with section anchors.
+
+Service and booth-type **detail** URLs live only under locations:
+
+- `/locations/[city]/services/[service]`
+- `/locations/[city]/booth-types/[boothType]`
+
+Hubs `/services` and `/booth-types` remain as indexes.
 
 ## Stack
 

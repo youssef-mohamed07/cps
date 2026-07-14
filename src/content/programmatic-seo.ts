@@ -96,8 +96,8 @@ export function buildServiceLocationPage(
     {
       title: isArabic ? "معايير CPS" : "CPS standards",
       description: isArabic
-        ? "نفس جودة التصميم والتصنيع عبر الخليج ومصر."
-        : "The same design and fabrication quality across the GCC and Egypt.",
+        ? "نفس جودة التصميم والتصنيع عبر مدن المملكة."
+        : "The same design and fabrication quality across Saudi cities.",
     },
     ...(service.benefits[0]
       ? [

@@ -6,6 +6,7 @@ import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { formatBoothTypeTitle } from "@/content/catalog";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { locationBoothTypePath } from "@/lib/locations";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadBoothTypes } from "@/sanity/load-collections";
@@ -61,7 +62,7 @@ export default async function BoothTypesPage({ params }: PageProps) {
           title={locale === "ar" ? "جناح يناسب مساحتك وطموحك" : "A booth for every footprint and ambition"}
           ctaLabel={locale === "ar" ? "عرض النوع" : "View booth type"}
           items={items.map((item) => ({
-            href: localizePath(`/booth-types/${item.slug}`, locale),
+            href: localizePath(locationBoothTypePath(item.slug), locale),
             title: formatBoothTypeTitle(item.title),
             excerpt: item.excerpt,
             image: item.image,

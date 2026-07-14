@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
-import { faqJsonLd, JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
+import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
+import { BoothTypeDetailSections } from "@/components/sections/booth-type-detail-sections";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
-import { ProgrammaticLocationSections } from "@/components/sections/programmatic-location-sections";
 import { PageHero } from "@/components/sections/page-hero";
+import { formatBoothTypeTitle } from "@/content/catalog";
 import {
   buildBoothTypeLocationPage,
   getAllProgrammaticBoothTypeParams,
 } from "@/content/programmatic-seo";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import {
+  loadBoothType,
+  loadBoothTypes,
+  loadLocation,
+  loadLocations,
+} from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = {
@@ -49,15 +56,43 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const page = buildBoothTypeLocationPage(locale, slug, boothTypeSlug);
-  if (!page) notFound();
+  const [page, boothType, allBoothTypes, locations, location, dictionary] =
+    await Promise.all([
+      Promise.resolve(buildBoothTypeLocationPage(locale, slug, boothTypeSlug)),
+      loadBoothType(locale, boothTypeSlug),
+      loadBoothTypes(locale),
+      loadLocations(locale),
+      loadLocation(locale, slug),
+      resolveDictionary(locale),
+    ]);
+  if (!page || !boothType || !location) notFound();
 
-  const dictionary = await resolveDictionary(locale);
+  const related = allBoothTypes
+    .filter((item) => item.slug !== boothTypeSlug)
+    .slice(0, 3)
+    .map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      excerpt: item.excerpt,
+      overviewTitle: item.overviewTitle,
+      description: item.description,
+      image: item.image,
+      imageAlt: item.imageAlt,
+      features: item.features,
+      advantages: item.advantages,
+      useCases: item.useCases,
+    }));
+
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const locationsLabel = locale === "ar" ? "المواقع" : "Locations";
-  const boothTypesLabel = locale === "ar" ? "أنواع الأجنحة" : "Booth Types";
+  const hubLabel = locale === "ar" ? "أنواع الأجنحة" : "Booth Types";
   const briefHref = `#location-booth-${slug}-${boothTypeSlug}-brief`;
-  const faq = faqJsonLd(page.faqs);
+  const overviewTitle =
+    boothType.overviewTitle ||
+    (locale === "ar"
+      ? "صُمم هذا النوع لحضور أقوى على أرض المعرض."
+      : "Built for stronger presence on the show floor.");
+  const plainTitle = formatBoothTypeTitle(boothType.title, location.title);
 
   return (
     <>
@@ -67,49 +102,71 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
           description: page.lead,
           path: page.path,
           locale,
-          image: page.image,
+          image: boothType.image,
         })}
       />
-      {faq ? <JsonLd data={faq} /> : null}
 
       <Breadcrumbs
         locale={locale}
         items={[
           { label: homeLabel, href: "/" },
           { label: locationsLabel, href: "/locations" },
-          { label: page.locationTitle, href: `/locations/${slug}` },
-          { label: boothTypesLabel, href: "/booth-types" },
-          { label: page.entityTitle },
+          { label: location.title, href: `/locations/${slug}` },
+          { label: hubLabel, href: "/booth-types" },
+          { label: plainTitle },
         ]}
       />
 
       <PageHero
-        eyebrow={`${page.locationTitle} · ${boothTypesLabel}`}
-        title={page.title}
+        eyebrow={`${location.title} · ${hubLabel}`}
+        title={boothType.title.includes("{City}") ? boothType.title : page.title}
         lead={page.lead}
-        image={page.image}
-        imageAlt={page.imageAlt}
+        image={boothType.image}
+        imageAlt={boothType.imageAlt}
+        locale={locale}
         cta={{
-          label: dictionary.nav.cta,
+          label: dictionary.servicesPage.primaryCta,
           href: briefHref,
+        }}
+        secondaryCta={{
+          label: dictionary.servicesPage.secondaryCta,
+          href: localizePath("/work", locale),
         }}
       />
 
-      <ProgrammaticLocationSections
+      <BoothTypeDetailSections
         locale={locale}
-        page={page}
+        locationSlug={slug}
+        boothType={{
+          slug: boothType.slug,
+          title: boothType.title,
+          excerpt: boothType.excerpt,
+          overviewTitle,
+          description: boothType.description,
+          image: boothType.image,
+          imageAlt: boothType.imageAlt,
+          model3d: boothType.model3d,
+          features: boothType.features,
+          advantages: boothType.advantages,
+          useCases: boothType.useCases,
+        }}
+        related={related}
+        locations={locations.map((item) => ({
+          slug: item.slug,
+          title: item.title,
+        }))}
         briefHref={briefHref}
-        ctaLabel={dictionary.nav.cta}
+        ctaLabel={dictionary.servicesPage.primaryCta}
       />
 
       <InnerPageEngagement
         locale={locale}
         dictionary={dictionary}
-        faqItems={page.faqs}
+        faqItems={boothType.faq.length ? boothType.faq : page.faqs}
         faqTitle={
           locale === "ar"
-            ? `أسئلة عن ${page.title}`
-            : `Questions about ${page.title}`
+            ? `أسئلة عن ${plainTitle}`
+            : `Questions about ${plainTitle}`
         }
         namespace={`location-booth-${slug}-${boothTypeSlug}`}
       />

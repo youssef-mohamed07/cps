@@ -11,18 +11,16 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/` | Redirect / locale entry | Handled via locale routing |
 | `/[locale]` | Homepage | Hero + lifecycle + services + booth types + FAQ |
 | `/[locale]/about` | About page | Single page with anchors (`#overview` `#mission` `#why-us` `#process` `#team` `#certifications` `#clients` `#faq`) |
-| `/[locale]/services` | Services index | CMS + local catalog fallback |
-| `/[locale]/services/[slug]` | Service detail | 7 services |
-| `/[locale]/booth-types` | Booth types index | CMS + local catalog fallback |
-| `/[locale]/booth-types/[slug]` | Booth type detail | 8 types |
-| `/[locale]/work` | Work index | Filters: booth type, industry, country, event, size |
+| `/[locale]/services` | Services hub | Cards link to `/locations/riyadh/services/...` |
+| `/[locale]/booth-types` | Booth types hub | Cards link to `/locations/riyadh/booth-types/...` |
+| `/[locale]/work` | Work index | Filters: booth type, industry, city, event, size |
 | `/[locale]/work/[slug]` | Project detail | CMS + `projects.ts` fallback |
 | `/[locale]/industries` | Industries hub | SEO hubs |
 | `/[locale]/industries/[slug]` | Industry detail | |
-| `/[locale]/locations` | Locations hub | GCC + Egypt (footer, not primary nav) |
-| `/[locale]/locations/[slug]` | Location detail | Links to service × location + booth type × location |
-| `/[locale]/locations/[slug]/services/[serviceSlug]` | Programmatic SEO | 7 locations × 7 services |
-| `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Programmatic SEO | 7 locations × 8 booth types |
+| `/[locale]/locations` | Cities hub | 7 Saudi cities (footer) |
+| `/[locale]/locations/[slug]` | City detail | Parent for services + booth types |
+| `/[locale]/locations/[slug]/services/[serviceSlug]` | Service detail | Only service detail URL (7×7) |
+| `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Booth type detail | Only booth-type detail URL (7×8) |
 | `/[locale]/news` | Insights index | |
 | `/[locale]/news/[slug]` | Article | |
 | `/[locale]/contact` | Contact page | Email / WhatsApp helpers |

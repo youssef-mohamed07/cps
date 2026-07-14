@@ -51,8 +51,8 @@ Revalidate tags: `siteFooter`, `siteFooter-{locale}`.
 
 | Type | Routes |
 | --- | --- |
-| `service` | `/services`, `/services/[slug]` |
-| `boothType` | `/booth-types`, `/booth-types/[slug]` |
+| `service` | `/services` hub; detail at `/locations/[city]/services/[slug]` |
+| `boothType` | `/booth-types` hub; detail at `/locations/[city]/booth-types/[slug]` |
 | `project` | `/work`, `/work/[slug]` |
 | `industry` | `/industries`, `/industries/[slug]` |
 | `location` | `/locations`, `/locations/[slug]` |
@@ -94,7 +94,7 @@ Tags include: `siteSettings`, `dictionary`, `notFoundPage`, page singletons, and
 
 ## Draft preview
 
-- Enable: `GET /api/draft?secret=...&slug=/en/services/booth-design`
+- Enable: `GET /api/draft?secret=...&slug=/en/locations/riyadh/services/booth-design`
 - Disable: `GET /api/draft/disable?redirect=/en`
 - When draft mode is on, `sanityFetch` uses `perspective=previewDrafts` (needs read token)
 

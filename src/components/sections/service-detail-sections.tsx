@@ -4,6 +4,10 @@ import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { localizePath, type Locale } from "@/lib/i18n";
+import {
+  DEFAULT_LOCATION_SLUG,
+  locationServicePath,
+} from "@/lib/locations";
 
 export type ServiceDetailItem = {
   slug: string;
@@ -21,6 +25,7 @@ type ServiceDetailSectionsProps = {
   service: ServiceDetailItem;
   related: ServiceDetailItem[];
   locations: { slug: string; title: string }[];
+  locationSlug?: string;
   briefHref: string;
   ctaLabel: string;
 };
@@ -30,6 +35,7 @@ export function ServiceDetailSections({
   service,
   related,
   locations,
+  locationSlug = DEFAULT_LOCATION_SLUG,
   briefHref,
   ctaLabel,
 }: ServiceDetailSectionsProps) {
@@ -128,8 +134,8 @@ export function ServiceDetailSections({
                 </p>
                 <h2 className="service-detail-section-title">
                   {isArabic
-                    ? `${service.title} عبر مواقعنا.`
-                    : `${service.title} across our locations.`}
+                    ? `${service.title} عبر مدننا.`
+                    : `${service.title} across our cities.`}
                 </h2>
               </div>
             </Reveal>
@@ -138,7 +144,7 @@ export function ServiceDetailSections({
                 <li key={item.slug}>
                   <Link
                     href={localizePath(
-                      `/locations/${item.slug}/services/${service.slug}`,
+                      locationServicePath(service.slug, item.slug),
                       locale,
                     )}
                   >
@@ -172,7 +178,10 @@ export function ServiceDetailSections({
               {related.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/services/${item.slug}`, locale)}
+                    href={localizePath(
+                      locationServicePath(item.slug, locationSlug),
+                      locale,
+                    )}
                     className="service-detail-related-card"
                   >
                     {item.image ? (

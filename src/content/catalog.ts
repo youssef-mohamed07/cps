@@ -1139,377 +1139,210 @@ export const industries: IndustryRecord[] = [
 
 export const locations: LocationRecord[] = [
   {
-    slug: "saudi-arabia",
+    slug: "riyadh",
     order: 1,
     countryCode: "SA",
-    image: media.locations.saudiArabia,
-    imageAlt: "Exhibition in Saudi Arabia",
+    image: media.locations.riyadh,
+    imageAlt: "Exhibition booth delivery in Riyadh",
     en: {
-      title: "Saudi Arabia",
-      excerpt: "Home base for design, fabrication, and on-site delivery.",
+      title: "Riyadh",
+      excerpt: "Capital shows, venues, and year-round exhibition calendars.",
       localExperience:
-        "CPS is based in Saudi Arabia with in-house production and crews experienced across major venues and exhibition calendars.",
+        "Riyadh is our primary delivery base — in-house production with crews experienced across the city's major venues and national exhibition calendar.",
       capabilities: [
-        {
-          title: "In-house production",
-          description:
-            "Design, fabrication, and finishing under one roof — fewer handoffs and tighter quality control.",
-        },
-        {
-          title: "Venue-ready crews",
-          description:
-            "Install teams experienced across Riyadh, Jeddah, and Dammam venues and show calendars.",
-        },
-        {
-          title: "End-to-end ownership",
-          description:
-            "One CPS team from brief and concept through build, install, and teardown.",
-        },
+        { title: "Venue-ready crews", description: "Install teams familiar with Riyadh venues, access rules, and show schedules." },
+        { title: "In-house production", description: "Design through fabrication under one roof for tighter quality and timelines." },
+        { title: "National show support", description: "Flagship programs and recurring exhibitor builds across the Riyadh calendar." },
       ],
     },
     ar: {
-      title: "المملكة العربية السعودية",
-      excerpt: "القاعدة للتصميم والتصنيع والتسليم في الموقع.",
+      title: "الرياض",
+      excerpt: "معارض العاصمة والمواقع وتقويم المعارض على مدار السنة.",
       localExperience:
-        "CPS مقرها في السعودية بإنتاج داخلي وفرق ذات خبرة عبر المواقع الرئيسية وتقويمات المعارض.",
+        "الرياض قاعدتنا الأساسية للتسليم — إنتاج داخلي وفرق ذات خبرة عبر أبرز مواقع المدينة وتقويم المعارض الوطني.",
       capabilities: [
-        {
-          title: "إنتاج داخلي",
-          description:
-            "تصميم وتصنيع وتشطيب تحت سقف واحد — تسليمات أقل وتحكم أدق في الجودة.",
-        },
-        {
-          title: "فرق جاهزة للمواقع",
-          description:
-            "فرق تركيب بخبرة عبر مواقع الرياض وجدة والدمام وتقويمات المعارض.",
-        },
-        {
-          title: "ملكية من البداية للنهاية",
-          description:
-            "فريق CPS واحد من الموجز والمفهوم إلى البناء والتركيب والتفكيك.",
-        },
+        { title: "فرق جاهزة للمواقع", description: "فرق تركيب معتادة على مواقع الرياض وقواعد الدخول وجداول المعارض." },
+        { title: "إنتاج داخلي", description: "من التصميم إلى التصنيع تحت سقف واحد لجودة وجداول أدق." },
+        { title: "دعم المعارض الوطنية", description: "برامج رئيسية وبناء لمعارض متكررة عبر تقويم الرياض." },
       ],
     },
   },
   {
-    slug: "uae",
+    slug: "jeddah",
     order: 2,
-    countryCode: "AE",
-    image: media.locations.uae,
-    imageAlt: "Exhibition in the UAE",
+    countryCode: "SA",
+    image: media.locations.jeddah,
+    imageAlt: "Exhibition booth delivery in Jeddah",
     en: {
-      title: "United Arab Emirates",
-      excerpt: "Dubai and Abu Dhabi trade shows and activations.",
+      title: "Jeddah",
+      excerpt: "Red Sea trade shows, retail activations, and coastal venue programs.",
       localExperience:
-        "We support UAE exhibitions with logistics planning, install crews, and booth programs tuned to regional venues.",
+        "Jeddah programs combine brand-led design with logistics tuned to Red Sea venues and the western region calendar.",
       capabilities: [
-        {
-          title: "Dubai & Abu Dhabi programs",
-          description:
-            "Trade shows, brand activations, and pavilion-scale builds across the UAE calendar.",
-        },
-        {
-          title: "Regional logistics",
-          description:
-            "Shipping, customs, and on-site install coordinated end to end for GCC venues.",
-        },
-        {
-          title: "Repeat exhibitor support",
-          description:
-            "Storage and redeploy options for brands returning to the same show cycle.",
-        },
+        { title: "Coastal venue logistics", description: "Shipping, access, and install coordinated for Jeddah exhibition sites." },
+        { title: "Retail & trade shows", description: "Booths built for visitor flow in busy Jeddah halls." },
+        { title: "Western region coverage", description: "Crews and scheduling for shows across the Jeddah market." },
       ],
     },
     ar: {
-      title: "الإمارات العربية المتحدة",
-      excerpt: "معارض وتفعيلات دبي وأبوظبي.",
+      title: "جدة",
+      excerpt: "معارض البحر الأحمر وتفعيلات التجزئة وبرامج المواقع الساحلية.",
       localExperience:
-        "ندعم معارض الإمارات بتخطيط لوجستي وفرق تركيب وبرامج أجنحة متوافقة مع المواقع الإقليمية.",
+        "برامج جدة تجمع تصميماً بقيادة العلامة مع لوجستيات متوافقة مع مواقع البحر الأحمر وتقويم المنطقة الغربية.",
       capabilities: [
-        {
-          title: "برامج دبي وأبوظبي",
-          description:
-            "معارض وتفعيلات علامة وأجنحة على نطاق واسع عبر تقويم الإمارات.",
-        },
-        {
-          title: "لوجستيات إقليمية",
-          description:
-            "شحن وجمارك وتركيب في الموقع منسّق بالكامل لمواقع الخليج.",
-        },
-        {
-          title: "دعم العارضين المتكررين",
-          description:
-            "خيارات تخزين وإعادة نشر للعلامات التي تعود لنفس دورة المعارض.",
-        },
+        { title: "لوجستيات المواقع الساحلية", description: "شحن ودخول وتركيب منسّق لمواقع معارض جدة." },
+        { title: "تجزئة ومعارض تجارية", description: "أجنحة مبنية لتدفق الزوار في قاعات جدة المزدحمة." },
+        { title: "تغطية المنطقة الغربية", description: "فرق وجداول لمعارض سوق جدة." },
       ],
     },
   },
   {
-    slug: "qatar",
+    slug: "dammam",
     order: 3,
-    countryCode: "QA",
-    image: media.locations.qatar,
-    imageAlt: "Exhibition in Qatar",
+    countryCode: "SA",
+    image: media.locations.dammam,
+    imageAlt: "Exhibition booth delivery in Dammam",
     en: {
-      title: "Qatar",
-      excerpt: "Doha exhibitions and pavilion-scale programs.",
+      title: "Dammam",
+      excerpt: "Eastern Province industrial, energy, and trade exhibition programs.",
       localExperience:
-        "From compact stands to larger presence builds, we deliver Qatar projects with schedule discipline and venue coordination.",
+        "Dammam deliveries focus on practical fabrication, install windows, and venues serving the Eastern Province calendar.",
       capabilities: [
-        {
-          title: "Doha exhibition support",
-          description:
-            "Compact stands through pavilion-scale programs for Doha venues and events.",
-        },
-        {
-          title: "Schedule discipline",
-          description:
-            "Tight access windows and venue rules managed with clear install milestones.",
-        },
-        {
-          title: "Cross-border coordination",
-          description:
-            "Fabrication and logistics planned for smooth delivery into Qatar.",
-        },
+        { title: "Eastern Province crews", description: "On-site teams coordinated for Dammam venues and show dates." },
+        { title: "Industrial & energy shows", description: "Booths built for technical demos and buyer traffic." },
+        { title: "Regional logistics", description: "Freight and install planning across the Eastern corridor." },
       ],
     },
     ar: {
-      title: "قطر",
-      excerpt: "معارض الدوحة وبرامج على نطاق الأجنحة.",
+      title: "الدمام",
+      excerpt: "برامج معارض صناعية وطاقة وتجارية في المنطقة الشرقية.",
       localExperience:
-        "من الأكشاك المدمجة إلى الحضور الأوسع، نسلّم مشاريع قطر بانضباط جدولي وتنسيق مع المواقع.",
+        "تسليم الدمام يركّز على تصنيع عملي ونوافذ تركيب ومواقع تخدم تقويم المنطقة الشرقية.",
       capabilities: [
-        {
-          title: "دعم معارض الدوحة",
-          description:
-            "أكشاك مدمجة إلى برامج على نطاق الأجنحة لمواقع وفعاليات الدوحة.",
-        },
-        {
-          title: "انضباط الجدول",
-          description:
-            "نوافذ وصول ضيقة وقواعد المواقع تُدار بمراحل تركيب واضحة.",
-        },
-        {
-          title: "تنسيق عبر الحدود",
-          description:
-            "تصنيع ولوجستيات مخططة لتسليم سلس إلى قطر.",
-        },
+        { title: "فرق المنطقة الشرقية", description: "فرق ميدانية منسّقة لمواقع الدمام ومواعيد المعارض." },
+        { title: "معارض صناعية وطاقة", description: "أجنحة مبنية للعروض التقنية وحركة المشترين." },
+        { title: "لوجستيات إقليمية", description: "تخطيط شحن وتركيب عبر الممر الشرقي." },
       ],
     },
   },
   {
-    slug: "kuwait",
+    slug: "khobar",
     order: 4,
-    countryCode: "KW",
-    image: media.locations.kuwait,
-    imageAlt: "Exhibition in Kuwait",
+    countryCode: "SA",
+    image: media.locations.khobar,
+    imageAlt: "Exhibition booth delivery in Khobar",
     en: {
-      title: "Kuwait",
-      excerpt: "Trade shows and brand activations across Kuwait.",
+      title: "Khobar",
+      excerpt: "Corporate, tech, and brand activations across Khobar venues.",
       localExperience:
-        "We plan Kuwait installs around venue access windows and provide storage/redeploy options for repeat exhibitors.",
+        "Khobar projects emphasize polished brand presence with install support across local halls and corporate events.",
       capabilities: [
-        {
-          title: "Kuwait trade shows",
-          description:
-            "Booth programs for exhibitions and brand activations across Kuwait.",
-        },
-        {
-          title: "Access-window planning",
-          description:
-            "Install schedules built around venue rules and tight show-floor access.",
-        },
-        {
-          title: "Storage & redeploy",
-          description:
-            "Keep booth assets ready for the next Kuwait or regional show.",
-        },
+        { title: "Brand activations", description: "High-finish booths for corporate and tech audiences." },
+        { title: "Local venue access", description: "Crews familiar with Khobar site rules and timing." },
+        { title: "Reuse-ready builds", description: "Storage and redeploy options for returning exhibitors." },
       ],
     },
     ar: {
-      title: "الكويت",
-      excerpt: "معارض وتفعيلات علامة عبر الكويت.",
+      title: "الخبر",
+      excerpt: "تفعيلات شركات وتقنية وعلامات عبر مواقع الخبر.",
       localExperience:
-        "نخطط تركيبات الكويت وفق نوافذ وصول المواقع ونوفر خيارات تخزين وإعادة نشر للعارضين المتكررين.",
+        "مشاريع الخبر تركّز على حضور علامة مصقول مع دعم تركيب عبر القاعات المحلية وفعاليات الشركات.",
       capabilities: [
-        {
-          title: "معارض الكويت",
-          description:
-            "برامج أجنحة للمعارض وتفعيلات العلامة عبر الكويت.",
-        },
-        {
-          title: "تخطيط نوافذ الوصول",
-          description:
-            "جداول تركيب مبنية على قواعد المواقع ووصول ضيق لأرض المعرض.",
-        },
-        {
-          title: "تخزين وإعادة نشر",
-          description:
-            "إبقاء أصول الجناح جاهزة للمعرض الكويتي أو الإقليمي التالي.",
-        },
+        { title: "تفعيلات العلامة", description: "أجنحة بتشطيب عالٍ لجمهور الشركات والتقنية." },
+        { title: "دخول المواقع المحلية", description: "فرق معتادة على قواعد ومواعيد مواقع الخبر." },
+        { title: "بناء جاهز لإعادة الاستخدام", description: "خيارات تخزين وإعادة نشر للمعارض المتكررة." },
       ],
     },
   },
   {
-    slug: "bahrain",
+    slug: "makkah",
     order: 5,
-    countryCode: "BH",
-    image: media.locations.bahrain,
-    imageAlt: "Exhibition in Bahrain",
+    countryCode: "SA",
+    image: media.locations.makkah,
+    imageAlt: "Exhibition booth delivery in Makkah",
     en: {
-      title: "Bahrain",
-      excerpt: "Compact and modular booth programs for Bahrain events.",
+      title: "Makkah",
+      excerpt: "Exhibition and event programs with careful venue and schedule planning.",
       localExperience:
-        "Bahrain projects often favor efficient modular systems with strong brand graphics and fast install.",
+        "Makkah deliveries are planned around venue access, local regulations, and clear install windows.",
       capabilities: [
-        {
-          title: "Modular booth systems",
-          description:
-            "Efficient builds with strong graphics for Bahrain exhibition footprints.",
-        },
-        {
-          title: "Fast install cycles",
-          description:
-            "Programs tuned for quick build and strike on compact show schedules.",
-        },
-        {
-          title: "Brand-first graphics",
-          description:
-            "High-impact print and finishing that reads clearly on busy show floors.",
-        },
+        { title: "Venue coordination", description: "Access, power, and schedule aligned before build day." },
+        { title: "Respectful planning", description: "Programs timed carefully around local calendars and constraints." },
+        { title: "Reliable install", description: "Crews focused on clean setup and safe teardown." },
       ],
     },
     ar: {
-      title: "البحرين",
-      excerpt: "برامج أجنحة مدمجة ومعيارية لفعاليات البحرين.",
+      title: "مكة",
+      excerpt: "برامج معارض وفعاليات بتخطيط دقيق للموقع والجدول.",
       localExperience:
-        "مشاريع البحرين غالباً تفضّل أنظمة معيارية فعّالة مع رسومات علامة قوية وتركيب سريع.",
+        "تسليم مكة يُخطَّط حول دخول المواقع والتنظيمات المحلية ونوافذ تركيب واضحة.",
       capabilities: [
-        {
-          title: "أنظمة أجنحة معيارية",
-          description:
-            "بناء فعّال مع رسومات قوية لمساحات معارض البحرين.",
-        },
-        {
-          title: "دورات تركيب سريعة",
-          description:
-            "برامج مخصصة لبناء وإزالة سريعة على جداول عرض مدمجة.",
-        },
-        {
-          title: "رسومات بقيادة العلامة",
-          description:
-            "طباعة وتشطيب عالي التأثير يقرأ بوضوح على أرضيات المعارض المزدحمة.",
-        },
+        { title: "تنسيق المواقع", description: "دخول وطاقة وجدول متوافق قبل يوم البناء." },
+        { title: "تخطيط مراعٍ", description: "برامج موقوتة بعناية حول التقويم والقيود المحلية." },
+        { title: "تركيب موثوق", description: "فرق تركّز على إعداد نظيف وتفكيك آمن." },
       ],
     },
   },
   {
-    slug: "oman",
+    slug: "madinah",
     order: 6,
-    countryCode: "OM",
-    image: media.locations.oman,
-    imageAlt: "Exhibition in Oman",
+    countryCode: "SA",
+    image: media.locations.madinah,
+    imageAlt: "Exhibition booth delivery in Madinah",
     en: {
-      title: "Oman",
-      excerpt: "Exhibition support across Muscat and regional events.",
+      title: "Madinah",
+      excerpt: "Regional exhibitions and brand presence with local delivery support.",
       localExperience:
-        "We deliver Oman booths with logistics planning suited to regional shipping and venue requirements.",
+        "Madinah projects pair CPS fabrication standards with logistics and install support for the local event calendar.",
       capabilities: [
-        {
-          title: "Muscat & regional events",
-          description:
-            "Booth delivery for Muscat exhibitions and regional brand programs.",
-        },
-        {
-          title: "Regional shipping",
-          description:
-            "Logistics planned for GCC transit and venue delivery requirements.",
-        },
-        {
-          title: "Practical booth builds",
-          description:
-            "Design and fabrication balanced for local venue access and timelines.",
-        },
+        { title: "Regional delivery", description: "Production and install coordinated for Madinah shows." },
+        { title: "Clear timelines", description: "Design-to-install stages locked early for smaller venue windows." },
+        { title: "On-site support", description: "Show-day adjustments when the floor needs them." },
       ],
     },
     ar: {
-      title: "عُمان",
-      excerpt: "دعم معارض عبر مسقط والفعاليات الإقليمية.",
+      title: "المدينة",
+      excerpt: "معارض إقليمية وحضور علامة مع دعم تسليم محلي.",
       localExperience:
-        "نسلّم أجنحة عُمان بتخطيط لوجستي يناسب الشحن الإقليمي ومتطلبات المواقع.",
+        "مشاريع المدينة تقرن معايير تصنيع CPS مع لوجستيات ودعم تركيب لتقويم الفعاليات المحلي.",
       capabilities: [
-        {
-          title: "مسقط والفعاليات الإقليمية",
-          description:
-            "تسليم أجنحة لمعارض مسقط وبرامج العلامة الإقليمية.",
-        },
-        {
-          title: "شحن إقليمي",
-          description:
-            "لوجستيات مخططة لعبور الخليج ومتطلبات تسليم المواقع.",
-        },
-        {
-          title: "بناء عملي للأجنحة",
-          description:
-            "تصميم وتصنيع متوازنان لوصول المواقع المحلية والجداول الزمنية.",
-        },
+        { title: "تسليم إقليمي", description: "إنتاج وتركيب منسّق لمعارض المدينة." },
+        { title: "جداول واضحة", description: "مراحل من التصميم إلى التركيب تُثبَّت مبكراً لنوافذ المواقع الأصغر." },
+        { title: "دعم في الموقع", description: "تعديلات يوم المعرض عندما تحتاجها القاعة." },
       ],
     },
   },
   {
-    slug: "egypt",
+    slug: "neom",
     order: 7,
-    countryCode: "EG",
-    image: media.locations.egypt,
-    imageAlt: "Exhibition in Egypt",
+    countryCode: "SA",
+    image: media.locations.neom,
+    imageAlt: "Exhibition booth delivery in NEOM",
     en: {
-      title: "Egypt",
-      excerpt: "Cairo and regional exhibition programs.",
+      title: "NEOM",
+      excerpt: "Future-facing activations and pavilion-scale presence for NEOM programs.",
       localExperience:
-        "Egypt projects combine brand-led design with practical fabrication and install planning for local venues.",
+        "NEOM projects demand precise logistics, premium finishes, and crews ready for ambitious spatial programs.",
       capabilities: [
-        {
-          title: "Cairo exhibition programs",
-          description:
-            "Brand-led booth design and delivery for Cairo and regional shows.",
-        },
-        {
-          title: "Local venue planning",
-          description:
-            "Install schedules aligned with Egyptian venue access and regulations.",
-        },
-        {
-          title: "Fabrication & graphics",
-          description:
-            "Practical build quality with strong print and finishing on the floor.",
-        },
+        { title: "Premium fabrication", description: "Materials and detailing built for high-visibility environments." },
+        { title: "Complex logistics", description: "Freight and install planned for remote and controlled sites." },
+        { title: "Pavilion-ready teams", description: "Capability for large-scale and experiential builds." },
       ],
     },
     ar: {
-      title: "مصر",
-      excerpt: "برامج معارض القاهرة والمنطقة.",
+      title: "نيوم",
+      excerpt: "تفعيلات مستقبلية وحضور بمعيار الأجنحة الكبيرة لبرامج نيوم.",
       localExperience:
-        "مشاريع مصر تجمع تصميماً بقيادة العلامة مع تصنيع عملي وتخطيط تركيب للمواقع المحلية.",
+        "مشاريع نيوم تتطلب لوجستيات دقيقة وتشطيبات فاخرة وفرقاً جاهزة لبرامج فراغية طموحة.",
       capabilities: [
-        {
-          title: "برامج معارض القاهرة",
-          description:
-            "تصميم وتسليم أجنحة بقيادة العلامة لمعارض القاهرة والإقليم.",
-        },
-        {
-          title: "تخطيط المواقع المحلية",
-          description:
-            "جداول تركيب متوافقة مع وصول المواقع المصرية واللوائح.",
-        },
-        {
-          title: "تصنيع ورسومات",
-          description:
-            "جودة بناء عملية مع طباعة وتشطيب قوي على أرض المعرض.",
-        },
+        { title: "تصنيع فاخر", description: "مواد وتفاصيل مبنية لبيئات عالية الظهور." },
+        { title: "لوجستيات معقّدة", description: "شحن وتركيب مخطط لمواقع نائية ومنضبطة." },
+        { title: "فرق جاهزة للأجنحة الكبيرة", description: "قدرة على بناء واسع وتجريبي." },
       ],
     },
   },
 ];
+
 
 export const newsArticles: NewsRecord[] = [
   {
@@ -1622,4 +1455,11 @@ export function localizeNews(article: NewsRecord, locale: Locale) {
 export const redirects = [
   { from: "/portfolio", to: "/work", status: 301 as const },
   { from: "/blog", to: "/news", status: 301 as const },
+  { from: "/locations/saudi-arabia", to: "/locations/riyadh", status: 301 as const },
+  { from: "/locations/uae", to: "/locations/jeddah", status: 301 as const },
+  { from: "/locations/qatar", to: "/locations/dammam", status: 301 as const },
+  { from: "/locations/kuwait", to: "/locations/khobar", status: 301 as const },
+  { from: "/locations/bahrain", to: "/locations/makkah", status: 301 as const },
+  { from: "/locations/oman", to: "/locations/madinah", status: 301 as const },
+  { from: "/locations/egypt", to: "/locations/neom", status: 301 as const },
 ];

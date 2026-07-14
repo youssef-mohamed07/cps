@@ -124,7 +124,7 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
         labels={{
           boothType: locale === "ar" ? "نوع الجناح" : "Booth type",
           industry: locale === "ar" ? "القطاع" : "Industry",
-          country: locale === "ar" ? "الدولة" : "Country",
+          country: locale === "ar" ? "المدينة" : "City",
           event: locale === "ar" ? "الحدث" : "Event",
           size: locale === "ar" ? "المساحة" : "Size",
           all: locale === "ar" ? "الكل" : "All",

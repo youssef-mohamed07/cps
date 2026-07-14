@@ -54,12 +54,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPaths.flatMap((path) =>
       entry(path, { priority: path === "/" ? 1 : 0.8 }),
     ),
-    ...services.flatMap((item) =>
-      entry(`/services/${item.slug}`, { changeFrequency: "monthly", priority: 0.7 }),
-    ),
-    ...boothTypes.flatMap((item) =>
-      entry(`/booth-types/${item.slug}`, { changeFrequency: "monthly", priority: 0.7 }),
-    ),
     ...projects.flatMap((item) =>
       entry(`/work/${item.slug}`, { changeFrequency: "monthly", priority: 0.7 }),
     ),
@@ -73,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       services.flatMap((service) =>
         entry(`/locations/${location.slug}/services/${service.slug}`, {
           changeFrequency: "monthly",
-          priority: 0.55,
+          priority: 0.7,
         }),
       ),
     ),
@@ -81,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       boothTypes.flatMap((boothType) =>
         entry(`/locations/${location.slug}/booth-types/${boothType.slug}`, {
           changeFrequency: "monthly",
-          priority: 0.55,
+          priority: 0.7,
         }),
       ),
     ),

@@ -119,14 +119,14 @@ function footerEn(): FooterConfig {
     ],
     locationsTitle: "Locations",
     locations: [
-      { label: "Saudi Arabia", href: "/locations/saudi-arabia" },
-      { label: "UAE", href: "/locations/uae" },
-      { label: "Qatar", href: "/locations/qatar" },
-      { label: "Kuwait", href: "/locations/kuwait" },
-      { label: "Bahrain", href: "/locations/bahrain" },
-      { label: "Oman", href: "/locations/oman" },
-      { label: "Egypt", href: "/locations/egypt" },
-    ],
+        { label: "Riyadh", href: "/locations/riyadh" },
+        { label: "Jeddah", href: "/locations/jeddah" },
+        { label: "Dammam", href: "/locations/dammam" },
+        { label: "Khobar", href: "/locations/khobar" },
+        { label: "Makkah", href: "/locations/makkah" },
+        { label: "Madinah", href: "/locations/madinah" },
+        { label: "NEOM", href: "/locations/neom" },
+      ],
   };
 }
 
@@ -190,14 +190,14 @@ function footerAr(): FooterConfig {
     ],
     locationsTitle: "المواقع",
     locations: [
-      { label: "السعودية", href: "/locations/saudi-arabia" },
-      { label: "الإمارات", href: "/locations/uae" },
-      { label: "قطر", href: "/locations/qatar" },
-      { label: "الكويت", href: "/locations/kuwait" },
-      { label: "البحرين", href: "/locations/bahrain" },
-      { label: "عُمان", href: "/locations/oman" },
-      { label: "مصر", href: "/locations/egypt" },
-    ],
+        { label: "الرياض", href: "/locations/riyadh" },
+        { label: "جدة", href: "/locations/jeddah" },
+        { label: "الدمام", href: "/locations/dammam" },
+        { label: "الخبر", href: "/locations/khobar" },
+        { label: "مكة", href: "/locations/makkah" },
+        { label: "المدينة", href: "/locations/madinah" },
+        { label: "نيوم", href: "/locations/neom" },
+      ],
   };
 }
 

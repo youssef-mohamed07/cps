@@ -31,6 +31,51 @@ const nextConfig: NextConfig = {
         destination: "/:locale/news",
         permanent: true,
       },
+      {
+        source: "/:locale(en|ar)/services/:slug",
+        destination: "/:locale/locations/riyadh/services/:slug",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/booth-types/:slug",
+        destination: "/:locale/locations/riyadh/booth-types/:slug",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/saudi-arabia/:path*",
+        destination: "/:locale/locations/riyadh/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/uae/:path*",
+        destination: "/:locale/locations/jeddah/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/qatar/:path*",
+        destination: "/:locale/locations/dammam/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/kuwait/:path*",
+        destination: "/:locale/locations/khobar/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/bahrain/:path*",
+        destination: "/:locale/locations/makkah/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/oman/:path*",
+        destination: "/:locale/locations/madinah/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|ar)/locations/egypt/:path*",
+        destination: "/:locale/locations/neom/:path*",
+        permanent: true,
+      },
     ];
   },
   images: {

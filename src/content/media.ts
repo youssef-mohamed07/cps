@@ -86,13 +86,13 @@ export const media = {
   },
 
   locations: {
-    saudiArabia: u("photo-1580674684081-7617fbf3d745", 1600),
-    uae: u("photo-1512453979798-5ea266f8880c", 1600),
-    qatar: u("photo-1555881400-74d7acaacd8b", 1600),
-    kuwait: u("photo-1486406146926-c627a92ad1ab", 1600),
-    bahrain: u("photo-1449824913935-59a10b8d2000", 1600),
-    oman: u("photo-1469854523086-cc02fe5d8800", 1600),
-    egypt: u("photo-1518684079-3c830dcef090", 1600),
+    riyadh: u("photo-1580674684081-7617fbf3d745", 1600),
+    jeddah: u("photo-1512453979798-5ea266f8880c", 1600),
+    dammam: u("photo-1486406146926-c627a92ad1ab", 1600),
+    khobar: u("photo-1449824913935-59a10b8d2000", 1600),
+    makkah: u("photo-1469854523086-cc02fe5d8800", 1600),
+    madinah: u("photo-1518684079-3c830dcef090", 1600),
+    neom: u("photo-1555881400-74d7acaacd8b", 1600),
   },
 
   /** Portfolio — real exhibition / built-environment photography (not abstract art) */

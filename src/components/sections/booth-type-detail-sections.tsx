@@ -7,6 +7,10 @@ import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
 import type { BoothTypeFeature } from "@/content/catalog";
 import { formatBoothTypeTitle } from "@/content/catalog";
 import { localizePath, type Locale } from "@/lib/i18n";
+import {
+  DEFAULT_LOCATION_SLUG,
+  locationBoothTypePath,
+} from "@/lib/locations";
 
 export type BoothTypeDetailItem = {
   slug: string;
@@ -27,6 +31,7 @@ type BoothTypeDetailSectionsProps = {
   boothType: BoothTypeDetailItem;
   related: BoothTypeDetailItem[];
   locations: { slug: string; title: string }[];
+  locationSlug?: string;
   briefHref: string;
   ctaLabel: string;
 };
@@ -36,6 +41,7 @@ export function BoothTypeDetailSections({
   boothType,
   related,
   locations,
+  locationSlug = DEFAULT_LOCATION_SLUG,
   briefHref,
   ctaLabel,
 }: BoothTypeDetailSectionsProps) {
@@ -190,8 +196,8 @@ export function BoothTypeDetailSections({
                 </p>
                 <h2 className="booth-detail-section-title">
                   {isArabic
-                    ? `${formatBoothTypeTitle(boothType.title)} عبر مواقعنا.`
-                    : `${formatBoothTypeTitle(boothType.title)} across our locations.`}
+                    ? `${formatBoothTypeTitle(boothType.title)} عبر مدننا.`
+                    : `${formatBoothTypeTitle(boothType.title)} across our cities.`}
                 </h2>
               </div>
             </Reveal>
@@ -200,7 +206,7 @@ export function BoothTypeDetailSections({
                 <li key={item.slug}>
                   <Link
                     href={localizePath(
-                      `/locations/${item.slug}/booth-types/${boothType.slug}`,
+                      locationBoothTypePath(boothType.slug, item.slug),
                       locale,
                     )}
                   >
@@ -234,7 +240,10 @@ export function BoothTypeDetailSections({
               {related.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/booth-types/${item.slug}`, locale)}
+                    href={localizePath(
+                      locationBoothTypePath(item.slug, locationSlug),
+                      locale,
+                    )}
                     className="booth-detail-related-card"
                   >
                     {item.image ? (

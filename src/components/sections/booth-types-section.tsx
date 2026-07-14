@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getBoothType, localizeBoothType } from "@/content/catalog";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { locationBoothTypePath } from "@/lib/locations";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 
@@ -45,7 +46,7 @@ export function BoothTypesSection({
             <div className="booth-types-grid">
               {items.map((item) => {
                 const href = item.slug
-                  ? localizePath(`/booth-types/${item.slug}`, locale)
+                  ? localizePath(locationBoothTypePath(item.slug), locale)
                   : localizePath("/booth-types", locale);
                 const record = item.slug ? getBoothType(item.slug) : undefined;
                 const excerpt = record

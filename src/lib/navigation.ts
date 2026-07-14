@@ -1,5 +1,6 @@
 import { getNavigationLocal, type NavigationConfig, type NavPrimaryItem } from "@/content/navigation";
 import type { Locale } from "@/lib/i18n";
+import { locationBoothTypePath, locationServicePath } from "@/lib/locations";
 import { sanityFetch } from "@/sanity/fetch";
 import { NAVIGATION_QUERY } from "@/sanity/queries/collections";
 import { toImageSrc } from "@/sanity/transformers/shared";
@@ -54,7 +55,7 @@ function mapFeatured(featured: {
     ? {
         title: featured.serviceTitle,
         description: featured.serviceExcerpt,
-        href: `/services/${featured.serviceSlug}`,
+        href: locationServicePath(featured.serviceSlug),
         image: featured.serviceImage,
       }
     : null;
@@ -62,7 +63,7 @@ function mapFeatured(featured: {
     ? {
         title: featured.boothTitle,
         description: featured.boothExcerpt,
-        href: `/booth-types/${featured.boothSlug}`,
+        href: locationBoothTypePath(featured.boothSlug),
         image: featured.boothImage,
       }
     : null;
