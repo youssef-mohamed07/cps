@@ -5,7 +5,6 @@ import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import { IndustryDetailSections } from "@/components/sections/industry-detail-sections";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
-import { industries } from "@/content/catalog";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
@@ -21,8 +20,9 @@ type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return industries.flatMap((item) =>
+export async function generateStaticParams() {
+  const items = await loadIndustries("en");
+  return items.flatMap((item) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: item.slug,

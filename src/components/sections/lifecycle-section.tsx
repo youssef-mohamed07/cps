@@ -12,6 +12,8 @@ type LifecycleSectionProps = {
   support: string;
   imageAlt: string;
   items: LifecycleItem[];
+  image?: string;
+  icons?: readonly string[];
 };
 
 const iconSvgs: Record<string, ReactNode> = {
@@ -20,6 +22,13 @@ const iconSvgs: Record<string, ReactNode> = {
       <path d="M24 8 42 16 24 24 6 16 24 8Z" />
       <path d="M6 24l18 8 18-8" />
       <path d="M6 32l18 8 18-8" />
+    </>
+  ),
+  building: (
+    <>
+      <path d="M10 40V14l14-6 14 6v26" />
+      <path d="M18 40V24h12v16" />
+      <path d="M18 30h12M22 18h4M28 18h4" />
     </>
   ),
   factory: (
@@ -35,6 +44,31 @@ const iconSvgs: Record<string, ReactNode> = {
     <>
       <circle cx="24" cy="24" r="14" />
       <path d="M16 24l5 5 11-12" />
+    </>
+  ),
+  bulb: (
+    <>
+      <path d="M24 8a10 10 0 0 1 6 18c-1.2 1-2 2.4-2 4v2H20v-2c0-1.6-.8-3-2-4A10 10 0 0 1 24 8Z" />
+      <path d="M20 36h8M21 40h6" />
+    </>
+  ),
+  growth: (
+    <>
+      <path d="M8 38h32" />
+      <path d="M12 38V26l8-8 6 6 10-12" />
+      <path d="M30 12h6v6" />
+    </>
+  ),
+  cog: (
+    <>
+      <circle cx="24" cy="24" r="5" />
+      <path d="M24 10v4M24 34v4M10 24h4M34 24h4M13.5 13.5l2.8 2.8M31.7 31.7l2.8 2.8M13.5 34.5l2.8-2.8M31.7 16.3l2.8-2.8" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="24" cy="24" r="14" />
+      <path d="M10 24h28M24 10c4 4 6 9 6 14s-2 10-6 14c-4-4-6-9-6-14s2-10 6-14Z" />
     </>
   ),
 };
@@ -63,6 +97,8 @@ export function LifecycleSection({
   support,
   imageAlt,
   items,
+  image = media.lifecycle,
+  icons = lifecycleIcons,
 }: LifecycleSectionProps) {
   return (
     <section className="section-pad lifecycle-section section-rule">
@@ -72,15 +108,15 @@ export function LifecycleSection({
             <p className="eyebrow">{eyebrow}</p>
             <h2 className="display lifecycle-title">{title}</h2>
             <p className="lede">{support}</p>
+          </Reveal>
 
-            <ol className="lifecycle-list">
-              {items.map((item, index) => (
-                <li key={item.title} className="lifecycle-item">
+          <ol className="lifecycle-list">
+            {items.map((item, index) => (
+              <li key={item.title} className="lifecycle-item">
+                <Reveal delay={0.08 + index * 0.1} y={20}>
                   <div className="lifecycle-item-inner">
                     <span className="lifecycle-item-icon" aria-hidden="true">
-                      <LifecycleIcon
-                        name={lifecycleIcons[index] ?? "layers"}
-                      />
+                      <LifecycleIcon name={icons[index] ?? "layers"} />
                     </span>
                     <div className="lifecycle-item-body">
                       <span className="lifecycle-item-step">
@@ -90,16 +126,16 @@ export function LifecycleSection({
                       <p className="lifecycle-item-copy">{item.description}</p>
                     </div>
                   </div>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <Reveal delay={0.08} className="lifecycle-media-wrap">
+        <Reveal delay={0.12} className="lifecycle-media-wrap">
           <div className="lifecycle-media">
             <Image
-              src={media.lifecycle}
+              src={image}
               alt={imageAlt}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

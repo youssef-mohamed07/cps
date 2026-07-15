@@ -16,7 +16,14 @@ export const client = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
     }),
+    defineField({
+      name: "logoUrl",
+      type: "string",
+      title: "Logo URL / path (seed / fallback)",
+      description: "Absolute URL or site path such as /clients/neom.svg",
+    }),
     defineField({ name: "url", type: "url", title: "Website" }),
+    defineField({ name: "order", type: "number", title: "Sort order", initialValue: 0 }),
   ],
   preview: {
     select: { title: "name", media: "logo", language: "language" },

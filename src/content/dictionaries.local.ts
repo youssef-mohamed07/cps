@@ -482,10 +482,10 @@ const dictionaries: Record<Locale, Dictionary> = {
       cta: "See All Services",
       items: [
         {
-          title: "Custom Fabrication & Manufacturing",
-          description: "Built from scratch to match your brand and space.",
+          title: "Booth Manufacturing",
+          description: "Every booth is fabricated in our own workshop, start to finish.",
           image: media.services.fabrication,
-          imageAlt: "Custom booth fabrication in progress",
+          imageAlt: "Booth manufacturing workshop",
           slug: "custom-fabrication",
         },
         {
@@ -497,21 +497,21 @@ const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "Dismantling, Storage & Reinstallation",
-          description: "Careful teardown, safe storage, ready for next time.",
+          description: "Your booth, protected and ready for next time.",
           image: media.services.storage,
-          imageAlt: "Booth components in storage",
+          imageAlt: "Booth storage and reinstallation",
           slug: "storage-reinstallation",
         },
         {
           title: "Visual Branding & Print Solutions",
-          description: "Decals, banners, flags, and window graphics.",
+          description: "Your brand, printed and applied with precision.",
           image: media.services.branding,
           imageAlt: "Printed branding on an exhibition stand",
           slug: "visual-branding-print",
         },
         {
           title: "Lightbox Signage & Storefront",
-          description: "LED signage that gets your brand noticed.",
+          description: "Signage that gets your brand noticed, day and night.",
           image: media.services.lightbox,
           imageAlt: "Lightbox signage on a trade show booth",
           slug: "lightbox-retail-display",
@@ -1032,10 +1032,10 @@ const dictionaries: Record<Locale, Dictionary> = {
       cta: "كل الخدمات",
       items: [
         {
-          title: "تصنيع وتفصيل مخصص",
-          description: "يُبنى من الصفر ليتوافق مع علامتك ومساحتك.",
+          title: "تصنيع الأجنحة",
+          description: "كل جناح يُصنَّع في ورشتنا الخاصة من البداية للنهاية.",
           image: media.services.fabrication,
-          imageAlt: "تصنيع جناح مخصص",
+          imageAlt: "ورشة تصنيع الأجنحة",
           slug: "custom-fabrication",
         },
         {
@@ -1047,21 +1047,21 @@ const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "التفكيك والتخزين وإعادة التركيب",
-          description: "تفكيك آمن وتخزين جاهز للمرة القادمة.",
+          description: "جناحك محمي وجاهز للمرة القادمة.",
           image: media.services.storage,
-          imageAlt: "مكونات جناح في التخزين",
+          imageAlt: "تخزين وإعادة تركيب الجناح",
           slug: "storage-reinstallation",
         },
         {
           title: "الهوية البصرية والطباعة",
-          description: "ملصقات ولافتات وأعلام ورسومات نوافذ.",
+          description: "علامتك، مطبوعة ومطبَّقة بدقة.",
           image: media.services.branding,
           imageAlt: "طباعة على جناح معرض",
           slug: "visual-branding-print",
         },
         {
           title: "لافتات Lightbox والواجهات",
-          description: "لافتات LED تلفت الانتباه لعلامتك.",
+          description: "لافتات تجعل علامتك ملحوظة، نهاراً وليلاً.",
           image: media.services.lightbox,
           imageAlt: "لافتة lightbox على جناح",
           slug: "lightbox-retail-display",

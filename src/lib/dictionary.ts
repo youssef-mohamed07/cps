@@ -2,90 +2,112 @@ import { getDictionary, getDictionaryLocal } from "@/content/dictionaries";
 import type { Dictionary } from "@/content/dictionaries.local";
 import type { Locale } from "@/lib/i18n";
 import { resolveNavigation } from "@/lib/navigation";
+import {
+  loadAboutPage,
+  loadContactPage,
+  loadHomeDictionaryOverlay,
+} from "@/sanity/load-pages";
+
+function mergeSection<T extends Record<string, unknown>>(
+  local: T,
+  remote: Partial<T> | undefined,
+  itemsKey?: keyof T,
+): T {
+  const merged = { ...local, ...(remote ?? {}) } as T;
+  if (itemsKey && Array.isArray(local[itemsKey])) {
+    const remoteItems = remote?.[itemsKey];
+    if (!Array.isArray(remoteItems) || remoteItems.length === 0) {
+      merged[itemsKey] = local[itemsKey];
+    }
+  }
+  return merged;
+}
 
 /** Merge remote CMS copy onto local defaults so pages never lose required fields. */
 export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
   const local = getDictionaryLocal(locale);
-  const remote = await getDictionary(locale);
-  const navigation = await resolveNavigation(locale);
+  const [remote, navigation, homeOverlay, aboutPage, contactPage] =
+    await Promise.all([
+      getDictionary(locale),
+      resolveNavigation(locale),
+      loadHomeDictionaryOverlay(locale),
+      loadAboutPage(locale),
+      loadContactPage(locale),
+    ]);
+
+  const sectionSource = { ...remote, ...homeOverlay };
 
   return {
     ...local,
     ...remote,
+    ...homeOverlay,
     nav: {
       ...local.nav,
       ...remote.nav,
-      items: navigation.items.map((item) => ({ label: item.label, href: item.href })),
+      items: navigation.items.map((item) => ({
+        label: item.label,
+        href: item.href,
+      })),
       cta: navigation.cta.label,
       langLabel: navigation.langLabel,
       langHrefLocale: navigation.langHrefLocale,
     },
-    hero: { ...local.hero, ...remote.hero },
-    lifecycle: {
-      ...local.lifecycle,
-      ...remote.lifecycle,
-      items: remote.lifecycle?.items?.length ? remote.lifecycle.items : local.lifecycle.items,
+    hero: {
+      ...local.hero,
+      ...remote.hero,
+      ...homeOverlay.hero,
     },
-    stats: {
-      ...local.stats,
-      ...remote.stats,
-      items: remote.stats?.items?.length ? remote.stats.items : local.stats.items,
-    },
-    clients: {
-      ...local.clients,
-      ...remote.clients,
-      items: remote.clients?.items?.length ? remote.clients.items : local.clients.items,
-    },
-    about: { ...local.about, ...remote.about },
+    lifecycle: mergeSection(
+      local.lifecycle,
+      sectionSource.lifecycle,
+      "items",
+    ),
+    stats: mergeSection(local.stats, sectionSource.stats, "items"),
+    clients: mergeSection(local.clients, sectionSource.clients, "items"),
+    about: { ...local.about, ...sectionSource.about },
     aboutPage: {
-      ...local.aboutPage,
-      ...remote.aboutPage,
-      values: remote.aboutPage?.values?.length
-        ? remote.aboutPage.values
-        : local.aboutPage.values,
-      studioItems: remote.aboutPage?.studioItems?.length
-        ? remote.aboutPage.studioItems
-        : local.aboutPage.studioItems,
+      ...aboutPage,
       industriesItems: remote.aboutPage?.industriesItems?.length
         ? remote.aboutPage.industriesItems
-        : local.aboutPage.industriesItems,
-      faqItems: remote.aboutPage?.faqItems?.length
-        ? remote.aboutPage.faqItems
-        : local.aboutPage.faqItems,
+        : aboutPage.industriesItems,
     },
-    services: {
-      ...local.services,
-      ...remote.services,
-      items: remote.services?.items?.length ? remote.services.items : local.services.items,
+    services: mergeSection(local.services, sectionSource.services, "items"),
+    boothTypes: mergeSection(
+      local.boothTypes,
+      sectionSource.boothTypes,
+      "items",
+    ),
+    boothTypesPage: {
+      ...local.boothTypesPage,
+      ...remote.boothTypesPage,
     },
-    boothTypes: {
-      ...local.boothTypes,
-      ...remote.boothTypes,
-      items: remote.boothTypes?.items?.length ? remote.boothTypes.items : local.boothTypes.items,
-    },
-    boothTypesPage: { ...local.boothTypesPage, ...remote.boothTypesPage },
     whyCps: {
       ...local.whyCps,
-      ...remote.whyCps,
-      primary: { ...local.whyCps.primary, ...remote.whyCps?.primary },
-      secondary: { ...local.whyCps.secondary, ...remote.whyCps?.secondary },
-      images: { ...local.whyCps.images, ...remote.whyCps?.images },
+      ...sectionSource.whyCps,
+      primary: {
+        ...local.whyCps.primary,
+        ...sectionSource.whyCps?.primary,
+      },
+      secondary: {
+        ...local.whyCps.secondary,
+        ...sectionSource.whyCps?.secondary,
+      },
+      images: {
+        ...local.whyCps.images,
+        ...sectionSource.whyCps?.images,
+      },
     },
     beforeAfter: {
       ...local.beforeAfter,
-      ...remote.beforeAfter,
-      beforeItems: remote.beforeAfter?.beforeItems?.length
-        ? remote.beforeAfter.beforeItems
+      ...sectionSource.beforeAfter,
+      beforeItems: sectionSource.beforeAfter?.beforeItems?.length
+        ? sectionSource.beforeAfter.beforeItems
         : local.beforeAfter.beforeItems,
-      afterItems: remote.beforeAfter?.afterItems?.length
-        ? remote.beforeAfter.afterItems
+      afterItems: sectionSource.beforeAfter?.afterItems?.length
+        ? sectionSource.beforeAfter.afterItems
         : local.beforeAfter.afterItems,
     },
-    faq: {
-      ...local.faq,
-      ...remote.faq,
-      items: remote.faq?.items?.length ? remote.faq.items : local.faq.items,
-    },
+    faq: mergeSection(local.faq, sectionSource.faq, "items"),
     servicesPage: {
       ...local.servicesPage,
       ...remote.servicesPage,
@@ -95,25 +117,27 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     },
     process: {
       ...local.process,
-      ...remote.process,
-      steps: remote.process?.steps?.length ? remote.process.steps : local.process.steps,
+      ...sectionSource.process,
+      steps: sectionSource.process?.steps?.length
+        ? sectionSource.process.steps
+        : local.process.steps,
     },
     work: {
       ...local.work,
-      ...remote.work,
-      items: remote.work?.items?.length ? remote.work.items : local.work.items,
-      viewAll: remote.work?.viewAll ?? local.work.viewAll,
+      ...sectionSource.work,
+      items: sectionSource.work?.items?.length
+        ? sectionSource.work.items
+        : local.work.items,
+      viewAll: sectionSource.work?.viewAll ?? local.work.viewAll,
     },
     workPage: { ...local.workPage, ...remote.workPage },
     projectPage: { ...local.projectPage, ...remote.projectPage },
-    contact: { ...local.contact, ...remote.contact },
-    briefForm: { ...local.briefForm, ...remote.briefForm },
-    contactPage: {
-      ...local.contactPage,
-      ...remote.contactPage,
-      info: { ...local.contactPage.info, ...remote.contactPage?.info },
-      map: { ...local.contactPage.map, ...remote.contactPage?.map },
+    contact: { ...local.contact, ...sectionSource.contact },
+    briefForm: {
+      ...local.briefForm,
+      ...sectionSource.briefForm,
     },
+    contactPage,
     footer: {
       ...local.footer,
       ...remote.footer,

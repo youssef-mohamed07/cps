@@ -161,6 +161,17 @@ export const location = defineType({
     }),
     defineField({ name: "localExperience", type: "text", rows: 5, title: "Local experience" }),
     defineField({
+      name: "capabilities",
+      type: "array",
+      of: [{ type: "benefitItem" }],
+      title: "Capabilities",
+    }),
+    defineField({
+      name: "heroUrl",
+      type: "url",
+      title: "Hero image URL (seed / fallback)",
+    }),
+    defineField({
       name: "services",
       type: "array",
       of: [{ type: "reference", to: [{ type: "service" }] }],

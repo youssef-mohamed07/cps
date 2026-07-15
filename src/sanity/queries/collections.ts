@@ -20,10 +20,34 @@ export const SERVICES_QUERY = `*[_type == "service" && language == $locale && st
   "slug": slug.current,
   excerpt,
   overview,
+  overviewTitle,
+  overviewBullets[]{ title, description },
+  heroLead,
+  secondaryCta{ label, serviceSlug },
   order,
   hero${imageProjection},
+  heroUrl,
+  cover{
+    eyebrow,
+    title,
+    support,
+    items[]{ title, description, image${imageProjection}, imageUrl, imageAlt, serviceSlug }
+  },
+  designs{
+    eyebrow,
+    title,
+    support,
+    cta{ label, href },
+    items[]{ title, description, image${imageProjection}, imageUrl, imageAlt, serviceSlug }
+  },
+  why{
+    eyebrow,
+    title,
+    support,
+    items[]{ title, description }
+  },
   benefits[]{ title, description },
-  process[]{ title, description },
+  process[]{ title, description, image${imageProjection}, imageUrl, imageAlt },
   faq[]{ question, answer },
   cta{ label, href },
   seo${seoProjection}
@@ -34,10 +58,34 @@ export const SERVICE_BY_SLUG_QUERY = `*[_type == "service" && language == $local
   "slug": slug.current,
   excerpt,
   overview,
+  overviewTitle,
+  overviewBullets[]{ title, description },
+  heroLead,
+  secondaryCta{ label, serviceSlug },
   order,
   hero${imageProjection},
+  heroUrl,
+  cover{
+    eyebrow,
+    title,
+    support,
+    items[]{ title, description, image${imageProjection}, imageUrl, imageAlt, serviceSlug }
+  },
+  designs{
+    eyebrow,
+    title,
+    support,
+    cta{ label, href },
+    items[]{ title, description, image${imageProjection}, imageUrl, imageAlt, serviceSlug }
+  },
+  why{
+    eyebrow,
+    title,
+    support,
+    items[]{ title, description }
+  },
   benefits[]{ title, description },
-  process[]{ title, description },
+  process[]{ title, description, image${imageProjection}, imageUrl, imageAlt },
   faq[]{ question, answer },
   cta{ label, href },
   seo${seoProjection}
@@ -51,6 +99,13 @@ export const BOOTH_TYPES_QUERY = `*[_type == "boothType" && language == $locale 
   description,
   order,
   hero${imageProjection},
+  heroUrl,
+  compareLabel,
+  indoor,
+  outdoor,
+  reusable,
+  highCustomization,
+  fastSetup,
   features[]{ title, description },
   advantages[]{ title, description },
   useCases,
@@ -68,6 +123,13 @@ export const BOOTH_TYPE_BY_SLUG_QUERY = `*[_type == "boothType" && language == $
   description,
   order,
   hero${imageProjection},
+  heroUrl,
+  compareLabel,
+  indoor,
+  outdoor,
+  reusable,
+  highCustomization,
+  fastSetup,
   features[]{ title, description },
   advantages[]{ title, description },
   useCases,
@@ -155,8 +217,10 @@ export const LOCATIONS_QUERY = `*[_type == "location" && language == $locale && 
   countryCode,
   excerpt,
   localExperience,
+  capabilities[]{ title, description },
   order,
   hero${imageProjection},
+  heroUrl,
   cta{ label, href },
   seo${seoProjection}
 }`;
@@ -167,8 +231,10 @@ export const LOCATION_BY_SLUG_QUERY = `*[_type == "location" && language == $loc
   countryCode,
   excerpt,
   localExperience,
+  capabilities[]{ title, description },
   order,
   hero${imageProjection},
+  heroUrl,
   cta{ label, href },
   seo${seoProjection}
 }`;
@@ -243,6 +309,13 @@ export const NAVIGATION_QUERY = `*[_type == "navigation" && language == $locale]
 }`;
 
 export const REDIRECTS_QUERY = `*[_type == "redirect"]{ from, to, status }`;
+
+export const CLIENTS_QUERY = `*[_type == "client" && language == $locale && status != "archived"] | order(order asc) {
+  name,
+  logo${imageProjection},
+  logoUrl,
+  order
+}`;
 
 export const FOOTER_QUERY = `*[_type == "siteFooter" && language == $locale][0] {
   logo{ asset, alt },

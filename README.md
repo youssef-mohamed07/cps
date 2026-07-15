@@ -40,6 +40,7 @@ npm run dev
 | `npm run lint` | ESLint |
 | `npm run studio` | Sanity Studio (standalone) |
 | `npm run setup:sanity` | Prints webhook / env checklist |
+| `npm run seed:sanity` | Seed EN+AR docs from local content (needs write token) |
 
 ## Stack
 

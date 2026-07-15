@@ -6,9 +6,10 @@ import { BoothTypeDetailSections } from "@/components/sections/booth-type-detail
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
 import { formatBoothTypeTitle } from "@/content/catalog";
+import { BOOTH_COMPARISON_ROWS } from "@/content/booth-comparison";
 import {
   buildBoothTypeLocationPage,
-  getAllProgrammaticBoothTypeParams,
+  getAllProgrammaticBoothTypeParamsAsync,
 } from "@/content/programmatic-seo";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -17,7 +18,7 @@ import {
   loadBoothType,
   loadBoothTypes,
   loadLocation,
-  loadLocations,
+  loadProjects,
 } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
@@ -25,8 +26,9 @@ type PageProps = {
   params: Promise<{ locale: string; slug: string; boothTypeSlug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllProgrammaticBoothTypeParams().flatMap((item) =>
+export async function generateStaticParams() {
+  const items = await getAllProgrammaticBoothTypeParamsAsync();
+  return items.flatMap((item) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: item.slug,
@@ -56,12 +58,12 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const [page, boothType, allBoothTypes, locations, location, dictionary] =
+  const [page, boothType, allBoothTypes, projects, location, dictionary] =
     await Promise.all([
       Promise.resolve(buildBoothTypeLocationPage(locale, slug, boothTypeSlug)),
       loadBoothType(locale, boothTypeSlug),
       loadBoothTypes(locale),
-      loadLocations(locale),
+      loadProjects(locale),
       loadLocation(locale, slug),
       resolveDictionary(locale),
     ]);
@@ -82,6 +84,41 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
       advantages: item.advantages,
       useCases: item.useCases,
     }));
+
+  const matchedProjects = projects.filter(
+    (item) => item.boothTypeSlug === boothTypeSlug,
+  );
+  const fillerProjects = projects.filter(
+    (item) => item.boothTypeSlug !== boothTypeSlug,
+  );
+  const caseStudies = [...matchedProjects, ...fillerProjects]
+    .slice(0, 3)
+    .map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      summary: item.summary,
+      year: item.year,
+      category: item.category,
+      image: item.image,
+      imageAlt: item.imageAlt,
+    }));
+
+  const comparisonRows = allBoothTypes.map((item) => {
+    const fallback = BOOTH_COMPARISON_ROWS.find((row) => row.slug === item.slug);
+    return {
+      slug: item.slug,
+      label: {
+        en: item.compareLabel || fallback?.label.en || item.title,
+        ar: item.compareLabel || fallback?.label.ar || item.title,
+      },
+      indoor: item.indoor ?? fallback?.indoor ?? false,
+      outdoor: item.outdoor ?? fallback?.outdoor ?? false,
+      reusable: item.reusable ?? fallback?.reusable ?? false,
+      highCustomization:
+        item.highCustomization ?? fallback?.highCustomization ?? false,
+      fastSetup: item.fastSetup ?? fallback?.fastSetup ?? false,
+    };
+  });
 
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const locationsLabel = locale === "ar" ? "المواقع" : "Locations";
@@ -120,7 +157,7 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
       <PageHero
         eyebrow={`${location.title} · ${hubLabel}`}
         title={boothType.title.includes("{City}") ? boothType.title : page.title}
-        lead={page.lead}
+        lead={boothType.excerpt || page.lead}
         image={boothType.image}
         imageAlt={boothType.imageAlt}
         locale={locale}
@@ -151,10 +188,8 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
           useCases: boothType.useCases,
         }}
         related={related}
-        locations={locations.map((item) => ({
-          slug: item.slug,
-          title: item.title,
-        }))}
+        caseStudies={caseStudies}
+        comparisonRows={comparisonRows}
         briefHref={briefHref}
         ctaLabel={dictionary.servicesPage.primaryCta}
       />

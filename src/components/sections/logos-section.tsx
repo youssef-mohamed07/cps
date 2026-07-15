@@ -1,14 +1,16 @@
 import Image from "next/image";
-import { clientLogos, logosEyebrow } from "@/content/clients";
+import { logosEyebrow } from "@/content/clients";
 import type { Locale } from "@/lib/i18n";
+import { loadClients } from "@/sanity/load-collections";
 
 type LogosSectionProps = {
   locale: Locale;
 };
 
-export function LogosSection({ locale }: LogosSectionProps) {
+export async function LogosSection({ locale }: LogosSectionProps) {
   const label = logosEyebrow(locale);
-  const track = [...clientLogos, ...clientLogos];
+  const logos = await loadClients(locale);
+  const track = [...logos, ...logos];
 
   return (
     <section className="logos-section" aria-label={label}>
@@ -22,11 +24,11 @@ export function LogosSection({ locale }: LogosSectionProps) {
             <li
               key={`${logo.src}-${index}`}
               className="logos-item"
-              aria-hidden={index >= clientLogos.length}
+              aria-hidden={index >= logos.length}
             >
               <Image
                 src={logo.src}
-                alt={index < clientLogos.length ? logo.name : ""}
+                alt={index < logos.length ? logo.name : ""}
                 width={160}
                 height={48}
                 className="logos-image"

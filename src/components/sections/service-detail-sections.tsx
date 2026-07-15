@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
@@ -14,30 +15,36 @@ export type ServiceDetailItem = {
   title: string;
   excerpt: string;
   overview: string;
+  overviewTitle?: string;
+  overviewBullets?: { title: string; description: string }[];
   image?: string;
   imageAlt?: string;
-  benefits: { title: string; description: string }[];
-  process: { title: string; description: string }[];
+  process: {
+    title: string;
+    description: string;
+    image?: string;
+    imageAlt?: string;
+  }[];
 };
 
 type ServiceDetailSectionsProps = {
   locale: Locale;
   service: ServiceDetailItem;
   related: ServiceDetailItem[];
-  locations: { slug: string; title: string }[];
   locationSlug?: string;
   briefHref: string;
   ctaLabel: string;
+  afterOverview?: ReactNode;
 };
 
 export function ServiceDetailSections({
   locale,
   service,
   related,
-  locations,
   locationSlug = DEFAULT_LOCATION_SLUG,
   briefHref,
   ctaLabel,
+  afterOverview,
 }: ServiceDetailSectionsProps) {
   const isArabic = locale === "ar";
 
@@ -50,11 +57,38 @@ export function ServiceDetailSections({
               {isArabic ? "نظرة عامة" : "Overview"}
             </p>
             <h2 className="service-detail-overview-title">
-              {isArabic
-                ? "ماذا تغطي هذه الخدمة."
-                : "What this service covers."}
+              {service.overviewTitle ??
+                (isArabic
+                  ? "ماذا تغطي هذه الخدمة."
+                  : "What this service covers.")}
             </h2>
             <p className="service-detail-overview-body">{service.overview}</p>
+            {service.overviewBullets?.length ? (
+              <ul className="service-detail-overview-bullets">
+                {service.overviewBullets.map((item) => (
+                  <li key={item.title}>
+                    <span
+                      className="service-detail-overview-bullet-mark"
+                      aria-hidden="true"
+                    >
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path
+                          d="M4 10.5l3.5 3.5L16 5.5"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span className="service-detail-overview-bullet-copy">
+                      <strong>{item.title}</strong>
+                      {item.description ? <span>{item.description}</span> : null}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <Link href={briefHref} className="service-detail-overview-cta">
               <span>{ctaLabel}</span>
               <CtaArrow size="md" />
@@ -75,87 +109,20 @@ export function ServiceDetailSections({
         </div>
       </section>
 
-      {service.benefits.length ? (
-        <section className="service-detail-benefits">
-          <div className="site-container">
-            <Reveal>
-              <div className="service-detail-section-head">
-                <p className="eyebrow">
-                  {isArabic ? "الفوائد" : "Benefits"}
-                </p>
-                <h2 className="service-detail-section-title">
-                  {isArabic
-                    ? "لماذا تختار CPS لهذه الخدمة."
-                    : "Why brands choose CPS for this."}
-                </h2>
-              </div>
-            </Reveal>
-
-            <div className="service-detail-benefits-grid">
-              {service.benefits.map((item, index) => (
-                <Reveal key={item.title} delay={index * 0.06}>
-                  <article className="service-detail-benefit-card">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
+      {afterOverview}
 
       {service.process.length ? (
         <ProcessTimeline
-          eyebrow={isArabic ? "العملية" : "Process"}
-          title={
-            isArabic
-              ? "مسار واضح من الموجز إلى التنفيذ."
-              : "A clear path from brief to delivery."
-          }
+          eyebrow={isArabic ? "عمليتنا" : "Our Process"}
+          title={isArabic ? "كيف يعمل." : "How It Works"}
           support={
             isArabic
-              ? "كل مرحلة لها مالك واحد داخل CPS — بدون فجوات بين التصميم والبناء والتركيب."
-              : "Every stage stays with one CPS team — no gaps between design, build, and install."
+              ? "من الموجز إلى الإنتاج — كل مرحلة مع فريق CPS واحد."
+              : "From brief to production — every stage with one CPS team."
           }
           steps={service.process}
           className="service-detail-process"
         />
-      ) : null}
-
-      {locations.length ? (
-        <section className="service-detail-locations">
-          <div className="site-container">
-            <Reveal>
-              <div className="service-detail-section-head">
-                <p className="eyebrow">
-                  {isArabic ? "متوفرة في" : "Available in"}
-                </p>
-                <h2 className="service-detail-section-title">
-                  {isArabic
-                    ? `${service.title} عبر مدننا.`
-                    : `${service.title} across our cities.`}
-                </h2>
-              </div>
-            </Reveal>
-            <ul className="service-detail-locations-list">
-              {locations.map((item) => (
-                <li key={item.slug}>
-                  <Link
-                    href={localizePath(
-                      locationServicePath(service.slug, item.slug),
-                      locale,
-                    )}
-                  >
-                    <span>{item.title}</span>
-                    <CtaArrow size="sm" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
       ) : null}
 
       {related.length ? (

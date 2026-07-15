@@ -1,11 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Reveal } from "@/components/motion/reveal";
 
 export type ProcessTimelineStep = {
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 type ProcessTimelineProps = {
@@ -80,7 +83,7 @@ export function ProcessTimeline({
           <ol ref={trackRef} className="process-timeline-track">
             {steps.map((step, index) => {
               const side = index % 2 === 0 ? "start" : "end";
-              const delay = `${0.18 + index * 0.28}s`;
+              const delay = `${0.12 + index * 0.18}s`;
               return (
                 <li
                   key={step.title}
@@ -89,12 +92,28 @@ export function ProcessTimeline({
                 >
                   <span className="process-timeline-node" aria-hidden="true" />
                   <div className="process-timeline-content">
-                    <article className="process-timeline-card">
-                      <span className="process-timeline-number">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <h3>{step.title}</h3>
-                      <p>{step.description}</p>
+                    <article
+                      className={`process-timeline-card${step.image ? " has-media" : ""}`}
+                    >
+                      {step.image ? (
+                        <div className="process-timeline-card-media">
+                          <Image
+                            src={step.image}
+                            alt={step.imageAlt ?? step.title}
+                            fill
+                            sizes="(max-width: 899px) 100vw, 28vw"
+                            className="object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="process-timeline-card-copy">
+                        <span className="process-timeline-number">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <h3>{step.title}</h3>
+                        <p>{step.description}</p>
+                      </div>
                     </article>
                   </div>
                 </li>

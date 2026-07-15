@@ -11,6 +11,7 @@ type InnerPageEngagementProps = {
   faqItems?: Dictionary["faq"]["items"];
   faqTitle?: string;
   namespace?: string;
+  showStats?: boolean;
 };
 
 export function InnerPageEngagement({
@@ -19,16 +20,19 @@ export function InnerPageEngagement({
   faqItems,
   faqTitle,
   namespace = "inner",
+  showStats = true,
 }: InnerPageEngagementProps) {
   return (
     <div className="inner-engagement">
-      <StatsSection
-        id={`${namespace}-stats`}
-        eyebrow={dictionary.stats.eyebrow}
-        title={dictionary.stats.title}
-        support={dictionary.stats.support}
-        items={dictionary.stats.items}
-      />
+      {showStats ? (
+        <StatsSection
+          id={`${namespace}-stats`}
+          eyebrow={dictionary.stats.eyebrow}
+          title={dictionary.stats.title}
+          support={dictionary.stats.support}
+          items={dictionary.stats.items}
+        />
+      ) : null}
       <ClientsSection
         id={`${namespace}-clients`}
         eyebrow={dictionary.clients.eyebrow}

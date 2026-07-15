@@ -61,6 +61,39 @@ export function getAllProgrammaticBoothTypeParams() {
   );
 }
 
+/** CMS-first static params (falls back inside loaders when Sanity is empty). */
+export async function getAllProgrammaticServiceParamsAsync() {
+  const { loadLocations, loadServices } = await import(
+    "@/sanity/load-collections"
+  );
+  const [cmsLocations, cmsServices] = await Promise.all([
+    loadLocations("en"),
+    loadServices("en"),
+  ]);
+  return cmsLocations.flatMap((location) =>
+    cmsServices.map((service) => ({
+      slug: location.slug,
+      serviceSlug: service.slug,
+    })),
+  );
+}
+
+export async function getAllProgrammaticBoothTypeParamsAsync() {
+  const { loadLocations, loadBoothTypes } = await import(
+    "@/sanity/load-collections"
+  );
+  const [cmsLocations, cmsBoothTypes] = await Promise.all([
+    loadLocations("en"),
+    loadBoothTypes("en"),
+  ]);
+  return cmsLocations.flatMap((location) =>
+    cmsBoothTypes.map((boothType) => ({
+      slug: location.slug,
+      boothTypeSlug: boothType.slug,
+    })),
+  );
+}
+
 export function buildServiceLocationPage(
   locale: Locale,
   locationSlug: string,
@@ -78,9 +111,11 @@ export function buildServiceLocationPage(
     ? `${service.title} في ${location.title}`
     : `${service.title} in ${location.title}`;
 
-  const lead = isArabic
-    ? `خدمة ${service.title} لمعارض وفعاليات في ${location.title} — تصميم، إنتاج، وتنفيذ بمعايير CPS.`
-    : `${service.title} for exhibitions and events in ${location.title} — designed, built, and delivered to CPS standards.`;
+  const lead =
+    service.heroLead ??
+    (isArabic
+      ? `خدمة ${service.title} لمعارض وفعاليات في ${location.title} — تصميم، إنتاج، وتنفيذ بمعايير CPS.`
+      : `${service.title} for exhibitions and events in ${location.title} — designed, built, and delivered to CPS standards.`);
 
   const overview = isArabic
     ? `${service.overview} نقدّم هذه الخدمة في ${location.title} مع تنسيق محلي للوجستيات والمواقع وجداول التركيب. ${location.localExperience}`
@@ -214,9 +249,11 @@ export function buildBoothTypeLocationPage(
       ? `${boothTitle} في ${location.title}`
       : `${boothTitle} in ${location.title}`;
 
-  const lead = isArabic
-    ? `${boothTitle} لمعارض ${location.title} — بناء يناسب المساحة والعلامة وتقويم الحدث.`
-    : `${boothTitle} for shows in ${location.title} — built around footprint, brand, and the event calendar.`;
+  const lead = boothType.excerpt
+    ? boothType.excerpt
+    : isArabic
+      ? `${boothTitle} لمعارض ${location.title} — بناء يناسب المساحة والعلامة وتقويم الحدث.`
+      : `${boothTitle} for shows in ${location.title} — built around footprint, brand, and the event calendar.`;
 
   const overview = isArabic
     ? `${boothType.description} نقدّم هذا النوع في ${location.title} مع تنسيق المواقع والتركيب واللوجستيات. ${location.localExperience}`

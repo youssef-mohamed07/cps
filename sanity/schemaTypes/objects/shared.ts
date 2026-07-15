@@ -58,6 +58,66 @@ export const processStep = defineType({
   fields: [
     defineField({ name: "title", type: "string", title: "Title" }),
     defineField({ name: "description", type: "text", rows: 3, title: "Description" }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({
+      name: "imageUrl",
+      type: "url",
+      title: "Image URL (seed / fallback)",
+      description: "Optional external URL when no Sanity asset is uploaded.",
+    }),
+    defineField({ name: "imageAlt", type: "string", title: "Image alt (URL fallback)" }),
+  ],
+});
+
+export const sectionItem = defineType({
+  name: "sectionItem",
+  title: "Section item",
+  type: "object",
+  fields: [
+    defineField({ name: "title", type: "string", title: "Title" }),
+    defineField({ name: "description", type: "text", rows: 3, title: "Description" }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({
+      name: "imageUrl",
+      type: "url",
+      title: "Image URL (seed / fallback)",
+    }),
+    defineField({ name: "imageAlt", type: "string", title: "Image alt" }),
+    defineField({ name: "serviceSlug", type: "string", title: "Linked service slug" }),
+  ],
+});
+
+export const contentSection = defineType({
+  name: "contentSection",
+  title: "Content section",
+  type: "object",
+  fields: [
+    defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
+    defineField({ name: "title", type: "string", title: "Title" }),
+    defineField({ name: "support", type: "text", rows: 3, title: "Support" }),
+    defineField({
+      name: "cta",
+      type: "ctaBlock",
+      title: "CTA",
+    }),
+    defineField({
+      name: "items",
+      type: "array",
+      of: [{ type: "sectionItem" }],
+      title: "Items",
+    }),
   ],
 });
 

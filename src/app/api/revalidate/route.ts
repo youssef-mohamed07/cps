@@ -55,12 +55,16 @@ export async function POST(request: NextRequest) {
   for (const locale of ["en", "ar"] as const) {
     revalidateTag(`dictionary-${locale}`, "max");
     revalidateTag(`notFoundPage-${locale}`, "max");
+    revalidateTag(`homePage-${locale}`, "max");
+    revalidateTag(`aboutPageDoc-${locale}`, "max");
+    revalidateTag(`contactPageDoc-${locale}`, "max");
     revalidateTag(`service-${locale}`, "max");
     revalidateTag(`boothType-${locale}`, "max");
     revalidateTag(`project-${locale}`, "max");
     revalidateTag(`industry-${locale}`, "max");
     revalidateTag(`location-${locale}`, "max");
     revalidateTag(`newsArticle-${locale}`, "max");
+    revalidateTag(`client-${locale}`, "max");
     revalidateTag(`navigation-${locale}`, "max");
     revalidateTag(`siteFooter-${locale}`, "max");
   }

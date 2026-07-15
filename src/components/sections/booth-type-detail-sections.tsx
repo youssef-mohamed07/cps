@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
-import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
-import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
+import { BoothTypeCompareSection } from "@/components/sections/booth-type-compare-section";
+import type { BoothComparisonRow } from "@/content/booth-comparison";
 import type { BoothTypeFeature } from "@/content/catalog";
 import { formatBoothTypeTitle } from "@/content/catalog";
 import { localizePath, type Locale } from "@/lib/i18n";
@@ -26,11 +26,22 @@ export type BoothTypeDetailItem = {
   useCases: string[];
 };
 
+export type BoothTypeCaseStudyItem = {
+  slug: string;
+  title: string;
+  summary: string;
+  year: string;
+  category: string;
+  image: string;
+  imageAlt: string;
+};
+
 type BoothTypeDetailSectionsProps = {
   locale: Locale;
   boothType: BoothTypeDetailItem;
   related: BoothTypeDetailItem[];
-  locations: { slug: string; title: string }[];
+  caseStudies: BoothTypeCaseStudyItem[];
+  comparisonRows?: BoothComparisonRow[];
   locationSlug?: string;
   briefHref: string;
   ctaLabel: string;
@@ -40,13 +51,18 @@ export function BoothTypeDetailSections({
   locale,
   boothType,
   related,
-  locations,
+  caseStudies,
+  comparisonRows,
   locationSlug = DEFAULT_LOCATION_SLUG,
   briefHref,
   ctaLabel,
 }: BoothTypeDetailSectionsProps) {
   const isArabic = locale === "ar";
-  const modelVariant = boothType.slug as BoothModelVariant;
+  const workFilterHref = localizePath(
+    `/work?boothType=${encodeURIComponent(boothType.slug)}`,
+    locale,
+  );
+  const boothLabel = formatBoothTypeTitle(boothType.title);
 
   return (
     <>
@@ -99,42 +115,34 @@ export function BoothTypeDetailSections({
         </div>
       </section>
 
-      <BoothTypeModelSection
+      <BoothTypeCompareSection
         locale={locale}
-        title={formatBoothTypeTitle(boothType.title)}
-        variant={modelVariant}
-        modelUrl={boothType.model3d}
+        activeSlug={boothType.slug}
+        rows={comparisonRows}
       />
 
-      {boothType.features.length || boothType.useCases.length ? (
+      {boothType.advantages.length || boothType.useCases.length ? (
         <section className="booth-detail-spec">
           <div className="site-container booth-detail-spec-grid">
-            {boothType.features.length ? (
+            {boothType.advantages.length ? (
               <Reveal className="booth-detail-spec-block">
-                <p className="eyebrow">{isArabic ? "الميزات" : "Features"}</p>
+                <p className="eyebrow">{isArabic ? "ماذا نغطي" : "What we cover"}</p>
                 <h2 className="booth-detail-spec-title">
-                  {isArabic
-                    ? "ما الذي يميز هذا النوع."
-                    : "What makes this format work."}
+                  {isArabic ? "ماذا نغطي." : "What We Cover"}
                 </h2>
-                <ul className="booth-detail-feature-list">
-                  {boothType.features.map((feature) => (
-                    <li key={feature.title}>
-                      <span className="booth-detail-feature-check" aria-hidden="true">
-                        <svg viewBox="0 0 20 20" fill="none">
-                          <path
-                            d="M4 10.5l3.5 3.5L16 5.5"
-                            stroke="currentColor"
-                            strokeWidth="2.2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                <div className="booth-detail-cover-list">
+                  {boothType.advantages.map((item, index) => (
+                    <article className="booth-detail-cover-item" key={item.title}>
+                      <span className="booth-detail-cover-index" aria-hidden="true">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span>{feature.title}</span>
-                    </li>
+                      <div className="booth-detail-cover-copy">
+                        <h3>{item.title}</h3>
+                        {item.description ? <p>{item.description}</p> : null}
+                      </div>
+                    </article>
                   ))}
-                </ul>
+                </div>
               </Reveal>
             ) : null}
 
@@ -146,79 +154,83 @@ export function BoothTypeDetailSections({
                 <h2 className="booth-detail-spec-title booth-detail-spec-title--light">
                   {isArabic ? "لمن يناسب هذا النوع." : "Who This Is For"}
                 </h2>
-                <ul className="booth-detail-usecase-list">
-                  {boothType.useCases.map((useCase) => (
-                    <li key={useCase}>{useCase}</li>
+                <div className="booth-detail-usecase-list">
+                  {boothType.useCases.map((useCase, index) => (
+                    <article className="booth-detail-usecase-item" key={useCase}>
+                      <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                      <p>{useCase}</p>
+                    </article>
                   ))}
-                </ul>
+                </div>
               </Reveal>
             ) : null}
           </div>
         </section>
       ) : null}
 
-      {boothType.advantages.length ? (
-        <section className="booth-detail-advantages">
-          <div className="site-container">
-            <Reveal>
-              <div className="booth-detail-section-head">
-                <p className="eyebrow">{isArabic ? "ماذا نغطي" : "What we cover"}</p>
-                <h2 className="booth-detail-section-title">
-                  {isArabic ? "ماذا نغطي." : "What We Cover"}
-                </h2>
-              </div>
-            </Reveal>
-
-            <div className="booth-detail-advantages-grid">
-              {boothType.advantages.map((item, index) => (
-                <Reveal key={item.title} delay={index * 0.06}>
-                  <article className="booth-detail-advantage-card">
-                    <span className="booth-detail-advantage-index">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {locations.length ? (
-        <section className="booth-detail-locations">
-          <div className="site-container">
-            <Reveal>
-              <div className="booth-detail-section-head">
+      <section className="booth-detail-cases">
+        <div className="site-container">
+          <Reveal>
+            <div className="booth-detail-section-head booth-detail-section-head--split">
+              <div>
                 <p className="eyebrow">
-                  {isArabic ? "متوفر في" : "Available in"}
+                  {isArabic ? "دراسات حالة" : "Case studies"}
                 </p>
                 <h2 className="booth-detail-section-title">
                   {isArabic
-                    ? `${formatBoothTypeTitle(boothType.title)} عبر مدننا.`
-                    : `${formatBoothTypeTitle(boothType.title)} across our cities.`}
+                    ? `${boothLabel} على أرض الواقع.`
+                    : `${boothLabel} in the field.`}
                 </h2>
               </div>
-            </Reveal>
-            <ul className="booth-detail-locations-list">
-              {locations.map((item) => (
-                <li key={item.slug}>
+              <Link href={workFilterHref} className="booth-detail-work-link">
+                <span>
+                  {isArabic ? "عرض كل المشاريع" : "View all projects"}
+                </span>
+                <CtaArrow size="sm" />
+              </Link>
+            </div>
+          </Reveal>
+
+          {caseStudies.length ? (
+            <div className="booth-detail-cases-grid">
+              {caseStudies.map((item, index) => (
+                <Reveal key={item.slug} delay={index * 0.06}>
                   <Link
-                    href={localizePath(
-                      locationBoothTypePath(boothType.slug, item.slug),
-                      locale,
-                    )}
+                    href={localizePath(`/work/${item.slug}`, locale)}
+                    className="work-card group booth-detail-case-card"
                   >
-                    <span>{item.title}</span>
-                    <CtaArrow size="sm" />
+                    <div className="work-card-media">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        fill
+                        sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                        className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                      />
+                      <span className="work-card-tag">{item.category}</span>
+                    </div>
+                    <div className="work-card-copy">
+                      <p className="work-card-meta">{item.year}</p>
+                      <h3 className="work-card-title">{item.title}</h3>
+                      <p className="work-card-summary">{item.summary}</p>
+                      <span className="work-card-cta">
+                        {isArabic ? "عرض المشروع" : "View project"}
+                        <CtaArrow size="sm" />
+                      </span>
+                    </div>
                   </Link>
-                </li>
+                </Reveal>
               ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
+            </div>
+          ) : (
+            <p className="booth-detail-cases-empty">
+              {isArabic
+                ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط جناحك."
+                : "New projects coming soon — contact us to plan your booth."}
+            </p>
+          )}
+        </div>
+      </section>
 
       {related.length ? (
         <section className="booth-detail-related">

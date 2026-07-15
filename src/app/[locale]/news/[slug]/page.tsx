@@ -4,19 +4,19 @@ import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { articleJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { PageHero } from "@/components/sections/page-hero";
-import { newsArticles } from "@/content/catalog";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
-import { loadNewsArticle } from "@/sanity/load-collections";
+import { loadNews, loadNewsArticle } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return newsArticles.flatMap((item) =>
+export async function generateStaticParams() {
+  const items = await loadNews("en");
+  return items.flatMap((item) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: item.slug,

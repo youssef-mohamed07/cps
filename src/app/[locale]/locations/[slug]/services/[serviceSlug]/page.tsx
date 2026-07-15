@@ -2,30 +2,50 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { faqJsonLd, JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
+import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
+import { LifecycleSection } from "@/components/sections/lifecycle-section";
+import { LogosSection } from "@/components/sections/logos-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { ServiceDesignGrid } from "@/components/sections/service-design-grid";
 import { ServiceDetailSections } from "@/components/sections/service-detail-sections";
+import { ServiceWhySection } from "@/components/sections/service-why-section";
+import { StatsSection } from "@/components/sections/stats-section";
 import {
   buildServiceLocationPage,
-  getAllProgrammaticServiceParams,
+  getAllProgrammaticServiceParamsAsync,
 } from "@/content/programmatic-seo";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { media } from "@/content/media";
+import { serviceCoverIcons } from "@/content/motion-icons";
+import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
+import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import { locationServicePath } from "@/lib/locations";
 import {
   loadLocation,
-  loadLocations,
   loadService,
   loadServices,
 } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
+const SERVICE_MODEL_VARIANTS: Record<string, BoothModelVariant> = {
+  "full-booth-management": "custom",
+  "booth-design": "custom",
+  "custom-fabrication": "modular",
+  "installation-dismantling": "portable",
+  "storage-reinstallation": "modular",
+  "visual-branding-print": "kiosks",
+  "lightbox-retail-display": "kiosks",
+};
+
 type PageProps = {
   params: Promise<{ locale: string; slug: string; serviceSlug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllProgrammaticServiceParams().flatMap((item) =>
+export async function generateStaticParams() {
+  const items = await getAllProgrammaticServiceParamsAsync();
+  return items.flatMap((item) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: item.slug,
@@ -55,11 +75,10 @@ export default async function LocationServicePage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const [page, service, allServices, locations, dictionary] = await Promise.all([
+  const [page, service, allServices, dictionary] = await Promise.all([
     Promise.resolve(buildServiceLocationPage(locale, slug, serviceSlug)),
     loadService(locale, serviceSlug),
     loadServices(locale),
-    loadLocations(locale),
     resolveDictionary(locale),
   ]);
   if (!page || !service) notFound();
@@ -77,7 +96,6 @@ export default async function LocationServicePage({ params }: PageProps) {
       overview: item.overview,
       image: item.image,
       imageAlt: item.imageAlt,
-      benefits: item.benefits,
       process: item.process,
     }));
 
@@ -114,13 +132,65 @@ export default async function LocationServicePage({ params }: PageProps) {
       <PageHero
         eyebrow={`${location.title} · ${servicesLabel}`}
         title={page.title}
-        lead={page.lead}
+        lead={service.heroLead ?? page.lead}
         image={service.image}
         imageAlt={service.imageAlt}
+        locale={locale}
         cta={{
-          label: dictionary.nav.cta,
+          label: dictionary.servicesPage?.primaryCta ?? dictionary.nav.cta,
           href: briefHref,
         }}
+        secondaryCta={
+          service.secondaryCta
+            ? {
+                label: service.secondaryCta.label,
+                href: localizePath(
+                  locationServicePath(service.secondaryCta.serviceSlug, slug),
+                  locale,
+                ),
+              }
+            : undefined
+        }
+      />
+
+      <LogosSection locale={locale} />
+
+      {service.cover?.items.length ? (
+        <LifecycleSection
+          eyebrow={service.cover.eyebrow}
+          title={service.cover.title}
+          support={service.cover.support}
+          imageAlt={service.imageAlt}
+          image={service.image || media.lifecycle}
+          items={service.cover.items}
+          icons={serviceCoverIcons}
+        />
+      ) : null}
+
+      {service.designs?.items.length ? (
+        <ServiceDesignGrid
+          locale={locale}
+          locationSlug={slug}
+          eyebrow={service.designs.eyebrow}
+          title={service.designs.title}
+          support={service.designs.support}
+          cta={service.designs.cta}
+          items={service.designs.items}
+        />
+      ) : null}
+
+      {service.why?.items.length ? (
+        <ServiceWhySection
+          title={service.why.title}
+          support={service.why.support}
+          items={service.why.items}
+        />
+      ) : null}
+
+      <BoothTypeModelSection
+        locale={locale}
+        title={service.title}
+        variant={SERVICE_MODEL_VARIANTS[serviceSlug] ?? "custom"}
       />
 
       <ServiceDetailSections
@@ -131,18 +201,24 @@ export default async function LocationServicePage({ params }: PageProps) {
           title: service.title,
           excerpt: service.excerpt,
           overview: service.overview,
+          overviewTitle: service.overviewTitle,
+          overviewBullets: service.overviewBullets,
           image: service.image,
           imageAlt: service.imageAlt,
-          benefits: service.benefits,
           process: service.process,
         }}
         related={related}
-        locations={locations.map((item) => ({
-          slug: item.slug,
-          title: item.title,
-        }))}
         briefHref={briefHref}
         ctaLabel={dictionary.nav.cta}
+        afterOverview={
+          <StatsSection
+            id={`location-service-${slug}-${serviceSlug}-stats`}
+            eyebrow={dictionary.stats.eyebrow}
+            title={dictionary.stats.title}
+            support={dictionary.stats.support}
+            items={dictionary.stats.items}
+          />
+        }
       />
 
       <InnerPageEngagement
@@ -155,6 +231,7 @@ export default async function LocationServicePage({ params }: PageProps) {
             : `Questions about ${page.title}`
         }
         namespace={`location-service-${slug}-${serviceSlug}`}
+        showStats={false}
       />
     </>
   );

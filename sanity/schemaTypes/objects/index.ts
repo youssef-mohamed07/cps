@@ -1,11 +1,13 @@
 import { defineField, defineType } from "sanity";
 import {
   benefitItem,
+  contentSection,
   ctaBlock,
   faqItem,
   galleryImage,
   navItem,
   processStep,
+  sectionItem,
 } from "./shared";
 import {
   navColumn,
@@ -202,6 +204,8 @@ export const objectTypes = [
   ctaBlock,
   benefitItem,
   processStep,
+  sectionItem,
+  contentSection,
   galleryImage,
   navItem,
   faqItem,

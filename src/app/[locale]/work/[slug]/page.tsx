@@ -7,7 +7,6 @@ import {
   ProjectDetailSections,
   type ProjectDetailItem,
 } from "@/components/sections/project-detail-sections";
-import { projects } from "@/content/projects";
 import { formatBoothTypeTitle } from "@/content/catalog";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -56,8 +55,9 @@ function toDetailItem(
   };
 }
 
-export function generateStaticParams() {
-  return projects.flatMap((project) =>
+export async function generateStaticParams() {
+  const items = await loadProjects("en");
+  return items.flatMap((project) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: project.slug,

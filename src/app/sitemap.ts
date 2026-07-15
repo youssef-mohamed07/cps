@@ -1,14 +1,14 @@
 import type { MetadataRoute } from "next";
-import {
-  boothTypes,
-  industries,
-  locations,
-  newsArticles,
-  services,
-} from "@/content/catalog";
-import { projects } from "@/content/projects";
 import { locales, localizePath } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/seo";
+import {
+  loadBoothTypes,
+  loadIndustries,
+  loadLocations,
+  loadNews,
+  loadProjects,
+  loadServices,
+} from "@/sanity/load-collections";
 
 const staticPaths = [
   "/",
@@ -27,7 +27,10 @@ const staticPaths = [
 
 function entry(
   path: string,
-  options: { changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"]; priority?: number } = {},
+  options: {
+    changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
+    priority?: number;
+  } = {},
 ): MetadataRoute.Sitemap {
   const now = new Date();
   return locales.map((locale) => {
@@ -49,19 +52,38 @@ function entry(
   });
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [projects, industries, locations, services, boothTypes, news] =
+    await Promise.all([
+      loadProjects("en"),
+      loadIndustries("en"),
+      loadLocations("en"),
+      loadServices("en"),
+      loadBoothTypes("en"),
+      loadNews("en"),
+    ]);
+
   return [
     ...staticPaths.flatMap((path) =>
       entry(path, { priority: path === "/" ? 1 : 0.8 }),
     ),
     ...projects.flatMap((item) =>
-      entry(`/work/${item.slug}`, { changeFrequency: "monthly", priority: 0.7 }),
+      entry(`/work/${item.slug}`, {
+        changeFrequency: "monthly",
+        priority: 0.7,
+      }),
     ),
     ...industries.flatMap((item) =>
-      entry(`/industries/${item.slug}`, { changeFrequency: "monthly", priority: 0.7 }),
+      entry(`/industries/${item.slug}`, {
+        changeFrequency: "monthly",
+        priority: 0.7,
+      }),
     ),
     ...locations.flatMap((item) =>
-      entry(`/locations/${item.slug}`, { changeFrequency: "monthly", priority: 0.6 }),
+      entry(`/locations/${item.slug}`, {
+        changeFrequency: "monthly",
+        priority: 0.6,
+      }),
     ),
     ...locations.flatMap((location) =>
       services.flatMap((service) =>
@@ -79,8 +101,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         }),
       ),
     ),
-    ...newsArticles.flatMap((item) =>
-      entry(`/news/${item.slug}`, { changeFrequency: "weekly", priority: 0.6 }),
+    ...news.flatMap((item) =>
+      entry(`/news/${item.slug}`, {
+        changeFrequency: "weekly",
+        priority: 0.6,
+      }),
     ),
   ];
 }

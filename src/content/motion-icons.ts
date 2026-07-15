@@ -63,6 +63,16 @@ export const boothTypeIcons: Record<string, MotionIconName> = {
 
 export const lifecycleIcons: MotionIconName[] = ["layers", "factory", "tool", "check"];
 
+/** Default icons for service “What we cover” lists */
+export const serviceCoverIcons: LineIconName[] = [
+  "layers",
+  "bulb",
+  "growth",
+  "building",
+  "factory",
+  "check",
+];
+
 export function isLottieKey(key: string): key is LottieIconKey {
   return key in lottieIcons;
 }

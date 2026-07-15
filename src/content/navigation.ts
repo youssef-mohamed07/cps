@@ -68,7 +68,7 @@ const servicesLinksEn: NavLink[] = [
     imageAlt: "Booth design studio work",
   },
   {
-    label: "Custom Fabrication",
+    label: "Booth Manufacturing",
     href: "/locations/riyadh/services/custom-fabrication",
     description: "Precision build in our workshop",
     image: media.services.fabrication,
@@ -82,7 +82,7 @@ const servicesLinksEn: NavLink[] = [
     imageAlt: "Exhibition booth installation",
   },
   {
-    label: "Storage & Reinstallation",
+    label: "Dismantling, Storage & Reinstallation",
     href: "/locations/riyadh/services/storage-reinstallation",
     description: "Reuse across multiple shows",
     image: media.services.storage,
@@ -96,11 +96,11 @@ const servicesLinksEn: NavLink[] = [
     imageAlt: "Large-format exhibition graphics",
   },
   {
-    label: "Lightbox & Retail Display",
+    label: "Lightbox Signage & Storefront",
     href: "/locations/riyadh/services/lightbox-retail-display",
     description: "Illuminated premium presence",
     image: media.services.lightbox,
-    imageAlt: "Lightbox retail display",
+    imageAlt: "Lightbox signage and storefront",
   },
 ];
 
@@ -120,11 +120,11 @@ const servicesLinksAr: NavLink[] = [
     imageAlt: "عمل استوديو تصميم الأجنحة",
   },
   {
-    label: "تصنيع وتفصيل مخصص",
+    label: "تصنيع الأجنحة",
     href: "/locations/riyadh/services/custom-fabrication",
     description: "بناء دقيق في ورشتنا",
     image: media.services.fabrication,
-    imageAlt: "تصنيع جناح مخصص",
+    imageAlt: "تصنيع الأجنحة",
   },
   {
     label: "التركيب والتفكيك",
@@ -134,7 +134,7 @@ const servicesLinksAr: NavLink[] = [
     imageAlt: "تركيب جناح المعرض",
   },
   {
-    label: "التخزين وإعادة التركيب",
+    label: "التفكيك والتخزين وإعادة التركيب",
     href: "/locations/riyadh/services/storage-reinstallation",
     description: "إعادة استخدام عبر معارض متعددة",
     image: media.services.storage,
@@ -148,11 +148,11 @@ const servicesLinksAr: NavLink[] = [
     imageAlt: "رسومات معارض كبيرة",
   },
   {
-    label: "لافتات Lightbox والعرض",
+    label: "لافتات Lightbox والواجهات",
     href: "/locations/riyadh/services/lightbox-retail-display",
     description: "حضور مضيء فاخر",
     image: media.services.lightbox,
-    imageAlt: "عرض Lightbox للتجزئة",
+    imageAlt: "لافتات Lightbox والواجهات",
   },
 ];
 

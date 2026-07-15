@@ -5,7 +5,6 @@ import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { LocationDetailSections } from "@/components/sections/location-detail-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { locations } from "@/content/catalog";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
@@ -22,8 +21,9 @@ type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return locations.flatMap((item) =>
+export async function generateStaticParams() {
+  const items = await loadLocations("en");
+  return items.flatMap((item) =>
     (["en", "ar"] as const).map((locale) => ({
       locale,
       slug: item.slug,

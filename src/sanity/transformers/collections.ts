@@ -15,8 +15,41 @@ export type CmsListItem = {
 
 export type CmsService = CmsListItem & {
   overview: string;
+  overviewTitle?: string;
+  overviewBullets?: { title: string; description: string }[];
+  heroLead?: string;
+  secondaryCta?: { label: string; serviceSlug: string };
+  cover?: {
+    eyebrow: string;
+    title: string;
+    support: string;
+    items: { title: string; description: string }[];
+  };
+  designs?: {
+    eyebrow?: string;
+    title: string;
+    support?: string;
+    cta?: { label: string; href: string };
+    items: {
+      title: string;
+      description: string;
+      image: string;
+      imageAlt?: string;
+      serviceSlug?: string;
+    }[];
+  };
+  why?: {
+    title: string;
+    support?: string;
+    items: { title: string; description: string }[];
+  };
   benefits: { title: string; description: string }[];
-  process: { title: string; description: string }[];
+  process: {
+    title: string;
+    description: string;
+    image?: string;
+    imageAlt?: string;
+  }[];
   faq: { question: string; answer: string }[];
   cta?: { label: string; href: string };
 };
@@ -31,6 +64,12 @@ export type CmsBoothType = CmsListItem & {
   faq: { question: string; answer: string }[];
   gallery: { src: string; alt: string }[];
   cta?: { label: string; href: string };
+  compareLabel?: string;
+  indoor?: boolean;
+  outdoor?: boolean;
+  reusable?: boolean;
+  highCustomization?: boolean;
+  fastSetup?: boolean;
 };
 
 export type CmsProject = {
@@ -91,34 +130,145 @@ function mapSeo(seo: Parameters<typeof toSeoMeta>[0]): SeoMeta | undefined {
   return toSeoMeta(seo);
 }
 
+type SectionItemDoc = {
+  title?: string;
+  description?: string;
+  image?: SanityImage;
+  imageUrl?: string;
+  imageAlt?: string;
+  serviceSlug?: string;
+};
+
+type ContentSectionDoc = {
+  eyebrow?: string;
+  title?: string;
+  support?: string;
+  cta?: { label?: string; href?: string };
+  items?: SectionItemDoc[];
+};
+
+function mapContentItems(items: SectionItemDoc[] | undefined) {
+  return (items ?? [])
+    .filter((item) => item.title)
+    .map((item) => ({
+      title: item.title!,
+      description: item.description ?? "",
+      image: toImageSrc(item.image, item.imageUrl ?? ""),
+      imageAlt: item.imageAlt ?? item.image?.alt ?? item.title!,
+      serviceSlug: item.serviceSlug,
+    }));
+}
+
 export function mapService(doc: {
   title?: string;
   slug?: string;
   excerpt?: string;
   overview?: string;
+  overviewTitle?: string;
+  overviewBullets?: { title?: string; description?: string }[];
+  heroLead?: string;
+  secondaryCta?: { label?: string; serviceSlug?: string };
   order?: number;
   hero?: SanityImage;
+  heroUrl?: string;
+  cover?: ContentSectionDoc;
+  designs?: ContentSectionDoc;
+  why?: ContentSectionDoc;
   benefits?: { title?: string; description?: string }[];
-  process?: { title?: string; description?: string }[];
+  process?: {
+    title?: string;
+    description?: string;
+    image?: SanityImage;
+    imageUrl?: string;
+    imageAlt?: string;
+  }[];
   faq?: { question?: string; answer?: string }[];
   cta?: { label?: string; href?: string };
   seo?: Parameters<typeof toSeoMeta>[0];
 }): CmsService | null {
   if (!doc?.title || !doc.slug) return null;
+
+  const designItems = mapContentItems(doc.designs?.items);
+  const whyItems = (doc.why?.items ?? [])
+    .filter((item) => item.title)
+    .map((item) => ({
+      title: item.title!,
+      description: item.description ?? "",
+    }));
+  const coverItems = (doc.cover?.items ?? [])
+    .filter((item) => item.title)
+    .map((item) => ({
+      title: item.title!,
+      description: item.description ?? "",
+    }));
+
   return {
     slug: doc.slug,
     title: doc.title,
     excerpt: doc.excerpt ?? "",
     overview: doc.overview ?? "",
+    overviewTitle: doc.overviewTitle,
+    overviewBullets: (doc.overviewBullets ?? [])
+      .filter((item) => item.title)
+      .map((item) => ({
+        title: item.title!,
+        description: item.description ?? "",
+      })),
+    heroLead: doc.heroLead,
+    secondaryCta:
+      doc.secondaryCta?.label && doc.secondaryCta.serviceSlug
+        ? {
+            label: doc.secondaryCta.label,
+            serviceSlug: doc.secondaryCta.serviceSlug,
+          }
+        : undefined,
     order: doc.order,
-    image: toImageSrc(doc.hero),
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
     imageAlt: doc.hero?.alt ?? doc.title,
+    cover: doc.cover?.title
+      ? {
+          eyebrow: doc.cover.eyebrow ?? "",
+          title: doc.cover.title,
+          support: doc.cover.support ?? "",
+          items: coverItems,
+        }
+      : undefined,
+    designs: doc.designs?.title
+      ? {
+          eyebrow: doc.designs.eyebrow,
+          title: doc.designs.title,
+          support: doc.designs.support,
+          cta:
+            doc.designs.cta?.label && doc.designs.cta.href
+              ? { label: doc.designs.cta.label, href: doc.designs.cta.href }
+              : undefined,
+          items: designItems.map((item) => ({
+            title: item.title,
+            description: item.description,
+            image: item.image,
+            imageAlt: item.imageAlt,
+            serviceSlug: item.serviceSlug,
+          })),
+        }
+      : undefined,
+    why: doc.why?.title
+      ? {
+          title: doc.why.title,
+          support: doc.why.support,
+          items: whyItems,
+        }
+      : undefined,
     benefits: (doc.benefits ?? [])
       .filter((item) => item.title)
       .map((item) => ({ title: item.title!, description: item.description ?? "" })),
     process: (doc.process ?? [])
       .filter((item) => item.title)
-      .map((item) => ({ title: item.title!, description: item.description ?? "" })),
+      .map((item) => ({
+        title: item.title!,
+        description: item.description ?? "",
+        image: toImageSrc(item.image, item.imageUrl ?? "") || undefined,
+        imageAlt: item.imageAlt ?? item.image?.alt,
+      })),
     faq: (doc.faq ?? [])
       .filter((item) => item.question)
       .map((item) => ({ question: item.question!, answer: item.answer ?? "" })),
@@ -138,6 +288,13 @@ export function mapBoothType(doc: {
   description?: string;
   order?: number;
   hero?: SanityImage;
+  heroUrl?: string;
+  compareLabel?: string;
+  indoor?: boolean;
+  outdoor?: boolean;
+  reusable?: boolean;
+  highCustomization?: boolean;
+  fastSetup?: boolean;
   features?: ({ title?: string; description?: string } | string)[];
   advantages?: { title?: string; description?: string }[];
   useCases?: string[];
@@ -154,13 +311,21 @@ export function mapBoothType(doc: {
     overviewTitle: doc.overviewTitle ?? "",
     description: doc.description ?? "",
     order: doc.order,
-    image: toImageSrc(doc.hero),
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
     imageAlt: doc.hero?.alt ?? doc.title,
-    features: (doc.features ?? []).map((item) =>
-      typeof item === "string"
-        ? { title: item, description: "" }
-        : { title: item.title ?? "", description: item.description ?? "" },
-    ).filter((item) => item.title),
+    compareLabel: doc.compareLabel,
+    indoor: doc.indoor,
+    outdoor: doc.outdoor,
+    reusable: doc.reusable,
+    highCustomization: doc.highCustomization,
+    fastSetup: doc.fastSetup,
+    features: (doc.features ?? [])
+      .map((item) =>
+        typeof item === "string"
+          ? { title: item, description: "" }
+          : { title: item.title ?? "", description: item.description ?? "" },
+      )
+      .filter((item) => item.title),
     advantages: (doc.advantages ?? [])
       .filter((item) => item.title)
       .map((item) => ({ title: item.title!, description: item.description ?? "" })),
@@ -275,8 +440,10 @@ export function mapLocation(doc: {
   countryCode?: string;
   excerpt?: string;
   localExperience?: string;
+  capabilities?: { title?: string; description?: string }[];
   order?: number;
   hero?: SanityImage;
+  heroUrl?: string;
   cta?: { label?: string; href?: string };
   seo?: Parameters<typeof toSeoMeta>[0];
 }): CmsLocation | null {
@@ -287,9 +454,14 @@ export function mapLocation(doc: {
     countryCode: doc.countryCode ?? "",
     excerpt: doc.excerpt ?? "",
     localExperience: doc.localExperience ?? "",
-    capabilities: [],
+    capabilities: (doc.capabilities ?? [])
+      .filter((item) => item.title)
+      .map((item) => ({
+        title: item.title!,
+        description: item.description ?? "",
+      })),
     order: doc.order,
-    image: toImageSrc(doc.hero),
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
     imageAlt: doc.hero?.alt ?? doc.title,
     cta:
       doc.cta?.label && doc.cta.href

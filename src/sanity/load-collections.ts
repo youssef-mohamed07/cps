@@ -1,3 +1,4 @@
+import { getBoothComparisonRow } from "@/content/booth-comparison";
 import {
   boothTypes,
   getBoothType,
@@ -23,9 +24,11 @@ import {
 } from "@/content/projects";
 import type { Locale } from "@/lib/i18n";
 import { sanityFetch } from "@/sanity/fetch";
+import { clientLogos, type ClientLogo } from "@/content/clients";
 import {
   BOOTH_TYPE_BY_SLUG_QUERY,
   BOOTH_TYPES_QUERY,
+  CLIENTS_QUERY,
   INDUSTRIES_QUERY,
   INDUSTRY_BY_SLUG_QUERY,
   LOCATION_BY_SLUG_QUERY,
@@ -53,6 +56,7 @@ import {
   type CmsProject,
   type CmsService,
 } from "@/sanity/transformers/collections";
+import { toImageSrc } from "@/sanity/transformers/shared";
 
 function localService(slug: string, locale: Locale): CmsService | null {
   const record = getService(slug);
@@ -63,9 +67,16 @@ function localService(slug: string, locale: Locale): CmsService | null {
     title: localized.title,
     excerpt: localized.excerpt,
     overview: localized.overview,
+    overviewTitle: localized.overviewTitle,
+    overviewBullets: localized.overviewBullets,
     order: record.order,
     image: localized.image,
     imageAlt: localized.imageAlt,
+    heroLead: localized.heroLead,
+    secondaryCta: localized.secondaryCta,
+    cover: localized.cover,
+    designs: localized.designs,
+    why: localized.why,
     benefits: localized.benefits,
     process: localized.process,
     faq: localized.faq,
@@ -76,6 +87,7 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
   const record = getBoothType(slug);
   if (!record) return null;
   const localized = localizeBoothType(record, locale);
+  const compare = getBoothComparisonRow(slug);
   return {
     slug: localized.slug,
     title: localized.title,
@@ -91,6 +103,16 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
     useCases: localized.useCases,
     faq: localized.faq,
     gallery: [],
+    compareLabel: compare
+      ? locale === "ar"
+        ? compare.label.ar
+        : compare.label.en
+      : undefined,
+    indoor: compare?.indoor,
+    outdoor: compare?.outdoor,
+    reusable: compare?.reusable,
+    highCustomization: compare?.highCustomization,
+    fastSetup: compare?.fastSetup,
   };
 }
 
@@ -146,7 +168,26 @@ export async function loadService(
   });
 
   const mapped = mapService(remote as Parameters<typeof mapService>[0]);
-  if (mapped) return mapped;
+  if (mapped) {
+    const local = localService(slug, locale);
+    if (!local) return mapped;
+    const remoteProcessBare =
+      mapped.process.length > 0 && mapped.process.every((step) => !step.image);
+    const localProcessRich = local.process.some((step) => step.image);
+    return {
+      ...mapped,
+      cover: mapped.cover ?? local.cover,
+      designs: mapped.designs ?? local.designs,
+      why: mapped.why ?? local.why,
+      heroLead: mapped.heroLead ?? local.heroLead,
+      secondaryCta: mapped.secondaryCta ?? local.secondaryCta,
+      overviewTitle: mapped.overviewTitle ?? local.overviewTitle,
+      overviewBullets: mapped.overviewBullets ?? local.overviewBullets,
+      faq: local.faq.length > mapped.faq.length ? local.faq : mapped.faq,
+      process:
+        remoteProcessBare && localProcessRich ? local.process : mapped.process,
+    };
+  }
   return localService(slug, locale);
 }
 
@@ -161,7 +202,27 @@ export async function loadBoothTypes(locale: Locale): Promise<CmsBoothType[]> {
     .map((doc) => mapBoothType(doc as Parameters<typeof mapBoothType>[0]))
     .filter((item): item is CmsBoothType => Boolean(item));
 
-  if (mapped.length) return mapped;
+  if (mapped.length) {
+    return mapped.map((item) => {
+      const fallback = getBoothComparisonRow(item.slug);
+      return {
+        ...item,
+        compareLabel:
+          item.compareLabel ||
+          (fallback
+            ? locale === "ar"
+              ? fallback.label.ar
+              : fallback.label.en
+            : undefined),
+        indoor: item.indoor ?? fallback?.indoor,
+        outdoor: item.outdoor ?? fallback?.outdoor,
+        reusable: item.reusable ?? fallback?.reusable,
+        highCustomization:
+          item.highCustomization ?? fallback?.highCustomization,
+        fastSetup: item.fastSetup ?? fallback?.fastSetup,
+      };
+    });
+  }
   return boothTypes.map((item) => localBoothType(item.slug, locale)!);
 }
 
@@ -176,7 +237,31 @@ export async function loadBoothType(
   });
 
   const mapped = mapBoothType(remote as Parameters<typeof mapBoothType>[0]);
-  if (mapped) return mapped;
+  if (mapped) {
+    const local = localBoothType(slug, locale);
+    const compare = getBoothComparisonRow(slug);
+    return {
+      ...mapped,
+      image: mapped.image || local?.image || "",
+      imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+      compareLabel:
+        mapped.compareLabel ||
+        local?.compareLabel ||
+        (compare
+          ? locale === "ar"
+            ? compare.label.ar
+            : compare.label.en
+          : undefined),
+      indoor: mapped.indoor ?? local?.indoor ?? compare?.indoor,
+      outdoor: mapped.outdoor ?? local?.outdoor ?? compare?.outdoor,
+      reusable: mapped.reusable ?? local?.reusable ?? compare?.reusable,
+      highCustomization:
+        mapped.highCustomization ??
+        local?.highCustomization ??
+        compare?.highCustomization,
+      fastSetup: mapped.fastSetup ?? local?.fastSetup ?? compare?.fastSetup,
+    };
+  }
   return localBoothType(slug, locale);
 }
 
@@ -427,4 +512,29 @@ export async function loadRedirects() {
       to: item.to!,
       status: item.status === 302 ? 302 : 301,
     }));
+}
+
+export async function loadClients(locale: Locale): Promise<ClientLogo[]> {
+  const remote = await sanityFetch<
+    {
+      name?: string;
+      logo?: { asset?: unknown; alt?: string };
+      logoUrl?: string;
+    }[]
+  >({
+    query: CLIENTS_QUERY,
+    params: { locale },
+    tags: ["client", `client-${locale}`],
+  });
+
+  const mapped =
+    remote
+      ?.map((item) => {
+        const src = toImageSrc(item.logo, item.logoUrl ?? "");
+        if (!item.name || !src) return null;
+        return { name: item.name, src };
+      })
+      .filter((item): item is ClientLogo => Boolean(item)) ?? [];
+
+  return mapped.length ? mapped : clientLogos;
 }

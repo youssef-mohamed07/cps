@@ -13,6 +13,27 @@ export const homePage = defineType({
     }),
     defineField({ name: "seo", type: "seoMeta", title: "SEO" }),
     defineField({
+      name: "hero",
+      type: "object",
+      title: "Hero",
+      fields: [
+        defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
+        defineField({ name: "title", type: "string", title: "Title" }),
+        defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
+        defineField({ name: "primaryCta", type: "string", title: "Primary CTA" }),
+        defineField({ name: "secondaryCta", type: "string", title: "Secondary CTA" }),
+      ],
+    }),
+    defineField({
+      name: "sections",
+      type: "object",
+      title: "Section copy (JSON-compatible)",
+      description: "Structured home chrome mirrored from the local dictionary for CMS editing.",
+      fields: [
+        defineField({ name: "payload", type: "text", rows: 20, title: "JSON payload" }),
+      ],
+    }),
+    defineField({
       name: "featuredProjectIds",
       type: "array",
       of: [{ type: "reference", to: [{ type: "project" }] }],
@@ -81,6 +102,14 @@ export const contactPageDoc = defineType({
     defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
     defineField({ name: "officeTitle", type: "string", title: "Office title" }),
     defineField({ name: "businessHours", type: "text", rows: 3, title: "Business hours" }),
+    defineField({
+      name: "briefForm",
+      type: "object",
+      title: "Brief form",
+      fields: [
+        defineField({ name: "payload", type: "text", rows: 12, title: "JSON payload" }),
+      ],
+    }),
     defineField({ name: "seo", type: "seoMeta", title: "SEO" }),
   ],
 });
