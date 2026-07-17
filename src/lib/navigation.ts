@@ -183,7 +183,42 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
   const itemsWithLocalMegaFallback = fromItems.map((item) => {
     const localItem = local.items.find((candidate) => candidate.href === item.href);
 
-    if (item.kind !== "link" || localItem?.kind !== "mega" || !localItem.mega) {
+    if (localItem?.kind !== "mega" || !localItem.mega) {
+      return item;
+    }
+
+    if (item.kind === "mega" && item.mega) {
+      const localLinks = localItem.mega.columns.flatMap((column) => column.links);
+      const columns = item.mega.columns.length
+        ? item.mega.columns.map((column) => ({
+            ...column,
+            links: column.links.map((link) => {
+              const fallback = localLinks.find(
+                (candidate) => candidate.href === link.href,
+              );
+              return {
+                ...fallback,
+                ...link,
+                image: link.image || fallback?.image,
+                imageAlt: link.imageAlt || fallback?.imageAlt,
+              };
+            }),
+          }))
+        : localItem.mega.columns;
+
+      return {
+        ...item,
+        mega: {
+          ...localItem.mega,
+          ...item.mega,
+          columns,
+          featured: item.mega.featured || localItem.mega.featured,
+          cta: item.mega.cta || localItem.mega.cta,
+        },
+      };
+    }
+
+    if (item.kind !== "link") {
       return item;
     }
 
