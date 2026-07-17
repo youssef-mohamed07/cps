@@ -180,6 +180,19 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
   const fromItems = (remote.items ?? [])
     .map((item) => mapItem(item as Parameters<typeof mapItem>[0]))
     .filter((item): item is NavPrimaryItem => Boolean(item));
+  const itemsWithLocalMegaFallback = fromItems.map((item) => {
+    const localItem = local.items.find((candidate) => candidate.href === item.href);
+
+    if (item.kind !== "link" || localItem?.kind !== "mega" || !localItem.mega) {
+      return item;
+    }
+
+    return {
+      ...item,
+      kind: "mega" as const,
+      mega: localItem.mega,
+    };
+  });
 
   const fromLegacy = (remote.primary ?? [])
     .filter((item) => item.label && item.href)
@@ -192,7 +205,11 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
       }),
     );
 
-  const items = fromItems.length ? fromItems : fromLegacy.length ? fromLegacy : local.items;
+  const items = itemsWithLocalMegaFallback.length
+    ? itemsWithLocalMegaFallback
+    : fromLegacy.length
+      ? fromLegacy
+      : local.items;
 
   const footer = (remote.footer ?? [])
     .map(mapLink)
