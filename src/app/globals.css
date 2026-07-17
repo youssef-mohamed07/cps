@@ -1982,7 +1982,7 @@ body {
    4vw → 8vw → 12vw → 8vw → 4vw, with every edge touching. ——— */
 .hero-image-1 {
   top: 16%;
-  left: 28%;
+  left: 24%;
   width: 4vw;
   translate: 0 0;
   --image-delay: 850ms;
@@ -1990,7 +1990,7 @@ body {
 
 .hero-image-2 {
   top: calc(16% + 4vw);
-  left: 20%;
+  left: 16%;
   width: 8vw;
   translate: 0 0;
   --image-delay: 1050ms;
@@ -1998,7 +1998,7 @@ body {
 
 .hero-image-3 {
   top: calc(16% + 12vw);
-  left: 8%;
+  left: 4%;
   width: 12vw;
   translate: 0 0;
   --image-delay: 1250ms;
@@ -2006,7 +2006,7 @@ body {
 
 .hero-image-4 {
   top: calc(16% + 24vw);
-  left: 20%;
+  left: 16%;
   width: 8vw;
   translate: 0 0;
   --image-delay: 1450ms;
@@ -2015,7 +2015,7 @@ body {
 .hero-image-5 {
   top: calc(16% + 32vw);
   bottom: auto;
-  left: 28%;
+  left: 24%;
   width: 4vw;
   translate: 0 0;
   --image-delay: 1650ms;
@@ -2023,7 +2023,7 @@ body {
 
 .hero-image-6 {
   top: 16%;
-  right: 28%;
+  right: 24%;
   width: 4vw;
   translate: 0 0;
   --image-delay: 950ms;
@@ -2031,7 +2031,7 @@ body {
 
 .hero-image-7 {
   top: calc(16% + 4vw);
-  right: 20%;
+  right: 16%;
   width: 8vw;
   translate: 0 0;
   --image-delay: 1150ms;
@@ -2039,7 +2039,7 @@ body {
 
 .hero-image-8 {
   top: calc(16% + 12vw);
-  right: 8%;
+  right: 4%;
   width: 12vw;
   translate: 0 0;
   --image-delay: 1350ms;
@@ -2047,7 +2047,7 @@ body {
 
 .hero-image-9 {
   top: calc(16% + 24vw);
-  right: 20%;
+  right: 16%;
   width: 8vw;
   translate: 0 0;
   --image-delay: 1550ms;
@@ -2056,7 +2056,7 @@ body {
 .hero-image-10 {
   top: calc(16% + 32vw);
   bottom: auto;
-  right: 28%;
+  right: 24%;
   width: 4vw;
   translate: 0 0;
   --image-delay: 1750ms;
@@ -2260,50 +2260,50 @@ body {
   }
 
   .hero-image-1 {
-    left: 24%;
+    left: 20%;
   }
 
   .hero-image-2 {
-    left: 16%;
+    left: 12%;
     top: calc(16% + 3.5vw);
   }
 
   .hero-image-3 {
-    left: 5%;
+    left: 2%;
     top: calc(16% + 10.5vw);
   }
 
   .hero-image-4 {
-    left: 16%;
+    left: 12%;
     top: calc(16% + 21vw);
   }
 
   .hero-image-5 {
-    left: 24%;
+    left: 20%;
     top: calc(16% + 28vw);
   }
 
   .hero-image-6 {
-    right: 24%;
+    right: 20%;
   }
 
   .hero-image-7 {
-    right: 16%;
+    right: 12%;
     top: calc(16% + 3.5vw);
   }
 
   .hero-image-8 {
-    right: 5%;
+    right: 2%;
     top: calc(16% + 10.5vw);
   }
 
   .hero-image-9 {
-    right: 16%;
+    right: 12%;
     top: calc(16% + 21vw);
   }
 
   .hero-image-10 {
-    right: 24%;
+    right: 20%;
     top: calc(16% + 28vw);
   }
 }
