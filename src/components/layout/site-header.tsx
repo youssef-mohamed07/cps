@@ -26,8 +26,6 @@ const HEADER_HIDE_AFTER = 72;
 
 /** Body can be the real scroll root (overflow-y: auto + h-full). */
 function getScrollRoot(): Element {
-  if (typeof document === "undefined") return document.documentElement;
-
   const body = document.body;
   const bodyStyle = getComputedStyle(body);
   const bodyScrolls =
