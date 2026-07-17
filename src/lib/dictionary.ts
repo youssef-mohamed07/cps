@@ -6,6 +6,7 @@ import {
   loadAboutPage,
   loadContactPage,
   loadHomeDictionaryOverlay,
+  loadHubDictionaryOverlay,
 } from "@/sanity/load-pages";
 
 function mergeSection<T extends Record<string, unknown>>(
@@ -26,16 +27,17 @@ function mergeSection<T extends Record<string, unknown>>(
 /** Merge remote CMS copy onto local defaults so pages never lose required fields. */
 export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
   const local = getDictionaryLocal(locale);
-  const [remote, navigation, homeOverlay, aboutPage, contactPage] =
+  const [remote, navigation, homeOverlay, hubOverlay, aboutPage, contactPage] =
     await Promise.all([
       getDictionary(locale),
       resolveNavigation(locale),
       loadHomeDictionaryOverlay(locale),
+      loadHubDictionaryOverlay(locale),
       loadAboutPage(locale),
       loadContactPage(locale),
     ]);
 
-  const sectionSource = { ...remote, ...homeOverlay };
+  const sectionSource = { ...remote, ...homeOverlay, ...hubOverlay };
 
   return {
     ...local,
@@ -80,6 +82,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     boothTypesPage: {
       ...local.boothTypesPage,
       ...remote.boothTypesPage,
+      ...hubOverlay.boothTypesPage,
     },
     whyCps: {
       ...local.whyCps,
@@ -111,9 +114,12 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     servicesPage: {
       ...local.servicesPage,
       ...remote.servicesPage,
-      faqItems: remote.servicesPage?.faqItems?.length
-        ? remote.servicesPage.faqItems
-        : local.servicesPage.faqItems,
+      ...hubOverlay.servicesPage,
+      faqItems: hubOverlay.servicesPage?.faqItems?.length
+        ? hubOverlay.servicesPage.faqItems
+        : remote.servicesPage?.faqItems?.length
+          ? remote.servicesPage.faqItems
+          : local.servicesPage.faqItems,
     },
     process: {
       ...local.process,
@@ -130,7 +136,26 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
         : local.work.items,
       viewAll: sectionSource.work?.viewAll ?? local.work.viewAll,
     },
-    workPage: { ...local.workPage, ...remote.workPage },
+    workPage: {
+      ...local.workPage,
+      ...remote.workPage,
+      ...hubOverlay.workPage,
+    },
+    industriesPage: {
+      ...local.industriesPage,
+      ...remote.industriesPage,
+      ...hubOverlay.industriesPage,
+    },
+    locationsPage: {
+      ...local.locationsPage,
+      ...remote.locationsPage,
+      ...hubOverlay.locationsPage,
+    },
+    newsPage: {
+      ...local.newsPage,
+      ...remote.newsPage,
+      ...hubOverlay.newsPage,
+    },
     projectPage: { ...local.projectPage, ...remote.projectPage },
     contact: { ...local.contact, ...sectionSource.contact },
     briefForm: {

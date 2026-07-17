@@ -8,6 +8,7 @@ const REVALIDATE_TAGS = [
   "homePage",
   "aboutPageDoc",
   "contactPageDoc",
+  "hubPage",
   "navigation",
   "globalSeo",
   "siteFooter",
@@ -58,6 +59,7 @@ export async function POST(request: NextRequest) {
     revalidateTag(`homePage-${locale}`, "max");
     revalidateTag(`aboutPageDoc-${locale}`, "max");
     revalidateTag(`contactPageDoc-${locale}`, "max");
+    revalidateTag(`hubPage-${locale}`, "max");
     revalidateTag(`service-${locale}`, "max");
     revalidateTag(`boothType-${locale}`, "max");
     revalidateTag(`project-${locale}`, "max");

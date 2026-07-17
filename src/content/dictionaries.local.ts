@@ -184,6 +184,21 @@ export interface Dictionary {
     title: string;
     lead: string;
   };
+  industriesPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
+  locationsPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
+  newsPage: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
   projectPage: {
     challenge: string;
     approach: string;
@@ -262,7 +277,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     hero: {
       badge: "#1 Exhibition Booth Design & Production in {City}",
-      headline: "Everything your booth needs, under one roof.",
+      headline: "Everything your booth needs,\nunder one roof.",
       support:
         "Full-lifecycle exhibition booth production across Saudi Arabia — design, build, install, dismantle, and storage, all in-house.",
       primaryCta: "Request a Quote",
@@ -741,6 +756,21 @@ const dictionaries: Record<Locale, Dictionary> = {
       title: "Selected projects",
       lead: "Brand systems, campaigns, and digital products — each built to feel inevitable once finished.",
     },
+    industriesPage: {
+      eyebrow: "Sectors",
+      title: "Industries",
+      lead: "Booth solutions shaped around the realities of each sector.",
+    },
+    locationsPage: {
+      eyebrow: "Cities",
+      title: "Locations",
+      lead: "Presence across Saudi Arabia’s key exhibition cities.",
+    },
+    newsPage: {
+      eyebrow: "Insights",
+      title: "Insights",
+      lead: "Practical thinking from the show floor and the production floor.",
+    },
     projectPage: {
       challenge: "Challenge",
       approach: "Approach",
@@ -812,7 +842,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     hero: {
       badge: "الأول في تصميم وإنتاج أجنحة المعارض في {City}",
-      headline: "كل ما يحتاجه جناحك — تحت سقف واحد.",
+      headline: "كل ما يحتاجه جناحك —\nتحت سقف واحد.",
       support:
         "إنتاج متكامل لأجنحة المعارض في أنحاء السعودية — تصميم، تصنيع، تركيب، تفكيك وتخزين، بالكامل داخل CPS.",
       primaryCta: "اطلب عرض سعر",
@@ -1290,6 +1320,21 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "الأعمال",
       title: "مشاريع مختارة",
       lead: "أنظمة علامات وحملات ومنتجات رقمية — كل مشروع يُبنى ليبدو حتمياً بعد اكتماله.",
+    },
+    industriesPage: {
+      eyebrow: "قطاعاتنا",
+      title: "القطاعات",
+      lead: "حلول أجنحة مبنية حول تحديات كل قطاع.",
+    },
+    locationsPage: {
+      eyebrow: "المدن",
+      title: "المواقع",
+      lead: "حضور عبر أبرز مدن المملكة العربية السعودية.",
+    },
+    newsPage: {
+      eyebrow: "رؤى",
+      title: "رؤى",
+      lead: "أفكار عملية من أرض المعارض وورشة الإنتاج.",
     },
     projectPage: {
       challenge: "التحدي",

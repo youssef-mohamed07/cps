@@ -8,6 +8,7 @@ import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { getSiteConfig } from "@/lib/site-config";
+import { loadContactSeo } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -16,10 +17,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const dictionary = await resolveDictionary(localeParam);
+  const [dictionary, seo] = await Promise.all([
+    resolveDictionary(localeParam),
+    loadContactSeo(localeParam),
+  ]);
   return buildPageMetadata({
     path: "/contact",
     locale: localeParam,
+    seo,
     fallbackTitle: `CPS — ${dictionary.contactPage.title}`,
     fallbackDescription: dictionary.contactPage.lead,
   });

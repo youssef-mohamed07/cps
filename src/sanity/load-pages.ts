@@ -1,6 +1,16 @@
 import { getDictionaryLocal, type Dictionary } from "@/content/dictionaries.local";
 import type { Locale } from "@/lib/i18n";
+import type { SeoMeta } from "@/types/seo";
 import { sanityFetch } from "@/sanity/fetch";
+import { toSeoMeta } from "@/sanity/transformers/shared";
+
+export type HubKind =
+  | "services"
+  | "boothTypes"
+  | "work"
+  | "industries"
+  | "locations"
+  | "news";
 
 const HOME_PAGE_QUERY = `*[_type == "homePage" && language == $locale][0]{
   hero{ eyebrow, title, lead, primaryCta, secondaryCta },
@@ -36,7 +46,21 @@ const CONTACT_PAGE_QUERY = `*[_type == "contactPageDoc" && language == $locale][
   seo
 }`;
 
-type HomeDoc = {
+const HUB_PAGES_QUERY = `*[_type == "hubPage" && language == $locale]{
+  kind,
+  eyebrow,
+  title,
+  lead,
+  primaryCta,
+  secondaryCta,
+  detailTitle,
+  faq[]{ question, answer },
+  seo
+}`;
+
+type SeoDoc = { seo?: Parameters<typeof toSeoMeta>[0] };
+
+type HomeDoc = SeoDoc & {
   hero?: {
     eyebrow?: string;
     title?: string;
@@ -47,7 +71,7 @@ type HomeDoc = {
   sections?: { payload?: string };
 };
 
-type AboutDoc = {
+type AboutDoc = SeoDoc & {
   eyebrow?: string;
   title?: string;
   lead?: string;
@@ -64,7 +88,7 @@ type AboutDoc = {
   faq?: { question?: string; answer?: string }[];
 };
 
-type ContactDoc = {
+type ContactDoc = SeoDoc & {
   eyebrow?: string;
   title?: string;
   lead?: string;
@@ -73,12 +97,69 @@ type ContactDoc = {
   briefForm?: { payload?: string };
 };
 
+type HubDoc = SeoDoc & {
+  kind?: HubKind;
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  primaryCta?: string;
+  secondaryCta?: string;
+  detailTitle?: string;
+  faq?: { question?: string; answer?: string }[];
+};
+
+export type HubPageChrome = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  primaryCta?: string;
+  secondaryCta?: string;
+  detailTitle?: string;
+  faqItems?: { question: string; answer: string }[];
+  seo?: SeoMeta;
+};
+
 function parseJson<T>(raw: string | undefined): T | null {
   if (!raw) return null;
   try {
     return JSON.parse(raw) as T;
   } catch {
     return null;
+  }
+}
+
+function localHubFallback(locale: Locale, kind: HubKind): HubPageChrome {
+  const dict = getDictionaryLocal(locale);
+
+  switch (kind) {
+    case "services":
+      return {
+        eyebrow: dict.servicesPage.eyebrow,
+        title: dict.servicesPage.title,
+        lead: dict.servicesPage.lead,
+        primaryCta: dict.servicesPage.primaryCta,
+        secondaryCta: dict.servicesPage.secondaryCta,
+        detailTitle: dict.servicesPage.detailTitle,
+        faqItems: dict.servicesPage.faqItems,
+      };
+    case "boothTypes":
+      return {
+        eyebrow: dict.boothTypesPage.eyebrow,
+        title: dict.boothTypesPage.title,
+        lead: dict.boothTypesPage.lead,
+      };
+    case "work":
+      return {
+        eyebrow: dict.workPage.eyebrow,
+        title: dict.workPage.title,
+        lead: dict.workPage.lead,
+      };
+    case "industries":
+      return { ...dict.industriesPage };
+    case "locations":
+      return { ...dict.locationsPage };
+    case "news":
+      return { ...dict.newsPage };
   }
 }
 
@@ -107,6 +188,15 @@ export async function loadHomeDictionaryOverlay(
   }
 
   return overlay;
+}
+
+export async function loadHomeSeo(locale: Locale): Promise<SeoMeta | undefined> {
+  const remote = await sanityFetch<HomeDoc | null>({
+    query: HOME_PAGE_QUERY,
+    params: { locale },
+    tags: ["homePage", `homePage-${locale}`],
+  });
+  return toSeoMeta(remote?.seo);
 }
 
 export async function loadAboutPage(
@@ -162,6 +252,15 @@ export async function loadAboutPage(
   };
 }
 
+export async function loadAboutSeo(locale: Locale): Promise<SeoMeta | undefined> {
+  const remote = await sanityFetch<AboutDoc | null>({
+    query: ABOUT_PAGE_QUERY,
+    params: { locale },
+    tags: ["aboutPageDoc", `aboutPageDoc-${locale}`],
+  });
+  return toSeoMeta(remote?.seo);
+}
+
 export async function loadContactPage(
   locale: Locale,
 ): Promise<Dictionary["contactPage"]> {
@@ -191,6 +290,101 @@ export async function loadContactPage(
       ...local.map,
       ...fromBrief?.map,
       title: remote.officeTitle ?? fromBrief?.map?.title ?? local.map.title,
+    },
+  };
+}
+
+export async function loadContactSeo(
+  locale: Locale,
+): Promise<SeoMeta | undefined> {
+  const remote = await sanityFetch<ContactDoc | null>({
+    query: CONTACT_PAGE_QUERY,
+    params: { locale },
+    tags: ["contactPageDoc", `contactPageDoc-${locale}`],
+  });
+  return toSeoMeta(remote?.seo);
+}
+
+export async function loadHubPage(
+  locale: Locale,
+  kind: HubKind,
+): Promise<HubPageChrome> {
+  const local = localHubFallback(locale, kind);
+  const remotes = await sanityFetch<HubDoc[]>({
+    query: HUB_PAGES_QUERY,
+    params: { locale },
+    tags: ["hubPage", `hubPage-${locale}`],
+  });
+  const remote = remotes?.find((doc) => doc.kind === kind);
+  if (!remote) return local;
+
+  return {
+    eyebrow: remote.eyebrow ?? local.eyebrow,
+    title: remote.title ?? local.title,
+    lead: remote.lead ?? local.lead,
+    primaryCta: remote.primaryCta ?? local.primaryCta,
+    secondaryCta: remote.secondaryCta ?? local.secondaryCta,
+    detailTitle: remote.detailTitle ?? local.detailTitle,
+    faqItems: remote.faq?.length
+      ? remote.faq
+          .filter((item) => item.question)
+          .map((item) => ({
+            question: item.question!,
+            answer: item.answer ?? "",
+          }))
+      : local.faqItems,
+    seo: toSeoMeta(remote.seo) ?? local.seo,
+  };
+}
+
+/** Merge CMS hub chrome onto dictionary list-page sections. */
+export async function loadHubDictionaryOverlay(
+  locale: Locale,
+): Promise<Partial<Dictionary>> {
+  const [services, boothTypes, work, industries, locations, news] =
+    await Promise.all([
+      loadHubPage(locale, "services"),
+      loadHubPage(locale, "boothTypes"),
+      loadHubPage(locale, "work"),
+      loadHubPage(locale, "industries"),
+      loadHubPage(locale, "locations"),
+      loadHubPage(locale, "news"),
+    ]);
+
+  return {
+    servicesPage: {
+      eyebrow: services.eyebrow,
+      title: services.title,
+      lead: services.lead,
+      primaryCta: services.primaryCta ?? "",
+      secondaryCta: services.secondaryCta ?? "",
+      detailTitle: services.detailTitle ?? "",
+      faqItems: services.faqItems ?? [],
+    },
+    boothTypesPage: {
+      eyebrow: boothTypes.eyebrow,
+      title: boothTypes.title,
+      lead: boothTypes.lead,
+    },
+    workPage: {
+      eyebrow: work.eyebrow,
+      title: work.title,
+      lead: work.lead,
+    },
+    industriesPage: {
+      eyebrow: industries.eyebrow,
+      title: industries.title,
+      lead: industries.lead,
+    },
+    locationsPage: {
+      eyebrow: locations.eyebrow,
+      title: locations.title,
+      lead: locations.lead,
+    },
+    newsPage: {
+      eyebrow: news.eyebrow,
+      title: news.title,
+      lead: news.lead,
     },
   };
 }

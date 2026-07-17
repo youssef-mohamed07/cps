@@ -5,6 +5,7 @@ import { dictionaryTypes } from "./documents/dictionary";
 import { footerBadge, footerTrustItem, siteFooter } from "./documents/footer";
 import { pageSingletonTypes } from "./documents/pages";
 import { singletonTypes } from "./documents/settings";
+import { submissionTypes } from "./documents/submissions";
 import {
   author,
   category,
@@ -35,6 +36,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   faq,
   testimonial,
   redirect,
+  ...submissionTypes,
 ];
 
 export const singletonDocumentIds = [
@@ -62,4 +64,7 @@ export const collectionTypes = [
   "faq",
   "testimonial",
   "redirect",
+  "hubPage",
+  "contactSubmission",
+  "briefSubmission",
 ] as const;

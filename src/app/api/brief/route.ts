@@ -4,6 +4,7 @@ import {
   validateBriefForm,
   type BriefFormData,
 } from "@/lib/brief-form";
+import { createBriefSubmission } from "@/sanity/create-submission";
 
 export async function POST(request: Request) {
   let payload: BriefFormData & { locale?: string; websiteAlt?: string };
@@ -27,11 +28,33 @@ export async function POST(request: Request) {
 
   const brief = data as BriefFormData;
   const plainText = formatBriefPlainText(brief, locale);
-  const webhook = process.env.BRIEF_WEBHOOK_URL;
 
+  try {
+    const saved = await createBriefSubmission({
+      locale,
+      data: brief,
+      plainText,
+    });
+
+    if (!saved) {
+      console.error("[brief] Sanity write token missing or not configured");
+      return NextResponse.json(
+        { ok: false, message: "Delivery failed" },
+        { status: 502 },
+      );
+    }
+  } catch (error) {
+    console.error("[brief] Sanity create error", error);
+    return NextResponse.json(
+      { ok: false, message: "Delivery failed" },
+      { status: 502 },
+    );
+  }
+
+  const webhook = process.env.BRIEF_WEBHOOK_URL;
   if (webhook) {
     try {
-      const response = await fetch(webhook, {
+      await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,19 +65,9 @@ export async function POST(request: Request) {
           plainText,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error(`Webhook failed: ${response.status}`);
-      }
     } catch (error) {
       console.error("[brief] webhook error", error);
-      return NextResponse.json(
-        { ok: false, message: "Delivery failed" },
-        { status: 502 },
-      );
     }
-  } else if (process.env.NODE_ENV === "development") {
-    console.info("[brief] submission\n", plainText);
   }
 
   return NextResponse.json({ ok: true });

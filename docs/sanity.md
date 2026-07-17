@@ -53,14 +53,17 @@ Revalidate tags: `siteFooter`, `siteFooter-{locale}`.
 
 | Document | Purpose |
 | --- | --- |
-| `siteSettings` | Company, contact, brand, analytics |
-| `globalSeo` | Default SEO / robots |
-| `homePage` | Home hero + section JSON overlay (wired via `resolveDictionary`) |
-| `aboutPageDoc` | About page copy (wired via `loadAboutPage`) |
-| `contactPageDoc` | Contact page + brief form JSON (wired via `loadContactPage`) |
+| `siteSettings` | Company, contact, brand, analytics, default SEO |
+| `globalSeo` | Default SEO / org name / Twitter handle |
+| `homePage` | Home hero + section JSON overlay + SEO (wired via `resolveDictionary`) |
+| `aboutPageDoc` | About page copy + SEO (wired via `loadAboutPage`) |
+| `contactPageDoc` | Contact page + brief form JSON + SEO (wired via `loadContactPage`) |
+| `hubPage` | Index hubs (services, booth types, work, industries, locations, news) — chrome + SEO |
 | `navigation` | Primary + footer menus |
 | `dictionary` | Residual UI chrome / full JSON fallback |
-| `notFoundPage` | 404 copy |
+| `notFoundPage` | 404 copy + SEO |
+
+Every collection document (`service`, `boothType`, `project`, …) and page singleton has an `seo` (`seoMeta`) field. Seed fills title/description/keywords from local content; override freely in Studio.
 
 ### Collections
 
@@ -113,6 +116,17 @@ SANITY_PREVIEW_SECRET=...          # optional; falls back to revalidate secret
 
 3. Run `npm run setup:sanity`, then `npm run seed:sanity`, then `npm run dev`
 4. Open Studio: http://localhost:3000/studio
+
+## Form inbox (Contact + Brief)
+
+Contact and brief form POSTs create Sanity documents:
+
+| Form | Document type | Studio |
+| --- | --- | --- |
+| `/api/contact` | `contactSubmission` | Inbox → Contact submissions |
+| `/api/brief` | `briefSubmission` | Inbox → Brief submissions |
+
+Requires `SANITY_API_WRITE_TOKEN` on the server (local `.env.local` and Vercel). Optional `CONTACT_WEBHOOK_URL` / `BRIEF_WEBHOOK_URL` still fire after a successful Sanity save.
 
 ## Revalidation
 

@@ -9,6 +9,7 @@ import { media } from "@/content/media";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import { loadAboutSeo } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -17,10 +18,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const dictionary = await resolveDictionary(localeParam);
+  const [dictionary, seo] = await Promise.all([
+    resolveDictionary(localeParam),
+    loadAboutSeo(localeParam),
+  ]);
   return buildPageMetadata({
     path: "/about",
     locale: localeParam,
+    seo,
     fallbackTitle: `CPS — ${dictionary.aboutPage.title}`,
     fallbackDescription: dictionary.aboutPage.lead,
   });

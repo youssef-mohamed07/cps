@@ -12,6 +12,7 @@ import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadServices } from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -20,12 +21,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const dictionary = await resolveDictionary(localeParam);
+  const hub = await loadHubPage(localeParam, "services");
+  const city = localeParam === "ar" ? "السعودية" : "Saudi Arabia";
   return buildPageMetadata({
     path: "/services",
     locale: localeParam,
-    fallbackTitle: `CPS — ${dictionary.servicesPage.title.replace("{City}", localeParam === "ar" ? "السعودية" : "Saudi Arabia")}`,
-    fallbackDescription: dictionary.servicesPage.lead,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title.replace("{City}", city)}`,
+    fallbackDescription: hub.lead,
   });
 }
 

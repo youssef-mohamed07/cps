@@ -1,6 +1,7 @@
 import { BriefForm } from "@/components/forms/brief-form";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
+import { SocialIcon } from "@/components/ui/social-icon";
 import type { BriefFormCopy } from "@/content/brief-form.copy";
 import type { Locale } from "@/lib/i18n";
 import {
@@ -106,14 +107,32 @@ export function ContactPageSections({
               <div className="contact-info-social">
                 <span className="contact-info-label">{copy.info.socialLabel}</span>
                 <div className="contact-info-social-links">
-                  <a href={config.social.instagram} target="_blank" rel="noopener noreferrer">
-                    Instagram
+                  <a
+                    href={config.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-info-social-link"
+                    aria-label="Instagram"
+                  >
+                    <SocialIcon platform="instagram" />
                   </a>
-                  <a href={config.social.linkedin} target="_blank" rel="noopener noreferrer">
-                    LinkedIn
+                  <a
+                    href={config.social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-info-social-link"
+                    aria-label="LinkedIn"
+                  >
+                    <SocialIcon platform="linkedin" />
                   </a>
-                  <a href={config.social.x} target="_blank" rel="noopener noreferrer">
-                    X
+                  <a
+                    href={config.social.x}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-info-social-link"
+                    aria-label="X"
+                  >
+                    <SocialIcon platform="x" />
                   </a>
                 </div>
               </div>

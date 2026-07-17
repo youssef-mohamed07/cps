@@ -1,10 +1,15 @@
+import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import {
   BOOTH_COMPARISON_COLUMNS,
   BOOTH_COMPARISON_ROWS,
   type BoothComparisonRow,
 } from "@/content/booth-comparison";
-import type { Locale } from "@/lib/i18n";
+import { localizePath, type Locale } from "@/lib/i18n";
+import {
+  DEFAULT_LOCATION_SLUG,
+  locationBoothTypePath,
+} from "@/lib/locations";
 
 function Mark({
   value,
@@ -29,12 +34,14 @@ function Mark({
 type BoothTypeCompareSectionProps = {
   locale: Locale;
   activeSlug: string;
+  locationSlug?: string;
   rows?: BoothComparisonRow[];
 };
 
 export function BoothTypeCompareSection({
   locale,
   activeSlug,
+  locationSlug = DEFAULT_LOCATION_SLUG,
   rows: rowsProp,
 }: BoothTypeCompareSectionProps) {
   const isArabic = locale === "ar";
@@ -88,7 +95,16 @@ export function BoothTypeCompareSection({
                       className={isActive ? "is-active" : undefined}
                     >
                       <th scope="row">
-                        {isArabic ? row.label.ar : row.label.en}
+                        <Link
+                          href={localizePath(
+                            locationBoothTypePath(row.slug, locationSlug),
+                            locale,
+                          )}
+                          className="booth-compare-link"
+                          aria-current={isActive ? "page" : undefined}
+                        >
+                          {isArabic ? row.label.ar : row.label.en}
+                        </Link>
                         {isActive ? (
                           <span className="booth-compare-current">
                             {isArabic ? "الحالي" : "Current"}

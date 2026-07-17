@@ -8,6 +8,7 @@ import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadNews } from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -16,16 +17,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const title = localeParam === "ar" ? "رؤى" : "Insights";
-  const description =
-    localeParam === "ar"
-      ? "مقالات ورؤى حول تصميم وإنتاج أجنحة المعارض."
-      : "Articles and insights on exhibition booth design and production.";
+  const hub = await loadHubPage(localeParam, "news");
   return buildPageMetadata({
     path: "/news",
     locale: localeParam,
-    fallbackTitle: `CPS — ${title}`,
-    fallbackDescription: description,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title}`,
+    fallbackDescription: hub.lead,
   });
 }
 
@@ -36,51 +34,51 @@ export default async function NewsPage({ params }: PageProps) {
   const locale: Locale = localeParam;
   const dictionary = await resolveDictionary(locale);
   const articles = await loadNews(locale);
-  const title = locale === "ar" ? "رؤى" : "Insights";
-  const lead =
-    locale === "ar"
-      ? "أفكار عملية من أرض المعارض وورشة الإنتاج."
-      : "Practical thinking from the show floor and the production floor.";
+  const page = dictionary.newsPage;
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
   return (
     <>
-        <Breadcrumbs
-          locale={locale}
-          items={[
-            { label: homeLabel, href: "/" },
-            { label: title },
-          ]}
-        />
-        <PageHero
-          eyebrow={locale === "ar" ? "المدونة" : "News"}
-          title={title}
-          lead={lead}
-          image={articles[0]?.image}
-          imageAlt={articles[0]?.imageAlt}
-          cta={{
-            label: locale === "ar" ? "ابدأ مشروعك" : "Start your project",
-            href: "#news-brief",
-          }}
-        />
-        <CollectionGrid
-          eyebrow={locale === "ar" ? "من أرض المعرض" : "From the show floor"}
-          title={locale === "ar" ? "أفكار عملية لمساحات أقوى" : "Practical ideas for more powerful spaces"}
-          ctaLabel={locale === "ar" ? "اقرأ المقال" : "Read article"}
-          items={articles.map((article) => ({
-            href: localizePath(`/news/${article.slug}`, locale),
-            title: article.title,
-            excerpt: article.excerpt,
-            image: article.image,
-            imageAlt: article.imageAlt,
-            meta: `${article.category}${article.publishedAt ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}` : ""}`,
-          }))}
-        />
-        <InnerPageEngagement
-          locale={locale}
-          dictionary={dictionary}
-          namespace="news"
-        />
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: homeLabel, href: "/" },
+          { label: page.title },
+        ]}
+      />
+      <PageHero
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lead={page.lead}
+        image={articles[0]?.image}
+        imageAlt={articles[0]?.imageAlt}
+        cta={{
+          label: locale === "ar" ? "ابدأ مشروعك" : "Start your project",
+          href: "#news-brief",
+        }}
+      />
+      <CollectionGrid
+        eyebrow={locale === "ar" ? "من أرض المعرض" : "From the show floor"}
+        title={
+          locale === "ar"
+            ? "أفكار عملية لمساحات أقوى"
+            : "Practical ideas for more powerful spaces"
+        }
+        ctaLabel={locale === "ar" ? "اقرأ المقال" : "Read article"}
+        items={articles.map((article) => ({
+          href: localizePath(`/news/${article.slug}`, locale),
+          title: article.title,
+          excerpt: article.excerpt,
+          image: article.image,
+          imageAlt: article.imageAlt,
+          meta: `${article.category}${article.publishedAt ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}` : ""}`,
+        }))}
+      />
+      <InnerPageEngagement
+        locale={locale}
+        dictionary={dictionary}
+        namespace="news"
+      />
     </>
   );
 }

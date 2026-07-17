@@ -118,6 +118,7 @@ export function BoothTypeDetailSections({
       <BoothTypeCompareSection
         locale={locale}
         activeSlug={boothType.slug}
+        locationSlug={locationSlug}
         rows={comparisonRows}
       />
 

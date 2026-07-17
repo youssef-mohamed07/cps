@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createContactSubmission } from "@/sanity/create-submission";
 
 type ContactPayload = {
   name?: string;
@@ -53,11 +54,35 @@ export async function POST(request: Request) {
     .filter((line) => line !== null)
     .join("\n");
 
-  const webhook = process.env.CONTACT_WEBHOOK_URL ?? process.env.BRIEF_WEBHOOK_URL;
+  try {
+    const saved = await createContactSubmission({
+      locale,
+      name,
+      email,
+      phone,
+      message,
+      plainText,
+    });
 
+    if (!saved) {
+      console.error("[contact] Sanity write token missing or not configured");
+      return NextResponse.json(
+        { ok: false, message: "Delivery failed" },
+        { status: 502 },
+      );
+    }
+  } catch (error) {
+    console.error("[contact] Sanity create error", error);
+    return NextResponse.json(
+      { ok: false, message: "Delivery failed" },
+      { status: 502 },
+    );
+  }
+
+  const webhook = process.env.CONTACT_WEBHOOK_URL ?? process.env.BRIEF_WEBHOOK_URL;
   if (webhook) {
     try {
-      const response = await fetch(webhook, {
+      await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -68,19 +93,9 @@ export async function POST(request: Request) {
           plainText,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error(`Webhook failed: ${response.status}`);
-      }
     } catch (error) {
       console.error("[contact] webhook error", error);
-      return NextResponse.json(
-        { ok: false, message: "Delivery failed" },
-        { status: 502 },
-      );
     }
-  } else if (process.env.NODE_ENV === "development") {
-    console.info("[contact] submission\n", plainText);
   }
 
   return NextResponse.json({ ok: true });

@@ -27,10 +27,11 @@ export const homePage = defineType({
     defineField({
       name: "sections",
       type: "object",
-      title: "Section copy (JSON-compatible)",
-      description: "Structured home chrome mirrored from the local dictionary for CMS editing.",
+      title: "Home section copy (JSON)",
+      description:
+        "Edit home sections as JSON: lifecycle, stats, clients, about, services, boothTypes, whyCps, beforeAfter, process, work, briefForm, faq, contact, and hub chrome keys. Keep valid JSON.",
       fields: [
-        defineField({ name: "payload", type: "text", rows: 20, title: "JSON payload" }),
+        defineField({ name: "payload", type: "text", rows: 24, title: "JSON payload" }),
       ],
     }),
     defineField({
@@ -169,10 +170,62 @@ export const globalSeo = defineType({
   ],
 });
 
+const hubKinds = [
+  { title: "Services", value: "services" },
+  { title: "Booth types", value: "boothTypes" },
+  { title: "Work", value: "work" },
+  { title: "Industries", value: "industries" },
+  { title: "Locations", value: "locations" },
+  { title: "News / Insights", value: "news" },
+] as const;
+
+/** Index/hub pages — chrome + SEO for list routes. */
+export const hubPage = defineType({
+  name: "hubPage",
+  title: "Hub Page",
+  type: "document",
+  fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      options: { list: ["en", "ar"] },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "kind",
+      type: "string",
+      title: "Hub",
+      options: { list: [...hubKinds] },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
+    defineField({ name: "title", type: "string", title: "Title" }),
+    defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
+    defineField({ name: "primaryCta", type: "string", title: "Primary CTA" }),
+    defineField({ name: "secondaryCta", type: "string", title: "Secondary CTA" }),
+    defineField({ name: "detailTitle", type: "string", title: "Detail section title" }),
+    defineField({
+      name: "faq",
+      type: "array",
+      of: [{ type: "faqItem" }],
+      title: "FAQ",
+    }),
+    defineField({ name: "seo", type: "seoMeta", title: "SEO" }),
+  ],
+  preview: {
+    select: { title: "title", kind: "kind", language: "language" },
+    prepare: ({ title, kind, language }) => ({
+      title: title || kind || "Hub page",
+      subtitle: [kind, language].filter(Boolean).join(" · "),
+    }),
+  },
+});
+
 export const pageSingletonTypes = [
   homePage,
   aboutPageDoc,
   contactPageDoc,
+  hubPage,
   navigation,
   globalSeo,
 ];

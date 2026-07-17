@@ -16,6 +16,7 @@ import {
   loadLocations,
   loadProjects,
 } from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = {
@@ -31,12 +32,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const dictionary = await resolveDictionary(localeParam);
+  const hub = await loadHubPage(localeParam, "work");
   return buildPageMetadata({
     path: "/work",
     locale: localeParam,
-    fallbackTitle: `CPS — ${dictionary.workPage.title}`,
-    fallbackDescription: dictionary.workPage.lead,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title}`,
+    fallbackDescription: hub.lead,
   });
 }
 

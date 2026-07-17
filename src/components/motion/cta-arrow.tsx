@@ -4,13 +4,6 @@ type CtaArrowProps = {
   size?: "sm" | "md" | "lg";
 };
 
-const toneColor: Record<NonNullable<CtaArrowProps["tone"]>, string> = {
-  navy: "#0f3355",
-  white: "#ffffff",
-  cyan: "#00e3fe",
-  inherit: "currentColor",
-};
-
 const sizeClass: Record<NonNullable<CtaArrowProps["size"]>, string> = {
   sm: "is-sm",
   md: "is-md",
@@ -25,23 +18,22 @@ export function CtaArrow({
 }: CtaArrowProps) {
   return (
     <span
-      className={`cta-arrow ${sizeClass[size]} ${className}`.trim()}
+      className={`cta-arrow ${sizeClass[size]} cta-arrow--${tone} ${className}`.trim()}
       aria-hidden="true"
-      style={{ color: toneColor[tone] }}
     >
       <svg viewBox="0 0 24 24" fill="none" focusable="false">
         <path
-          d="M3.5 12H18.5"
+          d="M4 12H18"
           stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
+          strokeWidth="2.2"
+          strokeLinecap="square"
         />
         <path
-          d="M13 5.5L19.5 12 13 18.5"
+          d="M13 6L19 12 13 18"
           stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeWidth="2.2"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
         />
       </svg>
     </span>

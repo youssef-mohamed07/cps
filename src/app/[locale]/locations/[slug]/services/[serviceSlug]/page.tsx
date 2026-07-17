@@ -58,15 +58,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam, slug, serviceSlug } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const page = buildServiceLocationPage(localeParam, slug, serviceSlug);
+  const [page, service] = await Promise.all([
+    Promise.resolve(buildServiceLocationPage(localeParam, slug, serviceSlug)),
+    loadService(localeParam, serviceSlug),
+  ]);
   if (!page) return {};
   return buildPageMetadata({
     path: page.path,
     locale: localeParam,
+    seo: service?.seo,
     fallbackTitle: `CPS — ${page.title}`,
     fallbackDescription: page.lead,
     fallbackOgImage: page.image,
-    keywords: page.keywords,
+    keywords: service?.seo?.keywords ?? page.keywords,
   });
 }
 

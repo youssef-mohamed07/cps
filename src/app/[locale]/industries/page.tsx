@@ -8,6 +8,7 @@ import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadIndustries } from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -16,16 +17,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const title = localeParam === "ar" ? "القطاعات" : "Industries";
-  const description =
-    localeParam === "ar"
-      ? "أجنحة معارض مصممة لقطاعات التقنية والرعاية الصحية والطاقة والتجزئة."
-      : "Exhibition booth programs tailored to technology, healthcare, energy, and retail.";
+  const hub = await loadHubPage(localeParam, "industries");
   return buildPageMetadata({
     path: "/industries",
     locale: localeParam,
-    fallbackTitle: `CPS — ${title}`,
-    fallbackDescription: description,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title}`,
+    fallbackDescription: hub.lead,
   });
 }
 
@@ -36,11 +34,7 @@ export default async function IndustriesPage({ params }: PageProps) {
   const locale: Locale = localeParam;
   const dictionary = await resolveDictionary(locale);
   const items = await loadIndustries(locale);
-  const title = locale === "ar" ? "القطاعات" : "Industries";
-  const lead =
-    locale === "ar"
-      ? "حلول أجنحة مبنية حول تحديات كل قطاع."
-      : "Booth solutions shaped around the realities of each sector.";
+  const page = dictionary.industriesPage;
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
   return (
@@ -49,13 +43,13 @@ export default async function IndustriesPage({ params }: PageProps) {
         locale={locale}
         items={[
           { label: homeLabel, href: "/" },
-          { label: title },
+          { label: page.title },
         ]}
       />
       <PageHero
-        eyebrow={locale === "ar" ? "قطاعاتنا" : "Sectors"}
-        title={title}
-        lead={lead}
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lead={page.lead}
         image={items[0]?.image}
         imageAlt={items[0]?.imageAlt}
         cta={{

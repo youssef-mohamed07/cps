@@ -10,6 +10,7 @@ import { locationBoothTypePath } from "@/lib/locations";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadBoothTypes } from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -18,12 +19,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const dictionary = await resolveDictionary(localeParam);
+  const hub = await loadHubPage(localeParam, "boothTypes");
   return buildPageMetadata({
     path: "/booth-types",
     locale: localeParam,
-    fallbackTitle: `CPS — ${dictionary.boothTypesPage.title}`,
-    fallbackDescription: dictionary.boothTypesPage.lead,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title}`,
+    fallbackDescription: hub.lead,
   });
 }
 

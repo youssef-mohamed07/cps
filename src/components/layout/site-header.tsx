@@ -24,13 +24,24 @@ const OPEN_DELAY_MS = 150;
 const CLOSE_DELAY_MS = 120;
 const HEADER_HIDE_AFTER = 72;
 
+/** Body can be the real scroll root (overflow-y: auto + h-full). */
+function getScrollRoot(): Element {
+  if (typeof document === "undefined") return document.documentElement;
+
+  const body = document.body;
+  const bodyStyle = getComputedStyle(body);
+  const bodyScrolls =
+    (bodyStyle.overflowY === "auto" || bodyStyle.overflowY === "scroll") &&
+    body.scrollHeight > body.clientHeight + 1;
+
+  if (bodyScrolls) return body;
+  return document.scrollingElement || document.documentElement;
+}
+
 function getScrollY() {
-  return (
-    window.scrollY ||
-    document.documentElement.scrollTop ||
-    document.body.scrollTop ||
-    0
-  );
+  const root = getScrollRoot();
+  if (root === document.body) return document.body.scrollTop;
+  return window.scrollY || document.documentElement.scrollTop || 0;
 }
 
 export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
@@ -109,7 +120,10 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
       setHidden((current) => (current === nextHidden ? current : nextHidden));
     };
 
-    const updateHeaderVisibility = (y: number, direction: "up" | "down" | "none") => {
+    const updateHeaderVisibility = (
+      y: number,
+      direction: "up" | "down" | "none",
+    ) => {
       if (menuLocked.current) {
         setHeaderHidden(false);
         return;
@@ -129,57 +143,43 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     };
 
     lastScrollY.current = getScrollY();
+    let animationFrame: number | null = null;
 
     const onScroll = () => {
-      const y = getScrollY();
-      const delta = y - lastScrollY.current;
-      const direction = delta > 0 ? "down" : delta < 0 ? "up" : "none";
+      if (animationFrame !== null) return;
 
-      updateHeaderVisibility(y, direction);
-      lastScrollY.current = y;
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = null;
+        const y = getScrollY();
+        const delta = y - lastScrollY.current;
+        // Always sync the baseline so direction detection never goes stale.
+        lastScrollY.current = y;
+
+        if (y <= HEADER_HIDE_AFTER) {
+          setHeaderHidden(false);
+          return;
+        }
+
+        // Ignore tiny trackpad jitter, but keep lastScrollY up to date above.
+        if (Math.abs(delta) < 2) return;
+
+        updateHeaderVisibility(y, delta > 0 ? "down" : "up");
+      });
     };
 
-    const onWheel = (event: WheelEvent) => {
-      const y = getScrollY();
-
-      if (event.deltaY > 0) {
-        updateHeaderVisibility(y, "down");
-      } else if (event.deltaY < 0) {
-        updateHeaderVisibility(y, "up");
-      }
-
-      lastScrollY.current = y;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheel, { passive: true });
-
-    let touchStartY = 0;
-
-    const onTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0]?.clientY ?? 0;
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      const touchY = event.touches[0]?.clientY ?? touchStartY;
-      const delta = touchStartY - touchY;
-      const y = getScrollY();
-
-      if (delta > 6) {
-        updateHeaderVisibility(y, "down");
-      } else if (delta < -6) {
-        updateHeaderVisibility(y, "up");
-      }
-    };
-
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    const scrollRoot = getScrollRoot();
+    // Scroll events don't bubble — listen on the actual scrolling element.
+    scrollRoot.addEventListener("scroll", onScroll, { passive: true });
+    if (scrollRoot !== document.documentElement) {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
 
     return () => {
+      scrollRoot.removeEventListener("scroll", onScroll);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
@@ -252,9 +252,8 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
       ref={headerRef}
       className={[
         "site-header",
-        "is-home",
         "is-overlay",
-        isHome ? "is-home-page" : "",
+        isHome ? "is-home is-home-page" : "is-inner-page",
         atTop ? "is-at-top" : "is-solid",
         isScrolled ? "is-scrolled" : "",
         mobileOpen ? "is-mobile-open" : "",

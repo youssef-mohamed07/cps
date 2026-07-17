@@ -3,7 +3,6 @@ import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { publishRevalidatePlugin } from "./sanity/plugins/publish-revalidate";
 import {
-  collectionTypes,
   schemaTypes,
   singletonDocumentIds,
 } from "./sanity/schemaTypes";
@@ -27,6 +26,35 @@ const localeSingletons = [
   { title: "404 Page (EN)", schemaType: "notFoundPage", documentId: "notFoundPage-en" },
   { title: "404 Page (AR)", schemaType: "notFoundPage", documentId: "notFoundPage-ar" },
 ] as const;
+
+const hubKinds = [
+  "services",
+  "boothTypes",
+  "work",
+  "industries",
+  "locations",
+  "news",
+] as const;
+
+const hubTitles: Record<(typeof hubKinds)[number], string> = {
+  services: "Services",
+  boothTypes: "Booth types",
+  work: "Work",
+  industries: "Industries",
+  locations: "Locations",
+  news: "News / Insights",
+};
+
+const hubSingletons = hubKinds.flatMap((kind) => [
+  {
+    title: `${hubTitles[kind]} hub (EN)`,
+    documentId: `hubPage-${kind}-en`,
+  },
+  {
+    title: `${hubTitles[kind]} hub (AR)`,
+    documentId: `hubPage-${kind}-ar`,
+  },
+]);
 
 export default defineConfig({
   name: "cps",
@@ -78,6 +106,24 @@ export default defineConfig({
                   ),
               ),
             S.listItem()
+              .title("Hub pages")
+              .child(
+                S.list()
+                  .title("Hub pages")
+                  .items(
+                    hubSingletons.map((item) =>
+                      S.listItem()
+                        .title(item.title)
+                        .id(item.documentId)
+                        .child(
+                          S.document()
+                            .schemaType("hubPage")
+                            .documentId(item.documentId),
+                        ),
+                    ),
+                  ),
+              ),
+            S.listItem()
               .title("UI Copy & 404")
               .child(
                 S.list()
@@ -119,6 +165,32 @@ export default defineConfig({
               .title("News")
               .child(S.documentTypeList("newsArticle").title("News")),
             S.divider(),
+            S.listItem()
+              .title("Inbox")
+              .child(
+                S.list()
+                  .title("Inbox")
+                  .items([
+                    S.listItem()
+                      .title("Contact submissions")
+                      .child(
+                        S.documentTypeList("contactSubmission")
+                          .title("Contact submissions")
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("Brief submissions")
+                      .child(
+                        S.documentTypeList("briefSubmission")
+                          .title("Brief submissions")
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                  ]),
+              ),
             S.listItem()
               .title("Taxonomies")
               .child(

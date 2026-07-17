@@ -41,15 +41,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam, slug, boothTypeSlug } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const page = buildBoothTypeLocationPage(localeParam, slug, boothTypeSlug);
+  const [page, boothType] = await Promise.all([
+    Promise.resolve(
+      buildBoothTypeLocationPage(localeParam, slug, boothTypeSlug),
+    ),
+    loadBoothType(localeParam, boothTypeSlug),
+  ]);
   if (!page) return {};
   return buildPageMetadata({
     path: page.path,
     locale: localeParam,
+    seo: boothType?.seo,
     fallbackTitle: `CPS — ${page.title}`,
     fallbackDescription: page.lead,
     fallbackOgImage: page.image,
-    keywords: page.keywords,
+    keywords: boothType?.seo?.keywords ?? page.keywords,
   });
 }
 

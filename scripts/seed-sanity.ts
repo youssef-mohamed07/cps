@@ -6,6 +6,8 @@
  *
  * Requires NEXT_PUBLIC_SANITY_PROJECT_ID + NEXT_PUBLIC_SANITY_DATASET.
  */
+import { readFileSync, existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { createClient } from "@sanity/client";
 import { getBoothComparisonRow } from "../src/content/booth-comparison";
 import {
@@ -23,6 +25,29 @@ import { getNavigationLocal } from "../src/content/navigation";
 import { projects } from "../src/content/projects";
 import { getSiteConfig } from "../src/lib/site-config";
 import type { Locale } from "../src/lib/i18n";
+
+/** Load .env.local into process.env when running outside Next.js. */
+function loadEnvLocal() {
+  const envPath = resolve(process.cwd(), ".env.local");
+  if (!existsSync(envPath)) return;
+  for (const line of readFileSync(envPath, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+
+loadEnvLocal();
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -62,6 +87,15 @@ function slugValue(slug: string) {
   return { _type: "slug", current: slug };
 }
 
+function seoMeta(title: string, description: string, keywords: string[] = []) {
+  return {
+    title,
+    description,
+    keywords,
+    noIndex: false,
+  };
+}
+
 async function seedSettings() {
   console.log("\n→ siteSettings + globalSeo");
   const config = getSiteConfig();
@@ -83,6 +117,15 @@ async function seedSettings() {
     brandColors: config.brandColors,
     defaultKeywords: config.defaultKeywords,
     defaultSeoByLocale: config.defaultSeoByLocale,
+    defaultSeo:
+      config.defaultSeo ??
+      seoMeta(
+        config.defaultSeoByLocale?.find((entry) => entry.locale === "en")
+          ?.title ?? `${config.name} — ${config.tagline}`,
+        config.defaultSeoByLocale?.find((entry) => entry.locale === "en")
+          ?.description ?? config.description,
+        config.defaultKeywords ?? [],
+      ),
     socialLinks: [
       { _key: "ig", platform: "instagram", url: config.social.instagram, label: "Instagram" },
       { _key: "li", platform: "linkedin", url: config.social.linkedin, label: "LinkedIn" },
@@ -90,12 +133,19 @@ async function seedSettings() {
     ],
     footerExploreLinks: config.footerExploreLinks,
   });
+  const enSeo = config.defaultSeoByLocale?.find((entry) => entry.locale === "en");
   await upsert({
     _id: "globalSeo",
     _type: "globalSeo",
     organizationName: config.legalName,
     twitterHandle: "@cps",
-    defaultSeo: config.defaultSeo,
+    defaultSeo:
+      config.defaultSeo ??
+      seoMeta(
+        enSeo?.title ?? `${config.name} — ${config.tagline}`,
+        enSeo?.description ?? config.description,
+        config.defaultKeywords ?? [],
+      ),
   });
 }
 
@@ -197,6 +247,11 @@ async function seedServices() {
           answer: item.answer,
         })),
         order: service.order,
+        seo: seoMeta(
+          `CPS — ${loc.title}`,
+          loc.excerpt || loc.heroLead || loc.overview,
+          [loc.title, "exhibition booth", "CPS"],
+        ),
       });
     }
   }
@@ -246,6 +301,11 @@ async function seedBoothTypes() {
           answer: item.answer,
         })),
         order: booth.order,
+        seo: seoMeta(
+          `CPS — ${loc.title}`,
+          loc.excerpt || loc.description,
+          [loc.title, "booth type", "CPS"],
+        ),
       });
     }
   }
@@ -284,6 +344,11 @@ async function seedIndustries() {
           }),
         ),
         order: industry.order,
+        seo: seoMeta(`CPS — ${loc.title}`, loc.excerpt || loc.overview, [
+          loc.title,
+          "industry",
+          "CPS",
+        ]),
       });
     }
   }
@@ -311,6 +376,11 @@ async function seedLocations() {
           description: item.description,
         })),
         order: location.order,
+        seo: seoMeta(
+          `CPS — ${loc.title}`,
+          loc.excerpt || loc.localExperience,
+          [loc.title, "exhibition", "CPS"],
+        ),
       });
     }
   }
@@ -356,6 +426,11 @@ async function seedProjects() {
               _ref: id("location", project.locationSlug, locale),
             }
           : undefined,
+        seo: seoMeta(`CPS — ${loc.title}`, loc.summary, [
+          loc.title,
+          "portfolio",
+          "CPS",
+        ]),
       });
     }
   }
@@ -391,6 +466,11 @@ async function seedNews() {
             },
           ],
         })),
+        seo: seoMeta(`CPS — ${loc.title}`, loc.excerpt, [
+          loc.title,
+          "insights",
+          "CPS",
+        ]),
       });
     }
   }
@@ -502,9 +582,14 @@ async function seedFooter() {
 }
 
 async function seedDictionaryAndPages() {
-  console.log("\n→ dictionary + page docs");
+  console.log("\n→ dictionary + page docs + hubs");
   for (const locale of locales) {
     const dict = getDictionaryLocal(locale);
+    const config = getSiteConfig();
+    const localeSeo = config.defaultSeoByLocale?.find(
+      (entry) => entry.locale === locale,
+    );
+
     await upsert({
       _id: id("dictionary", locale),
       _type: "dictionary",
@@ -539,8 +624,20 @@ async function seedDictionaryAndPages() {
           briefForm: dict.briefForm,
           faq: dict.faq,
           contact: dict.contact,
+          servicesPage: dict.servicesPage,
+          boothTypesPage: dict.boothTypesPage,
+          workPage: dict.workPage,
+          industriesPage: dict.industriesPage,
+          locationsPage: dict.locationsPage,
+          newsPage: dict.newsPage,
+          projectPage: dict.projectPage,
         }),
       },
+      seo: seoMeta(
+        localeSeo?.title ?? `${config.name} — ${config.tagline}`,
+        localeSeo?.description ?? dict.hero.support,
+        config.defaultKeywords ?? [],
+      ),
     });
 
     await upsert({
@@ -575,6 +672,7 @@ async function seedDictionaryAndPages() {
         question: item.question,
         answer: item.answer,
       })),
+      seo: seoMeta(`CPS — ${dict.aboutPage.title}`, dict.aboutPage.lead),
     });
 
     await upsert({
@@ -589,7 +687,68 @@ async function seedDictionaryAndPages() {
       briefForm: {
         payload: JSON.stringify(dict.contactPage),
       },
+      seo: seoMeta(`CPS — ${dict.contactPage.title}`, dict.contactPage.lead),
     });
+
+    const hubs = [
+      {
+        kind: "services" as const,
+        eyebrow: dict.servicesPage.eyebrow,
+        title: dict.servicesPage.title,
+        lead: dict.servicesPage.lead,
+        primaryCta: dict.servicesPage.primaryCta,
+        secondaryCta: dict.servicesPage.secondaryCta,
+        detailTitle: dict.servicesPage.detailTitle,
+        faq: dict.servicesPage.faqItems.map((item, i) => ({
+          _key: `faq-${i}`,
+          question: item.question,
+          answer: item.answer,
+        })),
+      },
+      {
+        kind: "boothTypes" as const,
+        eyebrow: dict.boothTypesPage.eyebrow,
+        title: dict.boothTypesPage.title,
+        lead: dict.boothTypesPage.lead,
+      },
+      {
+        kind: "work" as const,
+        eyebrow: dict.workPage.eyebrow,
+        title: dict.workPage.title,
+        lead: dict.workPage.lead,
+      },
+      {
+        kind: "industries" as const,
+        eyebrow: dict.industriesPage.eyebrow,
+        title: dict.industriesPage.title,
+        lead: dict.industriesPage.lead,
+      },
+      {
+        kind: "locations" as const,
+        eyebrow: dict.locationsPage.eyebrow,
+        title: dict.locationsPage.title,
+        lead: dict.locationsPage.lead,
+      },
+      {
+        kind: "news" as const,
+        eyebrow: dict.newsPage.eyebrow,
+        title: dict.newsPage.title,
+        lead: dict.newsPage.lead,
+      },
+    ];
+
+    for (const hub of hubs) {
+      await upsert({
+        _id: id("hubPage", hub.kind, locale),
+        _type: "hubPage",
+        language: locale,
+        ...hub,
+        seo: seoMeta(
+          `CPS — ${hub.title.replace("{City}", locale === "ar" ? "السعودية" : "Saudi Arabia")}`,
+          hub.lead,
+        ),
+      });
+    }
 
     await upsert({
       _id: id("notFoundPage", locale),
@@ -607,6 +766,12 @@ async function seedDictionaryAndPages() {
           : "Return home or browse our services.",
       ctaLabel: locale === "ar" ? "الرئيسية" : "Home",
       ctaHref: "/",
+      seo: seoMeta(
+        locale === "ar" ? "CPS — الصفحة غير موجودة" : "CPS — Page not found",
+        locale === "ar"
+          ? "الصفحة التي تبحث عنها غير متاحة."
+          : "The page you are looking for is unavailable.",
+      ),
     });
   }
 }

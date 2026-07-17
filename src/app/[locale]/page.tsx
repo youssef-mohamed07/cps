@@ -16,6 +16,7 @@ import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import { loadHomeSeo } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 import { getSiteConfig } from "@/lib/site-config";
 
@@ -26,9 +27,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
   const config = getSiteConfig();
+  const seo = await loadHomeSeo(localeParam);
   return buildPageMetadata({
     path: "/",
     locale: localeParam,
+    seo,
     fallbackTitle: `${config.name} — ${config.tagline}`,
     fallbackDescription: config.description,
   });
