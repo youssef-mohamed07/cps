@@ -15,10 +15,14 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   googleMapsUrl,
   socialLinks[]{ platform, url, label },
   brandColors,
+  googleAnalyticsId,
+  googleTagManagerId,
   defaultSeo,
   defaultKeywords,
   defaultSeoByLocale,
   ogImage{ asset, alt },
+  homeHero{ asset, alt },
+  homeHeroVideo{ asset->{ url } },
   footerExploreLinks[]{ label, href }
 }`;
 

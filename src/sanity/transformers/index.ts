@@ -3,6 +3,7 @@ import type { Dictionary } from "@/content/dictionaries";
 import { getDictionaryLocal } from "@/content/dictionaries.local";
 import type { SiteConfigShape } from "@/lib/site-config";
 import { sanitizeBrandColors } from "@/lib/sanitize-css-color";
+import { fileUrl } from "@/sanity/file";
 import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
 
 type SanitySiteSettings = {
@@ -28,6 +29,8 @@ type SanitySiteSettings = {
   defaultKeywords?: string[];
   defaultSeoByLocale?: { locale?: string; title?: string; description?: string }[];
   ogImage?: { asset?: unknown; alt?: string };
+  homeHero?: { asset?: unknown; alt?: string };
+  homeHeroVideo?: { asset?: { url?: string } | null };
   footerExploreLinks?: { label?: string; href?: string }[];
 };
 
@@ -69,6 +72,8 @@ export function toSiteConfig(
     defaultKeywords: data.defaultKeywords,
     defaultSeoByLocale: data.defaultSeoByLocale,
     defaultOgImage: toImageSrc(data.ogImage),
+    homeHero: toImageSrc(data.homeHero),
+    homeHeroVideo: fileUrl(data.homeHeroVideo),
     brandColors: sanitizeBrandColors(data.brandColors),
     defaultSeo: toSeoMeta(data.defaultSeo),
     footerExploreLinks: data.footerExploreLinks

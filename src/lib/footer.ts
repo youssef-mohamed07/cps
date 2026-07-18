@@ -126,10 +126,9 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
         ? { label: remote.cta.label, href: remote.cta.href }
         : local.cta,
     servicesTitle: remote.servicesTitle || local.servicesTitle,
-    // Keep columns visible even if an incomplete CMS footer doc toggled them off
-    showServices: local.showServices,
+    showServices: remote.showServices ?? local.showServices,
     boothTypesTitle: remote.boothTypesTitle || local.boothTypesTitle,
-    showBoothTypes: local.showBoothTypes,
+    showBoothTypes: remote.showBoothTypes ?? local.showBoothTypes,
     companyLinksTitle: remote.companyLinksTitle || local.companyLinksTitle,
     companyLinks:
       mapLinks(remote.companyLinks).length >= local.companyLinks.length

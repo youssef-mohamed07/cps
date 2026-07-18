@@ -46,6 +46,7 @@ export const singletonDocumentIds = [
   "homePage",
   "aboutPageDoc",
   "contactPageDoc",
+  "hubPage",
   "navigation",
   "globalSeo",
   "siteFooter",

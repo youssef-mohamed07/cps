@@ -299,7 +299,8 @@ export function mapBoothType(doc: {
   advantages?: { title?: string; description?: string }[];
   useCases?: string[];
   faq?: { question?: string; answer?: string }[];
-  gallery?: { image?: SanityImage; alt?: string }[];
+  gallery?: { image?: SanityImage; imageUrl?: string; alt?: string }[];
+  model3d?: string;
   cta?: { label?: string; href?: string };
   seo?: Parameters<typeof toSeoMeta>[0];
 }): CmsBoothType | null {
@@ -319,6 +320,7 @@ export function mapBoothType(doc: {
     reusable: doc.reusable,
     highCustomization: doc.highCustomization,
     fastSetup: doc.fastSetup,
+    model3d: doc.model3d || undefined,
     features: (doc.features ?? [])
       .map((item) =>
         typeof item === "string"
@@ -335,7 +337,7 @@ export function mapBoothType(doc: {
       .map((item) => ({ question: item.question!, answer: item.answer ?? "" })),
     gallery: (doc.gallery ?? [])
       .map((item) => ({
-        src: toImageSrc(item.image),
+        src: toImageSrc(item.image, item.imageUrl ?? ""),
         alt: item.alt ?? doc.title!,
       }))
       .filter((item) => item.src),
@@ -361,7 +363,8 @@ export function mapProject(doc: {
   featured?: boolean;
   motionVideo?: string;
   hero?: SanityImage;
-  gallery?: { image?: SanityImage; alt?: string }[];
+  heroUrl?: string;
+  gallery?: { image?: SanityImage; imageUrl?: string; alt?: string }[];
   industrySlug?: string;
   boothTypeSlug?: string;
   locationSlug?: string;
@@ -370,7 +373,7 @@ export function mapProject(doc: {
 }): CmsProject | null {
   if (!doc?.title || !doc.slug) return null;
   const gallery = (doc.gallery ?? [])
-    .map((item) => toImageSrc(item.image))
+    .map((item) => toImageSrc(item.image, item.imageUrl ?? ""))
     .filter(Boolean);
   return {
     slug: doc.slug,
@@ -380,7 +383,7 @@ export function mapProject(doc: {
     challenge: doc.challenge ?? "",
     solution: doc.solution ?? "",
     result: doc.result ?? "",
-    image: toImageSrc(doc.hero),
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
     imageAlt: doc.hero?.alt ?? doc.title,
     gallery,
     motionVideo: doc.motionVideo || undefined,
@@ -404,6 +407,7 @@ export function mapIndustry(doc: {
   overview?: string;
   order?: number;
   hero?: SanityImage;
+  heroUrl?: string;
   challenges?: { title?: string; description?: string }[];
   solutions?: { title?: string; description?: string }[];
   recommendedBoothTypeSlugs?: string[];
@@ -417,7 +421,7 @@ export function mapIndustry(doc: {
     excerpt: doc.excerpt ?? "",
     overview: doc.overview ?? "",
     order: doc.order,
-    image: toImageSrc(doc.hero),
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
     imageAlt: doc.hero?.alt ?? doc.title,
     challenges: (doc.challenges ?? [])
       .filter((item) => item.title)
@@ -479,6 +483,7 @@ export function mapNewsArticle(doc: {
   readingTime?: number;
   tags?: string[];
   featuredImage?: SanityImage;
+  featuredImageUrl?: string;
   category?: string;
   author?: string;
   body?: unknown;
@@ -510,7 +515,7 @@ export function mapNewsArticle(doc: {
     slug: doc.slug,
     title: doc.title,
     excerpt: doc.excerpt ?? "",
-    image: toImageSrc(doc.featuredImage),
+    image: toImageSrc(doc.featuredImage, doc.featuredImageUrl ?? ""),
     imageAlt: doc.featuredImage?.alt ?? doc.title,
     publishedAt: doc.publishedAt ?? "",
     readingTime: doc.readingTime ?? 3,

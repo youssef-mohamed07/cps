@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getSiteHeroPoster, getSiteHeroVideo } from "@/lib/site-assets";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 
@@ -92,9 +93,32 @@ function headlineLines(headline: string): string[] {
 
 export function HomeHero({ locale, content }: HomeHeroProps) {
   const lines = headlineLines(content.headline);
+  const heroVideo = getSiteHeroVideo();
+  const heroPoster = getSiteHeroPoster();
 
   return (
     <section className="home-hero">
+      {heroVideo ? (
+        <video
+          className="home-hero-background-media"
+          src={heroVideo}
+          poster={heroPoster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
+      ) : heroPoster ? (
+        <Image
+          src={heroPoster}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="home-hero-background-media object-cover"
+        />
+      ) : null}
       <div className="home-hero-atmosphere" aria-hidden="true" />
 
       <div className="home-hero-stage">

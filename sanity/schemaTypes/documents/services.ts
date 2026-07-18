@@ -150,6 +150,19 @@ export const boothType = defineType({
       of: [{ type: "galleryImage" }],
       title: "Gallery",
     }),
+    defineField({
+      name: "model3dFile",
+      type: "file",
+      title: "3D model file",
+      description: "Optional uploaded GLB/GLTF model. Takes precedence over the URL.",
+      options: { accept: ".glb,.gltf,model/gltf-binary,model/gltf+json" },
+    }),
+    defineField({
+      name: "model3d",
+      type: "url",
+      title: "3D model URL",
+      description: "Optional external GLB/GLTF URL and legacy model field.",
+    }),
     defineField({ name: "compareLabel", type: "string", title: "Comparison table label" }),
     defineField({
       name: "indoor",

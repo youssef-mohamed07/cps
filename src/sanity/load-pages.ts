@@ -286,6 +286,8 @@ export async function loadContactPage(
       ...local.info,
       ...fromBrief?.info,
     },
+    businessHours:
+      remote.businessHours ?? fromBrief?.businessHours ?? local.businessHours,
     map: {
       ...local.map,
       ...fromBrief?.map,

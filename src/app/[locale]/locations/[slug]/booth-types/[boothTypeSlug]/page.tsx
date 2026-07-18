@@ -9,7 +9,6 @@ import { formatBoothTypeTitle } from "@/content/catalog";
 import { BOOTH_COMPARISON_ROWS } from "@/content/booth-comparison";
 import {
   buildBoothTypeLocationPage,
-  getAllProgrammaticBoothTypeParamsAsync,
 } from "@/content/programmatic-seo";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -27,14 +26,9 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  const items = await getAllProgrammaticBoothTypeParamsAsync();
-  return items.flatMap((item) =>
-    (["en", "ar"] as const).map((locale) => ({
-      locale,
-      slug: item.slug,
-      boothTypeSlug: item.boothTypeSlug,
-    })),
-  );
+  // There are many location × booth combinations. Build them on demand so
+  // production builds do not repeat the same CMS reads hundreds of times.
+  return [];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -86,6 +80,8 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
       description: item.description,
       image: item.image,
       imageAlt: item.imageAlt,
+      model3d: item.model3d,
+      gallery: item.gallery,
       features: item.features,
       advantages: item.advantages,
       useCases: item.useCases,
@@ -189,6 +185,7 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
           image: boothType.image,
           imageAlt: boothType.imageAlt,
           model3d: boothType.model3d,
+          gallery: boothType.gallery,
           features: boothType.features,
           advantages: boothType.advantages,
           useCases: boothType.useCases,

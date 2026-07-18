@@ -102,7 +102,7 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
     advantages: localized.advantages,
     useCases: localized.useCases,
     faq: localized.faq,
-    gallery: [],
+    gallery: [{ src: localized.image, alt: localized.imageAlt }],
     compareLabel: compare
       ? locale === "ar"
         ? compare.label.ar
@@ -183,7 +183,7 @@ export async function loadService(
       secondaryCta: mapped.secondaryCta ?? local.secondaryCta,
       overviewTitle: mapped.overviewTitle ?? local.overviewTitle,
       overviewBullets: mapped.overviewBullets ?? local.overviewBullets,
-      faq: local.faq.length > mapped.faq.length ? local.faq : mapped.faq,
+      faq: mapped.faq.length ? mapped.faq : local.faq,
       process:
         remoteProcessBare && localProcessRich ? local.process : mapped.process,
     };
@@ -205,8 +205,13 @@ export async function loadBoothTypes(locale: Locale): Promise<CmsBoothType[]> {
   if (mapped.length) {
     return mapped.map((item) => {
       const fallback = getBoothComparisonRow(item.slug);
+      const local = localBoothType(item.slug, locale);
       return {
         ...item,
+        image: item.image || local?.image || "",
+        imageAlt: item.imageAlt || local?.imageAlt || item.title,
+        model3d: item.model3d || local?.model3d,
+        gallery: item.gallery.length ? item.gallery : (local?.gallery ?? []),
         compareLabel:
           item.compareLabel ||
           (fallback
@@ -244,6 +249,8 @@ export async function loadBoothType(
       ...mapped,
       image: mapped.image || local?.image || "",
       imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+      model3d: mapped.model3d || local?.model3d,
+      gallery: mapped.gallery.length ? mapped.gallery : (local?.gallery ?? []),
       compareLabel:
         mapped.compareLabel ||
         local?.compareLabel ||
@@ -276,7 +283,19 @@ export async function loadProjects(locale: Locale): Promise<CmsProject[]> {
     .map((doc) => mapProject(doc as Parameters<typeof mapProject>[0]))
     .filter((item): item is CmsProject => Boolean(item));
 
-  if (mapped.length) return mapped;
+  if (mapped.length) {
+    return mapped.map((item) => {
+      const project = getProject(item.slug);
+      const local = project ? localProject(project, locale) : null;
+      return {
+        ...item,
+        image: item.image || local?.image || "",
+        imageAlt: item.imageAlt || local?.imageAlt || item.title,
+        gallery: item.gallery.length ? item.gallery : (local?.gallery ?? []),
+        motionVideo: item.motionVideo || local?.motionVideo,
+      };
+    });
+  }
   return localProjects.map((item) => localProject(item, locale));
 }
 
@@ -291,9 +310,18 @@ export async function loadProject(
   });
 
   const mapped = mapProject(remote as Parameters<typeof mapProject>[0]);
-  if (mapped) return mapped;
-
   const project = getProject(slug);
+  if (mapped) {
+    const local = project ? localProject(project, locale) : null;
+    return {
+      ...mapped,
+      image: mapped.image || local?.image || "",
+      imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+      gallery: mapped.gallery.length ? mapped.gallery : (local?.gallery ?? []),
+      motionVideo: mapped.motionVideo || local?.motionVideo,
+    };
+  }
+
   return project ? localProject(project, locale) : null;
 }
 
@@ -308,7 +336,17 @@ export async function loadIndustries(locale: Locale): Promise<CmsIndustry[]> {
     .map((doc) => mapIndustry(doc as Parameters<typeof mapIndustry>[0]))
     .filter((item): item is CmsIndustry => Boolean(item));
 
-  if (mapped.length) return mapped;
+  if (mapped.length) {
+    return mapped.map((item) => {
+      const record = getIndustry(item.slug);
+      const local = record ? localizeIndustry(record, locale) : null;
+      return {
+        ...item,
+        image: item.image || local?.image || "",
+        imageAlt: item.imageAlt || local?.imageAlt || item.title,
+      };
+    });
+  }
 
   return industries.map((item) => {
     const localized = localizeIndustry(item, locale);
@@ -338,9 +376,16 @@ export async function loadIndustry(
   });
 
   const mapped = mapIndustry(remote as Parameters<typeof mapIndustry>[0]);
-  if (mapped) return mapped;
-
   const record = getIndustry(slug);
+  if (mapped) {
+    const local = record ? localizeIndustry(record, locale) : null;
+    return {
+      ...mapped,
+      image: mapped.image || local?.image || "",
+      imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+    };
+  }
+
   if (!record) return null;
   const localized = localizeIndustry(record, locale);
   return {
@@ -368,7 +413,17 @@ export async function loadLocations(locale: Locale): Promise<CmsLocation[]> {
     .map((doc) => mapLocation(doc as Parameters<typeof mapLocation>[0]))
     .filter((item): item is CmsLocation => Boolean(item));
 
-  if (mapped.length) return mapped;
+  if (mapped.length) {
+    return mapped.map((item) => {
+      const record = getLocation(item.slug);
+      const local = record ? localizeLocation(record, locale) : null;
+      return {
+        ...item,
+        image: item.image || local?.image || "",
+        imageAlt: item.imageAlt || local?.imageAlt || item.title,
+      };
+    });
+  }
 
   return locations.map((item) => {
     const localized = localizeLocation(item, locale);
@@ -397,9 +452,16 @@ export async function loadLocation(
   });
 
   const mapped = mapLocation(remote as Parameters<typeof mapLocation>[0]);
-  if (mapped) return mapped;
-
   const record = getLocation(slug);
+  if (mapped) {
+    const local = record ? localizeLocation(record, locale) : null;
+    return {
+      ...mapped,
+      image: mapped.image || local?.image || "",
+      imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+    };
+  }
+
   if (!record) return null;
   const localized = localizeLocation(record, locale);
   return {
@@ -457,17 +519,22 @@ export async function loadNewsArticle(
   });
 
   const mapped = mapNewsArticle(remote as Parameters<typeof mapNewsArticle>[0]);
-  if (mapped?.body?.length) return mapped;
+  const localRecord = getNewsArticle(slug);
+  const local = localRecord ? localizeNews(localRecord, locale) : null;
+  const withMediaFallback = mapped
+    ? {
+        ...mapped,
+        image: mapped.image || local?.image || "",
+        imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
+      }
+    : null;
+  if (withMediaFallback?.body?.length) return withMediaFallback;
   if (mapped && !mapped.body.length) {
-    const local = getNewsArticle(slug);
-    if (local) {
-      const localized = localizeNews(local, locale);
-      return { ...mapped, body: localized.body };
-    }
-    return mapped;
+    if (local) return { ...withMediaFallback!, body: local.body };
+    return withMediaFallback;
   }
 
-  const record = getNewsArticle(slug);
+  const record = localRecord;
   if (!record) return null;
   const localized = localizeNews(record, locale);
   return {

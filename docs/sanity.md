@@ -13,7 +13,21 @@ SANITY_API_WRITE_TOKEN=...
 npm run seed:sanity
 ```
 
-Creates/replaces stable IDs such as `service-booth-design-en`, `homePage-ar`, `navigation-en`, `client-neom-en`. Image fields keep URL/path strings where the schema allows; upload assets in Studio later if you want CDN-hosted media.
+The default seed is non-destructive: it creates missing documents and fills missing
+top-level fields without overwriting editor changes. To intentionally replace all
+seeded documents with local defaults, run:
+
+```bash
+SANITY_SEED_REPLACE=true npm run seed:sanity
+```
+
+Stable IDs include `service-booth-design-en`, `homePage-ar`,
+`navigation-en`, and `client-neom-en`.
+
+Seeded image fields use URL fallbacks so pages stay complete before assets are
+uploaded. Editors can replace those fallbacks in Studio with Sanity-hosted images.
+Project motion sections accept either an MP4/WebM URL or an uploaded video file.
+Booth types accept uploaded/external GLB or GLTF models and editable galleries.
 
 ## Navigation (mega menus)
 
@@ -79,6 +93,17 @@ Every collection document (`service`, `boothType`, `project`, …) and page sing
 | `category`, `author`, `faq`, `testimonial`, `redirect` | Taxonomies / redirects |
 
 Document-level i18n: each content doc has `language: en | ar`.
+
+### Media ownership
+
+- Services, booth types, projects, industries, locations, and news support uploaded
+  hero media with seeded URL fallbacks.
+- Project and booth-type galleries can use uploaded images or URL fallbacks.
+- Project motion video accepts an upload or URL; an uploaded file wins.
+- Booth-type 3D models accept GLB/GLTF upload or URL; an uploaded model wins.
+- Site Settings controls the optional home hero poster/video.
+- Uploaded media is resolved from Sanity's image/file CDN; local URLs remain as a
+  safe fallback when CMS media is incomplete.
 
 ## Loaders
 

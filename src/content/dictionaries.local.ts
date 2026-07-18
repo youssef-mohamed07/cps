@@ -219,6 +219,7 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     lead: string;
+    businessHours?: string;
     info: {
       emailLabel: string;
       phoneLabel: string;

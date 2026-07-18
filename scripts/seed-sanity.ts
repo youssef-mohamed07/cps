@@ -79,7 +79,16 @@ function id(...parts: string[]) {
 }
 
 async function upsert(doc: Record<string, unknown> & { _id: string; _type: string }) {
-  await client.createOrReplace(doc);
+  if (process.env.SANITY_SEED_REPLACE === "true") {
+    await client.createOrReplace(doc);
+  } else {
+    const { _id, _type, ...fields } = doc;
+    await client
+      .transaction()
+      .createIfNotExists({ _id, _type })
+      .patch(_id, (patch) => patch.setIfMissing(fields))
+      .commit();
+  }
   console.log(`  ✓ ${doc._type} ${doc._id}`);
 }
 
@@ -274,6 +283,14 @@ async function seedBoothTypes() {
         overviewTitle: loc.overviewTitle,
         description: loc.description,
         heroUrl: booth.image,
+        model3d: booth.model3d,
+        gallery: [
+          {
+            _key: "gallery-hero",
+            imageUrl: booth.image,
+            alt: booth.imageAlt,
+          },
+        ],
         compareLabel: compare
           ? locale === "ar"
             ? compare.label.ar
@@ -408,6 +425,12 @@ async function seedProjects() {
         size: project.size,
         featured: project.featured ?? false,
         motionVideo: project.motionVideo,
+        heroUrl: project.image,
+        gallery: project.gallery.map((imageUrl, i) => ({
+          _key: `gallery-${i}`,
+          imageUrl,
+          alt: `${loc.title} gallery image ${i + 1}`,
+        })),
         industry: project.industrySlug
           ? {
               _type: "reference",
@@ -449,6 +472,7 @@ async function seedNews() {
         title: loc.title,
         slug: slugValue(article.slug),
         excerpt: loc.excerpt,
+        featuredImageUrl: article.image,
         publishedAt: article.publishedAt,
         readingTime: article.readingTime,
         tags: article.tags ?? [],

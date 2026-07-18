@@ -30,6 +30,7 @@ export type ContactPageCopy = {
   eyebrow: string;
   title: string;
   lead: string;
+  businessHours?: string;
   info: ContactInfoCopy;
   map: ContactMapCopy;
 };
@@ -102,6 +103,14 @@ export function ContactPageSections({
                     {config.address.city}, {config.address.countryName}
                   </span>
                 </li>
+                {copy.businessHours ? (
+                  <li>
+                    <span className="contact-info-label">
+                      {isArabic ? "ساعات العمل" : "Business hours"}
+                    </span>
+                    <span>{copy.businessHours}</span>
+                  </li>
+                ) : null}
               </ul>
 
               <div className="contact-info-social">

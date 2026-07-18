@@ -13,7 +13,6 @@ import { ServiceWhySection } from "@/components/sections/service-why-section";
 import { StatsSection } from "@/components/sections/stats-section";
 import {
   buildServiceLocationPage,
-  getAllProgrammaticServiceParamsAsync,
 } from "@/content/programmatic-seo";
 import { media } from "@/content/media";
 import { serviceCoverIcons } from "@/content/motion-icons";
@@ -44,14 +43,9 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  const items = await getAllProgrammaticServiceParamsAsync();
-  return items.flatMap((item) =>
-    (["en", "ar"] as const).map((locale) => ({
-      locale,
-      slug: item.slug,
-      serviceSlug: item.serviceSlug,
-    })),
-  );
+  // Generate location × service pages on first request and cache them instead
+  // of multiplying CMS reads during every production build.
+  return [];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

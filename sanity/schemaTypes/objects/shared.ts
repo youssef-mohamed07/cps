@@ -131,7 +131,12 @@ export const galleryImage = defineType({
       type: "image",
       title: "Image",
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "imageUrl",
+      type: "url",
+      title: "Image URL (seed / fallback)",
+      description: "Optional external URL when no Sanity asset is uploaded.",
     }),
     defineField({ name: "alt", type: "string", title: "Alt text" }),
     defineField({ name: "caption", type: "string", title: "Caption" }),

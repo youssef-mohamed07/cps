@@ -3,6 +3,9 @@ import Link from "next/link";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { BoothTypeCompareSection } from "@/components/sections/booth-type-compare-section";
+import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
+import { ProjectGalleryMarquee } from "@/components/sections/project-gallery-marquee";
+import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
 import type { BoothComparisonRow } from "@/content/booth-comparison";
 import type { BoothTypeFeature } from "@/content/catalog";
 import { formatBoothTypeTitle } from "@/content/catalog";
@@ -21,6 +24,7 @@ export type BoothTypeDetailItem = {
   image?: string;
   imageAlt?: string;
   model3d?: string;
+  gallery: { src: string; alt: string }[];
   features: BoothTypeFeature[];
   advantages: { title: string; description: string }[];
   useCases: string[];
@@ -63,6 +67,21 @@ export function BoothTypeDetailSections({
     locale,
   );
   const boothLabel = formatBoothTypeTitle(boothType.title);
+  const modelVariants: BoothModelVariant[] = [
+    "custom",
+    "modular",
+    "double-deck",
+    "portable",
+    "kiosks",
+    "outdoor",
+    "pavilions",
+    "sustainable",
+  ];
+  const modelVariant: BoothModelVariant = modelVariants.includes(
+    boothType.slug as BoothModelVariant,
+  )
+    ? (boothType.slug as BoothModelVariant)
+    : "custom";
 
   return (
     <>
@@ -115,6 +134,13 @@ export function BoothTypeDetailSections({
         </div>
       </section>
 
+      <BoothTypeModelSection
+        locale={locale}
+        title={boothLabel}
+        variant={modelVariant}
+        modelUrl={boothType.model3d}
+      />
+
       <BoothTypeCompareSection
         locale={locale}
         activeSlug={boothType.slug}
@@ -166,6 +192,25 @@ export function BoothTypeDetailSections({
               </Reveal>
             ) : null}
           </div>
+        </section>
+      ) : null}
+
+      {boothType.gallery.length ? (
+        <section className="project-detail-gallery">
+          <div className="site-container">
+            <Reveal>
+              <div className="project-detail-gallery-head">
+                <p className="eyebrow">{isArabic ? "المعرض" : "Gallery"}</p>
+                <h2 className="project-detail-gallery-title">
+                  {isArabic ? "شاهد تفاصيل الجناح." : "See the booth in detail."}
+                </h2>
+              </div>
+            </Reveal>
+          </div>
+          <ProjectGalleryMarquee
+            images={boothType.gallery.map((item) => item.src)}
+            title={boothLabel}
+          />
         </section>
       ) : null}
 

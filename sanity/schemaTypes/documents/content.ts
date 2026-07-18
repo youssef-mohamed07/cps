@@ -20,6 +20,11 @@ export const project = defineType({
       fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
     }),
     defineField({
+      name: "heroUrl",
+      type: "url",
+      title: "Hero image URL (seed / fallback)",
+    }),
+    defineField({
       name: "gallery",
       type: "array",
       of: [{ type: "galleryImage" }],
@@ -30,6 +35,13 @@ export const project = defineType({
       type: "url",
       title: "Motion video URL",
       description: "Optional MP4/WebM URL for the motion section between facts and story.",
+    }),
+    defineField({
+      name: "motionVideoFile",
+      type: "file",
+      title: "Motion video file",
+      description: "Optional uploaded MP4/WebM. Takes precedence over the URL.",
+      options: { accept: "video/mp4,video/webm" },
     }),
     defineField({ name: "challenge", type: "text", rows: 4, title: "Challenge" }),
     defineField({ name: "solution", type: "text", rows: 4, title: "Solution / Approach" }),
@@ -101,6 +113,11 @@ export const industry = defineType({
       title: "Hero image",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({
+      name: "heroUrl",
+      type: "url",
+      title: "Hero image URL (seed / fallback)",
     }),
     defineField({ name: "overview", type: "text", rows: 5, title: "Overview" }),
     defineField({
@@ -206,6 +223,11 @@ export const newsArticle = defineType({
       title: "Featured image",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({
+      name: "featuredImageUrl",
+      type: "url",
+      title: "Featured image URL (seed / fallback)",
     }),
     defineField({
       name: "body",
