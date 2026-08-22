@@ -60,16 +60,18 @@ export function ServiceDesignGrid({
 
             const body = (
               <>
-                <div className="service-design-card-media">
-                  <Image
-                    src={item.image}
-                    alt={item.imageAlt ?? item.title}
-                    fill
-                    sizes="(max-width: 767px) 100vw, (max-width: 1099px) 50vw, 33vw"
-                    className="object-cover"
-                    loading="lazy"
-                  />
-                </div>
+                {item.image ? (
+                  <div className="service-design-card-media">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt ?? item.title}
+                      fill
+                      sizes="(max-width: 767px) 100vw, (max-width: 1099px) 50vw, 33vw"
+                      className="object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : null}
                 <div className="service-design-card-copy">
                   <span className="service-design-card-index" aria-hidden="true">
                     {String(index + 1).padStart(2, "0")}

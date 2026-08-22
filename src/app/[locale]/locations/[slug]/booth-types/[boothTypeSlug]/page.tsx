@@ -17,6 +17,7 @@ import {
   loadBoothType,
   loadBoothTypes,
   loadLocation,
+  loadLocations,
   loadProjects,
 } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
@@ -26,9 +27,20 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  // There are many location × booth combinations. Build them on demand so
-  // production builds do not repeat the same CMS reads hundreds of times.
-  return [];
+  const [locations, boothTypes] = await Promise.all([
+    loadLocations("en"),
+    loadBoothTypes("en"),
+  ]);
+
+  return locations.flatMap((location) =>
+    boothTypes.flatMap((boothType) =>
+      (["en", "ar"] as const).map((locale) => ({
+        locale,
+        slug: location.slug,
+        boothTypeSlug: boothType.slug,
+      })),
+    ),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

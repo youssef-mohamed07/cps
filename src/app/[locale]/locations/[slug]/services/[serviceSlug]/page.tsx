@@ -23,6 +23,7 @@ import { resolveDictionary } from "@/lib/dictionary";
 import { locationServicePath } from "@/lib/locations";
 import {
   loadLocation,
+  loadLocations,
   loadService,
   loadServices,
 } from "@/sanity/load-collections";
@@ -43,9 +44,20 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  // Generate location × service pages on first request and cache them instead
-  // of multiplying CMS reads during every production build.
-  return [];
+  const [locations, services] = await Promise.all([
+    loadLocations("en"),
+    loadServices("en"),
+  ]);
+
+  return locations.flatMap((location) =>
+    services.flatMap((service) =>
+      (["en", "ar"] as const).map((locale) => ({
+        locale,
+        slug: location.slug,
+        serviceSlug: service.slug,
+      })),
+    ),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
