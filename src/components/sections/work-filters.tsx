@@ -11,32 +11,23 @@ type WorkFiltersProps = {
   locale: Locale;
   basePath: string;
   values: {
-    boothType?: string;
+    service?: string;
     industry?: string;
-    country?: string;
-    event?: string;
-    size?: string;
   };
   options: {
-    boothType: FilterOption[];
+    service: FilterOption[];
     industry: FilterOption[];
-    country: FilterOption[];
-    event: FilterOption[];
-    size: FilterOption[];
   };
   labels: {
-    boothType: string;
+    service: string;
     industry: string;
-    country: string;
-    event: string;
-    size: string;
     all: string;
     clear: string;
     filters: string;
   };
 };
 
-const KEYS = ["boothType", "industry", "country", "event", "size"] as const;
+const KEYS = ["service", "industry"] as const;
 
 export function WorkFilters({
   locale,
@@ -78,20 +69,12 @@ export function WorkFilters({
     label: string;
     items: FilterOption[];
   }[] = [
-    { key: "boothType", label: labels.boothType, items: options.boothType },
+    { key: "service", label: labels.service, items: options.service },
     { key: "industry", label: labels.industry, items: options.industry },
-    { key: "country", label: labels.country, items: options.country },
   ];
 
-  if (options.event.length) {
-    fields.push({ key: "event", label: labels.event, items: options.event });
-  }
-  if (options.size.length) {
-    fields.push({ key: "size", label: labels.size, items: options.size });
-  }
-
   return (
-    <section className={`work-filters${pending ? " is-pending" : ""}`}>
+    <section id="work-filters" className={`work-filters${pending ? " is-pending" : ""}`}>
       <div className="site-container">
         <div className="work-filters-bar">
           <p className="work-filters-kicker">{labels.filters}</p>

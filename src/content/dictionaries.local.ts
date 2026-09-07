@@ -277,34 +277,30 @@ const dictionaries: Record<Locale, Dictionary> = {
       langHrefLocale: "ar",
     },
     hero: {
-      badge: "#1 Exhibition Booth Design & Production in {City}",
-      headline: "Everything your booth needs,\nunder one roof.",
+      badge: "Production. Fabrication. Fit-Out.",
+      headline: "Exhibitions. Events. Interiors. Displays.\nBuilt under one roof.",
       support:
-        "Full-lifecycle exhibition booth production across Saudi Arabia — design, build, install, dismantle, and storage, all in-house.",
-      primaryCta: "Request a Quote",
-      secondaryCta: "View Our Work",
+        "One production facility. Eight services. Built and installed in-house.",
+      primaryCta: "Start a Project",
+      secondaryCta: "See What We Build",
     },
     lifecycle: {
-      eyebrow: "Full lifecycle",
-      title: "Full Production, Handled In-House",
-      support: "Every service your event or space needs — no outsourcing, no gaps.",
+      eyebrow: "Who We Are",
+      title: "One production partner. Multiple capabilities.",
+      support: "One team carries every project from technical drawing to final install.",
       imageAlt: "CPS team building an exhibition booth in the workshop",
       items: [
         {
-          title: "We Design It",
-          description: "Custom booth concepts built around your brand and floor plan.",
+          title: "Multiple environments",
+          description: "Exhibitions, events, interiors, retail displays, signage and custom fabrication.",
         },
         {
-          title: "We Build It",
-          description: "Fabricated in-house — not outsourced to third parties.",
+          title: "In-house production",
+          description: "Wood, metal, acrylic, printing and installation on one production floor.",
         },
         {
-          title: "We Install It",
-          description: "Set up on-site, ready before doors open.",
-        },
-        {
-          title: "We Take It Down",
-          description: "Dismantling and storage handled for your next show.",
+          title: "One point of contact",
+          description: "One accountable team from concept through handover.",
         },
       ],
     },
@@ -396,18 +392,18 @@ const dictionaries: Record<Locale, Dictionary> = {
     about: {
       eyebrow: "Who we are",
       title: "Creatives Professionals",
-      body: "CPS is a bilingual creative studio shaping brand systems, campaigns, and digital experiences across the region. We pair sharp strategy with craft that holds up in the real world.",
+      body: "CPS is a production, fabrication and fit-out company delivering exhibitions, events, interiors, displays and signage across Saudi Arabia.",
     },
     aboutPage: {
-      eyebrow: "About",
-      title: "About CPS",
-      lead: "Exhibition booth design and production, built in-house, across Saudi Arabia.",
+      eyebrow: "About CPS",
+      title: "We build ideas into reality.",
+      lead: "A production, fabrication and fit-out company working across Saudi Arabia.",
       storyTitle: "Our story",
-      storyHeadline: "Built to Do It All, Ourselves",
+      storyHeadline: "One production partner. Multiple capabilities.",
       story:
-        "CPS was built around a simple idea — exhibitions deserve better than fragmented vendors and lost details between handoffs. From design to fabrication, installation to storage, we handle the entire booth lifecycle under one roof, with one team accountable for every step.",
+        "Exhibition booths, event structures, branded environments, retail displays, signage and custom-built solutions — all under one roof. CPS connects technical development, fabrication and final on-site execution through one accountable team.",
       storySecond:
-        "Today, we work with brands across Saudi Arabia's biggest industries, delivering booths that are designed with intention and built to last.",
+        "Our in-house capabilities span wood, metal, acrylic, printing and installation, giving every project tighter quality control and a clearer path to handover.",
       valuesTitle: "Clear Principles Behind Every Build",
       valuesSupport: "The standards that guide how we design, build, and deliver.",
       values: [
@@ -428,8 +424,8 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "One team, one point of contact.",
         },
       ],
-      studioTitle: "Where Every Booth Is Built",
-      studioSupport: "Our own workshop, our own team, from raw material to finished booth.",
+      studioTitle: "Where every project gets built",
+      studioSupport: "Our own production floor and team, from raw material to finished installation.",
       studioItems: [
         {
           title: "Fully Equipped Workshop",
@@ -493,45 +489,48 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     services: {
       eyebrow: "What we do",
-      title: "Full Production, Handled In-House",
-      support: "Five core services — design through signage — delivered by one team.",
+      title: "Eight services. One production floor.",
+      support: "Browse by service to see featured work — or jump straight to the full catalogue.",
       cta: "See All Services",
       items: [
         {
-          title: "Booth Manufacturing",
-          description: "Every booth is fabricated in our own workshop, start to finish.",
+          title: "Exhibitions & Booths",
+          description: "Custom exhibition environments, modular solutions and large-scale pavilions.",
+          image: media.boothTypes.custom,
+          imageAlt: "Custom exhibition environment",
+          slug: "exhibitions-booths",
+        },
+        {
+          title: "Event Fabrication",
+          description: "Stages, scenic structures, branded environments and experiential builds.",
+          image: media.boothTypes.outdoor,
+          imageAlt: "Event fabrication",
+          slug: "event-fabrication",
+        },
+        {
+          title: "Fit-Out & Interiors",
+          description: "Commercial interiors, offices, showrooms, retail and branded spaces.",
+          image: media.about.studio,
+          imageAlt: "Commercial interior fit-out",
+          slug: "fit-out-interiors",
+        },
+        {
+          title: "Retail Displays",
+          description: "Gondolas, product displays, POS/POP units, kiosks and window displays.",
+          image: media.boothTypes.kiosk,
+          imageAlt: "Retail display",
+          slug: "retail-displays",
+        },
+        {
+          title: "Custom Fabrication",
+          description: "Wood, metal, acrylic, CNC and mixed-material bespoke fabrication.",
           image: media.services.fabrication,
-          imageAlt: "Booth manufacturing workshop",
+          imageAlt: "Custom fabrication workshop",
           slug: "custom-fabrication",
         },
-        {
-          title: "Design",
-          description: "Concepts and layouts designed around your goals.",
-          image: media.services.design,
-          imageAlt: "Exhibition booth design render",
-          slug: "booth-design",
-        },
-        {
-          title: "Dismantling, Storage & Reinstallation",
-          description: "Your booth, protected and ready for next time.",
-          image: media.services.storage,
-          imageAlt: "Booth storage and reinstallation",
-          slug: "storage-reinstallation",
-        },
-        {
-          title: "Visual Branding & Print Solutions",
-          description: "Your brand, printed and applied with precision.",
-          image: media.services.branding,
-          imageAlt: "Printed branding on an exhibition stand",
-          slug: "visual-branding-print",
-        },
-        {
-          title: "Lightbox Signage & Storefront",
-          description: "Signage that gets your brand noticed, day and night.",
-          image: media.services.lightbox,
-          imageAlt: "Lightbox signage on a trade show booth",
-          slug: "lightbox-retail-display",
-        },
+        { title: "Printing & Signage", description: "Large-format graphics, environmental branding and signage systems.", image: media.services.branding, imageAlt: "Printing and signage", slug: "printing-signage" },
+        { title: "Rental Solutions", description: "Reusable event, exhibition and display assets.", image: media.services.storage, imageAlt: "Rental inventory", slug: "rental-solutions" },
+        { title: "Installation & Project Delivery", description: "Technical planning, logistics, installation, storage and maintenance.", image: media.services.installation, imageAlt: "On-site installation", slug: "installation-project-delivery" },
       ],
     },
     boothTypes: {
@@ -597,20 +596,20 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     whyCps: {
       eyebrow: "Why CPS",
-      title: "One team. Every show.",
+      title: "One team, from concept to final install",
       primary: {
-        title: "Built in-house, made for the floor",
+        title: "Everything stays in-house",
         description:
-          "Design, fabrication, and install under one roof — no subcontractors, no gaps between concept and opening day.",
-        cta: "Request a quote",
+          "Wood, metal, acrylic, printing and signage stay with one accountable production team.",
+        cta: "Start a project",
         href: "/contact",
       },
       secondary: {
-        title: "Full lifecycle support",
+        title: "Nationwide project delivery",
         description:
-          "From first sketches to teardown and storage — one team stays with your booth across every show.",
-        cta: "See our services",
-        href: "/services",
+          "Site survey, logistics, installation and dismantling are coordinated across Saudi Arabia.",
+        cta: "See our capabilities",
+        href: "/production-capabilities",
       },
       images: {
         wideAlt: "Exhibition hall with branded booth presence",
@@ -640,7 +639,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     faq: {
       eyebrow: "FAQ",
-      title: "Before you brief us",
+      title: "Questions about CPS",
       support: "Straight answers on timelines, install, reuse, and coverage — before the brief.",
       items: [
         {
@@ -746,16 +745,16 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     work: {
-      eyebrow: "Case studies",
-      title: "Behind Every Booth",
-      support: "Selected exhibition builds across industries and formats.",
+      eyebrow: "Our Work",
+      title: "Recent work",
+      support: "A look at what has gone out the door recently, across services.",
       items: workItems("en"),
       viewAll: "View all projects",
     },
     workPage: {
       eyebrow: "Work",
       title: "Selected projects",
-      lead: "Brand systems, campaigns, and digital products — each built to feel inevitable once finished.",
+      lead: "Exhibitions, events, interiors and displays produced across services and sectors.",
     },
     industriesPage: {
       eyebrow: "Sectors",
@@ -774,7 +773,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     projectPage: {
       challenge: "Challenge",
-      approach: "Approach",
+      approach: "CPS Solution",
       outcome: "Outcome",
       gallery: "Gallery",
       next: "Next project",
@@ -842,34 +841,30 @@ const dictionaries: Record<Locale, Dictionary> = {
       langHrefLocale: "en",
     },
     hero: {
-      badge: "الأول في تصميم وإنتاج أجنحة المعارض في {City}",
-      headline: "كل ما يحتاجه جناحك —\nتحت سقف واحد.",
+      badge: "إنتاج. تصنيع. تجهيز داخلي.",
+      headline: "معارض. فعاليات. مساحات داخلية. عروض.\nكلها تحت سقف واحد.",
       support:
-        "إنتاج متكامل لأجنحة المعارض في أنحاء السعودية — تصميم، تصنيع، تركيب، تفكيك وتخزين، بالكامل داخل CPS.",
-      primaryCta: "اطلب عرض سعر",
-      secondaryCta: "شاهد أعمالنا",
+        "منشأة إنتاج واحدة. ثماني خدمات. تصنيع وتركيب داخلي.",
+      primaryCta: "ابدأ مشروعاً",
+      secondaryCta: "شاهد ما نبنيه",
     },
     lifecycle: {
-      eyebrow: "دورة حياة كاملة",
-      title: "إنتاج متكامل — داخلياً",
-      support: "كل خدمة يحتاجها حدثك أو مساحتك — بلا إسناد خارجي وبلا فجوات.",
+      eyebrow: "من نحن",
+      title: "شريك إنتاج واحد. قدرات متعددة.",
+      support: "فريق واحد يحمل كل مشروع من الرسم الفني إلى التركيب النهائي.",
       imageAlt: "فريق CPS يبني جناح معرض في الورشة",
       items: [
         {
-          title: "نصمّمه",
-          description: "مفاهيم مخصصة مبنية حول علامتك ومخطط الأرضية.",
+          title: "بيئات متعددة",
+          description: "معارض وفعاليات ومساحات داخلية وعروض تجزئة ولافتات وتصنيع مخصص.",
         },
         {
-          title: "نبنيه",
-          description: "تصنيع داخلي — لا يُسند لطرف ثالث.",
+          title: "إنتاج داخلي",
+          description: "خشب ومعدن وأكريليك وطباعة وتركيب على أرض إنتاج واحدة.",
         },
         {
-          title: "نركّبه",
-          description: "تركيب في الموقع، جاهز قبل افتتاح الأبواب.",
-        },
-        {
-          title: "نفكّكه",
-          description: "تفكيك وتخزين جاهز للمعرض القادم.",
+          title: "نقطة اتصال واحدة",
+          description: "فريق واحد مسؤول من الفكرة حتى التسليم.",
         },
       ],
     },
@@ -961,18 +956,18 @@ const dictionaries: Record<Locale, Dictionary> = {
     about: {
       eyebrow: "من نحن",
       title: "المبدعون المحترفون",
-      body: "CPS استوديو إبداعي ثنائي اللغة يصوغ أنظمة العلامات والحملات والتجارب الرقمية في المنطقة. نجمع بين استراتيجية حادة وحِرفة تصمد في الواقع.",
+      body: "CPS شركة إنتاج وتصنيع وتجهيز داخلي تنفذ المعارض والفعاليات والمساحات الداخلية والعروض واللافتات في أنحاء السعودية.",
     },
     aboutPage: {
-      eyebrow: "عنّا",
-      title: "عن CPS",
-      lead: "تصميم وإنتاج أجنحة المعارض، بالكامل داخل الشركة، عبر المملكة العربية السعودية.",
+      eyebrow: "عن CPS",
+      title: "نحوّل الأفكار إلى واقع.",
+      lead: "شركة إنتاج وتصنيع وتجهيز داخلي تعمل في أنحاء المملكة العربية السعودية.",
       storyTitle: "قصتنا",
-      storyHeadline: "بُنينا لننفّذ كل شيء بأنفسنا",
+      storyHeadline: "شريك إنتاج واحد. قدرات متعددة.",
       story:
-        "بُنيت CPS حول فكرة بسيطة — المعارض تستحق أفضل من مزوّدين مجزّأين وتفاصيل تضيع بين التسليمات. من التصميم إلى التصنيع، ومن التركيب إلى التخزين، نتولى دورة حياة الجناح كاملة تحت سقف واحد، بفريق واحد مسؤول عن كل خطوة.",
+        "أجنحة معارض وهياكل فعاليات وبيئات تحمل الهوية وعروض تجزئة ولافتات وحلول مصنعة حسب الطلب — كلها تحت سقف واحد. تربط CPS التطوير الفني بالتصنيع والتنفيذ النهائي في الموقع عبر فريق واحد مسؤول.",
       storySecond:
-        "اليوم نعمل مع علامات عبر أهم القطاعات في السعودية، ونقدّم أجنحة تُصمَّم بقصد وتُبنى لتدوم.",
+        "تشمل قدراتنا الداخلية الخشب والمعدن والأكريليك والطباعة والتركيب، ما يمنح كل مشروع رقابة جودة أدق ومساراً أوضح إلى التسليم.",
       valuesTitle: "مبادئ واضحة خلف كل بناء",
       valuesSupport: "المعايير التي توجّه كيف نصمّم ونبني ونسلّم.",
       values: [
@@ -993,8 +988,8 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "فريق واحد، ونقطة تواصل واحدة.",
         },
       ],
-      studioTitle: "حيث يُبنى كل جناح",
-      studioSupport: "ورشتنا الخاصة، وفريقنا الخاص، من المادة الخام إلى الجناح النهائي.",
+      studioTitle: "حيث يُنفذ كل مشروع",
+      studioSupport: "أرض إنتاجنا وفريقنا، من المادة الخام إلى التركيب المكتمل.",
       studioItems: [
         {
           title: "ورشة مجهزة بالكامل",
@@ -1058,45 +1053,48 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     services: {
       eyebrow: "ماذا نقدم",
-      title: "إنتاج متكامل — داخلياً",
-      support: "خمس خدمات أساسية — من التصميم إلى اللافتات — بفريق واحد.",
+      title: "ثمان خدمات. أرض إنتاج واحدة.",
+      support: "تصفح حسب الخدمة لمشاهدة الأعمال المميزة أو انتقل مباشرة إلى الكتالوج الكامل.",
       cta: "كل الخدمات",
       items: [
         {
-          title: "تصنيع الأجنحة",
-          description: "كل جناح يُصنَّع في ورشتنا الخاصة من البداية للنهاية.",
+          title: "المعارض والأجنحة",
+          description: "بيئات معارض مخصصة وحلول معيارية وأجنحة واسعة النطاق.",
+          image: media.boothTypes.custom,
+          imageAlt: "بيئة معرض مخصصة",
+          slug: "exhibitions-booths",
+        },
+        {
+          title: "تصنيع وتجهيز الفعاليات",
+          description: "منصات وهياكل مشهدية وبيئات تحمل الهوية وتجارب تفاعلية.",
+          image: media.boothTypes.outdoor,
+          imageAlt: "تجهيز فعالية",
+          slug: "event-fabrication",
+        },
+        {
+          title: "التجهيزات الداخلية",
+          description: "مساحات تجارية ومكاتب وصالات عرض ومتاجر وبيئات تحمل الهوية.",
+          image: media.about.studio,
+          imageAlt: "تجهيز مساحة تجارية",
+          slug: "fit-out-interiors",
+        },
+        {
+          title: "عروض ونقاط البيع",
+          description: "جندولات وحوامل منتجات ووحدات نقاط بيع وأكشاك وواجهات عرض.",
+          image: media.boothTypes.kiosk,
+          imageAlt: "عرض تجزئة",
+          slug: "retail-displays",
+        },
+        {
+          title: "التصنيع المخصص",
+          description: "تصنيع بالخشب والمعدن والأكريليك وCNC والمواد المختلطة.",
           image: media.services.fabrication,
-          imageAlt: "ورشة تصنيع الأجنحة",
+          imageAlt: "ورشة تصنيع مخصص",
           slug: "custom-fabrication",
         },
-        {
-          title: "التصميم",
-          description: "مفاهيم ومخططات مبنية حول أهدافك.",
-          image: media.services.design,
-          imageAlt: "تصميم جناح معرض",
-          slug: "booth-design",
-        },
-        {
-          title: "التفكيك والتخزين وإعادة التركيب",
-          description: "جناحك محمي وجاهز للمرة القادمة.",
-          image: media.services.storage,
-          imageAlt: "تخزين وإعادة تركيب الجناح",
-          slug: "storage-reinstallation",
-        },
-        {
-          title: "الهوية البصرية والطباعة",
-          description: "علامتك، مطبوعة ومطبَّقة بدقة.",
-          image: media.services.branding,
-          imageAlt: "طباعة على جناح معرض",
-          slug: "visual-branding-print",
-        },
-        {
-          title: "لافتات Lightbox والواجهات",
-          description: "لافتات تجعل علامتك ملحوظة، نهاراً وليلاً.",
-          image: media.services.lightbox,
-          imageAlt: "لافتة lightbox على جناح",
-          slug: "lightbox-retail-display",
-        },
+        { title: "الطباعة واللافتات", description: "رسومات كبيرة وهوية بيئية وأنظمة لافتات.", image: media.services.branding, imageAlt: "الطباعة واللافتات", slug: "printing-signage" },
+        { title: "حلول التأجير", description: "أصول قابلة لإعادة الاستخدام للفعاليات والمعارض والعرض.", image: media.services.storage, imageAlt: "مخزون التأجير", slug: "rental-solutions" },
+        { title: "التركيب وتسليم المشاريع", description: "تخطيط فني ولوجستيات وتركيب وتخزين وصيانة.", image: media.services.installation, imageAlt: "التركيب في الموقع", slug: "installation-project-delivery" },
       ],
     },
     boothTypes: {
@@ -1162,20 +1160,20 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     whyCps: {
       eyebrow: "لماذا CPS",
-      title: "فريق واحد. كل معرض.",
+      title: "فريق واحد من الفكرة حتى التركيب النهائي",
       primary: {
-        title: "صُنع داخلياً — لأرض المعرض",
+        title: "كل شيء يبقى داخلياً",
         description:
-          "تصميم وتصنيع وتركيب تحت سقف واحد — بلا مقاولين فرعيين وبلا فجوات بين الفكرة ويوم الافتتاح.",
-        cta: "اطلب عرض سعر",
+          "الخشب والمعدن والأكريليك والطباعة واللافتات مع فريق إنتاج واحد مسؤول.",
+        cta: "ابدأ مشروعاً",
         href: "/contact",
       },
       secondary: {
-        title: "دعم دورة حياة كاملة",
+        title: "تسليم مشاريع على مستوى المملكة",
         description:
-          "من المسودات الأولى إلى التفكيك والتخزين — فريق واحد يبقى مع جناحك عبر كل معرض.",
-        cta: "شاهد خدماتنا",
-        href: "/services",
+          "معاينة الموقع واللوجستيات والتركيب والتفكيك منسقة في أنحاء السعودية.",
+        cta: "شاهد قدراتنا",
+        href: "/production-capabilities",
       },
       images: {
         wideAlt: "قاعة معرض بحضور جناح علامة",
@@ -1205,7 +1203,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     faq: {
       eyebrow: "أسئلة شائعة",
-      title: "قبل ما ترسل البريف",
+      title: "أسئلة عن CPS",
       support: "إجابات مباشرة عن الجداول والتركيب وإعادة الاستخدام والتغطية — قبل البريف.",
       items: [
         {
@@ -1311,16 +1309,16 @@ const dictionaries: Record<Locale, Dictionary> = {
       ],
     },
     work: {
-      eyebrow: "دراسات حالة",
-      title: "خلف كل جناح",
-      support: "عيّنة من أجنحة المعارض عبر قطاعات وتنسيقات مختلفة.",
+      eyebrow: "أعمالنا",
+      title: "أحدث الأعمال",
+      support: "نظرة على ما خرج من منشأتنا مؤخرًا عبر مختلف الخدمات.",
       items: workItems("ar"),
       viewAll: "كل المشاريع",
     },
     workPage: {
       eyebrow: "الأعمال",
       title: "مشاريع مختارة",
-      lead: "أنظمة علامات وحملات ومنتجات رقمية — كل مشروع يُبنى ليبدو حتمياً بعد اكتماله.",
+      lead: "معارض وفعاليات ومساحات داخلية وعروض نُفذت عبر خدمات وقطاعات متعددة.",
     },
     industriesPage: {
       eyebrow: "قطاعاتنا",
@@ -1339,7 +1337,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     projectPage: {
       challenge: "التحدي",
-      approach: "المنهج",
+      approach: "حل CPS",
       outcome: "النتيجة",
       gallery: "المعرض",
       next: "المشروع التالي",

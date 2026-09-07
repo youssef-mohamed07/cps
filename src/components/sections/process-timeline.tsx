@@ -34,6 +34,8 @@ export function ProcessTimeline({
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Mirror the browser preference into component state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduce(mq.matches);
     const onChange = () => setReduce(mq.matches);
     mq.addEventListener("change", onChange);
@@ -42,6 +44,8 @@ export function ProcessTimeline({
 
   useEffect(() => {
     if (reduce) {
+      // Reduced motion displays the completed timeline immediately.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActive(true);
       return;
     }

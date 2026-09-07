@@ -9,6 +9,7 @@ type FeaturedWorkProps = {
   locale: Locale;
   eyebrow: string;
   title: string;
+  support?: string;
   viewAll: string;
   items: WorkItem[];
 };
@@ -17,6 +18,7 @@ export function FeaturedWork({
   locale,
   eyebrow,
   title,
+  support,
   viewAll,
   items,
 }: FeaturedWorkProps) {
@@ -30,6 +32,7 @@ export function FeaturedWork({
             <div className="section-head">
               <p className="eyebrow">{eyebrow}</p>
               <h2 className="display">{title}</h2>
+              {support ? <p className="lede">{support}</p> : null}
             </div>
             <Link
               href={localizePath("/work", locale)}

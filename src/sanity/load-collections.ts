@@ -57,6 +57,7 @@ import {
   type CmsService,
 } from "@/sanity/transformers/collections";
 import { toImageSrc } from "@/sanity/transformers/shared";
+import { mergeProjectFallback } from "@/sanity/transformers/project-fallback";
 
 function localService(slug: string, locale: Locale): CmsService | null {
   const record = getService(slug);
@@ -123,6 +124,7 @@ function localProject(project: Project, locale: Locale): CmsProject {
     title: localized.title,
     year: localized.year,
     summary: localized.summary,
+    scopeOfWork: localized.scopeOfWork,
     challenge: localized.challenge,
     solution: localized.approach,
     result: localized.outcome,
@@ -134,9 +136,11 @@ function localProject(project: Project, locale: Locale): CmsProject {
     event: project.event,
     size: project.size,
     industrySlug: project.industrySlug,
+    serviceSlug: project.serviceSlug,
     boothTypeSlug: project.boothTypeSlug,
     locationSlug: project.locationSlug,
     category: localized.category,
+    clientName: localized.title,
     featured: project.featured,
   };
 }
@@ -287,13 +291,7 @@ export async function loadProjects(locale: Locale): Promise<CmsProject[]> {
     return mapped.map((item) => {
       const project = getProject(item.slug);
       const local = project ? localProject(project, locale) : null;
-      return {
-        ...item,
-        image: item.image || local?.image || "",
-        imageAlt: item.imageAlt || local?.imageAlt || item.title,
-        gallery: item.gallery.length ? item.gallery : (local?.gallery ?? []),
-        motionVideo: item.motionVideo || local?.motionVideo,
-      };
+      return mergeProjectFallback(item, local);
     });
   }
   return localProjects.map((item) => localProject(item, locale));
@@ -313,13 +311,7 @@ export async function loadProject(
   const project = getProject(slug);
   if (mapped) {
     const local = project ? localProject(project, locale) : null;
-    return {
-      ...mapped,
-      image: mapped.image || local?.image || "",
-      imageAlt: mapped.imageAlt || local?.imageAlt || mapped.title,
-      gallery: mapped.gallery.length ? mapped.gallery : (local?.gallery ?? []),
-      motionVideo: mapped.motionVideo || local?.motionVideo,
-    };
+    return mergeProjectFallback(mapped, local);
   }
 
   return project ? localProject(project, locale) : null;

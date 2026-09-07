@@ -26,8 +26,8 @@ export type FooterConfig = {
   cta: { label: string; href: string };
   servicesTitle: string;
   showServices: boolean;
-  boothTypesTitle: string;
-  showBoothTypes: boolean;
+  workTitle: string;
+  showWork: boolean;
   companyLinksTitle: string;
   companyLinks: FooterLink[];
   contactTitle: string;
@@ -55,32 +55,29 @@ export type FooterConfig = {
   rights: string;
   bottomLinks: FooterLink[];
   createdBy?: string;
-  locationsTitle: string;
-  locations: FooterLink[];
 };
 
 function footerEn(): FooterConfig {
   return {
     logo: "/logo.png",
     logoAlt: "CPS — Creatives Professionals",
-    description: "Exhibition booth design, fabrication, and install — end to end.",
+    description: "Exhibitions. Events. Interiors. Displays. Built under one roof.",
     certifications: [],
     qualityBadges: [],
-    cta: { label: "Request a Quote", href: "/contact" },
+    cta: { label: "Start a Project", href: "/contact" },
     servicesTitle: "Services",
     showServices: true,
-    boothTypesTitle: "Booth Types",
-    showBoothTypes: true,
-    companyLinksTitle: "Menu",
+    workTitle: "Work",
+    showWork: true,
+    companyLinksTitle: "Company",
     companyLinks: [
       { label: "About", href: "/about" },
       { label: "Work", href: "/work" },
-      { label: "Industries", href: "/industries" },
-      { label: "Locations", href: "/locations" },
+      { label: "Production Capabilities", href: "/production-capabilities" },
       { label: "Insights", href: "/news" },
       { label: "Contact", href: "/contact" },
     ],
-    contactTitle: "Contact",
+    contactTitle: "Get in Touch",
     officeAddress: "Riyadh, Saudi Arabia",
     phoneDisplay: "+966 50 000 0000",
     phoneHref: "+966500000000",
@@ -103,12 +100,12 @@ function footerEn(): FooterConfig {
       mailto: "hello@cps.com",
     },
     trust: {
-      enabled: false,
+      enabled: true,
       items: [
-        { label: "Custom Booth Design" },
-        { label: "Manufacturing" },
+        { label: "Design" },
+        { label: "Fabrication" },
         { label: "Installation" },
-        { label: "Worldwide Support" },
+        { label: "Storage" },
       ],
     },
     rights: "All rights reserved.",
@@ -117,16 +114,6 @@ function footerEn(): FooterConfig {
       { label: "Terms", href: "/terms" },
       { label: "Cookies", href: "/cookies" },
     ],
-    locationsTitle: "Locations",
-    locations: [
-        { label: "Riyadh", href: "/locations/riyadh" },
-        { label: "Jeddah", href: "/locations/jeddah" },
-        { label: "Dammam", href: "/locations/dammam" },
-        { label: "Khobar", href: "/locations/khobar" },
-        { label: "Makkah", href: "/locations/makkah" },
-        { label: "Madinah", href: "/locations/madinah" },
-        { label: "NEOM", href: "/locations/neom" },
-      ],
   };
 }
 
@@ -134,24 +121,23 @@ function footerAr(): FooterConfig {
   return {
     logo: "/logo.png",
     logoAlt: "CPS — المبدعون المحترفون",
-    description: "تصميم وتصنيع وتركيب أجنحة المعارض — من البداية للنهاية.",
+    description: "معارض. فعاليات. مساحات داخلية. عروض. كلها تحت سقف واحد.",
     certifications: [],
     qualityBadges: [],
-    cta: { label: "اطلب عرض سعر", href: "/contact" },
+    cta: { label: "ابدأ مشروعاً", href: "/contact" },
     servicesTitle: "الخدمات",
     showServices: true,
-    boothTypesTitle: "أنواع الأجنحة",
-    showBoothTypes: true,
-    companyLinksTitle: "القائمة",
+    workTitle: "الأعمال",
+    showWork: true,
+    companyLinksTitle: "الشركة",
     companyLinks: [
       { label: "من نحن", href: "/about" },
       { label: "أعمالنا", href: "/work" },
-      { label: "القطاعات", href: "/industries" },
-      { label: "المواقع", href: "/locations" },
+      { label: "قدرات الإنتاج", href: "/production-capabilities" },
       { label: "رؤى", href: "/news" },
       { label: "تواصل", href: "/contact" },
     ],
-    contactTitle: "تواصل",
+    contactTitle: "تواصل معنا",
     officeAddress: "الرياض، السعودية",
     phoneDisplay: "+966 50 000 0000",
     phoneHref: "+966500000000",
@@ -174,12 +160,12 @@ function footerAr(): FooterConfig {
       mailto: "hello@cps.com",
     },
     trust: {
-      enabled: false,
+      enabled: true,
       items: [
-        { label: "تصميم أجنحة مخصص" },
+        { label: "تصميم" },
         { label: "تصنيع" },
         { label: "تركيب" },
-        { label: "دعم عالمي" },
+        { label: "تخزين" },
       ],
     },
     rights: "جميع الحقوق محفوظة.",
@@ -188,16 +174,6 @@ function footerAr(): FooterConfig {
       { label: "الشروط", href: "/terms" },
       { label: "ملفات الارتباط", href: "/cookies" },
     ],
-    locationsTitle: "المواقع",
-    locations: [
-        { label: "الرياض", href: "/locations/riyadh" },
-        { label: "جدة", href: "/locations/jeddah" },
-        { label: "الدمام", href: "/locations/dammam" },
-        { label: "الخبر", href: "/locations/khobar" },
-        { label: "مكة", href: "/locations/makkah" },
-        { label: "المدينة", href: "/locations/madinah" },
-        { label: "نيوم", href: "/locations/neom" },
-      ],
   };
 }
 

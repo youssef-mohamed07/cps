@@ -8,6 +8,8 @@ type ContactSubmissionInput = {
   phone?: string;
   message: string;
   plainText: string;
+  requestType?: "quote" | "service-add-on";
+  referenceFiles?: File[];
 };
 
 export async function createContactSubmission(
@@ -15,6 +17,20 @@ export async function createContactSubmission(
 ): Promise<{ id: string } | null> {
   const client = getSanityWriteClient();
   if (!client) return null;
+
+  const referenceFiles = await Promise.all(
+    (input.referenceFiles ?? []).map(async (file, index) => {
+      const asset = await client.assets.upload("file", Buffer.from(await file.arrayBuffer()), {
+        filename: file.name,
+        contentType: file.type || "application/octet-stream",
+      });
+      return {
+        _key: `reference-${index}`,
+        _type: "file" as const,
+        asset: { _type: "reference" as const, _ref: asset._id },
+      };
+    }),
+  );
 
   const doc = await client.create({
     _type: "contactSubmission",
@@ -25,6 +41,8 @@ export async function createContactSubmission(
     email: input.email,
     phone: input.phone || undefined,
     message: input.message,
+    requestType: input.requestType,
+    referenceFiles,
     plainText: input.plainText,
   });
 

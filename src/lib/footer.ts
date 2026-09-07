@@ -13,8 +13,8 @@ type SanityFooter = {
   cta?: { label?: string; href?: string };
   servicesTitle?: string;
   showServices?: boolean;
-  boothTypesTitle?: string;
-  showBoothTypes?: boolean;
+  workTitle?: string;
+  showWork?: boolean;
   companyLinksTitle?: string;
   companyLinks?: { label?: string; href?: string }[];
   contactTitle?: string;
@@ -42,8 +42,6 @@ type SanityFooter = {
   rights?: string;
   bottomLinks?: { label?: string; href?: string }[];
   createdBy?: string;
-  locationsTitle?: string;
-  locations?: { label?: string; href?: string }[];
 };
 
 function mapLinks(links?: { label?: string; href?: string }[]): FooterLink[] {
@@ -121,20 +119,14 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
     qualityBadges: mapBadges(remote.qualityBadges).length
       ? mapBadges(remote.qualityBadges)
       : local.qualityBadges,
-    cta:
-      remote.cta?.label && remote.cta.href
-        ? { label: remote.cta.label, href: remote.cta.href }
-        : local.cta,
-    servicesTitle: remote.servicesTitle || local.servicesTitle,
-    showServices: remote.showServices ?? local.showServices,
-    boothTypesTitle: remote.boothTypesTitle || local.boothTypesTitle,
-    showBoothTypes: remote.showBoothTypes ?? local.showBoothTypes,
-    companyLinksTitle: remote.companyLinksTitle || local.companyLinksTitle,
-    companyLinks:
-      mapLinks(remote.companyLinks).length >= local.companyLinks.length
-        ? mapLinks(remote.companyLinks)
-        : local.companyLinks,
-    contactTitle: remote.contactTitle || local.contactTitle,
+    cta: local.cta,
+    servicesTitle: local.servicesTitle,
+    showServices: true,
+    workTitle: local.workTitle,
+    showWork: true,
+    companyLinksTitle: local.companyLinksTitle,
+    companyLinks: local.companyLinks,
+    contactTitle: local.contactTitle,
     officeAddress:
       remote.officeAddress ||
       local.officeAddress ||
@@ -168,9 +160,5 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
       ? mapLinks(remote.bottomLinks)
       : local.bottomLinks,
     createdBy: remote.createdBy || local.createdBy,
-    locationsTitle: remote.locationsTitle || local.locationsTitle,
-    locations: mapLinks(remote.locations).length
-      ? mapLinks(remote.locations)
-      : local.locations,
   };
 }

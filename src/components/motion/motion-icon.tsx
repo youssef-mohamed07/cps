@@ -164,6 +164,8 @@ export function MotionIcon({
     const src = lottieIcons[name];
     const cached = iconCache.get(src);
     if (cached) {
+      // Hydrate from the module cache after the selected icon changes.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIconData(cached);
       return;
     }

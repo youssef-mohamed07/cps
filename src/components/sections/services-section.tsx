@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { localizePath, type Locale } from "@/lib/i18n";
-import { locationServicePath } from "@/lib/locations";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 
@@ -35,7 +34,7 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
         >
           {content.items.map((item, index) => {
             const href = item.slug
-              ? localizePath(locationServicePath(item.slug), locale)
+              ? localizePath(`/services/${item.slug}`, locale)
               : localizePath("/services", locale);
             const isActive = active === index;
 

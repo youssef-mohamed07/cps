@@ -48,9 +48,9 @@ export function getSiteConfig(): SiteConfigShape {
   return {
     name: "CPS",
     legalName: "Creatives Professionals",
-    tagline: "Exhibition Booth Design & Production",
+    tagline: "Production Fabrication and Fit Out",
     description:
-      "CPS — full-lifecycle exhibition booth design, fabrication, installation, and storage across Saudi Arabia.",
+      "CPS delivers exhibitions, events, interiors, displays, printing and custom fabrication across Saudi Arabia.",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
     locale: "en_SA",
     email: "hello@cps.com",
@@ -77,19 +77,19 @@ export function getSiteConfig(): SiteConfigShape {
       "CPS",
       "Creatives Professionals",
       "المبدعون المحترفون",
-      "creative agency",
+      "production and fabrication",
     ],
     defaultSeoByLocale: [
       {
         locale: "en",
         title: "CPS — Creatives Professionals",
-        description:
-          "CPS — Creatives Professionals. Strategy, design, and production for brands that want to be seen.",
+          description:
+          "CPS produces exhibitions, events, interiors and displays under one roof in Saudi Arabia.",
       },
       {
         locale: "ar",
         title: "CPS — المبدعون المحترفون",
-        description: "CPS — المبدعون المحترفون. استراتيجية وتصميم وإنتاج لعلامات تريد أن تُرى.",
+        description: "تنتج CPS المعارض والفعاليات والمساحات الداخلية والعروض تحت سقف واحد في السعودية.",
       },
     ],
   };

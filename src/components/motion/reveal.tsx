@@ -31,6 +31,8 @@ export function Reveal({
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Mirror the browser preference into component state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduce(mq.matches);
     const onChange = () => setReduce(mq.matches);
     mq.addEventListener("change", onChange);
@@ -39,6 +41,8 @@ export function Reveal({
 
   useEffect(() => {
     if (reduce) {
+      // Reduced motion reveals content immediately.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true);
       return;
     }

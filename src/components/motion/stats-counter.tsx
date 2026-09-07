@@ -29,6 +29,8 @@ export function StatsCounter({
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Mirror the browser preference into component state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(mq.matches);
     const onChange = () => setReduceMotion(mq.matches);
     mq.addEventListener("change", onChange);
@@ -57,14 +59,14 @@ export function StatsCounter({
     if (!started) return;
 
     if (reduceMotion) {
+      // Reduced motion skips the animation and displays the final value.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplay(value);
       return;
     }
 
     let frame = 0;
-    let delayTimer: ReturnType<typeof setTimeout> | undefined;
-
-    delayTimer = setTimeout(() => {
+    const delayTimer = setTimeout(() => {
       setCounting(true);
       const start = performance.now();
 

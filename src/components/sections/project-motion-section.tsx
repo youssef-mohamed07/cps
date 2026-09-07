@@ -38,6 +38,8 @@ export function ProjectMotionSection({
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Mirror the browser preference into component state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(mq.matches);
     const onChange = () => setReduceMotion(mq.matches);
     mq.addEventListener("change", onChange);

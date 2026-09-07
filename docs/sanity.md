@@ -21,7 +21,7 @@ seeded documents with local defaults, run:
 SANITY_SEED_REPLACE=true npm run seed:sanity
 ```
 
-Stable IDs include `service-booth-design-en`, `homePage-ar`,
+Stable IDs include `service-exhibitions-booths-en`, `homePage-ar`,
 `navigation-en`, and `client-neom-en`.
 
 Seeded image fields use URL fallbacks so pages stay complete before assets are
@@ -50,7 +50,7 @@ CMS singleton `siteFooter` (`siteFooter-en` / `siteFooter-ar`):
 | Field | Purpose |
 | --- | --- |
 | Company column | Logo, description, certifications, badges, CTA |
-| Services / Booth types | Titles + toggles; links loaded from published collections |
+| Services / Work | Eight service-family links plus Projects and industry-filter entry points; location links are not part of the blueprint footer |
 | Company links | About, portfolio, news, legal, etc. |
 | Contact | Address, phone, email, WhatsApp, hours, maps, social |
 | Newsletter | Optional strip above footer |
@@ -83,10 +83,10 @@ Every collection document (`service`, `boothType`, `project`, …) and page sing
 
 | Type | Routes |
 | --- | --- |
-| `service` | `/services` hub; detail at `/locations/[city]/services/[slug]` |
-| `boothType` | `/booth-types` hub; detail at `/locations/[city]/booth-types/[slug]` — includes comparison flags |
+| `service` | Seeded from the eight-service architecture; detail at `/services/[slug]` |
+| `boothType` | Legacy collection retained for redirect compatibility |
 | `project` | `/work`, `/work/[slug]` |
-| `industry` | `/industries`, `/industries/[slug]` |
+| `industry` | Project metadata; standalone public routes redirect to `/work` |
 | `location` | `/locations`, `/locations/[slug]` |
 | `newsArticle` | `/news`, `/news/[slug]` |
 | `client` | Logo marquee (`loadClients`) |
@@ -148,7 +148,7 @@ Contact and brief form POSTs create Sanity documents:
 
 | Form | Document type | Studio |
 | --- | --- | --- |
-| `/api/contact` | `contactSubmission` | Inbox → Contact submissions |
+| `/api/contact` | `contactSubmission` | Inbox → Contact submissions; quote requests may include uploaded reference files and a quote/add-on request type |
 | `/api/brief` | `briefSubmission` | Inbox → Brief submissions |
 
 Requires `SANITY_API_WRITE_TOKEN` on the server (local `.env.local` and Vercel). Optional `CONTACT_WEBHOOK_URL` / `BRIEF_WEBHOOK_URL` still fire after a successful Sanity save.
@@ -161,7 +161,7 @@ Tags include: `siteSettings`, `dictionary`, `notFoundPage`, page singletons (`ho
 
 ## Draft preview
 
-- Enable: `GET /api/draft?secret=...&slug=/en/locations/riyadh/services/booth-design`
+- Enable: `GET /api/draft?secret=...&slug=/en/services/exhibitions-booths`
 - Disable: `GET /api/draft/disable?redirect=/en`
 - When draft mode is on, `sanityFetch` uses `perspective=previewDrafts` (needs read token)
 

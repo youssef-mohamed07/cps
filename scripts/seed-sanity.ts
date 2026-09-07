@@ -16,12 +16,12 @@ import {
   locations,
   newsArticles,
   redirects,
-  services,
 } from "../src/content/catalog";
 import { clientLogos } from "../src/content/clients";
 import { getDictionaryLocal } from "../src/content/dictionaries.local";
 import { getFooterLocal } from "../src/content/footer";
 import { getNavigationLocal } from "../src/content/navigation";
+import { localizeText, serviceArchitecture } from "../src/content/service-architecture";
 import { projects } from "../src/content/projects";
 import { getSiteConfig } from "../src/lib/site-config";
 import type { Locale } from "../src/lib/i18n";
@@ -179,87 +179,60 @@ async function seedClients() {
 async function seedServices() {
   console.log("\n→ services");
   for (const locale of locales) {
-    for (const service of services) {
-      const loc = service[locale];
+    for (const [serviceIndex, service] of serviceArchitecture.entries()) {
+      const title = localizeText(service.title, locale);
+      const excerpt = localizeText(service.excerpt, locale);
       await upsert({
         _id: id("service", service.slug, locale),
         _type: "service",
         language: locale,
         status: "published",
-        title: loc.title,
+        title,
         slug: slugValue(service.slug),
-        excerpt: loc.excerpt,
-        overview: loc.overview,
-        overviewTitle: loc.overviewTitle,
-        overviewBullets: (loc.overviewBullets ?? []).map((item, i) => ({
+        excerpt,
+        overview: localizeText(service.hero.support, locale),
+        overviewTitle: localizeText(service.hero.headline, locale),
+        overviewBullets: service.hero.bullets.map((item, i) => ({
           _key: `ob-${i}`,
-          title: item.title,
-          description: item.description,
+          title: localizeText(item, locale),
+          description: "",
         })),
-        heroLead: loc.heroLead,
-        secondaryCta: loc.secondaryCta,
+        heroLead: localizeText(service.hero.support, locale),
         heroUrl: service.image,
-        cover: loc.cover
-          ? {
-              eyebrow: loc.cover.eyebrow,
-              title: loc.cover.title,
-              support: loc.cover.support,
-              items: loc.cover.items.map((item, i) => ({
-                _key: `cover-${i}`,
-                title: item.title,
-                description: item.description,
-              })),
-            }
-          : undefined,
-        designs: loc.designs
-          ? {
-              eyebrow: loc.designs.eyebrow,
-              title: loc.designs.title,
-              support: loc.designs.support,
-              cta: loc.designs.cta,
-              items: loc.designs.items.map((item, i) => ({
-                _key: `design-${i}`,
-                title: item.title,
-                description: item.description,
-                imageUrl: item.image,
-                imageAlt: item.imageAlt,
-                serviceSlug: item.serviceSlug,
-              })),
-            }
-          : undefined,
-        why: loc.why
-          ? {
-              title: loc.why.title,
-              support: loc.why.support,
-              items: loc.why.items.map((item, i) => ({
-                _key: `why-${i}`,
-                title: item.title,
-                description: item.description,
-              })),
-            }
-          : undefined,
-        benefits: loc.benefits.map((item, i) => ({
+        designs: {
+          eyebrow: locale === "ar" ? "الكتالوج" : "Catalogue",
+          title: localizeText(service.showcase.title, locale),
+          support: localizeText(service.catalogue.support, locale),
+          cta: { label: localizeText(service.hero.catalogueCta, locale), href: `/services/${service.slug}/catalogue` },
+          items: service.showcase.items.map((item, i) => ({
+            _key: `design-${i}`,
+            title: localizeText(item.title, locale),
+            description: localizeText(item.description, locale),
+            imageUrl: service.image,
+            imageAlt: localizeText(item.title, locale),
+          })),
+        },
+        why: {
+          title: localizeText(service.why.headline, locale),
+          support: localizeText(service.why.support, locale),
+          items: service.why.items.map((item, i) => ({ _key: `why-${i}`, title: localizeText(item, locale), description: "" })),
+        },
+        benefits: service.benefits.map((item, i) => ({
           _key: `ben-${i}`,
-          title: item.title,
-          description: item.description,
+          title: localizeText(item, locale),
+          description: "",
         })),
-        process: loc.process.map((item, i) => ({
-          _key: `proc-${i}`,
-          title: item.title,
-          description: item.description,
-          imageUrl: item.image,
-          imageAlt: item.imageAlt,
-        })),
-        faq: loc.faq.map((item, i) => ({
+        process: [],
+        faq: service.faq.map((item, i) => ({
           _key: `faq-${i}`,
-          question: item.question,
-          answer: item.answer,
+          question: localizeText(item.question, locale),
+          answer: localizeText(item.answer, locale),
         })),
-        order: service.order,
+        order: serviceIndex + 1,
         seo: seoMeta(
-          `CPS — ${loc.title}`,
-          loc.excerpt || loc.heroLead || loc.overview,
-          [loc.title, "exhibition booth", "CPS"],
+          `CPS — ${title}`,
+          excerpt,
+          [title, "production", "CPS"],
         ),
       });
     }
@@ -417,12 +390,15 @@ async function seedProjects() {
         slug: slugValue(project.slug),
         year: project.year,
         summary: loc.summary,
+        scopeOfWork: loc.scopeOfWork,
         challenge: loc.challenge,
         solution: loc.approach,
         result: loc.outcome,
         technologies: project.technologies ?? [],
         event: project.event,
         size: project.size,
+        serviceSlug: project.serviceSlug,
+        industrySlug: project.industrySlug,
         featured: project.featured ?? false,
         motionVideo: project.motionVideo,
         heroUrl: project.image,
@@ -431,12 +407,6 @@ async function seedProjects() {
           imageUrl,
           alt: `${loc.title} gallery image ${i + 1}`,
         })),
-        industry: project.industrySlug
-          ? {
-              _type: "reference",
-              _ref: id("industry", project.industrySlug, locale),
-            }
-          : undefined,
         boothType: project.boothTypeSlug
           ? {
               _type: "reference",
@@ -562,8 +532,8 @@ async function seedFooter() {
       description: footer.description,
       servicesTitle: footer.servicesTitle,
       showServices: footer.showServices,
-      boothTypesTitle: footer.boothTypesTitle,
-      showBoothTypes: footer.showBoothTypes,
+      workTitle: footer.workTitle,
+      showWork: footer.showWork,
       companyLinksTitle: footer.companyLinksTitle,
       companyLinks: footer.companyLinks.map((link, i) => ({
         _key: `cl-${i}`,

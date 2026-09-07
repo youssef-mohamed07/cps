@@ -8,7 +8,11 @@ type ContactPayload = {
   message?: string;
   locale?: string;
   websiteAlt?: string;
+  requestType?: "quote" | "service-add-on";
 };
+
+const MAX_FILES = 5;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -16,11 +20,28 @@ function isValidEmail(value: string) {
 
 export async function POST(request: Request) {
   let payload: ContactPayload;
+  let referenceFiles: File[] = [];
 
   try {
-    payload = await request.json();
+    if (request.headers.get("content-type")?.includes("multipart/form-data")) {
+      const form = await request.formData();
+      payload = {
+        name: String(form.get("name") ?? ""),
+        email: String(form.get("email") ?? ""),
+        phone: String(form.get("phone") ?? ""),
+        message: String(form.get("message") ?? ""),
+        locale: String(form.get("locale") ?? "en"),
+        websiteAlt: String(form.get("websiteAlt") ?? ""),
+        requestType: form.get("requestType") === "service-add-on" ? "service-add-on" : "quote",
+      };
+      referenceFiles = form
+        .getAll("references")
+        .filter((value): value is File => value instanceof File && Boolean(value.name));
+    } else {
+      payload = await request.json();
+    }
   } catch {
-    return NextResponse.json({ ok: false, message: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Invalid request" }, { status: 400 });
   }
 
   if (payload.websiteAlt?.trim()) {
@@ -38,6 +59,8 @@ export async function POST(request: Request) {
   if (!email) errors.email = "required";
   else if (!isValidEmail(email)) errors.email = "email";
   if (!message) errors.message = "required";
+  if (referenceFiles.length > MAX_FILES) errors.references = "too_many_files";
+  if (referenceFiles.some((file) => file.size > MAX_FILE_SIZE)) errors.references = "file_too_large";
 
   if (Object.keys(errors).length) {
     return NextResponse.json({ ok: false, errors }, { status: 422 });
@@ -48,6 +71,8 @@ export async function POST(request: Request) {
     `Name: ${name}`,
     `Email: ${email}`,
     phone ? `Phone: ${phone}` : null,
+    payload.requestType ? `Request type: ${payload.requestType}` : null,
+    referenceFiles.length ? `Uploaded files: ${referenceFiles.map((file) => file.name).join(", ")}` : null,
     "",
     message,
   ]
@@ -62,6 +87,8 @@ export async function POST(request: Request) {
       phone,
       message,
       plainText,
+      requestType: payload.requestType,
+      referenceFiles,
     });
 
     if (!saved) {
@@ -89,7 +116,14 @@ export async function POST(request: Request) {
           source: "cps-contact-form",
           locale,
           submittedAt: new Date().toISOString(),
-          data: { name, email, phone, message },
+          data: {
+            name,
+            email,
+            phone,
+            message,
+            requestType: payload.requestType,
+            referenceFiles: referenceFiles.map((file) => ({ name: file.name, type: file.type, size: file.size })),
+          },
           plainText,
         }),
       });

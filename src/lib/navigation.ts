@@ -177,6 +177,9 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
 
   if (!remote) return local;
 
+  const remoteJson = JSON.stringify(remote.items ?? remote.primary ?? []);
+  if (!remoteJson.includes("/services/exhibitions-booths")) return local;
+
   const fromItems = (remote.items ?? [])
     .map((item) => mapItem(item as Parameters<typeof mapItem>[0]))
     .filter((item): item is NavPrimaryItem => Boolean(item));

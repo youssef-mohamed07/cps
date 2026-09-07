@@ -31,7 +31,24 @@ export const contactSubmission = defineType({
     defineField({ name: "name", type: "string", title: "Name" }),
     defineField({ name: "email", type: "string", title: "Email" }),
     defineField({ name: "phone", type: "string", title: "Phone" }),
+    defineField({
+      name: "requestType",
+      type: "string",
+      title: "Request type",
+      options: {
+        list: [
+          { title: "Quote", value: "quote" },
+          { title: "Installation / delivery add-on", value: "service-add-on" },
+        ],
+      },
+    }),
     defineField({ name: "message", type: "text", rows: 6, title: "Message" }),
+    defineField({
+      name: "referenceFiles",
+      type: "array",
+      title: "Reference files",
+      of: [{ type: "file" }],
+    }),
     defineField({ name: "plainText", type: "text", rows: 10, title: "Plain text" }),
   ],
   orderings: [

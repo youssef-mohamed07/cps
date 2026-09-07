@@ -146,6 +146,7 @@ export const PROJECTS_QUERY = `*[_type == "project" && language == $locale && st
   "slug": slug.current,
   year,
   summary,
+  scopeOfWork,
   challenge,
   solution,
   result,
@@ -157,7 +158,8 @@ export const PROJECTS_QUERY = `*[_type == "project" && language == $locale && st
   heroUrl,
   gallery[]{ image${imageProjection}, imageUrl, alt, caption },
   "motionVideo": coalesce(motionVideoFile.asset->url, motionVideo),
-  "industrySlug": industry->slug.current,
+  "industrySlug": coalesce(industrySlug, industry->slug.current),
+  serviceSlug,
   "boothTypeSlug": boothType->slug.current,
   "locationSlug": location->slug.current,
   "clientName": client->name,
@@ -169,6 +171,7 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && language == $local
   "slug": slug.current,
   year,
   summary,
+  scopeOfWork,
   challenge,
   solution,
   result,
@@ -180,7 +183,8 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && language == $local
   heroUrl,
   gallery[]{ image${imageProjection}, imageUrl, alt, caption },
   "motionVideo": coalesce(motionVideoFile.asset->url, motionVideo),
-  "industrySlug": industry->slug.current,
+  "industrySlug": coalesce(industrySlug, industry->slug.current),
+  serviceSlug,
   "boothTypeSlug": boothType->slug.current,
   "locationSlug": location->slug.current,
   "clientName": client->name,
@@ -333,8 +337,8 @@ export const FOOTER_QUERY = `*[_type == "siteFooter" && language == $locale][0] 
   cta{ label, href },
   servicesTitle,
   showServices,
-  boothTypesTitle,
-  showBoothTypes,
+  workTitle,
+  showWork,
   companyLinksTitle,
   companyLinks[]{ label, href },
   contactTitle,
@@ -361,9 +365,7 @@ export const FOOTER_QUERY = `*[_type == "siteFooter" && language == $locale][0] 
   },
   rights,
   bottomLinks[]{ label, href },
-  createdBy,
-  locationsTitle,
-  locations[]{ label, href }
+  createdBy
 }`;
 
 export type ContentLocale = Locale;

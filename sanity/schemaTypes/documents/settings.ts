@@ -28,7 +28,13 @@ export const siteSettings = defineType({
     defineField({ name: "addressCity", type: "string", title: "Address city" }),
     defineField({ name: "addressCountry", type: "string", title: "Address country code" }),
     defineField({ name: "addressCountryName", type: "string", title: "Address country name" }),
-    defineField({ name: "googleMapsUrl", type: "url", title: "Google Maps URL" }),
+    defineField({
+      name: "googleMapsUrl",
+      type: "url",
+      title: "Google Maps URL",
+      description:
+        "For the contact map iframe, paste a Share → Embed map URL (/maps/embed?pb=…). A normal Maps link is used for “Open in Google Maps”.",
+    }),
     defineField({
       name: "socialLinks",
       type: "array",

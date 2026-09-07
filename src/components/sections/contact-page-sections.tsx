@@ -43,22 +43,25 @@ type ContactPageSectionsProps = {
 };
 
 function mapsOpenUrl(config: SiteConfigShape) {
-  if (config.googleMapsUrl) return config.googleMapsUrl;
+  const configured = config.googleMapsUrl?.trim();
+  // Prefer a normal Maps link for “Open in Google Maps”, not an iframe embed URL.
+  if (configured && !configured.includes("/maps/embed")) return configured;
   const query = encodeURIComponent(
     `${config.name}, ${config.address.city}, ${config.address.countryName}`,
   );
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
+/**
+ * Google blocks regular `/maps?q=…&output=embed` URLs in iframes
+ * (“refused to connect”). Only `/maps/embed` (Share → Embed map) is frame-safe.
+ */
 function mapsEmbedUrl(config: SiteConfigShape) {
-  if (config.googleMapsUrl?.includes("output=embed")) {
-    return config.googleMapsUrl;
-  }
+  const configured = config.googleMapsUrl?.trim();
+  if (configured?.includes("/maps/embed")) return configured;
 
-  const query = encodeURIComponent(
-    `${config.name}, ${config.address.city}, ${config.address.countryName}`,
-  );
-  return `https://www.google.com/maps?q=${query}&hl=en&z=13&output=embed`;
+  // Default HQ pin — Riyadh (replace in Site Settings with a Share → Embed URL).
+  return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d463877.3058960534!2d46.41503094999999!3d24.725455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d489399%3A0xba974d1c98e2fd08!2sRiyadh!5e0!3m2!1sen!2ssa!4v1710000000000!5m2!1sen!2ssa";
 }
 
 export function ContactPageSections({

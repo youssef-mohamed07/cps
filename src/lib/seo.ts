@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getSiteConfig } from "@/lib/site-config";
-import { getDefaultOgImage, getSiteFavicon, getSiteLogo } from "@/lib/site-assets";
+import { getDefaultOgImage, getSiteLogo } from "@/lib/site-assets";
 import { defaultLocale, localizePath, type Locale } from "@/lib/i18n";
 import { resolveImageSrc } from "@/lib/placeholders";
 

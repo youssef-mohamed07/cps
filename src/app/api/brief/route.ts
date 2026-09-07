@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   }
 
   const { locale = "en", websiteAlt: _honeypot, ...data } = payload;
+  void _honeypot;
   const errors = validateBriefForm(data as BriefFormData);
 
   if (Object.keys(errors).length > 0) {

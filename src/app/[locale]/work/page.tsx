@@ -10,10 +10,8 @@ import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
+import { localizeText, projectIndustryOptions, serviceArchitecture } from "@/content/service-architecture";
 import {
-  loadBoothTypes,
-  loadIndustries,
-  loadLocations,
   loadProjects,
 } from "@/sanity/load-collections";
 import { loadHubPage } from "@/sanity/load-pages";
@@ -48,36 +46,18 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
 
   const locale: Locale = localeParam;
   const filters = await searchParams;
-  const boothType = first(filters.boothType);
+  const service = first(filters.service);
   const industry = first(filters.industry);
-  const country = first(filters.country);
-  const event = first(filters.event);
-  const size = first(filters.size);
 
   const dictionary = await resolveDictionary(locale);
   const page = dictionary.workPage;
-  const [projects, boothTypes, industries, locations] = await Promise.all([
-    loadProjects(locale),
-    loadBoothTypes(locale),
-    loadIndustries(locale),
-    loadLocations(locale),
-  ]);
+  const projects = await loadProjects(locale);
 
   const filtered = projects.filter((project) => {
-    if (boothType && project.boothTypeSlug !== boothType) return false;
+    if (service && project.serviceSlug !== service) return false;
     if (industry && project.industrySlug !== industry) return false;
-    if (country && project.locationSlug !== country) return false;
-    if (event && project.event !== event) return false;
-    if (size && project.size !== size) return false;
     return true;
   });
-
-  const events = Array.from(
-    new Set(projects.map((project) => project.event).filter(Boolean) as string[]),
-  );
-  const sizes = Array.from(
-    new Set(projects.map((project) => project.size).filter(Boolean) as string[]),
-  );
 
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const basePath = localizePath("/work", locale);
@@ -106,29 +86,20 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
       <WorkFilters
         locale={locale}
         basePath={basePath}
-        values={{ boothType, industry, country, event, size }}
+        values={{ service, industry }}
         options={{
-          boothType: boothTypes.map((item) => ({
+          service: serviceArchitecture.map((item) => ({
             value: item.slug,
-            label: item.title,
+            label: localizeText(item.title, locale),
           })),
-          industry: industries.map((item) => ({
+          industry: projectIndustryOptions.map((item) => ({
             value: item.slug,
-            label: item.title,
+            label: localizeText(item.title, locale),
           })),
-          country: locations.map((item) => ({
-            value: item.slug,
-            label: item.title,
-          })),
-          event: events.map((item) => ({ value: item, label: item })),
-          size: sizes.map((item) => ({ value: item, label: item })),
         }}
         labels={{
-          boothType: locale === "ar" ? "نوع الجناح" : "Booth type",
+          service: locale === "ar" ? "الخدمة" : "Service",
           industry: locale === "ar" ? "القطاع" : "Industry",
-          country: locale === "ar" ? "المدينة" : "City",
-          event: locale === "ar" ? "الحدث" : "Event",
-          size: locale === "ar" ? "المساحة" : "Size",
           all: locale === "ar" ? "الكل" : "All",
           clear: locale === "ar" ? "مسح الكل" : "Clear all",
           filters: locale === "ar" ? "تصفية" : "Filter",

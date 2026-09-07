@@ -4,8 +4,7 @@ import { GeometricPointer } from "@/components/motion/geometric-pointer";
 import type { Locale } from "@/lib/i18n";
 import { resolveFooter } from "@/lib/footer";
 import { resolveNavigation } from "@/lib/navigation";
-import { locationBoothTypePath, locationServicePath } from "@/lib/locations";
-import { loadBoothTypes, loadServices } from "@/sanity/load-collections";
+import { localizeText, serviceArchitecture, servicePath } from "@/content/service-architecture";
 
 type SiteChromeProps = {
   locale: Locale;
@@ -13,11 +12,9 @@ type SiteChromeProps = {
 };
 
 export async function SiteChrome({ locale, children }: SiteChromeProps) {
-  const [navigation, footer, services, boothTypes] = await Promise.all([
+  const [navigation, footer] = await Promise.all([
     resolveNavigation(locale),
     resolveFooter(locale),
-    loadServices(locale),
-    loadBoothTypes(locale),
   ]);
 
   return (
@@ -28,14 +25,14 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
       <SiteFooter
         locale={locale}
         footer={footer}
-        serviceLinks={services.map((item) => ({
-          label: item.title,
-          href: locationServicePath(item.slug),
+        serviceLinks={serviceArchitecture.map((item) => ({
+          label: localizeText(item.title, locale),
+          href: servicePath(item.slug),
         }))}
-        boothTypeLinks={boothTypes.map((item) => ({
-          label: item.title,
-          href: locationBoothTypePath(item.slug),
-        }))}
+        workLinks={[
+          { label: locale === "ar" ? "المشاريع" : "Projects / Our Work", href: "/work" },
+          { label: locale === "ar" ? "دراسات الحالة حسب القطاع" : "Case Studies by Industry", href: "/work#work-filters" },
+        ]}
       />
     </div>
   );

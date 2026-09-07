@@ -8,12 +8,12 @@ import {
   type ProjectDetailItem,
 } from "@/components/sections/project-detail-sections";
 import { formatBoothTypeTitle } from "@/content/catalog";
+import { getServiceArchitecture, localizeText, projectIndustryOptions } from "@/content/service-architecture";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import {
   loadBoothTypes,
-  loadIndustries,
   loadLocations,
   loadProject,
   loadProjects,
@@ -30,6 +30,8 @@ function toDetailItem(
     industry?: string;
     boothType?: string;
     location?: string;
+    service?: string;
+    client?: string;
   } = {},
 ): ProjectDetailItem | null {
   if (!project) return null;
@@ -37,6 +39,9 @@ function toDetailItem(
     slug: project.slug,
     title: project.title,
     summary: project.summary,
+    scopeOfWork:
+      project.scopeOfWork ||
+      [labels.service, labels.boothType].filter(Boolean).join(" · "),
     category: project.category ?? "",
     year: project.year,
     challenge: project.challenge,
@@ -52,6 +57,8 @@ function toDetailItem(
     industryLabel: labels.industry,
     boothTypeLabel: labels.boothType,
     locationLabel: labels.location,
+    serviceLabel: labels.service,
+    clientName: labels.client || project.clientName || project.title,
   };
 }
 
@@ -86,13 +93,12 @@ export default async function ProjectPage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const [project, dictionary, allProjects, boothTypes, industries, locations] =
+  const [project, dictionary, allProjects, boothTypes, locations] =
     await Promise.all([
       loadProject(locale, slug),
       resolveDictionary(locale),
       loadProjects(locale),
       loadBoothTypes(locale),
-      loadIndustries(locale),
       loadLocations(locale),
     ]);
 
@@ -102,11 +108,20 @@ export default async function ProjectPage({ params }: PageProps) {
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
   const detail = toDetailItem(project, {
-    industry: industries.find((item) => item.slug === project.industrySlug)?.title,
+    client: project.clientName || project.title,
+    industry: projectIndustryOptions.find((item) => item.slug === project.industrySlug)
+      ? localizeText(projectIndustryOptions.find((item) => item.slug === project.industrySlug)!.title, locale)
+      : project.category,
     boothType: formatBoothTypeTitle(
       boothTypes.find((item) => item.slug === project.boothTypeSlug)?.title ?? "",
     ),
     location: locations.find((item) => item.slug === project.locationSlug)?.title,
+    service: project.serviceSlug
+      ? (() => {
+          const service = getServiceArchitecture(project.serviceSlug!);
+          return service ? localizeText(service.title, locale) : project.serviceSlug;
+        })()
+      : undefined,
   })!;
 
   const relatedProjects = allProjects
@@ -114,11 +129,20 @@ export default async function ProjectPage({ params }: PageProps) {
     .slice(0, 3)
     .map((entry) =>
       toDetailItem(entry, {
-        industry: industries.find((item) => item.slug === entry.industrySlug)?.title,
+        client: entry.clientName || entry.title,
+        industry: projectIndustryOptions.find((item) => item.slug === entry.industrySlug)
+          ? localizeText(projectIndustryOptions.find((item) => item.slug === entry.industrySlug)!.title, locale)
+          : entry.category,
         boothType: formatBoothTypeTitle(
           boothTypes.find((item) => item.slug === entry.boothTypeSlug)?.title ?? "",
         ),
         location: locations.find((item) => item.slug === entry.locationSlug)?.title,
+        service: entry.serviceSlug
+          ? (() => {
+              const service = getServiceArchitecture(entry.serviceSlug!);
+              return service ? localizeText(service.title, locale) : entry.serviceSlug;
+            })()
+          : undefined,
       }),
     )
     .filter((item): item is ProjectDetailItem => Boolean(item));
@@ -146,6 +170,7 @@ export default async function ProjectPage({ params }: PageProps) {
       />
 
       <PageHero
+        className="page-hero--project"
         eyebrow={project.category}
         title={project.title}
         lead={project.summary}
@@ -161,7 +186,10 @@ export default async function ProjectPage({ params }: PageProps) {
       <ProjectDetailSections
         locale={locale}
         project={detail}
-        labels={labels}
+        labels={{
+          ...labels,
+          approach: locale === "ar" ? "حل CPS" : "CPS Solution",
+        }}
         relatedProjects={relatedProjects}
       />
     </>

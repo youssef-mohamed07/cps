@@ -12,7 +12,7 @@ type SiteFooterProps = {
   locale: Locale;
   footer: FooterConfig;
   serviceLinks: FooterColumnLink[];
-  boothTypeLinks: FooterColumnLink[];
+  workLinks: FooterColumnLink[];
 }
 
 function socialLabel(link: FooterSocial) {
@@ -62,12 +62,11 @@ export function SiteFooter({
   locale,
   footer,
   serviceLinks,
-  boothTypeLinks,
+  workLinks,
 }: SiteFooterProps) {
   const config = getSiteConfig();
   const year = new Date().getFullYear();
   const whatsappHref = getWhatsAppUrl();
-  const viewAllLabel = locale === "ar" ? "عرض الكل" : "View all";
 
   return (
     <footer className="site-footer">
@@ -123,20 +122,14 @@ export function SiteFooter({
               locale={locale}
               title={footer.servicesTitle}
               links={serviceLinks}
-              maxLinks={4}
-              viewAllHref="/services"
-              viewAllLabel={viewAllLabel}
             />
           ) : null}
 
-          {footer.showBoothTypes && boothTypeLinks.length ? (
+          {footer.showWork && workLinks.length ? (
             <FooterNavColumn
               locale={locale}
-              title={footer.boothTypesTitle}
-              links={boothTypeLinks}
-              maxLinks={4}
-              viewAllHref="/booth-types"
-              viewAllLabel={viewAllLabel}
+              title={footer.workTitle}
+              links={workLinks}
             />
           ) : null}
 
@@ -163,25 +156,6 @@ export function SiteFooter({
           </section>
         </div>
 
-        {footer.locations.length ? (
-          <nav className="footer-locations" aria-label={footer.locationsTitle}>
-            <p className="footer-locations-label">{footer.locationsTitle}</p>
-            <ul className="footer-locations-list">
-              {footer.locations.map((link, index) => (
-                <li key={link.href}>
-                  {index > 0 ? (
-                    <span className="footer-locations-sep" aria-hidden="true">
-                      ·
-                    </span>
-                  ) : null}
-                  <Link href={localizePath(link.href, locale)} className="footer-location-link">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ) : null}
       </div>
 
       <div className="footer-bottom">

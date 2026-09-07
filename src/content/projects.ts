@@ -8,6 +8,7 @@ export type Project = {
   gallery: string[];
   motionVideo?: string;
   industrySlug?: string;
+  serviceSlug?: string;
   boothTypeSlug?: string;
   locationSlug?: string;
   event?: string;
@@ -18,6 +19,7 @@ export type Project = {
     title: string;
     category: string;
     summary: string;
+    scopeOfWork: string;
     challenge: string;
     approach: string;
     outcome: string;
@@ -26,6 +28,7 @@ export type Project = {
     title: string;
     category: string;
     summary: string;
+    scopeOfWork: string;
     challenge: string;
     approach: string;
     outcome: string;
@@ -36,7 +39,8 @@ export const projects: Project[] = [
   {
     slug: "northline",
     year: "2025",
-    industrySlug: "technology",
+    industrySlug: "technology-electronics",
+    serviceSlug: "exhibitions-booths",
     boothTypeSlug: "custom",
     locationSlug: "riyadh",
     event: "LEAP",
@@ -50,6 +54,7 @@ export const projects: Project[] = [
       title: "Northline",
       category: "Technology",
       summary: "A flagship custom booth for a mobility platform expanding across the Gulf.",
+      scopeOfWork: "Booth design, fabrication, environmental graphics, integrated AV and on-site installation.",
       challenge:
         "Northline needed a show-floor presence that felt technical and human — clear for demos, bold enough to stop traffic.",
       approach:
@@ -61,6 +66,7 @@ export const projects: Project[] = [
       title: "نورثلاين",
       category: "تقنية",
       summary: "جناح مخصص رئيسي لمنصة تنقّل تتوسع في الخليج.",
+      scopeOfWork: "تصميم الجناح وتصنيعه ورسومات الهوية ودمج الشاشات والتركيب في الموقع.",
       challenge:
         "احتاجت نورثلاين حضوراً على أرض المعرض يجمع التقنية والإنسانية — واضحاً للعروض وجريئاً لجذب الزوار.",
       approach:
@@ -71,7 +77,8 @@ export const projects: Project[] = [
   {
     slug: "aether-labs",
     year: "2025",
-    industrySlug: "healthcare",
+    industrySlug: "healthcare-pharmaceutical",
+    serviceSlug: "exhibitions-booths",
     boothTypeSlug: "modular",
     locationSlug: "jeddah",
     event: "Arab Health",
@@ -85,6 +92,7 @@ export const projects: Project[] = [
       title: "Aether Labs",
       category: "Healthcare",
       summary: "A calm modular booth for clinical demos and private conversations.",
+      scopeOfWork: "Modular build, demo stations, hospitality area, brand graphics and installation.",
       challenge:
         "Complex offerings were hard to present. The booth needed trust, clarity, and quiet meeting space.",
       approach:
@@ -96,6 +104,7 @@ export const projects: Project[] = [
       title: "أثير لابز",
       category: "رعاية صحية",
       summary: "جناح معياري هادئ للعروض السريرية والمحادثات الخاصة.",
+      scopeOfWork: "بناء معياري ومحطات عرض ومنطقة ضيافة ورسومات الهوية والتركيب.",
       challenge:
         "العروض المعقدة كانت صعبة التقديم. الجناح احتاج ثقة ووضوحاً ومساحة اجتماعات هادئة.",
       approach:
@@ -107,6 +116,7 @@ export const projects: Project[] = [
     slug: "qamar",
     year: "2024",
     industrySlug: "fmcg",
+    serviceSlug: "retail-displays",
     boothTypeSlug: "kiosks",
     locationSlug: "dammam",
     event: "Hospitality Qatar",
@@ -119,6 +129,7 @@ export const projects: Project[] = [
       title: "Qamar",
       category: "FMCG",
       summary: "A high-energy kiosk program for sampling and brand immersion.",
+      scopeOfWork: "Kiosk fabrication, sampling counter, large-format graphics and rapid installation.",
       challenge:
         "The brand needed attraction and throughput in a dense hospitality hall.",
       approach:
@@ -130,6 +141,7 @@ export const projects: Project[] = [
       title: "قمر",
       category: "سلع استهلاكية",
       summary: "برنامج أكشاك عالي الطاقة للعينات والانغماس في العلامة.",
+      scopeOfWork: "تصنيع الكشك وكاونتر العينات والرسومات كبيرة الحجم والتركيب السريع.",
       challenge: "العلامة احتاجت جذباً وإنتاجية في قاعة ضيافة كثيفة.",
       approach:
         "عمارة كشك مدمجة ورسومات كبيرة الحجم وكاونتر عينات مصمم للتدفق.",
@@ -140,6 +152,7 @@ export const projects: Project[] = [
     slug: "harbor-co",
     year: "2024",
     industrySlug: "energy",
+    serviceSlug: "exhibitions-booths",
     boothTypeSlug: "double-deck",
     locationSlug: "riyadh",
     event: "Saudi Energy",
@@ -152,6 +165,7 @@ export const projects: Project[] = [
       title: "Harbor & Co.",
       category: "Energy",
       summary: "A double-deck pavilion for technical storytelling and VIP hospitality.",
+      scopeOfWork: "Double-deck structure, meeting suites, demo zones, environmental branding and delivery.",
       challenge:
         "A large footprint needed architectural confidence without losing clarity.",
       approach:
@@ -163,6 +177,7 @@ export const projects: Project[] = [
       title: "هاربر آند كو",
       category: "طاقة",
       summary: "جناح بطابقين للسرد التقني وضيافة VIP.",
+      scopeOfWork: "هيكل بطابقين وأجنحة اجتماعات ومناطق عرض وهوية بيئية وتسليم المشروع.",
       challenge: "مساحة كبيرة احتاجت ثقة معمارية دون فقدان الوضوح.",
       approach:
         "هيكل بمستويين مع أجنحة اجتماعات علوية وعروض في الطابق الأرضي وعلامة بيئية جريئة.",
@@ -173,6 +188,7 @@ export const projects: Project[] = [
     slug: "pulse-retail",
     year: "2024",
     industrySlug: "fmcg",
+    serviceSlug: "retail-displays",
     boothTypeSlug: "portable",
     locationSlug: "khobar",
     event: "Cairo Retail Week",
@@ -185,6 +201,7 @@ export const projects: Project[] = [
       title: "Pulse Retail",
       category: "Retail",
       summary: "A portable lightbox-led display system for fast retail activations.",
+      scopeOfWork: "Portable display system, illuminated graphics, transport kit and repeat installation.",
       challenge:
         "Weekly activations needed consistency without a full custom rebuild each time.",
       approach:
@@ -196,6 +213,7 @@ export const projects: Project[] = [
       title: "بولس ريتيل",
       category: "تجزئة",
       summary: "نظام عرض محمول بقيادة lightbox لتفعيلات تجزئة سريعة.",
+      scopeOfWork: "نظام عرض محمول ورسومات مضاءة وحقيبة نقل وتركيب متكرر.",
       challenge:
         "التفعيلات الأسبوعية احتاجت اتساقاً دون إعادة بناء مخصص في كل مرة.",
       approach:

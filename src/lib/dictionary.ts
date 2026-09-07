@@ -38,6 +38,17 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     ]);
 
   const sectionSource = { ...remote, ...homeOverlay, ...hubOverlay };
+  const cmsServices = sectionSource.services?.items;
+  const hasBlueprintServices =
+    Array.isArray(cmsServices) &&
+    cmsServices.length === 8 &&
+    cmsServices.some((item) => item.slug === "exhibitions-booths") &&
+    cmsServices.some((item) => item.slug === "installation-project-delivery");
+  const resolvedAboutPage =
+    aboutPage.lead?.toLowerCase().includes("exhibition booth") ||
+    aboutPage.lead?.includes("أجنحة المعارض")
+      ? local.aboutPage
+      : aboutPage;
 
   return {
     ...local,
@@ -56,24 +67,28 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     },
     hero: {
       ...local.hero,
-      ...remote.hero,
-      ...homeOverlay.hero,
+      ...(hasBlueprintServices ? remote.hero : undefined),
+      ...(hasBlueprintServices ? homeOverlay.hero : undefined),
     },
     lifecycle: mergeSection(
       local.lifecycle,
-      sectionSource.lifecycle,
+      hasBlueprintServices ? sectionSource.lifecycle : undefined,
       "items",
     ),
     stats: mergeSection(local.stats, sectionSource.stats, "items"),
     clients: mergeSection(local.clients, sectionSource.clients, "items"),
     about: { ...local.about, ...sectionSource.about },
     aboutPage: {
-      ...aboutPage,
-      industriesItems: remote.aboutPage?.industriesItems?.length
+      ...resolvedAboutPage,
+      industriesItems: resolvedAboutPage === aboutPage && remote.aboutPage?.industriesItems?.length
         ? remote.aboutPage.industriesItems
-        : aboutPage.industriesItems,
+        : resolvedAboutPage.industriesItems,
     },
-    services: mergeSection(local.services, sectionSource.services, "items"),
+    services: mergeSection(
+      local.services,
+      hasBlueprintServices ? sectionSource.services : undefined,
+      "items",
+    ),
     boothTypes: mergeSection(
       local.boothTypes,
       sectionSource.boothTypes,
@@ -86,14 +101,14 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     },
     whyCps: {
       ...local.whyCps,
-      ...sectionSource.whyCps,
+      ...(hasBlueprintServices ? sectionSource.whyCps : undefined),
       primary: {
         ...local.whyCps.primary,
-        ...sectionSource.whyCps?.primary,
+        ...(hasBlueprintServices ? sectionSource.whyCps?.primary : undefined),
       },
       secondary: {
         ...local.whyCps.secondary,
-        ...sectionSource.whyCps?.secondary,
+        ...(hasBlueprintServices ? sectionSource.whyCps?.secondary : undefined),
       },
       images: {
         ...local.whyCps.images,
@@ -131,6 +146,13 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     work: {
       ...local.work,
       ...sectionSource.work,
+      ...(hasBlueprintServices
+        ? {
+            eyebrow: local.work.eyebrow,
+            title: local.work.title,
+            support: local.work.support,
+          }
+        : undefined),
       items: sectionSource.work?.items?.length
         ? sectionSource.work.items
         : local.work.items,
@@ -140,6 +162,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ...local.workPage,
       ...remote.workPage,
       ...hubOverlay.workPage,
+      ...(hasBlueprintServices ? local.workPage : undefined),
     },
     industriesPage: {
       ...local.industriesPage,

@@ -9,18 +9,19 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | Path | What it is | Notes |
 | --- | --- | --- |
 | `/` | Redirect / locale entry | Handled via locale routing |
-| `/[locale]` | Homepage | Hero + lifecycle + services + booth types + FAQ |
+| `/[locale]` | Homepage | Positioning + eight services + production capabilities + featured work + Why CPS + CTA |
 | `/[locale]/about` | About page | Single page with anchors (`#overview` `#mission` `#why-us` `#process` `#team` `#certifications` `#clients` `#faq`) |
-| `/[locale]/services` | Services hub | Cards link to `/locations/riyadh/services/...` |
-| `/[locale]/booth-types` | Booth types hub | Cards link to `/locations/riyadh/booth-types/...` |
-| `/[locale]/work` | Work index | Filters: booth type, industry, city, event, size |
-| `/[locale]/work/[slug]` | Project detail | CMS + `projects.ts` fallback |
-| `/[locale]/industries` | Industries hub | SEO hubs |
-| `/[locale]/industries/[slug]` | Industry detail | |
-| `/[locale]/locations` | Cities hub | 7 Saudi cities (footer) |
+| `/[locale]/services` | Services hub | Eight service families |
+| `/[locale]/services/[serviceSlug]` | Long-form service page | Hero, trusted brands, showcase, why, process, benefits, industries, related services, projects, FAQ, quote form, CTA |
+| `/[locale]/services/[serviceSlug]/catalogue` | Service catalogue | Full item grid; category tabs where needed; search for Printing & Signage |
+| `/[locale]/production-capabilities` | Production page | Manufacturing disciplines separate from customer-facing services |
+| `/[locale]/work` | Work index | Independent service and industry filters |
+| `/[locale]/work/[slug]` | Project detail | Client / sector, project type, location, scope of work, services, challenge, CPS solution, production elements and gallery; CMS + `projects.ts` fallback |
+| `/[locale]/industries` | Legacy redirect | Redirects to filtered Projects / Work |
+| `/[locale]/locations` | Legacy cities hub | Retained for existing URLs; not linked from the footer |
 | `/[locale]/locations/[slug]` | City detail | Parent for services + booth types |
-| `/[locale]/locations/[slug]/services/[serviceSlug]` | Service detail | Only service detail URL (7×7) |
-| `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Booth type detail | Only booth-type detail URL (7×8) |
+| `/[locale]/locations/[slug]/services/[serviceSlug]` | Legacy service URL | Redirected to the matching top-level service |
+| `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Legacy booth URL | Redirected to Exhibitions & Booths catalogue |
 | `/[locale]/news` | Insights index | |
 | `/[locale]/news/[slug]` | Article | |
 | `/[locale]/contact` | Contact page | Email / WhatsApp helpers |
@@ -49,7 +50,8 @@ src/
     media/             # BleedImage
   content/
     dictionaries.local.ts  # EN/AR UI chrome
-    catalog.ts             # services, booth types, industries, locations, news seed
+    service-architecture.ts # eight services + every catalogue item, EN/AR
+    catalog.ts             # legacy services/booth types plus locations and news seed
     programmatic-seo.ts    # location × service / booth type page builders
     projects.ts            # portfolio seed + filter metadata
   lib/
@@ -73,7 +75,7 @@ Sanity collections + singletons (optional) ─────────┘
 ## Layout chrome
 
 - `SiteChrome` resolves `navigation` + `siteFooter` and renders mega-menu `SiteHeader` + premium `SiteFooter`
-- Footer services/booth-type columns come from published collections
+- Footer services come from the eight-service architecture; the former secondary collection slot now renders the Work links required by the blueprint
 - Local seeds: `src/content/navigation.ts`, `src/content/footer.ts`
 
 ## SEO

@@ -10,6 +10,7 @@ export type ProjectDetailItem = {
   slug: string;
   title: string;
   summary: string;
+  scopeOfWork: string;
   category: string;
   year: string;
   challenge: string;
@@ -25,6 +26,8 @@ export type ProjectDetailItem = {
   industryLabel?: string;
   boothTypeLabel?: string;
   locationLabel?: string;
+  serviceLabel?: string;
+  clientName?: string;
 };
 
 type ProjectPageLabels = {
@@ -61,7 +64,7 @@ export function ProjectDetailSections({
   const isArabic = locale === "ar";
 
   const facts = [
-    { label: isArabic ? "السنة" : "Year", value: project.year },
+    { label: isArabic ? "العميل / القطاع" : "Client / Sector", value: [project.clientName, project.industryLabel || project.category].filter(Boolean).join(" / ") },
     project.event
       ? { label: isArabic ? "الحدث" : "Event", value: project.event }
       : null,
@@ -70,21 +73,21 @@ export function ProjectDetailSections({
       : null,
     project.boothTypeLabel
       ? {
-          label: isArabic ? "نوع الجناح" : "Booth type",
+          label: isArabic ? "نوع المشروع" : "Project Type",
           value: project.boothTypeLabel,
         }
       : null,
-    project.industryLabel
-      ? {
-          label: isArabic ? "القطاع" : "Industry",
-          value: project.industryLabel,
-        }
+    project.serviceLabel
+      ? { label: isArabic ? "الخدمات المقدمة" : "Services Provided", value: project.serviceLabel }
       : null,
     project.locationLabel
       ? {
           label: isArabic ? "الموقع" : "Location",
           value: project.locationLabel,
         }
+      : null,
+    project.scopeOfWork
+      ? { label: isArabic ? "نطاق العمل" : "Scope of Work", value: project.scopeOfWork }
       : null,
   ].filter(Boolean) as { label: string; value: string }[];
 
@@ -118,7 +121,7 @@ export function ProjectDetailSections({
               <Reveal delay={0.06}>
                 <div className="project-detail-tech-inline">
                   <p className="project-detail-tech-label">
-                    {isArabic ? "التنفيذ" : "Build"}
+                    {isArabic ? "عناصر الإنتاج الرئيسية" : "Key Production Elements"}
                   </p>
                   <ul className="project-detail-tech-list">
                     {project.technologies.map((item) => (

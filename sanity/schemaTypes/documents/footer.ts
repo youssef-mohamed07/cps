@@ -69,11 +69,11 @@ export const siteFooter = defineType({
       title: "Show published services",
       initialValue: true,
     }),
-    defineField({ name: "boothTypesTitle", type: "string", title: "Booth types column title" }),
+    defineField({ name: "workTitle", type: "string", title: "Work column title" }),
     defineField({
-      name: "showBoothTypes",
+      name: "showWork",
       type: "boolean",
-      title: "Show published booth types",
+      title: "Show work links",
       initialValue: true,
     }),
     defineField({ name: "companyLinksTitle", type: "string", title: "Company links title" }),
@@ -138,13 +138,6 @@ export const siteFooter = defineType({
       title: "Bottom legal links",
     }),
     defineField({ name: "createdBy", type: "string", title: "Created by (optional)" }),
-    defineField({ name: "locationsTitle", type: "string", title: "Locations title" }),
-    defineField({
-      name: "locations",
-      type: "array",
-      of: [{ type: "navLink" }],
-      title: "Location links",
-    }),
   ],
   preview: {
     select: { language: "language" },

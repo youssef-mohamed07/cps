@@ -77,6 +77,7 @@ export type CmsProject = {
   title: string;
   year: string;
   summary: string;
+  scopeOfWork: string;
   challenge: string;
   solution: string;
   result: string;
@@ -88,6 +89,7 @@ export type CmsProject = {
   event?: string;
   size?: string;
   industrySlug?: string;
+  serviceSlug?: string;
   boothTypeSlug?: string;
   locationSlug?: string;
   clientName?: string;
@@ -354,6 +356,7 @@ export function mapProject(doc: {
   slug?: string;
   year?: string;
   summary?: string;
+  scopeOfWork?: string;
   challenge?: string;
   solution?: string;
   result?: string;
@@ -366,6 +369,7 @@ export function mapProject(doc: {
   heroUrl?: string;
   gallery?: { image?: SanityImage; imageUrl?: string; alt?: string }[];
   industrySlug?: string;
+  serviceSlug?: string;
   boothTypeSlug?: string;
   locationSlug?: string;
   clientName?: string;
@@ -380,6 +384,7 @@ export function mapProject(doc: {
     title: doc.title,
     year: doc.year ?? "",
     summary: doc.summary ?? "",
+    scopeOfWork: doc.scopeOfWork ?? "",
     challenge: doc.challenge ?? "",
     solution: doc.solution ?? "",
     result: doc.result ?? "",
@@ -391,6 +396,7 @@ export function mapProject(doc: {
     event: doc.event,
     size: doc.size,
     industrySlug: doc.industrySlug,
+    serviceSlug: doc.serviceSlug,
     boothTypeSlug: doc.boothTypeSlug,
     locationSlug: doc.locationSlug,
     clientName: doc.clientName,

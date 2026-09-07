@@ -79,7 +79,9 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, [mobileOpen, openKey]);
 
   useEffect(() => {
-    const hero = document.querySelector(".home-hero, .page-hero");
+    const hero = document.querySelector(
+      ".home-hero, .page-hero, .service-architecture-hero",
+    );
     if (!hero) return;
 
     const observer = new IntersectionObserver(
@@ -182,6 +184,8 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, []);
 
   useEffect(() => {
+    // Reset transient navigation UI when the route changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpenKey(null);
     setMobileOpen(false);
     setMobileExpanded(null);
@@ -378,6 +382,13 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               <span className="sr-only">{navigation.langLabel}</span>
             </Link>
             <Link
+              href={localizePath("/work", locale)}
+              className="site-header-work-link"
+              onClick={closeAll}
+            >
+              {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
+            </Link>
+            <Link
               href={localizePath(navigation.cta.href, locale)}
               className="site-header-cta"
               onClick={closeAll}
@@ -500,6 +511,13 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                 onClick={closeAll}
               >
                 {navigation.cta.label}
+              </Link>
+              <Link
+                href={localizePath("/work", locale)}
+                className="site-mobile-link"
+                onClick={closeAll}
+              >
+                {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
               </Link>
             </nav>
           </div>
