@@ -14,6 +14,7 @@ type LifecycleSectionProps = {
   items: LifecycleItem[];
   image?: string;
   icons?: readonly string[];
+  centered?: boolean;
 };
 
 const iconSvgs: Record<string, ReactNode> = {
@@ -99,7 +100,41 @@ export function LifecycleSection({
   items,
   image = media.lifecycle,
   icons = lifecycleIcons,
+  centered = false,
 }: LifecycleSectionProps) {
+  if (centered) {
+    const cardIcons = [icons[0] ?? "layers", icons[1] ?? "factory", icons[2] ?? "check"];
+    return (
+      <section className="section-pad lifecycle-positioning section-rule">
+        <div className="site-container lifecycle-positioning-inner">
+          <Reveal>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="display lifecycle-title">{title}</h2>
+            <p className="lede">{support}</p>
+          </Reveal>
+          <div className="lifecycle-positioning-points">
+            {items.map((item, index) => (
+              <Reveal key={item.title} delay={0.08 + index * 0.08}>
+                <article className="lifecycle-positioning-card">
+                  <div className="lifecycle-positioning-card-head">
+                    <span className="lifecycle-positioning-card-icon" aria-hidden="true">
+                      <LifecycleIcon name={cardIcons[index] ?? "layers"} />
+                    </span>
+                    <span className="lifecycle-positioning-card-num" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="section-pad lifecycle-section section-rule">
       <div className="site-container lifecycle-grid">

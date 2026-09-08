@@ -3,6 +3,17 @@ import type { NextConfig } from "next";
 const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const sanityDataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
 
+const legacyBoothTypeMap = [
+  ["custom", "exhibitions-booths", "custom-built-exhibition-booths"],
+  ["modular", "exhibitions-booths", "modular-exhibition-booths"],
+  ["double-deck", "exhibitions-booths", "double-decker-booths"],
+  ["portable", "exhibitions-booths", "portable-and-pop-up-displays"],
+  ["pavilions", "exhibitions-booths", "pavilions-and-large-scale-exhibition-spaces"],
+  ["sustainable", "exhibitions-booths", "custom-built-exhibition-booths"],
+  ["kiosks", "retail-displays", "promotional-kiosks"],
+  ["outdoor", "event-fabrication", "branded-event-structures"],
+] as const;
+
 const nextConfig: NextConfig = {
   async redirects() {
     return [
@@ -37,6 +48,18 @@ const nextConfig: NextConfig = {
       { source: "/:locale(en|ar)/services/storage-reinstallation", destination: "/:locale/services/installation-project-delivery", permanent: true },
       { source: "/:locale(en|ar)/services/visual-branding-print", destination: "/:locale/services/printing-signage", permanent: true },
       { source: "/:locale(en|ar)/services/lightbox-retail-display", destination: "/:locale/services/printing-signage", permanent: true },
+      ...legacyBoothTypeMap.flatMap(([legacySlug, serviceSlug, itemSlug]) => [
+        {
+          source: `/:locale(en|ar)/booth-types/${legacySlug}`,
+          destination: `/:locale/services/${serviceSlug}/catalogue?item=${itemSlug}`,
+          permanent: true,
+        },
+        {
+          source: `/:locale(en|ar)/locations/:city/booth-types/${legacySlug}`,
+          destination: `/:locale/services/${serviceSlug}/catalogue?item=${itemSlug}&city=:city`,
+          permanent: true,
+        },
+      ]),
       { source: "/:locale(en|ar)/locations/:city/services/full-booth-management", destination: "/:locale/services/exhibitions-booths", permanent: true },
       { source: "/:locale(en|ar)/locations/:city/services/booth-design", destination: "/:locale/services/exhibitions-booths", permanent: true },
       { source: "/:locale(en|ar)/locations/:city/services/custom-fabrication", destination: "/:locale/services/custom-fabrication", permanent: true },
@@ -44,6 +67,7 @@ const nextConfig: NextConfig = {
       { source: "/:locale(en|ar)/locations/:city/services/storage-reinstallation", destination: "/:locale/services/installation-project-delivery", permanent: true },
       { source: "/:locale(en|ar)/locations/:city/services/visual-branding-print", destination: "/:locale/services/printing-signage", permanent: true },
       { source: "/:locale(en|ar)/locations/:city/services/lightbox-retail-display", destination: "/:locale/services/printing-signage", permanent: true },
+      { source: "/:locale(en|ar)/locations/:city/services/:serviceSlug", destination: "/:locale/services/:serviceSlug", permanent: true },
       { source: "/:locale(en|ar)/booth-types", destination: "/:locale/services/exhibitions-booths/catalogue", permanent: true },
       { source: "/:locale(en|ar)/booth-types/:slug", destination: "/:locale/services/exhibitions-booths/catalogue", permanent: true },
       { source: "/:locale(en|ar)/locations/:city/booth-types/:slug", destination: "/:locale/services/exhibitions-booths/catalogue", permanent: true },

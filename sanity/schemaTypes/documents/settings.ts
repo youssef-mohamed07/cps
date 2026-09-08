@@ -101,6 +101,26 @@ export const siteSettings = defineType({
       },
     }),
     defineField({
+      name: "homeFloatingImages",
+      type: "array",
+      title: "Homepage floating images",
+      description: "Up to ten images used by the floating cards around the homepage hero.",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+        },
+      ],
+    }),
+    defineField({
+      name: "productionImage",
+      type: "image",
+      title: "Production capabilities image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({
       name: "ogImage",
       type: "image",
       title: "Default OG image",

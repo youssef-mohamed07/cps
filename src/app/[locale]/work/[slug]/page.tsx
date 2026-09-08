@@ -31,6 +31,7 @@ function toDetailItem(
     boothType?: string;
     location?: string;
     service?: string;
+    services?: string[];
     client?: string;
   } = {},
 ): ProjectDetailItem | null {
@@ -58,8 +59,21 @@ function toDetailItem(
     boothTypeLabel: labels.boothType,
     locationLabel: labels.location,
     serviceLabel: labels.service,
+    serviceLabels: labels.services,
     clientName: labels.client || project.clientName || project.title,
   };
+}
+
+function projectServiceLabels(
+  project: NonNullable<Awaited<ReturnType<typeof loadProject>>>,
+  locale: Locale,
+) {
+  return Array.from(
+    new Set(project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : [])),
+  ).map((serviceSlug) => {
+    const service = getServiceArchitecture(serviceSlug);
+    return service ? localizeText(service.title, locale) : serviceSlug;
+  });
 }
 
 export async function generateStaticParams() {
@@ -122,6 +136,7 @@ export default async function ProjectPage({ params }: PageProps) {
           return service ? localizeText(service.title, locale) : project.serviceSlug;
         })()
       : undefined,
+    services: projectServiceLabels(project, locale),
   })!;
 
   const relatedProjects = allProjects
@@ -143,6 +158,7 @@ export default async function ProjectPage({ params }: PageProps) {
               return service ? localizeText(service.title, locale) : entry.serviceSlug;
             })()
           : undefined,
+        services: projectServiceLabels(entry, locale),
       }),
     )
     .filter((item): item is ProjectDetailItem => Boolean(item));

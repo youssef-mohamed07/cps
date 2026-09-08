@@ -33,6 +33,16 @@ export function mergeProjectFallback(
       local?.serviceSlug ||
       remote.serviceSlug?.trim() ||
       undefined,
+    serviceSlugs: Array.from(
+      new Set(
+        [
+          ...(remote.serviceSlugs ?? []),
+          ...(local?.serviceSlugs ?? []),
+          remote.serviceSlug,
+          local?.serviceSlug,
+        ].filter((slug): slug is string => Boolean(slug?.trim())),
+      ),
+    ),
     industrySlug: remoteLooksLegacy
       ? localIndustry || remoteIndustry
       : remoteIndustry || localIndustry,

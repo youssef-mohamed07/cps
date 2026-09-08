@@ -83,9 +83,9 @@ Every collection document (`service`, `boothType`, `project`, …) and page sing
 
 | Type | Routes |
 | --- | --- |
-| `service` | Seeded from the eight-service architecture; detail at `/services/[slug]` |
+| `service` | Seeded from the eight-service architecture; detail at `/services/[slug]`; `blueprintVersion: 5` authorizes CMS copy overrides |
 | `boothType` | Legacy collection retained for redirect compatibility |
-| `project` | `/work`, `/work/[slug]` |
+| `project` | `/work`, `/work/[slug]`; supports primary `serviceSlug` plus multiple `services[]` references |
 | `industry` | Project metadata; standalone public routes redirect to `/work` |
 | `location` | `/locations`, `/locations/[slug]` |
 | `newsArticle` | `/news`, `/news/[slug]` |
@@ -172,3 +172,14 @@ Local seed redirects live in `src/content/catalog.ts` (`/portfolio` → `/work`,
 ## Merge behavior
 
 Never replace the whole dictionary with a partial CMS payload. Use `resolveDictionary(locale)` so local defaults remain, then structured page docs (`homePage`, `aboutPageDoc`, `contactPageDoc`) win for their fields. Prefer structured collection docs over the deprecated `dictionary.content` JSON blob.
+
+## Blueprint v5 migration
+
+Run the targeted migration as a dry run first. It synchronizes legacy home hero/footer copy, full service v5 copy, project service references, scope, and filter taxonomy. Applying requires a token with dataset `update` permission.
+
+```bash
+node --import tsx scripts/migrate-blueprint-content.ts
+node --import tsx scripts/migrate-blueprint-content.ts --apply
+```
+
+The apply step uses one revision-checked transaction and writes a backup under the operating system temporary directory before committing.

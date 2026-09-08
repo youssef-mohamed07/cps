@@ -23,6 +23,8 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   ogImage{ asset, alt },
   homeHero{ asset, alt },
   homeHeroVideo{ asset->{ url } },
+  homeFloatingImages[]{ asset, alt },
+  productionImage{ asset, alt },
   footerExploreLinks[]{ label, href }
 }`;
 

@@ -24,19 +24,44 @@ type Doc = {
   language?: string;
   locale?: string;
   slug?: { current?: string };
+  title?: string;
+  excerpt?: string;
   hero?: Record<string, unknown>;
+  overview?: string;
+  overviewTitle?: string;
+  overviewBullets?: Record<string, unknown>[];
+  heroLead?: string;
   description?: string;
   content?: string;
   sections?: { payload?: string };
   designs?: Record<string, unknown> & { items?: Record<string, unknown>[] };
+  why?: Record<string, unknown> & { items?: Record<string, unknown>[] };
+  benefits?: Record<string, unknown>[];
   faq?: Record<string, unknown>[];
   serviceSlug?: string;
+  services?: { _key?: string; _type?: string; _ref?: string }[];
   industrySlug?: string;
   scopeOfWork?: string;
+  blueprintVersion?: number;
 };
 
 function plain(value: unknown) {
   return typeof value === "string" ? value.replace(/[\u200b-\u200f\ufeff]/g, "").trim() : "";
+}
+function stableValue(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stableValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, entry]) => entry !== undefined)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, entry]) => [key, stableValue(entry)]),
+    );
+  }
+  return value;
+}
+function sameValue(left: unknown, right: unknown) {
+  return JSON.stringify(stableValue(left)) === JSON.stringify(stableValue(right));
 }
 function legacyHero(title: unknown) {
   const text = plain(title);
@@ -55,7 +80,8 @@ async function main() {
     _type in ["homePage", "dictionary", "siteFooter", "service", "project"] &&
     !(_id in path("drafts.**"))
   ]{_id, _rev, _type, language, locale, slug, hero, description, content, sections,
-    designs, faq, serviceSlug, industrySlug, scopeOfWork}`);
+    title, excerpt, overview, overviewTitle, overviewBullets, heroLead, designs, why,
+    benefits, faq, serviceSlug, services, industrySlug, scopeOfWork, blueprintVersion}`);
   const plan: { document: Doc; set: Record<string, unknown> }[] = [];
   for (const doc of documents) {
     const locale = doc.language || doc.locale;
@@ -89,6 +115,19 @@ async function main() {
     if (doc._type === "service") {
       const service = serviceArchitecture.find((entry) => entry.slug === doc.slug?.current);
       if (service) {
+        set.title = localizeText(service.title, lang);
+        set.excerpt = localizeText(service.excerpt, lang);
+        set.overview = localizeText(service.hero.support, lang);
+        set.overviewTitle = localizeText(service.hero.headline, lang);
+        set.overviewBullets = service.hero.bullets.map((item, index) => ({
+          _key:
+            typeof doc.overviewBullets?.[index]?._key === "string"
+              ? doc.overviewBullets[index]._key
+              : `overview-${index}`,
+          title: localizeText(item, lang),
+          description: "",
+        }));
+        set.heroLead = localizeText(service.hero.support, lang);
         // Preserve the image and other editorial fields for matching showcase items.
         const items = service.showcase.items.map((item, index) => {
           const title = localizeText(item.title, lang);
@@ -101,19 +140,60 @@ async function main() {
             ...(!existing?.image && !existing?.imageUrl ? { imageUrl: service.image, imageAlt: title } : {}),
           };
         });
-        set.designs = { ...doc.designs, title: localizeText(service.showcase.title, lang), items };
+        set.designs = {
+          ...doc.designs,
+          eyebrow: lang === "ar" ? "الكتالوج" : "Catalogue",
+          title: localizeText(service.showcase.title, lang),
+          support: localizeText(service.catalogue.support, lang),
+          cta: {
+            label: localizeText(service.hero.catalogueCta, lang),
+            href: `/services/${service.slug}/catalogue`,
+          },
+          items,
+        };
+        set.why = {
+          ...doc.why,
+          title: localizeText(service.why.headline, lang),
+          support: localizeText(service.why.support, lang),
+          items: service.why.items.map((item, index) => ({
+            _key:
+              typeof doc.why?.items?.[index]?._key === "string"
+                ? doc.why.items[index]._key
+                : `why-${index}`,
+            title: localizeText(item, lang),
+            description: "",
+          })),
+        };
+        set.benefits = service.benefits.map((item, index) => ({
+          _key:
+            typeof doc.benefits?.[index]?._key === "string"
+              ? doc.benefits[index]._key
+              : `benefit-${index}`,
+          title: localizeText(item, lang),
+          description: "",
+        }));
         set.faq = service.faq.map((item, index) => ({
           ...doc.faq?.[index],
           _key: typeof doc.faq?.[index]?._key === "string" ? doc.faq[index]._key : `faq-${index}`,
           question: localizeText(item.question, lang),
           answer: localizeText(item.answer, lang),
         }));
+        set.blueprintVersion = 5;
       }
     }
     if (doc._type === "project") {
       const project = projects.find((entry) => entry.slug === doc.slug?.current);
       if (project) {
         if (!plain(doc.serviceSlug)) set.serviceSlug = project.serviceSlug;
+        const serviceSlugs = project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : []);
+        const existingRefs = new Set((doc.services ?? []).map((service) => service._ref).filter(Boolean));
+        if (serviceSlugs.some((serviceSlug) => !existingRefs.has(`service-${serviceSlug}-${lang}`))) {
+          set.services = serviceSlugs.map((serviceSlug, index) => ({
+            _key: `service-${index}`,
+            _type: "reference",
+            _ref: `service-${serviceSlug}-${lang}`,
+          }));
+        }
         if (!plain(doc.scopeOfWork)) set.scopeOfWork = project[lang].scopeOfWork;
         const aliases: Record<string, string> = { technology: "technology-electronics", healthcare: "healthcare-pharmaceutical" };
         if (!plain(doc.industrySlug)) set.industrySlug = project.industrySlug;
@@ -121,7 +201,7 @@ async function main() {
       }
     }
     for (const key of Object.keys(set)) {
-      if (set[key] === undefined || JSON.stringify(set[key]) === JSON.stringify(doc[key as keyof Doc])) delete set[key];
+      if (set[key] === undefined || sameValue(set[key], doc[key as keyof Doc])) delete set[key];
     }
     if (Object.keys(set).length) plan.push({ document: doc, set });
   }

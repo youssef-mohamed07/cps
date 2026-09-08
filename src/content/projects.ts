@@ -9,6 +9,7 @@ export type Project = {
   motionVideo?: string;
   industrySlug?: string;
   serviceSlug?: string;
+  serviceSlugs?: string[];
   boothTypeSlug?: string;
   locationSlug?: string;
   event?: string;
@@ -41,6 +42,12 @@ export const projects: Project[] = [
     year: "2025",
     industrySlug: "technology-electronics",
     serviceSlug: "exhibitions-booths",
+    serviceSlugs: [
+      "exhibitions-booths",
+      "custom-fabrication",
+      "printing-signage",
+      "installation-project-delivery",
+    ],
     boothTypeSlug: "custom",
     locationSlug: "riyadh",
     event: "LEAP",
@@ -79,6 +86,13 @@ export const projects: Project[] = [
     year: "2025",
     industrySlug: "healthcare-pharmaceutical",
     serviceSlug: "exhibitions-booths",
+    serviceSlugs: [
+      "exhibitions-booths",
+      "custom-fabrication",
+      "printing-signage",
+      "rental-solutions",
+      "installation-project-delivery",
+    ],
     boothTypeSlug: "modular",
     locationSlug: "jeddah",
     event: "Arab Health",
@@ -117,6 +131,12 @@ export const projects: Project[] = [
     year: "2024",
     industrySlug: "fmcg",
     serviceSlug: "retail-displays",
+    serviceSlugs: [
+      "retail-displays",
+      "custom-fabrication",
+      "printing-signage",
+      "installation-project-delivery",
+    ],
     boothTypeSlug: "kiosks",
     locationSlug: "dammam",
     event: "Hospitality Qatar",
@@ -153,6 +173,13 @@ export const projects: Project[] = [
     year: "2024",
     industrySlug: "technology-electronics",
     serviceSlug: "exhibitions-booths",
+    serviceSlugs: [
+      "exhibitions-booths",
+      "event-fabrication",
+      "custom-fabrication",
+      "rental-solutions",
+      "installation-project-delivery",
+    ],
     boothTypeSlug: "double-deck",
     locationSlug: "riyadh",
     event: "Saudi Energy",
@@ -189,6 +216,12 @@ export const projects: Project[] = [
     year: "2024",
     industrySlug: "fmcg",
     serviceSlug: "retail-displays",
+    serviceSlugs: [
+      "retail-displays",
+      "printing-signage",
+      "rental-solutions",
+      "installation-project-delivery",
+    ],
     boothTypeSlug: "portable",
     locationSlug: "khobar",
     event: "Cairo Retail Week",

@@ -8,7 +8,7 @@ import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { getSiteConfig } from "@/lib/site-config";
-import { loadContactSeo } from "@/sanity/load-pages";
+import { loadContactHeroImage, loadContactSeo } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -37,6 +37,7 @@ export default async function ContactPage({ params }: PageProps) {
   const locale: Locale = localeParam;
   const dictionary = await resolveDictionary(locale);
   const page = dictionary.contactPage;
+  const heroImage = await loadContactHeroImage(locale);
   const config = getSiteConfig();
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
@@ -53,10 +54,10 @@ export default async function ContactPage({ params }: PageProps) {
         eyebrow={page.eyebrow}
         title={page.title}
         lead={page.lead}
-        image={media.contact.hero}
-        imageAlt={
+        image={heroImage.src || media.contact.hero}
+        imageAlt={heroImage.alt || (
           locale === "ar" ? "مقر الشركة وقاعة الاستقبال" : "Company headquarters reception"
-        }
+        )}
         cta={{
           label: dictionary.nav.cta,
           href: "#contact-brief",

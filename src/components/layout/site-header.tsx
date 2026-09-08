@@ -80,16 +80,18 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
 
   useEffect(() => {
     lastScrollY.current = 0;
-    setHidden(false);
-    setMobileOpen(false);
-    setOpenKey(null);
-    setMobileExpanded(null);
-    setHeroInView(true);
+    const resetFrame = window.requestAnimationFrame(() => {
+      setHidden(false);
+      setMobileOpen(false);
+      setOpenKey(null);
+      setMobileExpanded(null);
+      setHeroInView(true);
+    });
 
     const hero = document.querySelector(
       ".home-hero, .page-hero, .service-architecture-hero",
     );
-    if (!hero) return;
+    if (!hero) return () => window.cancelAnimationFrame(resetFrame);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -99,7 +101,10 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
     );
 
     observer.observe(hero);
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(resetFrame);
+      observer.disconnect();
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -387,6 +392,13 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                 unoptimized
               />
               <span className="sr-only">{navigation.langLabel}</span>
+            </Link>
+            <Link
+              href={localizePath("/work", locale)}
+              className="site-header-work"
+              onClick={closeAll}
+            >
+              {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
             </Link>
             <Link
               href={localizePath(navigation.cta.href, locale)}

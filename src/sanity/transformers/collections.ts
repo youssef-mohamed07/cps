@@ -14,6 +14,7 @@ export type CmsListItem = {
 };
 
 export type CmsService = CmsListItem & {
+  blueprintVersion?: number;
   overview: string;
   overviewTitle?: string;
   overviewBullets?: { title: string; description: string }[];
@@ -90,6 +91,7 @@ export type CmsProject = {
   size?: string;
   industrySlug?: string;
   serviceSlug?: string;
+  serviceSlugs?: string[];
   boothTypeSlug?: string;
   locationSlug?: string;
   clientName?: string;
@@ -165,6 +167,7 @@ export function mapService(doc: {
   title?: string;
   slug?: string;
   excerpt?: string;
+  blueprintVersion?: number;
   overview?: string;
   overviewTitle?: string;
   overviewBullets?: { title?: string; description?: string }[];
@@ -208,6 +211,7 @@ export function mapService(doc: {
     slug: doc.slug,
     title: doc.title,
     excerpt: doc.excerpt ?? "",
+    blueprintVersion: doc.blueprintVersion,
     overview: doc.overview ?? "",
     overviewTitle: doc.overviewTitle,
     overviewBullets: (doc.overviewBullets ?? [])
@@ -370,6 +374,7 @@ export function mapProject(doc: {
   gallery?: { image?: SanityImage; imageUrl?: string; alt?: string }[];
   industrySlug?: string;
   serviceSlug?: string;
+  serviceSlugs?: string[];
   boothTypeSlug?: string;
   locationSlug?: string;
   clientName?: string;
@@ -397,6 +402,7 @@ export function mapProject(doc: {
     size: doc.size,
     industrySlug: doc.industrySlug,
     serviceSlug: doc.serviceSlug,
+    serviceSlugs: doc.serviceSlugs?.filter(Boolean) ?? [],
     boothTypeSlug: doc.boothTypeSlug,
     locationSlug: doc.locationSlug,
     clientName: doc.clientName,

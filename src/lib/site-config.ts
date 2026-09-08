@@ -31,6 +31,8 @@ export interface SiteConfigShape {
   defaultOgImage?: string;
   homeHero?: string;
   homeHeroVideo?: string;
+  homeFloatingImages?: string[];
+  productionImage?: string;
   brandColors?: { accent?: string; primary?: string };
   defaultSeo?: SeoMeta;
   footerExploreLinks?: { label: string; href: string }[];

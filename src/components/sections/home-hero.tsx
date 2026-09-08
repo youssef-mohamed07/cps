@@ -4,6 +4,7 @@ import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { getSiteHeroPoster, getSiteHeroVideo } from "@/lib/site-assets";
+import { getSiteConfig } from "@/lib/site-config";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 
@@ -33,44 +34,44 @@ function HeroFloatingCard({ src, className }: HeroFloatingCardProps) {
   );
 }
 
-function ImageOne() {
-  return <HeroFloatingCard src={media.services.design} className="hero-image-1" />;
+function ImageOne({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-1" />;
 }
 
-function ImageTwo() {
-  return <HeroFloatingCard src={media.boothTypes.custom} className="hero-image-2" />;
+function ImageTwo({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-2" />;
 }
 
-function ImageThree() {
-  return <HeroFloatingCard src={media.boothTypes.pavilion} className="hero-image-3" />;
+function ImageThree({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-3" />;
 }
 
-function ImageFour() {
-  return <HeroFloatingCard src={media.services.fabrication} className="hero-image-4" />;
+function ImageFour({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-4" />;
 }
 
-function ImageFive() {
-  return <HeroFloatingCard src={media.services.installation} className="hero-image-5" />;
+function ImageFive({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-5" />;
 }
 
-function ImageSix() {
-  return <HeroFloatingCard src={media.services.lightbox} className="hero-image-6" />;
+function ImageSix({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-6" />;
 }
 
-function ImageSeven() {
-  return <HeroFloatingCard src={media.boothTypes.modular} className="hero-image-7" />;
+function ImageSeven({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-7" />;
 }
 
-function ImageEight() {
-  return <HeroFloatingCard src={media.boothTypes.outdoor} className="hero-image-8" />;
+function ImageEight({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-8" />;
 }
 
-function ImageNine() {
-  return <HeroFloatingCard src={media.boothTypes.kiosk} className="hero-image-9" />;
+function ImageNine({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-9" />;
 }
 
-function ImageTen() {
-  return <HeroFloatingCard src={media.services.branding} className="hero-image-10" />;
+function ImageTen({ src }: { src: string }) {
+  return <HeroFloatingCard src={src} className="hero-image-10" />;
 }
 
 function headlineLines(headline: string): string[] {
@@ -95,6 +96,20 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
   const lines = headlineLines(content.headline);
   const heroVideo = getSiteHeroVideo();
   const heroPoster = getSiteHeroPoster();
+  const floatingImages = getSiteConfig().homeFloatingImages ?? [];
+  const fallbackImages = [
+    media.services.design,
+    media.boothTypes.custom,
+    media.boothTypes.pavilion,
+    media.services.fabrication,
+    media.services.installation,
+    media.services.lightbox,
+    media.boothTypes.modular,
+    media.boothTypes.outdoor,
+    media.boothTypes.kiosk,
+    media.services.branding,
+  ];
+  const image = (index: number) => floatingImages[index] || fallbackImages[index];
 
   return (
     <section className="home-hero">
@@ -123,16 +138,16 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
 
       <div className="home-hero-stage">
         <div className="hero-floaters" aria-hidden="true">
-          <ImageOne />
-          <ImageTwo />
-          <ImageThree />
-          <ImageFour />
-          <ImageFive />
-          <ImageSix />
-          <ImageSeven />
-          <ImageEight />
-          <ImageNine />
-          <ImageTen />
+          <ImageOne src={image(0)} />
+          <ImageTwo src={image(1)} />
+          <ImageThree src={image(2)} />
+          <ImageFour src={image(3)} />
+          <ImageFive src={image(4)} />
+          <ImageSix src={image(5)} />
+          <ImageSeven src={image(6)} />
+          <ImageEight src={image(7)} />
+          <ImageNine src={image(8)} />
+          <ImageTen src={image(9)} />
         </div>
 
         <div className="home-hero-copy">

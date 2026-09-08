@@ -125,9 +125,33 @@ const ar: QuoteFormCopy = {
 /** Contact page: same fields, Blueprint submit CTA. */
 export function getQuoteFormCopy(
   locale: Locale,
-  variant: "service" | "contact" = "service",
+  variant: "service" | "contact" | "delivery" = "service",
 ): QuoteFormCopy {
   const base = locale === "ar" ? ar : en;
+  if (variant === "delivery") {
+    return {
+      ...base,
+      eyebrow: locale === "ar" ? "طلب خدمة مشروع قائم" : "Existing project support",
+      title: locale === "ar" ? "ما الذي يحتاجه مشروعك في الموقع؟" : "What does your existing project need?",
+      support: locale === "ar"
+        ? "أرسل حالة الهيكل أو الأصول والموقع والموعد المطلوب لنحدد خطة التركيب أو النقل أو التخزين أو الصيانة."
+        : "Share the structure or asset condition, location and required date so we can plan installation, logistics, storage or maintenance.",
+      labels: {
+        ...base.labels,
+        item: locale === "ar" ? "خدمة التسليم المطلوبة" : "Delivery service needed",
+        projectName: locale === "ar" ? "المشروع أو الهيكل القائم (اختياري)" : "Existing project or structure (optional)",
+        details: locale === "ar" ? "حالة المشروع ومتطلبات الموقع" : "Project condition and site requirements",
+      },
+      placeholders: {
+        ...base.placeholders,
+        item: locale === "ar" ? "اختر خدمة التركيب أو التسليم" : "Select an installation or delivery service",
+        projectName: locale === "ar" ? "اسم المشروع أو نوع الهيكل" : "Project name or structure type",
+        details: locale === "ar"
+          ? "الموقع، الموعد، الأبعاد، حالة الهيكل، متطلبات الدخول وأي رسومات متاحة…"
+          : "Site, required date, dimensions, structure condition, access constraints and available drawings…",
+      },
+    };
+  }
   if (variant === "contact") {
     return {
       ...base,

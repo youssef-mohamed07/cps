@@ -35,7 +35,7 @@ const dictionary = await resolveDictionary(locale);
 
 Each project has:
 
-- `slug`, `year`, `image`, `imageAlt`, `gallery[]`, `serviceSlug`, `industrySlug`
+- `slug`, `year`, `image`, `imageAlt`, `gallery[]`, primary `serviceSlug`, optional `serviceSlugs[]`, and `industrySlug`
 - Localized fields under `en` / `ar`: title, category, summary, challenge, approach, outcome
 
 Used by:
@@ -50,7 +50,7 @@ Images today are Unsplash URLs. Replace with real assets under `public/` or a CD
 
 **File:** [`src/content/service-architecture.ts`](../src/content/service-architecture.ts)
 
-This is the bilingual source of truth for the eight service families and their complete catalogues. Each record owns its hero, showcase, Why CPS points, benefits, industry links, related services, FAQ, catalogue categories and items. Printing & Signage enables catalogue search; grouped services expose category tabs.
+This is the bilingual fallback source of truth for the eight service families and their complete catalogues. Each record owns its hero, showcase, Why CPS points, benefits, industry links, related services, FAQ, catalogue categories and items. Printing & Signage enables catalogue search; grouped services expose category tabs. Service documents marked `blueprintVersion: 5` may override the current locale's copy from Sanity; older CMS copy is ignored while uploaded media remains usable.
 
 Routes:
 
@@ -58,6 +58,8 @@ Routes:
 - `/[locale]/services/[serviceSlug]/catalogue`
 
 Catalogue quote links pass the selected item in the query string and preselect it in the shared quote form. Exhibition layout chips filter compatible booth formats and carry the selected layout into the quote. Reference files are submitted as real multipart uploads rather than filename-only notes.
+
+The Custom-Built Exhibition Booths item also exposes seven city anchors. Their `item` and `city` query parameters produce city-specific metadata without duplicating the catalogue page.
 
 ## Site config (contact, SEO defaults)
 

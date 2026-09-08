@@ -31,6 +31,8 @@ type SanitySiteSettings = {
   ogImage?: { asset?: unknown; alt?: string };
   homeHero?: { asset?: unknown; alt?: string };
   homeHeroVideo?: { asset?: { url?: string } | null };
+  homeFloatingImages?: { asset?: unknown; alt?: string }[];
+  productionImage?: { asset?: unknown; alt?: string };
   footerExploreLinks?: { label?: string; href?: string }[];
 };
 
@@ -74,6 +76,10 @@ export function toSiteConfig(
     defaultOgImage: toImageSrc(data.ogImage),
     homeHero: toImageSrc(data.homeHero),
     homeHeroVideo: fileUrl(data.homeHeroVideo),
+    homeFloatingImages: data.homeFloatingImages
+      ?.map((image) => toImageSrc(image))
+      .filter(Boolean),
+    productionImage: toImageSrc(data.productionImage),
     brandColors: sanitizeBrandColors(data.brandColors),
     defaultSeo: toSeoMeta(data.defaultSeo),
     footerExploreLinks: data.footerExploreLinks

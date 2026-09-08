@@ -138,6 +138,7 @@ function localProject(project: Project, locale: Locale): CmsProject {
     size: project.size,
     industrySlug: project.industrySlug,
     serviceSlug: project.serviceSlug,
+    serviceSlugs: project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : []),
     boothTypeSlug: project.boothTypeSlug,
     locationSlug: project.locationSlug,
     category: localized.category,

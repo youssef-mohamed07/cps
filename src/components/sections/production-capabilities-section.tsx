@@ -4,6 +4,7 @@ import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const productionCapabilities = [
   ["Carpentry & Joinery", "النجارة والأعمال الخشبية"],
@@ -38,6 +39,7 @@ export function ProductionCapabilitiesSection({
 }) {
   const ar = locale === "ar";
   const items = compact ? productionCapabilitiesHighlight : productionCapabilities;
+  const productionImage = getSiteConfig().productionImage || media.about.studio;
 
   return (
     <section
@@ -46,7 +48,7 @@ export function ProductionCapabilitiesSection({
       <div className="site-container production-capabilities-grid">
         <Reveal className="production-capabilities-media">
           <Image
-            src={media.about.studio}
+            src={productionImage}
             alt={
               ar
                 ? "التصنيع والحرفية داخل منشأة CPS"

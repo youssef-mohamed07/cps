@@ -15,6 +15,8 @@ type CatalogueBrowserProps = {
   categories: CatalogueCategory[];
   layoutFilters?: { en: string; ar: string }[];
   searchable?: boolean;
+  highlightedItem?: string;
+  selectedCity?: string;
 };
 
 const boothLayoutCompatibility: Record<string, string[]> = {
@@ -33,6 +35,8 @@ export function CatalogueBrowser({
   categories,
   layoutFilters = [],
   searchable = false,
+  highlightedItem,
+  selectedCity,
 }: CatalogueBrowserProps) {
   const [category, setCategory] = useState("all");
   const [layout, setLayout] = useState("all");
@@ -90,9 +94,14 @@ export function CatalogueBrowser({
         {visible.map((entry, index) => {
           const title = localizeText(entry.title, locale);
           const layoutParam = layout !== "all" ? `&layout=${encodeURIComponent(layout)}` : "";
-          const quoteHref = localizePath(`/services/${serviceSlug}?item=${encodeURIComponent(entry.slug)}${layoutParam}#quote`, locale);
+          const cityParam = selectedCity ? `&city=${encodeURIComponent(selectedCity)}` : "";
+          const quoteHref = localizePath(`/services/${serviceSlug}?item=${encodeURIComponent(entry.slug)}${layoutParam}${cityParam}#quote`, locale);
           return (
-            <article className="catalogue-card" key={`${entry.categorySlug}-${entry.slug}`}>
+            <article
+              id={`catalogue-${entry.slug}`}
+              className={`catalogue-card${highlightedItem === entry.slug ? " is-highlighted" : ""}`}
+              key={`${entry.categorySlug}-${entry.slug}`}
+            >
               <div className="catalogue-card-media">
                 <Image src={serviceImage} alt="" fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" className="object-cover" />
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -100,6 +109,26 @@ export function CatalogueBrowser({
               <div className="catalogue-card-copy">
                 <h2>{title}</h2>
                 <p>{localizeText(entry.description, locale)}</p>
+                {entry.cityAnchors?.length ? (
+                  <div className="catalogue-city-anchors">
+                    <span>{locale === "ar" ? "متاح في" : "Available in"}</span>
+                    <ul>
+                      {entry.cityAnchors.map((city) => (
+                        <li key={city.slug}>
+                          <Link
+                            href={localizePath(
+                              `/services/${serviceSlug}/catalogue?item=${entry.slug}&city=${city.slug}#catalogue-${entry.slug}`,
+                              locale,
+                            )}
+                            aria-current={selectedCity === city.slug ? "location" : undefined}
+                          >
+                            {localizeText(city.title, locale)}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
                 <Link href={quoteHref} className="catalogue-card-cta">
                   {locale === "ar" ? "اطلب عرض سعر" : "Get a Quote"}
                   <CtaArrow size="sm" />

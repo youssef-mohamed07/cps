@@ -135,7 +135,10 @@ export function ServiceArchitecturePage({
   projects: CmsProject[];
 }) {
   const ar = locale === "ar";
-  const quoteForm = getQuoteFormCopy(locale, "service");
+  const quoteForm = getQuoteFormCopy(
+    locale,
+    service.slug === "installation-project-delivery" ? "delivery" : "service",
+  );
   const catalogueOptions = service.catalogue.categories.flatMap((category) =>
     category.items.map((entry) => ({
       value: entry.slug,
@@ -151,27 +154,16 @@ export function ServiceArchitecturePage({
     .map((slug) => serviceArchitecture.find((entry) => entry.slug === slug))
     .filter((entry): entry is ServiceArchitecture => Boolean(entry));
   const filteredProjects = projects
-    .filter((project) => project.serviceSlug === service.slug)
+    .filter(
+      (project) =>
+        project.serviceSlug === service.slug ||
+        project.serviceSlugs?.includes(service.slug),
+    )
     .slice(0, 3);
-  const displayProjects =
-    filteredProjects.length > 0 ? filteredProjects : projects.slice(0, 3);
-  const hasSpecificProjects = filteredProjects.length > 0;
   const industryTitle = industriesHeadline[service.slug];
-  const projectTitle = hasSpecificProjects
-    ? projectsHeadline[service.slug]
-    : {
-        en: "Featured CPS Projects & Builds",
-        ar: "مشاريع وأعمال مميزة من CPS",
-      };
-  const projectCta = hasSpecificProjects
-    ? projectsCta[service.slug]
-    : {
-        en: "View All Projects",
-        ar: "عرض كل المشاريع",
-      };
-  const allProjectsHref = hasSpecificProjects
-    ? `/work?service=${service.slug}`
-    : `/work`;
+  const projectTitle = projectsHeadline[service.slug];
+  const projectCta = projectsCta[service.slug];
+  const allProjectsHref = `/work?service=${service.slug}`;
   const closingNoun = localizeText(service.closingNoun, locale);
 
   return (
@@ -551,7 +543,7 @@ export function ServiceArchitecturePage({
         </div>
       </section>
 
-      <section className="service-projects">
+      {filteredProjects.length ? <section className="service-projects">
         <div className="site-container">
           <Reveal>
             <div className="service-projects-header">
@@ -571,9 +563,8 @@ export function ServiceArchitecturePage({
             </div>
           </Reveal>
 
-          {displayProjects.length ? (
-            <div className="service-projects-grid">
-              {displayProjects.map((project, index) => (
+          <div className="service-projects-grid">
+              {filteredProjects.map((project, index) => (
                 <Reveal key={project.slug} delay={index * 0.05}>
                   <Link
                     href={localizePath(`/work/${project.slug}`, locale)}
@@ -604,10 +595,9 @@ export function ServiceArchitecturePage({
                   </Link>
                 </Reveal>
               ))}
-            </div>
-          ) : null}
+          </div>
         </div>
-      </section>
+      </section> : null}
 
       <FaqSection
         eyebrow="FAQ"

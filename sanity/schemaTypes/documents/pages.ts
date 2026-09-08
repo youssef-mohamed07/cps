@@ -57,6 +57,13 @@ export const aboutPageDoc = defineType({
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
     defineField({ name: "title", type: "string", title: "Title" }),
     defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
+    defineField({
+      name: "heroImage",
+      type: "image",
+      title: "Hero image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
     defineField({ name: "storyTitle", type: "string", title: "Story title" }),
     defineField({ name: "story", type: "text", rows: 5, title: "Story" }),
     defineField({ name: "missionTitle", type: "string", title: "Mission title" }),
@@ -101,6 +108,13 @@ export const contactPageDoc = defineType({
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
     defineField({ name: "title", type: "string", title: "Title" }),
     defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
+    defineField({
+      name: "heroImage",
+      type: "image",
+      title: "Hero image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
     defineField({ name: "officeTitle", type: "string", title: "Office title" }),
     defineField({ name: "businessHours", type: "text", rows: 3, title: "Business hours" }),
     defineField({

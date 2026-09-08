@@ -2,7 +2,7 @@ import { getDictionaryLocal, type Dictionary } from "@/content/dictionaries.loca
 import type { Locale } from "@/lib/i18n";
 import type { SeoMeta } from "@/types/seo";
 import { sanityFetch } from "@/sanity/fetch";
-import { toSeoMeta } from "@/sanity/transformers/shared";
+import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
 
 export type HubKind =
   | "services"
@@ -15,10 +15,12 @@ export type HubKind =
 const HOME_PAGE_QUERY = `*[_type == "homePage" && language == $locale][0]{
   hero{ eyebrow, title, lead, primaryCta, secondaryCta },
   sections{ payload },
+  "featuredProjectSlugs": featuredProjectIds[]->slug.current,
   seo
 }`;
 
 const ABOUT_PAGE_QUERY = `*[_type == "aboutPageDoc" && language == $locale][0]{
+  heroImage{ asset, alt },
   eyebrow,
   title,
   lead,
@@ -37,6 +39,7 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPageDoc" && language == $locale][0]{
 }`;
 
 const CONTACT_PAGE_QUERY = `*[_type == "contactPageDoc" && language == $locale][0]{
+  heroImage{ asset, alt },
   eyebrow,
   title,
   lead,
@@ -69,9 +72,11 @@ type HomeDoc = SeoDoc & {
     secondaryCta?: string;
   };
   sections?: { payload?: string };
+  featuredProjectSlugs?: string[];
 };
 
 type AboutDoc = SeoDoc & {
+  heroImage?: { asset?: unknown; alt?: string };
   eyebrow?: string;
   title?: string;
   lead?: string;
@@ -89,6 +94,7 @@ type AboutDoc = SeoDoc & {
 };
 
 type ContactDoc = SeoDoc & {
+  heroImage?: { asset?: unknown; alt?: string };
   eyebrow?: string;
   title?: string;
   lead?: string;
@@ -209,6 +215,17 @@ export async function loadHomeSeo(locale: Locale): Promise<SeoMeta | undefined> 
   return toSeoMeta(remote?.seo);
 }
 
+export async function loadHomeFeaturedProjectSlugs(
+  locale: Locale,
+): Promise<string[]> {
+  const remote = await sanityFetch<HomeDoc | null>({
+    query: HOME_PAGE_QUERY,
+    params: { locale },
+    tags: ["homePage", `homePage-${locale}`],
+  });
+  return remote?.featuredProjectSlugs ?? [];
+}
+
 export async function loadAboutPage(
   locale: Locale,
 ): Promise<Dictionary["aboutPage"]> {
@@ -271,6 +288,18 @@ export async function loadAboutSeo(locale: Locale): Promise<SeoMeta | undefined>
   return toSeoMeta(remote?.seo);
 }
 
+export async function loadAboutHeroImage(locale: Locale) {
+  const remote = await sanityFetch<Pick<AboutDoc, "heroImage"> | null>({
+    query: ABOUT_PAGE_QUERY,
+    params: { locale },
+    tags: ["aboutPageDoc", `aboutPageDoc-${locale}`],
+  });
+  return {
+    src: toImageSrc(remote?.heroImage),
+    alt: remote?.heroImage?.alt,
+  };
+}
+
 export async function loadContactPage(
   locale: Locale,
 ): Promise<Dictionary["contactPage"]> {
@@ -317,6 +346,18 @@ export async function loadContactSeo(
     tags: ["contactPageDoc", `contactPageDoc-${locale}`],
   });
   return toSeoMeta(remote?.seo);
+}
+
+export async function loadContactHeroImage(locale: Locale) {
+  const remote = await sanityFetch<Pick<ContactDoc, "heroImage"> | null>({
+    query: CONTACT_PAGE_QUERY,
+    params: { locale },
+    tags: ["contactPageDoc", `contactPageDoc-${locale}`],
+  });
+  return {
+    src: toImageSrc(remote?.heroImage),
+    alt: remote?.heroImage?.alt,
+  };
 }
 
 export async function loadHubPage(

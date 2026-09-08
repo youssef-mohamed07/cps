@@ -162,7 +162,11 @@ async function seedClients() {
   console.log("\n→ clients");
   for (const locale of locales) {
     for (const [index, logo] of clientLogos.entries()) {
-      const slug = logo.name.toLowerCase().replace(/\s+/g, "-");
+      const slug = logo.name
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9_-]+/g, "-")
+        .replace(/^-+|-+$/g, "");
       await upsert({
         _id: id("client", slug, locale),
         _type: "client",
@@ -190,6 +194,7 @@ async function seedServices() {
         title,
         slug: slugValue(service.slug),
         excerpt,
+        blueprintVersion: 5,
         overview: localizeText(service.hero.support, locale),
         overviewTitle: localizeText(service.hero.headline, locale),
         overviewBullets: service.hero.bullets.map((item, i) => ({
@@ -398,6 +403,13 @@ async function seedProjects() {
         event: project.event,
         size: project.size,
         serviceSlug: project.serviceSlug,
+        services: (project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : [])).map(
+          (serviceSlug, i) => ({
+            _key: `service-${i}`,
+            _type: "reference",
+            _ref: id("service", serviceSlug, locale),
+          }),
+        ),
         industrySlug: project.industrySlug,
         featured: project.featured ?? false,
         motionVideo: project.motionVideo,

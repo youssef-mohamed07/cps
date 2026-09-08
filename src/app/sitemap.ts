@@ -2,7 +2,6 @@ import type { MetadataRoute } from "next";
 import { locales, localizePath } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/seo";
 import {
-  loadLocations,
   loadNews,
   loadProjects,
 } from "@/sanity/load-collections";
@@ -14,7 +13,6 @@ const staticPaths = [
   "/services",
   "/production-capabilities",
   "/work",
-  "/locations",
   "/news",
   "/contact",
   "/privacy",
@@ -50,10 +48,9 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [projects, locations, news] =
+  const [projects, news] =
     await Promise.all([
       loadProjects("en"),
-      loadLocations("en"),
       loadNews("en"),
     ]);
 
@@ -71,12 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...entry(`/services/${item.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
       ...entry(`/services/${item.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
     ]),
-    ...locations.flatMap((item) =>
-      entry(`/locations/${item.slug}`, {
-        changeFrequency: "monthly",
-        priority: 0.6,
-      }),
-    ),
     ...news.flatMap((item) =>
       entry(`/news/${item.slug}`, {
         changeFrequency: "weekly",

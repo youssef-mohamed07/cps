@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 type ClientItem = {
   quote: string;
   name: string;
@@ -41,6 +39,25 @@ function QuoteIcon() {
   );
 }
 
+function ClientAvatarIcon() {
+  return (
+    <svg
+      className="clients-avatar-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="3.5" fill="currentColor" />
+      <path
+        d="M5.5 19c.45-3.25 3.1-5.5 6.5-5.5s6.05 2.25 6.5 5.5"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 type ClientCardProps = {
   item: ClientItem;
   stagger: number;
@@ -56,15 +73,8 @@ function ClientCard({ item, stagger, hidden }: ClientCardProps) {
       style={{ marginTop: `${stagger}rem` }}
     >
       <div className="clients-card-top">
-        <div className="clients-avatar">
-          <Image
-            src={item.image}
-            alt={hidden ? "" : item.imageAlt}
-            fill
-            sizes="52px"
-            className="object-cover"
-            loading="lazy"
-          />
+        <div className="clients-avatar" aria-hidden="true">
+          <ClientAvatarIcon />
         </div>
         <QuoteIcon />
       </div>

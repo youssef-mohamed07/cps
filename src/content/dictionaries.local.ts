@@ -134,6 +134,7 @@ export interface Dictionary {
     title: string;
     support?: string;
     clientsLine?: string;
+    reasons?: { title: string; description: string }[];
     primary: { title: string; description: string; cta: string; href: string };
     secondary: { title: string; description: string; cta: string; href: string };
     images: {
@@ -609,6 +610,24 @@ const dictionaries: Record<Locale, Dictionary> = {
       support:
         "Everything stays in-house, so nothing gets lost between subcontractors.",
       clientsLine: "Delivered for Ajlan & Bros, SNB, SAB, Sirar by STC, Al Hilal",
+      reasons: [
+        {
+          title: "In-house production",
+          description: "Wood, metal, acrylic, printing and signage are produced by one accountable team.",
+        },
+        {
+          title: "Nationwide delivery",
+          description: "Site survey, installation and dismantling are coordinated across Saudi Arabia.",
+        },
+        {
+          title: "One point of contact",
+          description: "One team owns the work from technical drawing through installation and handover.",
+        },
+        {
+          title: "Proven delivery",
+          description: "Delivered for leading Saudi brands across banking, telecom and retail.",
+        },
+      ],
       primary: {
         title: "In-house production",
         description:
@@ -1179,6 +1198,24 @@ const dictionaries: Record<Locale, Dictionary> = {
       title: "فريق واحد من الفكرة حتى التركيب النهائي",
       support: "كل شيء يبقى داخلياً، فلا يضيع شيء بين المقاولين الفرعيين.",
       clientsLine: "نُفّذ لـ Ajlan & Bros وSNB وSAB وSirar by STC وAl Hilal",
+      reasons: [
+        {
+          title: "إنتاج داخلي",
+          description: "ينتج فريق واحد مسؤول أعمال الخشب والمعدن والأكريليك والطباعة واللافتات.",
+        },
+        {
+          title: "تسليم على مستوى المملكة",
+          description: "ننسق معاينة الموقع والتركيب والتفكيك في أنحاء السعودية.",
+        },
+        {
+          title: "نقطة اتصال واحدة",
+          description: "يتولى فريق واحد العمل من الرسم الفني حتى التركيب والتسليم.",
+        },
+        {
+          title: "سجل تسليم مثبت",
+          description: "نفذنا لعلامات سعودية رائدة في قطاعات البنوك والاتصالات والتجزئة.",
+        },
+      ],
       primary: {
         title: "إنتاج داخلي",
         description:

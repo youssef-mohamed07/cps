@@ -9,7 +9,7 @@ import { media } from "@/content/media";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
-import { loadAboutSeo } from "@/sanity/load-pages";
+import { loadAboutHeroImage, loadAboutSeo } from "@/sanity/load-pages";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -38,6 +38,7 @@ export default async function AboutPage({ params }: PageProps) {
   const locale: Locale = localeParam;
   const dictionary = await resolveDictionary(locale);
   const page = dictionary.aboutPage;
+  const heroImage = await loadAboutHeroImage(locale);
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const faq = faqJsonLd(page.faqItems);
 
@@ -56,8 +57,8 @@ export default async function AboutPage({ params }: PageProps) {
             eyebrow={page.eyebrow}
             title={page.title}
             lead={page.lead}
-            image={media.about.hero}
-            imageAlt={locale === "ar" ? "فريق CPS في ورشة التصنيع" : "CPS team in the fabrication workshop"}
+            image={heroImage.src || media.about.hero}
+            imageAlt={heroImage.alt || (locale === "ar" ? "فريق CPS في ورشة التصنيع" : "CPS team in the fabrication workshop")}
             cta={{
               label: dictionary.nav.cta,
               href: "#about-brief",
@@ -73,6 +74,8 @@ export default async function AboutPage({ params }: PageProps) {
           namespace="about"
           faqItems={page.faqItems}
           faqTitle={locale === "ar" ? "أسئلة عن CPS" : "Questions about CPS"}
+          showStats={false}
+          showClients={false}
         />
     </>
   );

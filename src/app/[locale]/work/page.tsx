@@ -54,7 +54,11 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
   const projects = await loadProjects(locale);
 
   const filtered = projects.filter((project) => {
-    if (service && project.serviceSlug !== service) return false;
+    if (
+      service &&
+      project.serviceSlug !== service &&
+      !project.serviceSlugs?.includes(service)
+    ) return false;
     if (industry && project.industrySlug !== industry) return false;
     return true;
   });

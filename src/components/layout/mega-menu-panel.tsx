@@ -135,7 +135,7 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
               </ul>
             ) : (
               <div
-                className={`mega-columns${isBoothTypes ? " cols-3" : isServices ? " cols-1" : ""}`}
+                className={`mega-columns${isBoothTypes ? " cols-3" : isServices ? " cols-2" : ""}`}
               >
                 {mega.columns.map((column, index) => (
                   <div key={column.title || index} className="mega-column">
@@ -191,6 +191,16 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
             </Link>
           ) : null}
         </div>
+        {mega.strip ? (
+          <Link
+            href={localizePath(mega.strip.href, locale)}
+            className="mega-panel-strip"
+            onClick={onNavigate}
+          >
+            <span>{mega.strip.label}</span>
+            <CtaArrow tone="cyan" size="md" />
+          </Link>
+        ) : null}
       </div>
     </div>
   );

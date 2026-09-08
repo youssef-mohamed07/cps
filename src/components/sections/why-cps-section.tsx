@@ -1,18 +1,71 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
-import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
+import type { ReactNode } from "react";
+
+/* ── Inline SVG icons (48×48 viewBox, stroke-only) ── */
+const whyCpsIcons: Record<string, ReactNode> = {
+  factory: (
+    <>
+      <path d="M8 40V22l10 6V22l10 6V16l12-4v28H8Z" />
+      <path d="M14 40v-6h6v6M24 40v-6h6v6" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="24" cy="24" r="14" />
+      <path d="M10 24h28M24 10c4 4 6 9 6 14s-2 10-6 14c-4-4-6-9-6-14s2-10 6-14Z" />
+    </>
+  ),
+  check: (
+    <>
+      <circle cx="24" cy="24" r="14" />
+      <path d="M16 24l5 5 11-12" />
+    </>
+  ),
+  growth: (
+    <>
+      <path d="M8 38h32" />
+      <path d="M12 38V26l8-8 6 6 10-12" />
+      <path d="M30 12h6v6" />
+    </>
+  ),
+};
+
+const whyCpsIconKeys = ["factory", "globe", "check", "growth"];
+
+function WhyCpsIcon({ name }: { name: string }) {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {whyCpsIcons[name] ?? whyCpsIcons.factory}
+    </svg>
+  );
+}
 
 type WhyCpsSectionProps = {
   locale: Locale;
   content: Dictionary["whyCps"];
 };
 
-/** Home Why CPS — established bento panel, Blueprint reasons in the cards. */
+/** Homepage Why CPS section with the four Blueprint reasons. */
 export function WhyCpsSection({ locale, content }: WhyCpsSectionProps) {
+  const reasons = content.reasons ?? [
+    { title: content.primary.title, description: content.primary.description },
+    { title: content.secondary.title, description: content.secondary.description },
+  ];
+
   return (
     <section id="why-cps" className="section-pad why-cps-section scroll-mt-24">
       <div className="site-container">
@@ -25,78 +78,37 @@ export function WhyCpsSection({ locale, content }: WhyCpsSectionProps) {
               <p className="why-cps-clients-line">{content.clientsLine}</p>
             ) : null}
           </div>
+        </Reveal>
 
-          <div className="why-cps-panel">
-            <div className="why-cps-bento">
-              <div className="why-cps-tile why-cps-tile-wide">
-                <div className="why-cps-image">
-                  <Image
-                    src={media.whyCpsWide}
-                    alt={content.images.wideAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 66vw"
-                    className="object-cover"
-                    loading="lazy"
-                  />
+        <div className="why-cps-reasons">
+          {reasons.map((reason, index) => (
+            <Reveal key={reason.title} delay={0.06 + index * 0.07}>
+              <article className="why-cps-reason">
+                <div className="why-cps-reason-head">
+                  <span className="why-cps-reason-icon" aria-hidden="true">
+                    <WhyCpsIcon name={whyCpsIconKeys[index] ?? "factory"} />
+                  </span>
+                  <span className="why-cps-reason-num" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
-              </div>
+                <h3>{reason.title}</h3>
+                <p>{reason.description}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
 
-              <div className="why-cps-tile why-cps-tile-dark">
-                <div className="why-cps-card is-dark">
-                  <span className="why-cps-mark" aria-hidden="true" />
-                  <h3 className="why-cps-card-title">{content.primary.title}</h3>
-                  <p className="why-cps-card-copy">{content.primary.description}</p>
-                  <Link
-                    href={localizePath(content.primary.href, locale)}
-                    className="why-cps-card-cta is-light"
-                  >
-                    <span>{content.primary.cta}</span>
-                    <CtaArrow size="md" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="why-cps-tile why-cps-tile-left">
-                <div className="why-cps-image">
-                  <Image
-                    src={media.whyCpsLeft}
-                    alt={content.images.leftAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-
-              <div className="why-cps-tile why-cps-tile-soft">
-                <div className="why-cps-card is-soft">
-                  <span className="why-cps-mark" aria-hidden="true" />
-                  <h3 className="why-cps-card-title">{content.secondary.title}</h3>
-                  <p className="why-cps-card-copy">{content.secondary.description}</p>
-                  <Link
-                    href={localizePath(content.secondary.href, locale)}
-                    className="why-cps-card-cta is-dark"
-                  >
-                    <span>{content.secondary.cta}</span>
-                    <CtaArrow size="md" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="why-cps-tile why-cps-tile-right">
-                <div className="why-cps-image">
-                  <Image
-                    src={media.whyCpsRight}
-                    alt={content.images.rightAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
+        <Reveal delay={0.4}>
+          <div className="why-cps-actions">
+            <Link href={localizePath(content.primary.href, locale)} className="btn-primary">
+              <span>{content.primary.cta}</span>
+              <CtaArrow size="md" />
+            </Link>
+            <Link href={localizePath(content.secondary.href, locale)} className="btn-secondary">
+              <span>{content.secondary.cta}</span>
+              <CtaArrow size="md" />
+            </Link>
           </div>
         </Reveal>
       </div>

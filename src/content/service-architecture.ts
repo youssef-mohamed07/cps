@@ -7,6 +7,12 @@ export type CatalogueItem = {
   slug: string;
   title: LocalizedText;
   description: LocalizedText;
+  cityAnchors?: {
+    slug: string;
+    title: LocalizedText;
+    seoTitle: LocalizedText;
+    seoDescription: LocalizedText;
+  }[];
 };
 
 export type CatalogueCategory = {
@@ -73,6 +79,24 @@ const category = (en: string, ar: string, items: CatalogueItem[]): CatalogueCate
   items,
 });
 
+const boothCityAnchors: NonNullable<CatalogueItem["cityAnchors"]> = [
+  ["riyadh", "Riyadh", "الرياض"],
+  ["jeddah", "Jeddah", "جدة"],
+  ["dammam", "Dammam", "الدمام"],
+  ["khobar", "Khobar", "الخبر"],
+  ["makkah", "Makkah", "مكة"],
+  ["madinah", "Madinah", "المدينة المنورة"],
+  ["neom", "NEOM", "نيوم"],
+].map(([slug, en, ar]) => ({
+  slug,
+  title: t(en, ar),
+  seoTitle: t(`Custom-Built Exhibition Booths in ${en}`, `أجنحة معارض مخصصة في ${ar}`),
+  seoDescription: t(
+    `Custom exhibition booth design, fabrication and installation in ${en}, delivered by CPS from one in-house production floor.`,
+    `تصميم وتصنيع وتركيب أجنحة معارض مخصصة في ${ar} عبر منشأة إنتاج CPS الداخلية وفريق واحد مسؤول.`,
+  ),
+}));
+
 const industries = {
   government: t("Government & Public Sector", "الحكومة والقطاع العام"),
   banking: t("Banking & Financial Services", "البنوك والخدمات المالية"),
@@ -107,6 +131,8 @@ export function industrySlug(value: LocalizedText) {
   const aliases: Record<string, string> = {
     Electronics: "technology-electronics",
     Pharmaceutical: "healthcare-pharmaceutical",
+    Fashion: "retail-shopping-malls",
+    "Food & Beverage": "hospitality",
   };
   return (
     aliases[value.en] ??
@@ -200,7 +226,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
       bullets: [
         t("Bespoke booths built around your brand and visitor journey", "أجنحة مخصصة مبنية حول علامتك ومسار الزائر"),
         t("Modular systems built for reuse across multiple shows", "أنظمة معيارية قابلة لإعادة الاستخدام عبر عدة معارض"),
-        t("Double-decker and large-scale pavilions for major exhibitions for major exhibitions", "أجنحة بطابقين ومساحات عرض واسعة للمعارض الكبرى"),
+        t("Double-decker and large-scale pavilions for major exhibitions", "أجنحة بطابقين ومساحات عرض واسعة للمعارض الكبرى"),
         t("One team from technical drawing to on-site installation", "فريق واحد من الرسم الفني حتى التركيب في الموقع"),
       ],
       catalogueCta: t("See All Booth Types", "عرض كل أنواع الأجنحة"),
@@ -210,7 +236,10 @@ export const serviceArchitecture: ServiceArchitecture[] = [
       support: t("Every booth format we build, from a single inline stand to a multi-brand pavilion.", "كل صيغة أجنحة ننفذها، من الجناح الخطي إلى الأجنحة متعددة العلامات."),
       layoutFilters: [t("Inline Booth", "جناح خطي"), t("Corner Booth", "جناح زاوية"), t("Peninsula Booth", "جناح شبه جزيرة"), t("Island Booth", "جناح جزيرة")],
       categories: [category("Booth Types", "أنواع الأجنحة", [
-        item("Custom-Built Exhibition Booths", "أجنحة معارض مخصصة", "Bespoke booths designed around the brand, visitor flow and functional needs — built and finished in-house.", "أجنحة مخصصة تُصمم حول العلامة وتدفق الزوار والاحتياجات الوظيفية، وتُصنّع وتُشطب داخل منشأتنا."),
+        {
+          ...item("Custom-Built Exhibition Booths", "أجنحة معارض مخصصة", "Bespoke booths designed around the brand, visitor flow and functional needs — built and finished in-house.", "أجنحة مخصصة تُصمم حول العلامة وتدفق الزوار والاحتياجات الوظيفية، وتُصنّع وتُشطب داخل منشأتنا."),
+          cityAnchors: boothCityAnchors,
+        },
         item("Modular Exhibition Booths", "أجنحة معارض معيارية", "Reusable framework systems that reconfigure across show sizes without a full rebuild each time.", "أنظمة هياكل قابلة لإعادة الاستخدام وإعادة التشكيل حسب مساحة المعرض، دون إعادة بناء كاملة في كل مرة."),
         item("Double-Decker Booths", "أجنحة بطابقين", "Two-level structures with a working upper floor for meetings, hospitality or storage.", "هياكل بمستويين تضم طابقاً علوياً للاجتماعات أو الضيافة أو التخزين."),
         item("Pavilions & Large-Scale Exhibition Spaces", "الأجنحة والمساحات واسعة النطاق", "Government, country and multi-brand pavilions built for coordinated, large-format production.", "أجنحة حكومية ووطنية ومتعددة العلامات تُبنى بإنتاج منسق وواسع النطاق."),
@@ -283,8 +312,8 @@ export const serviceArchitecture: ServiceArchitecture[] = [
         item("Custom Event Installations", "تركيبات فعاليات مخصصة", "One-off structures for a concept that doesn't fit a standard category.", "هياكل خاصة للأفكار التي لا تندرج ضمن فئة قياسية."),
       ])],
     },
-    why: { headline: t("Why brands choose CPS for event builds", "لماذا تختار العلامات CPS لتجهيز الفعاليات"), support: t("Structural, scenic and branded work handled by one crew.", "فريق واحد يتولى الإنشاء والمشهد والهوية."), items: [t("Structural, scenic and branding built by the same team", "الإنشاء والمشهد والهوية يبنيها نفس الفريق"), t("Rigging and technical build experience for stage work for stage work", "خبرة تعليق وبناء فني لأعمال المنصات"), t("Fast turnaround for activation-driven timelines", "سرعة تنفيذ تناسب الجداول المدفوعة بالتفعيل"), t("One crew from fabrication through on-site install", "فريق واحد من التصنيع حتى التركيب في الموقع")] },
-    benefits: [t("Consistent brand execution across every touchpoint across every touchpoint", "تنفيذ متسق للهوية عبر كل نقاط التواصل"), t("On-site technical support during the event during the event", "دعم فني في الموقع أثناء الفعالية"), t("Custom builds for one-off concepts", "تنفيذات مخصصة للأفكار لمرة واحدة"), t("Coordinated logistics for multi-structure events", "لوجستيات منسقة للفعاليات متعددة الهياكل")],
+    why: { headline: t("Why brands choose CPS for event builds", "لماذا تختار العلامات CPS لتجهيز الفعاليات"), support: t("Structural, scenic and branded work handled by one crew.", "فريق واحد يتولى الإنشاء والمشهد والهوية."), items: [t("Structural, scenic and branding built by the same team", "الإنشاء والمشهد والهوية يبنيها نفس الفريق"), t("Rigging and technical build experience for stage work", "خبرة تعليق وبناء فني لأعمال المنصات"), t("Fast turnaround for activation-driven timelines", "سرعة تنفيذ تناسب الجداول المدفوعة بالتفعيل"), t("One crew from fabrication through on-site install", "فريق واحد من التصنيع حتى التركيب في الموقع")] },
+    benefits: [t("Consistent brand execution across every touchpoint", "تنفيذ متسق للهوية عبر كل نقاط التواصل"), t("On-site technical support during the event", "دعم فني في الموقع أثناء الفعالية"), t("Custom builds for one-off concepts", "تنفيذات مخصصة للأفكار لمرة واحدة"), t("Coordinated logistics for multi-structure events", "لوجستيات منسقة للفعاليات متعددة الهياكل")],
     industries: [industries.government, industries.banking, industries.fmcg, industries.retail, industries.hospitality, industries.sports],
     related: ["exhibitions-booths", "rental-solutions", "installation-project-delivery"],
     faq: [faq("How far in advance should we brief an event build?", "متى ينبغي إرسال موجز تجهيز الفعالية؟", "The earlier the better for stage or rigging-heavy builds — get in touch as soon as the venue and date are set.", "كلما كان أبكر كان أفضل للأعمال التي تتضمن منصات أو متطلبات تعليق كبيرة؛ تواصل معنا بمجرد تحديد المكان والتاريخ."), faq("Can you build stages with specific rigging or load requirements?", "هل تبنون منصات بمتطلبات تعليق أو أحمال محددة؟", "Yes, stage and scenic fabrication is built to your technical and rigging specs.", "نعم، تُصنّع المنصات والعناصر المشهدية وفق مواصفاتك الفنية ومتطلبات التعليق."), faq("Do you handle teardown the same night?", "هل تتولون التفكيك في الليلة نفسها؟", "Yes — dismantling is coordinated around the event's move-out schedule.", "نعم، يُنسق التفكيك وفق جدول إخلاء الفعالية."), faq("Can VIP or hospitality areas be added to an existing structure?", "هل يمكن إضافة مناطق لكبار الزوار أو الضيافة إلى هيكل قائم؟", "Yes, these can be built as an extension of an existing stage or event structure.", "نعم، يمكن تنفيذها امتداداً لمنصة أو هيكل فعالية قائم.")],
@@ -322,15 +351,15 @@ export const serviceArchitecture: ServiceArchitecture[] = [
     },
     hero: { headline: t("From empty space to branded environment.", "من مساحة فارغة إلى بيئة متكاملة الهوية."), support: t("Commercial interiors built and finished end-to-end.", "تنفيذ وتشطيب المساحات التجارية من البداية للنهاية."), bullets: [t("Office, showroom and retail fit-outs", "تجهيز المكاتب وصالات العرض والمتاجر"), t("Reception and corporate front-of-house spaces", "مناطق الاستقبال والواجهات المؤسسية"), t("Branded corners and custom interior elements", "زوايا هوية وعناصر داخلية مخصصة"), t("One team from drawing to final finishing", "فريق واحد من الرسم حتى التشطيب النهائي")], catalogueCta: t("See All Fit-Out Types", "عرض كل أنواع التجهيز") },
     catalogue: { title: t("All Fit-Out Types", "كل أنواع التجهيز الداخلي"), support: t("Every interior environment CPS delivers, from a single counter to a full fit-out.", "كل بيئة داخلية تنفذها CPS، من كاونتر واحد إلى تجهيز متكامل."), categories: [category("Fit-Out Types", "أنواع التجهيز", [
-      item("Office Fit-Out", "تجهيز المكاتب", "Workspaces, meeting rooms and executive environments finished end-to-end, from partitioning to furniture.", "مساحات عمل وغرف اجتماعات ومكاتب تنفيذية تُجهّز بالكامل."),
-      item("Showroom Fit-Out", "تجهيز صالات العرض", "Corporate, product and sales showrooms built to hold up under daily foot traffic and repeated demos.", "صالات عرض للشركات والمنتجات والتجارب والمبيعات."),
+      item("Office Fit-Out", "تجهيز المكاتب", "Workspaces, meeting rooms and executive offices finished end-to-end.", "مساحات عمل وغرف اجتماعات ومكاتب تنفيذية تُجهّز بالكامل."),
+      item("Showroom Fit-Out", "تجهيز صالات العرض", "Corporate, product, experience and sales showrooms.", "صالات عرض للشركات والمنتجات والتجارب والمبيعات."),
       item("Retail Fit-Out", "تجهيز المتاجر", "Retail stores, shop-in-shop concepts, branded corners and kiosks.", "متاجر ومفاهيم متجر داخل متجر وزوايا تحمل الهوية وأكشاك."),
       item("Reception & Corporate Areas", "مناطق الاستقبال والمؤسسات", "Front-of-house spaces and client-facing corporate environments.", "مساحات استقبال وبيئات مؤسسية موجهة للعملاء."),
       item("Brand Corners", "زوايا العلامة", "Dedicated branded spaces inside offices, retail, exhibitions or partner sites.", "مساحات مخصصة للعلامة داخل المكاتب والمتاجر والمعارض أو مواقع الشركاء."),
       item("Custom Interior Elements", "عناصر داخلية مخصصة", "Counters, cabinetry, feature walls and display units built to match the space.", "كاونترات وخزائن وجدران مميزة ووحدات عرض مصممة لتناسب المساحة."),
     ])] },
     why: { headline: t("Why brands choose CPS for fit-outs", "لماذا تختار العلامات CPS للتجهيزات الداخلية"), support: t("One contractor for partitioning, finishes, branding and furniture.", "مقاول واحد للقواطع والتشطيبات والهوية والأثاث."), items: [t("One team for partitioning, finishes, branding and furniture", "فريق واحد لكل التخصصات"), t("Coordinated site works with minimal downtime", "أعمال موقع منسقة بأقل توقف"), t("In-house joinery and metalwork for custom elements", "نجارة وأعمال معدنية داخلية"), t("Fit-outs built to daily-use durability standards", "معايير متانة للاستخدام اليومي")] },
-    benefits: [t("Single contractor across design, fabrication and install", "مقاول واحد من التصميم حتى التركيب"), t("Consistent brand application throughout the space across the space", "تطبيق متسق للهوية عبر المساحة"), t("Reduced coordination overhead versus multiple contractors between trades", "جهد تنسيق أقل بين التخصصات"), t("Custom elements matched to existing interiors", "عناصر مخصصة متوافقة مع المساحة القائمة")],
+    benefits: [t("Single contractor across design, fabrication and install", "مقاول واحد من التصميم حتى التركيب"), t("Consistent brand application throughout the space", "تطبيق متسق للهوية عبر المساحة"), t("Reduced coordination overhead versus multiple contractors", "جهد تنسيق أقل بين التخصصات"), t("Custom elements matched to existing interiors", "عناصر مخصصة متوافقة مع المساحة القائمة")],
     industries: [industries.banking, industries.realEstate, industries.retail, industries.healthcare, industries.technology, industries.hospitality],
     related: ["retail-displays", "custom-fabrication", "printing-signage"],
     faq: [faq("Can you fit out an occupied office without disrupting work?", "هل يمكن تجهيز مكتب مشغول دون تعطيل العمل؟", "Yes, phased fit-out schedules can be planned around business hours.", "نعم، يمكن تخطيط جدول تجهيز على مراحل يراعي ساعات العمل."), faq("Do you handle permits and approvals?", "هل تتولون التصاريح والموافقات؟", "Site survey and technical drawing stages flag what's needed — let's discuss your specific site.", "تحدد معاينة الموقع ومرحلة الرسومات الفنية المتطلبات اللازمة؛ لنتناقش حول موقعك تحديداً."), faq("Can a retail fit-out be replicated across multiple stores?", "هل يمكن تكرار تجهيز متجر عبر عدة فروع؟", "Yes, retail fit-outs can be standardized and rolled out across locations.", "نعم، يمكن توحيد مواصفات التجهيز وتنفيذه عبر عدة مواقع."), faq("What's the typical timeline for an office fit-out?", "ما المدة المعتادة لتجهيز مكتب؟", "Depends on scope and site condition — request a quote for a schedule specific to your space.", "تعتمد على نطاق العمل وحالة الموقع؛ اطلب عرض سعر لجدول زمني يناسب مساحتك تحديداً.")],
@@ -369,7 +398,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
     hero: { headline: t("Designed to be seen. Built to sell.", "مصممة لتُرى ومبنية لتبيع."), support: t("Custom retail displays built for visibility and merchandising.", "عروض تجزئة مخصصة للظهور القوي والعرض الفعال."), bullets: [t("Gondolas and product display stands", "جندولات وحوامل عرض منتجات"), t("POS/POP units for promotions and campaigns", "وحدات نقاط بيع للحملات"), t("Kiosks, window and countertop displays", "أكشاك وواجهات وعروض كاونتر"), t("One-off units or multi-location rollouts", "قطعة واحدة أو نشر عبر مواقع متعددة")], catalogueCta: t("See All Display Types", "عرض كل أنواع العرض") },
     catalogue: { title: t("All Display Types", "كل أنواع العروض"), support: t("Every retail display format CPS produces, as a one-off unit or scaled across locations.", "كل صيغ عرض التجزئة التي تنتجها CPS، كقطعة واحدة أو على نطاق واسع."), categories: [category("Display Types", "أنواع العرض", [
       item("Gondolas", "جندولات", "Freestanding or wall-adjacent units for organized, high-volume merchandising.", "وحدات مستقلة أو بمحاذاة الجدران لعرض المنتجات بكميات كبيرة وبطريقة منظمة."),
-      item("Product Display Stands", "حوامل عرض المنتجات", "Structures sized and shaped around a specific product line and how shoppers interact with it.", "هياكل بمقاسات وأشكال تناسب خط منتجات محدداً."),
+      item("Product Display Stands", "حوامل عرض المنتجات", "Structures sized and shaped around a specific product line.", "هياكل بمقاسات وأشكال تناسب خط منتجات محدداً."),
       item("POS Displays", "عروض نقاط البيع", "Point-of-sale units placed to convert attention into purchase.", "وحدات عند نقاط البيع لتحويل الانتباه إلى شراء."),
       item("POP Displays", "عروض نقطة الشراء", "Campaign-led point-of-purchase units for promotional and seasonal pushes.", "وحدات عند نقاط الشراء تدعم الحملات الترويجية والموسمية."),
       item("Promotional Kiosks", "أكشاك ترويجية", "Compact branded structures for sampling, sales and short-run promotions.", "هياكل مدمجة تحمل الهوية لتوزيع العينات والمبيعات والحملات الترويجية قصيرة المدة."),

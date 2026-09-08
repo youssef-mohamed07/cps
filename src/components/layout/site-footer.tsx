@@ -26,6 +26,7 @@ function FooterNavColumn({
   maxLinks,
   viewAllHref,
   viewAllLabel,
+  className = "",
 }: {
   locale: Locale;
   title: string;
@@ -33,12 +34,13 @@ function FooterNavColumn({
   maxLinks?: number;
   viewAllHref?: string;
   viewAllLabel?: string;
+  className?: string;
 }) {
   const visible = maxLinks ? links.slice(0, maxLinks) : links;
   const showViewAll = Boolean(viewAllHref && viewAllLabel);
 
   return (
-    <nav className="footer-col" aria-label={title}>
+    <nav className={`footer-col ${className}`.trim()} aria-label={title}>
       <h3 className="footer-col-title">{title}</h3>
       <ul className="footer-link-list">
         {visible.map((link) => (
@@ -77,12 +79,11 @@ export function SiteFooter({
               <Image
                 src={footer.logo}
                 alt={footer.logoAlt}
-                width={180}
-                height={64}
+                width={360}
+                height={128}
                 className="footer-logo-image"
               />
             </Link>
-            <p className="footer-description">{footer.description}</p>
           </div>
           <div className="footer-brand-actions">
             <Link href={localizePath(footer.cta.href, locale)} className="footer-cta">
@@ -122,6 +123,7 @@ export function SiteFooter({
               locale={locale}
               title={footer.servicesTitle}
               links={serviceLinks}
+              className="footer-col-services"
             />
           ) : null}
 
@@ -156,6 +158,12 @@ export function SiteFooter({
           </section>
         </div>
 
+      </div>
+
+      <div className="footer-closing-line">
+        <div className="site-container">
+          <p>{footer.description}</p>
+        </div>
       </div>
 
       <div className="footer-bottom">

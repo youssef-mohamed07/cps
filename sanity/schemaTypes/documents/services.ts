@@ -12,6 +12,13 @@ export const service = defineType({
     slugField,
     defineField({ name: "excerpt", type: "text", rows: 3, title: "Excerpt" }),
     defineField({
+      name: "blueprintVersion",
+      type: "number",
+      title: "Blueprint content version",
+      description: "Set by the content migration so the frontend can distinguish current copy from legacy service content.",
+      readOnly: true,
+    }),
+    defineField({
       name: "hero",
       type: "image",
       title: "Hero image",

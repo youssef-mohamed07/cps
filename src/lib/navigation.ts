@@ -218,7 +218,7 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
           columns,
           featured: item.mega.featured || localItem.mega.featured,
           cta: item.mega.cta || localItem.mega.cta,
-          strip: undefined,
+          strip: localItem.mega.strip,
         },
       };
     }

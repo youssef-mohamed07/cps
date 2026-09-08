@@ -12,6 +12,7 @@ type InnerPageEngagementProps = {
   faqTitle?: string;
   namespace?: string;
   showStats?: boolean;
+  showClients?: boolean;
 };
 
 export function InnerPageEngagement({
@@ -21,6 +22,7 @@ export function InnerPageEngagement({
   faqTitle,
   namespace = "inner",
   showStats = true,
+  showClients = true,
 }: InnerPageEngagementProps) {
   return (
     <div className="inner-engagement">
@@ -33,13 +35,15 @@ export function InnerPageEngagement({
           items={dictionary.stats.items}
         />
       ) : null}
-      <ClientsSection
-        id={`${namespace}-clients`}
-        eyebrow={dictionary.clients.eyebrow}
-        title={dictionary.clients.title}
-        support={dictionary.clients.support}
-        items={dictionary.clients.items}
-      />
+      {showClients ? (
+        <ClientsSection
+          id={`${namespace}-clients`}
+          eyebrow={dictionary.clients.eyebrow}
+          title={dictionary.clients.title}
+          support={dictionary.clients.support}
+          items={dictionary.clients.items}
+        />
+      ) : null}
       <BriefFormSection
         id={`${namespace}-brief`}
         locale={locale}

@@ -19,7 +19,7 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/[locale]/work/[slug]` | Project detail | Client / sector, project type, location, scope of work, services, challenge, CPS solution, production elements and gallery; CMS + `projects.ts` fallback |
 | `/[locale]/industries` | Legacy redirect | Redirects to filtered Projects / Work |
 | `/[locale]/locations` | Legacy cities hub | Retained for existing URLs; not linked from the footer |
-| `/[locale]/locations/[slug]` | City detail | Parent for services + booth types |
+| `/[locale]/locations/[slug]` | Legacy city detail | Retained for existing URLs |
 | `/[locale]/locations/[slug]/services/[serviceSlug]` | Legacy service URL | Redirected to the matching top-level service |
 | `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Legacy booth URL | Redirected to Exhibitions & Booths catalogue |
 | `/[locale]/news` | Insights index | |
@@ -70,9 +70,11 @@ catalog.ts / projects.ts / dictionaries.local.ts  ──┐
 Sanity collections + singletons (optional) ─────────┘
 ```
 
-**Important:** loaders fall back to local TypeScript when Sanity is empty or unconfigured.
+**Important:** loaders fall back to local TypeScript when Sanity is empty or unconfigured. Service copy from Sanity is only allowed to replace Blueprint v5 fallback copy when the service document carries `blueprintVersion: 5`; CMS media can still override independently.
 
 ## Layout chrome
+
+- Project detail facts use a compact summary row, followed by a separate two-column scope/services panel. Service tags normalize known service slugs and remove duplicate labels; narrow screens stack the delivery panel while keeping summary facts in two columns.
 
 - `SiteChrome` resolves `navigation` + `siteFooter` and renders mega-menu `SiteHeader` + premium `SiteFooter`
 - Footer services come from the eight-service architecture; the former secondary collection slot now renders the Work links required by the blueprint
@@ -82,7 +84,7 @@ Sanity collections + singletons (optional) ─────────┘
 
 - Per-page metadata via `buildPageMetadata` (hreflang already in `buildMetadata`)
 - Breadcrumbs + JSON-LD on detail templates
-- Sitemap emits all collection URLs with `alternates.languages`
+- Sitemap emits canonical Blueprint routes with `alternates.languages`; legacy location and booth-type routes remain reachable through redirects but are excluded from the sitemap
 
 ## Related docs
 

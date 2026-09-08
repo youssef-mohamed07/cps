@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { Reveal } from "@/components/motion/reveal";
@@ -13,9 +10,8 @@ type ServicesSectionProps = {
   content: Dictionary["services"];
 };
 
-/** Home services — established expand-list pattern, Blueprint 8-service content. */
+/** Homepage overview of the eight Blueprint services. */
 export function ServicesSection({ locale, content }: ServicesSectionProps) {
-  const [active, setActive] = useState(0);
   const exploreLabel = locale === "ar" ? "استكشف الخدمة" : "Explore service";
 
   return (
@@ -29,55 +25,36 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
           </div>
         </Reveal>
 
-        <div className="service-expand-list" onMouseLeave={() => setActive(0)}>
+        <div className="home-services-grid">
           {content.items.map((item, index) => {
             const href = item.slug
               ? localizePath(`/services/${item.slug}`, locale)
               : localizePath("/services", locale);
-            const isActive = active === index;
-
             return (
-              <article
-                key={item.title}
-                className={`service-expand${isActive ? " is-active" : ""}`}
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
-              >
-                <div className="service-expand-copy">
-                  <h3 className="service-expand-title">
-                    <Link href={href} className="service-expand-title-link">
-                      {item.title}
-                    </Link>
-                  </h3>
-                  <p className="service-expand-copy-text">{item.description}</p>
-                  <Link
-                    href={href}
-                    className="service-expand-cta"
-                    tabIndex={isActive ? 0 : -1}
-                    aria-hidden={!isActive}
-                  >
-                    <span>{exploreLabel}</span>
-                    <CtaArrow size="md" />
-                  </Link>
-                </div>
-
+              <Reveal key={item.title} delay={(index % 4) * 0.04}>
+                <Link href={href} className="home-service-card">
                 {item.image ? (
-                  <Link
-                    href={href}
-                    className="service-expand-media"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                  >
+                  <div className="home-service-card-media">
                     <Image
                       src={item.image}
                       alt=""
                       fill
-                      sizes="(max-width: 768px) 100vw, 42vw"
+                      sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 25vw"
                       className="object-cover"
                     />
-                  </Link>
+                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  </div>
                 ) : null}
-              </article>
+                  <div className="home-service-card-copy">
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <span className="home-service-card-cta">
+                      <span>{exploreLabel}</span>
+                      <CtaArrow size="md" />
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             );
           })}
         </div>

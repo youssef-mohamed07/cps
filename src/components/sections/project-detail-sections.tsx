@@ -4,6 +4,7 @@ import { ProjectGalleryMarquee } from "@/components/sections/project-gallery-mar
 import { ProjectMotionSection } from "@/components/sections/project-motion-section";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
+import { getServiceArchitecture, localizeText, projectIndustryOptions } from "@/content/service-architecture";
 import { localizePath, type Locale } from "@/lib/i18n";
 
 export type ProjectDetailItem = {
@@ -27,6 +28,7 @@ export type ProjectDetailItem = {
   boothTypeLabel?: string;
   locationLabel?: string;
   serviceLabel?: string;
+  serviceLabels?: string[];
   clientName?: string;
 };
 
@@ -62,13 +64,23 @@ export function ProjectDetailSections({
   relatedProjects = [],
 }: ProjectDetailSectionsProps) {
   const isArabic = locale === "ar";
+  const industryValue = project.industryLabel || project.category;
+  const industry = projectIndustryOptions.find((item) => item.slug === industryValue);
+  const sector = industry ? localizeText(industry.title, locale) : industryValue;
+  const services = Array.from(new Set(
+    (project.serviceLabels?.length ? project.serviceLabels : [project.serviceLabel || ""])
+      .filter(Boolean)
+      .map((label) => {
+        const service = getServiceArchitecture(label);
+        return service ? localizeText(service.title, locale) : label;
+      }),
+  ));
 
   const facts = [
     {
       label: isArabic ? "العميل / القطاع" : "Client / Sector",
-      value: [project.clientName, project.industryLabel || project.category]
-        .filter(Boolean)
-        .join(" / "),
+      value: project.clientName || sector,
+      note: project.clientName ? sector : undefined,
     },
     project.boothTypeLabel || project.serviceLabel
       ? {
@@ -82,22 +94,13 @@ export function ProjectDetailSections({
           value: project.locationLabel,
         }
       : null,
-    project.scopeOfWork
-      ? { label: isArabic ? "نطاق العمل" : "Scope of Work", value: project.scopeOfWork }
-      : null,
-    project.serviceLabel
-      ? {
-          label: isArabic ? "الخدمات المقدمة" : "Services Provided",
-          value: project.serviceLabel,
-        }
-      : null,
     project.event
       ? { label: isArabic ? "الحدث" : "Event", value: project.event }
       : null,
     project.size
       ? { label: isArabic ? "المساحة" : "Size", value: project.size }
       : null,
-  ].filter(Boolean) as { label: string; value: string }[];
+  ].filter(Boolean) as { label: string; value: string; note?: string }[];
 
   const story = [
     { key: "challenge", label: labels.challenge, body: project.challenge },
@@ -116,11 +119,40 @@ export function ProjectDetailSections({
               <Reveal>
                 <dl className="project-detail-facts-list">
                   {facts.map((fact) => (
-                    <div key={fact.label} className="project-detail-fact">
+                    <div
+                      key={fact.label}
+                      className="project-detail-fact"
+                    >
                       <dt>{fact.label}</dt>
-                      <dd>{fact.value}</dd>
+                      <dd>
+                        {fact.value}
+                        {fact.note ? <span className="project-detail-fact-note">{fact.note}</span> : null}
+                      </dd>
                     </div>
                   ))}
+                </dl>
+              </Reveal>
+            ) : null}
+
+            {project.scopeOfWork || services.length ? (
+              <Reveal>
+                <dl className="project-detail-delivery">
+                  {project.scopeOfWork ? (
+                    <div className="project-detail-delivery-item">
+                      <dt>{isArabic ? "نطاق العمل" : "Scope of Work"}</dt>
+                      <dd>{project.scopeOfWork}</dd>
+                    </div>
+                  ) : null}
+                  {services.length ? (
+                    <div className="project-detail-delivery-item">
+                      <dt>{isArabic ? "الخدمات المقدمة" : "Services Provided"}</dt>
+                      <dd>
+                        <ul className="project-detail-service-tags">
+                          {services.map((service) => <li key={service}>{service}</li>)}
+                        </ul>
+                      </dd>
+                    </div>
+                  ) : null}
                 </dl>
               </Reveal>
             ) : null}

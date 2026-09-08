@@ -71,8 +71,7 @@ function footerEn(): FooterConfig {
     showWork: true,
     companyLinksTitle: "Company",
     companyLinks: [
-      { label: "About", href: "/about" },
-      { label: "Work", href: "/work" },
+      { label: "About CPS", href: "/about" },
       { label: "Production Capabilities", href: "/production-capabilities" },
       { label: "Insights", href: "/news" },
       { label: "Contact", href: "/contact" },
@@ -131,8 +130,7 @@ function footerAr(): FooterConfig {
     showWork: true,
     companyLinksTitle: "الشركة",
     companyLinks: [
-      { label: "من نحن", href: "/about" },
-      { label: "أعمالنا", href: "/work" },
+      { label: "عن CPS", href: "/about" },
       { label: "قدرات الإنتاج", href: "/production-capabilities" },
       { label: "رؤى", href: "/news" },
       { label: "تواصل", href: "/contact" },
