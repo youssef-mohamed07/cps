@@ -65,7 +65,6 @@ export default async function ContactPage({ params }: PageProps) {
       <ContactPageSections
         locale={locale}
         copy={page}
-        briefForm={dictionary.briefForm}
         config={config}
       />
     </>

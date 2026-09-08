@@ -5,7 +5,16 @@ import type { Locale } from "@/lib/i18n";
 export type NavLink = { label: string; href: string; description?: string; icon?: string; image?: string; imageAlt?: string };
 export type NavColumn = { title?: string; links: NavLink[] };
 export type NavFeatured = { enabled: boolean; title: string; description: string; href: string; ctaLabel: string; image: string; imageAlt: string };
-export type NavMega = { enabled: boolean; layout: "services" | "boothTypes" | "columns"; title: string; description: string; columns: NavColumn[]; featured?: NavFeatured; cta?: { label: string; href: string } };
+export type NavMega = {
+  enabled: boolean;
+  layout: "services" | "boothTypes" | "columns";
+  title: string;
+  description: string;
+  columns: NavColumn[];
+  featured?: NavFeatured;
+  cta?: { label: string; href: string };
+  strip?: { label: string; href: string };
+};
 export type NavPrimaryItem = { enabled: boolean; label: string; href: string; kind: "link" | "mega" | "dropdown"; mega?: NavMega; dropdown?: NavLink[] };
 export type NavigationConfig = { items: NavPrimaryItem[]; footer: NavLink[]; cta: { label: string; href: string }; langLabel: string; langHrefLocale: Locale };
 
@@ -52,9 +61,11 @@ function navigation(locale: Locale): NavigationConfig {
           featured: {
             enabled: true,
             title: ar ? "قدرات الإنتاج" : "Production Capabilities",
-            description: ar ? "شاهد كيف نجمع الخشب والمعدن والأكريليك والطباعة والتركيب." : "See how wood, metal, acrylic, print and installation come together.",
+            description: ar
+              ? "شاهد كيف نبني — أرض إنتاج واحدة للخشب والمعدن والأكريليك والطباعة والتركيب."
+              : "See how we build it — one production floor for wood, metal, acrylic, print and installation.",
             href: "/production-capabilities",
-            ctaLabel: ar ? "شاهد كيف نبني" : "See how we build it",
+            ctaLabel: ar ? "شاهد كيف نبني ← قدرات الإنتاج" : "See how we build it → Production Capabilities",
             image: media.services.fabrication,
             imageAlt: ar ? "الإنتاج داخل CPS" : "CPS in-house production",
           },

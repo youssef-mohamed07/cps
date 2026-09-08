@@ -1,8 +1,12 @@
-import { BriefForm } from "@/components/forms/brief-form";
+import { Suspense } from "react";
+import { QuoteForm } from "@/components/forms/quote-form";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { SocialIcon } from "@/components/ui/social-icon";
-import type { BriefFormCopy } from "@/content/brief-form.copy";
+import {
+  contactServiceOptions,
+  getQuoteFormCopy,
+} from "@/content/quote-form.copy";
 import type { Locale } from "@/lib/i18n";
 import {
   getMailtoUrl,
@@ -38,13 +42,11 @@ export type ContactPageCopy = {
 type ContactPageSectionsProps = {
   locale: Locale;
   copy: ContactPageCopy;
-  briefForm: BriefFormCopy;
   config: SiteConfigShape;
 };
 
 function mapsOpenUrl(config: SiteConfigShape) {
   const configured = config.googleMapsUrl?.trim();
-  // Prefer a normal Maps link for “Open in Google Maps”, not an iframe embed URL.
   if (configured && !configured.includes("/maps/embed")) return configured;
   const query = encodeURIComponent(
     `${config.name}, ${config.address.city}, ${config.address.countryName}`,
@@ -52,26 +54,20 @@ function mapsOpenUrl(config: SiteConfigShape) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
-/**
- * Google blocks regular `/maps?q=…&output=embed` URLs in iframes
- * (“refused to connect”). Only `/maps/embed` (Share → Embed map) is frame-safe.
- */
 function mapsEmbedUrl(config: SiteConfigShape) {
   const configured = config.googleMapsUrl?.trim();
   if (configured?.includes("/maps/embed")) return configured;
-
-  // Default HQ pin — Riyadh (replace in Site Settings with a Share → Embed URL).
   return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d463877.3058960534!2d46.41503094999999!3d24.725455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d489399%3A0xba974d1c98e2fd08!2sRiyadh!5e0!3m2!1sen!2ssa!4v1710000000000!5m2!1sen!2ssa";
 }
 
 export function ContactPageSections({
   locale,
   copy,
-  briefForm,
   config,
 }: ContactPageSectionsProps) {
   const isArabic = locale === "ar";
   const embedUrl = mapsEmbedUrl(config);
+  const quoteCopy = getQuoteFormCopy(locale, "contact");
 
   return (
     <>
@@ -161,7 +157,21 @@ export function ContactPageSections({
 
           <Reveal delay={0.08}>
             <div className="brief-form-shell contact-brief-shell">
-              <BriefForm locale={locale} copy={briefForm} />
+              <div className="quote-form-intro">
+                <p className="eyebrow">{quoteCopy.eyebrow}</p>
+                <h2 className="display">{quoteCopy.title}</h2>
+                <p className="lede">{quoteCopy.support}</p>
+              </div>
+              <Suspense fallback={<div className="quote-form-loading" />}>
+                <QuoteForm
+                  locale={locale}
+                  copy={quoteCopy}
+                  options={contactServiceOptions[locale]}
+                  contextLabel="Contact page"
+                  requestType="contact"
+                  preferUrlItem={false}
+                />
+              </Suspense>
             </div>
           </Reveal>
         </div>

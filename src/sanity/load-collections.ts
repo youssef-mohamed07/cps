@@ -24,7 +24,8 @@ import {
 } from "@/content/projects";
 import type { Locale } from "@/lib/i18n";
 import { sanityFetch } from "@/sanity/fetch";
-import { clientLogos, type ClientLogo } from "@/content/clients";
+import type { ClientLogo } from "@/content/clients";
+import { clientLogos } from "@/content/clients";
 import {
   BOOTH_TYPE_BY_SLUG_QUERY,
   BOOTH_TYPES_QUERY,
@@ -288,11 +289,16 @@ export async function loadProjects(locale: Locale): Promise<CmsProject[]> {
     .filter((item): item is CmsProject => Boolean(item));
 
   if (mapped.length) {
-    return mapped.map((item) => {
+    const merged = mapped.map((item) => {
       const project = getProject(item.slug);
       const local = project ? localProject(project, locale) : null;
       return mergeProjectFallback(item, local);
     });
+    const remoteSlugs = new Set(merged.map((item) => item.slug));
+    const localOnly = localProjects
+      .filter((item) => !remoteSlugs.has(item.slug))
+      .map((item) => localProject(item, locale));
+    return [...merged, ...localOnly];
   }
   return localProjects.map((item) => localProject(item, locale));
 }
@@ -586,7 +592,7 @@ export async function loadClients(locale: Locale): Promise<ClientLogo[]> {
     tags: ["client", `client-${locale}`],
   });
 
-  const mapped =
+  const fromCms =
     remote
       ?.map((item) => {
         const src = toImageSrc(item.logo, item.logoUrl ?? "");
@@ -595,5 +601,5 @@ export async function loadClients(locale: Locale): Promise<ClientLogo[]> {
       })
       .filter((item): item is ClientLogo => Boolean(item)) ?? [];
 
-  return mapped.length ? mapped : clientLogos;
+  return fromCms.length ? fromCms : clientLogos;
 }

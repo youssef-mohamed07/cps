@@ -13,6 +13,7 @@ type ServicesSectionProps = {
   content: Dictionary["services"];
 };
 
+/** Home services — established expand-list pattern, Blueprint 8-service content. */
 export function ServicesSection({ locale, content }: ServicesSectionProps) {
   const [active, setActive] = useState(0);
   const exploreLabel = locale === "ar" ? "استكشف الخدمة" : "Explore service";
@@ -28,10 +29,7 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
           </div>
         </Reveal>
 
-        <div
-          className="service-expand-list"
-          onMouseLeave={() => setActive(0)}
-        >
+        <div className="service-expand-list" onMouseLeave={() => setActive(0)}>
           {content.items.map((item, index) => {
             const href = item.slug
               ? localizePath(`/services/${item.slug}`, locale)
@@ -87,10 +85,7 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
         {content.cta ? (
           <Reveal>
             <div className="section-cta-row">
-              <Link
-                href={localizePath("/services", locale)}
-                className="btn-secondary"
-              >
+              <Link href={localizePath("/services", locale)} className="btn-secondary">
                 {content.cta}
               </Link>
             </div>

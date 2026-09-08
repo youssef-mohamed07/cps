@@ -64,21 +64,17 @@ export function ProjectDetailSections({
   const isArabic = locale === "ar";
 
   const facts = [
-    { label: isArabic ? "العميل / القطاع" : "Client / Sector", value: [project.clientName, project.industryLabel || project.category].filter(Boolean).join(" / ") },
-    project.event
-      ? { label: isArabic ? "الحدث" : "Event", value: project.event }
-      : null,
-    project.size
-      ? { label: isArabic ? "المساحة" : "Size", value: project.size }
-      : null,
-    project.boothTypeLabel
+    {
+      label: isArabic ? "العميل / القطاع" : "Client / Sector",
+      value: [project.clientName, project.industryLabel || project.category]
+        .filter(Boolean)
+        .join(" / "),
+    },
+    project.boothTypeLabel || project.serviceLabel
       ? {
           label: isArabic ? "نوع المشروع" : "Project Type",
-          value: project.boothTypeLabel,
+          value: project.boothTypeLabel || project.serviceLabel || "",
         }
-      : null,
-    project.serviceLabel
-      ? { label: isArabic ? "الخدمات المقدمة" : "Services Provided", value: project.serviceLabel }
       : null,
     project.locationLabel
       ? {
@@ -88,6 +84,18 @@ export function ProjectDetailSections({
       : null,
     project.scopeOfWork
       ? { label: isArabic ? "نطاق العمل" : "Scope of Work", value: project.scopeOfWork }
+      : null,
+    project.serviceLabel
+      ? {
+          label: isArabic ? "الخدمات المقدمة" : "Services Provided",
+          value: project.serviceLabel,
+        }
+      : null,
+    project.event
+      ? { label: isArabic ? "الحدث" : "Event", value: project.event }
+      : null,
+    project.size
+      ? { label: isArabic ? "المساحة" : "Size", value: project.size }
       : null,
   ].filter(Boolean) as { label: string; value: string }[];
 
@@ -141,11 +149,11 @@ export function ProjectDetailSections({
         images={project.gallery}
         videoSrc={project.motionVideo}
         eyebrow={isArabic ? "موشن" : "Motion"}
-        heading={isArabic ? "شاهد الجناح يتحرّك." : "See the booth in motion."}
+        heading={isArabic ? "شاهد المشروع يتحرّك." : "See the project in motion."}
         support={
           isArabic
-            ? "لقطة سينمائية من أرض المعرض والتنفيذ."
-            : "A cinematic cut from the build and show floor."
+            ? "لقطة من التنفيذ والموقع النهائي."
+            : "A cinematic cut from fabrication through final install."
         }
       />
 

@@ -34,15 +34,16 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
 
           <Reveal className="about-story-panel">
             <p className="eyebrow eyebrow-on-dark">{page.storyTitle}</p>
-            <h2 className="about-story-title">{page.storyHeadline}</h2>
+            <h2 className="display display-on-dark about-story-title">{page.storyHeadline}</h2>
             <p className="about-story-body">{page.story}</p>
             <p className="about-story-body about-story-body--second">
               {page.storySecond}
             </p>
             <p className="about-story-mark">
-              {isArabic
-                ? "فريق واحد. دورة حياة كاملة. بلا فجوات."
-                : "One team. Full lifecycle. No handoff gaps."}
+              {page.closingLine ??
+                (isArabic
+                  ? "فريق واحد. دورة حياة كاملة. بلا فجوات."
+                  : "One team. Full lifecycle. No handoff gaps.")}
             </p>
           </Reveal>
         </div>
@@ -53,9 +54,9 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
           <Reveal>
             <div className="about-values-head">
               <p className="eyebrow eyebrow-on-dark">
-                {isArabic ? "المبادئ" : "Principles"}
+                {isArabic ? "ما يميزنا" : "Key differentiators"}
               </p>
-              <h2 className="about-values-title">{page.valuesTitle}</h2>
+              <h2 className="display display-on-dark about-values-title">{page.valuesTitle}</h2>
               <p className="about-values-support">{page.valuesSupport}</p>
             </div>
           </Reveal>
@@ -81,7 +82,7 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
           <Reveal>
             <div className="about-workshop-head">
               <p className="eyebrow">{isArabic ? "الورشة" : "Workshop"}</p>
-              <h2 className="about-workshop-title">{page.studioTitle}</h2>
+              <h2 className="display about-workshop-title">{page.studioTitle}</h2>
               <p className="about-workshop-support">{page.studioSupport}</p>
             </div>
           </Reveal>

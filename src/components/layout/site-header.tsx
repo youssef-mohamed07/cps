@@ -79,6 +79,13 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, [mobileOpen, openKey]);
 
   useEffect(() => {
+    lastScrollY.current = 0;
+    setHidden(false);
+    setMobileOpen(false);
+    setOpenKey(null);
+    setMobileExpanded(null);
+    setHeroInView(true);
+
     const hero = document.querySelector(
       ".home-hero, .page-hero, .service-architecture-hero",
     );
@@ -382,13 +389,6 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               <span className="sr-only">{navigation.langLabel}</span>
             </Link>
             <Link
-              href={localizePath("/work", locale)}
-              className="site-header-work-link"
-              onClick={closeAll}
-            >
-              {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
-            </Link>
-            <Link
               href={localizePath(navigation.cta.href, locale)}
               className="site-header-cta"
               onClick={closeAll}
@@ -511,13 +511,6 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                 onClick={closeAll}
               >
                 {navigation.cta.label}
-              </Link>
-              <Link
-                href={localizePath("/work", locale)}
-                className="site-mobile-link"
-                onClick={closeAll}
-              >
-                {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
               </Link>
             </nav>
           </div>

@@ -51,8 +51,7 @@ export default async function ServicesPage({ params }: PageProps) {
           imageAlt: localizeText(service.title, locale),
         }))}
       />
-      <ProductionCapabilitiesSection locale={locale} />
-      <section className="service-closing"><div className="site-container"><h2>{ar ? "لديك مشروع في ذهنك؟" : "Have a project in mind?"}</h2><p>{ar ? "شاركنا التفاصيل وسنرتب الخطوة التالية." : "Share the details and we will map the next step."}</p><a href={localizePath("/contact", locale)} className="btn-primary">{ar ? "ابدأ مشروعاً" : "Start a Project"}</a></div></section>
+      <ProductionCapabilitiesSection locale={locale} compact />
     </>
   );
 }

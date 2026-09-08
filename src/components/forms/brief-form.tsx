@@ -16,6 +16,10 @@ import type { Locale } from "@/lib/i18n";
 type BriefFormProps = {
   locale: Locale;
   copy: BriefFormCopy;
+  /** Prefill services (e.g. current service page slug). */
+  initialServices?: ServiceNeed[];
+  /** Prefill project notes (e.g. catalogue item from URL). */
+  initialDescription?: string;
 };
 
 type BriefFieldProps = {
@@ -63,12 +67,23 @@ function errorMessage(copy: BriefFormCopy, code?: string) {
   return undefined;
 }
 
-export function BriefForm({ locale, copy }: BriefFormProps) {
+export function BriefForm({
+  locale,
+  copy,
+  initialServices,
+  initialDescription,
+}: BriefFormProps) {
   const fieldPrefix = useId();
   const fieldId = (name: string) => `${fieldPrefix}-${name}`;
 
   const [step, setStep] = useState(0);
-  const [data, setData] = useState<BriefFormData>(INITIAL_BRIEF_FORM);
+  const [data, setData] = useState<BriefFormData>(() => ({
+    ...INITIAL_BRIEF_FORM,
+    ...(initialServices?.length ? { services: initialServices } : {}),
+    ...(initialDescription?.trim()
+      ? { description: initialDescription.trim() }
+      : {}),
+  }));
   const [errors, setErrors] = useState<BriefFormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -392,7 +407,6 @@ export function BriefForm({ locale, copy }: BriefFormProps) {
                 value={data.eventLocation}
                 onChange={(event) => setField("eventLocation", event.target.value)}
                 placeholder={copy.placeholders.eventLocation}
-                required
               />
             </BriefField>
 
@@ -407,7 +421,6 @@ export function BriefForm({ locale, copy }: BriefFormProps) {
                 value={data.eventDate}
                 onChange={(event) => setField("eventDate", event.target.value)}
                 placeholder={copy.placeholders.eventDate}
-                required
               />
             </BriefField>
 
@@ -422,7 +435,6 @@ export function BriefForm({ locale, copy }: BriefFormProps) {
                 value={data.boothSize}
                 onChange={(event) => setField("boothSize", event.target.value)}
                 placeholder={copy.placeholders.boothSize}
-                required
               />
             </BriefField>
 

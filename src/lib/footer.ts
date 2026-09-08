@@ -108,11 +108,17 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
   }
 
   const remoteSocial = mapSocial(remote.socialLinks);
+  const remoteDescription = remote.description?.trim() ?? "";
+  const descriptionLooksLegacy =
+    !remoteDescription ||
+    /exhibition booth design|تصميم أجنحة المعارض|end to end|من البداية للنهاية/i.test(
+      remoteDescription,
+    );
 
   return {
     logo: toImageSrc(remote.logo) || config.logo || local.logo,
     logoAlt: remote.logo?.alt || local.logoAlt,
-    description: remote.description || local.description,
+    description: descriptionLooksLegacy ? local.description : remoteDescription,
     certifications: mapBadges(remote.certifications).length
       ? mapBadges(remote.certifications)
       : local.certifications,

@@ -23,16 +23,14 @@ export function FaqSection({
   return (
     <section
       id={id}
-      className={`section-pad faq-section scroll-mt-24${className ? ` ${className}` : ""}`}
+      className={`faq-section scroll-mt-24${className ? ` ${className}` : ""}`}
     >
       <div className="site-container">
         <Reveal>
           <div className="faq-head">
-            <div className="faq-head-copy">
-              <p className="eyebrow">{eyebrow}</p>
-              <h2 className="display faq-title">{title}</h2>
-            </div>
-            <p className="faq-head-support">{support}</p>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="display faq-title">{title}</h2>
+            <p className="faq-support">{support}</p>
           </div>
         </Reveal>
 

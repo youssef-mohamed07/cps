@@ -11,6 +11,7 @@ type WhyCpsSectionProps = {
   content: Dictionary["whyCps"];
 };
 
+/** Home Why CPS — established bento panel, Blueprint reasons in the cards. */
 export function WhyCpsSection({ locale, content }: WhyCpsSectionProps) {
   return (
     <section id="why-cps" className="section-pad why-cps-section scroll-mt-24">
@@ -19,6 +20,10 @@ export function WhyCpsSection({ locale, content }: WhyCpsSectionProps) {
           <div className="section-head">
             <p className="eyebrow">{content.eyebrow}</p>
             <h2 className="display">{content.title}</h2>
+            {content.support ? <p className="lede">{content.support}</p> : null}
+            {content.clientsLine ? (
+              <p className="why-cps-clients-line">{content.clientsLine}</p>
+            ) : null}
           </div>
 
           <div className="why-cps-panel">

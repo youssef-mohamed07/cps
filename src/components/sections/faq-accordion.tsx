@@ -32,9 +32,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
               aria-controls={panelId}
               onClick={() => setOpenIndex(open ? -1 : index)}
             >
-              <span className="faq-index" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
+              <span className="faq-mark" aria-hidden="true" />
               <span className="faq-question-text">{item.question}</span>
               <span className="faq-toggle" aria-hidden="true" />
             </button>

@@ -155,6 +155,7 @@ function mapItem(item: {
         item.mega.cta?.label && item.mega.cta.href
           ? { label: item.mega.cta.label, href: item.mega.cta.href }
           : undefined,
+      strip: undefined,
     };
   }
 
@@ -217,6 +218,7 @@ export async function resolveNavigation(locale: Locale): Promise<NavigationConfi
           columns,
           featured: item.mega.featured || localItem.mega.featured,
           cta: item.mega.cta || localItem.mega.cta,
+          strip: undefined,
         },
       };
     }

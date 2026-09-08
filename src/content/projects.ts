@@ -151,7 +151,7 @@ export const projects: Project[] = [
   {
     slug: "harbor-co",
     year: "2024",
-    industrySlug: "energy",
+    industrySlug: "technology-electronics",
     serviceSlug: "exhibitions-booths",
     boothTypeSlug: "double-deck",
     locationSlug: "riyadh",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     gallery: [...media.projects.harborCo.gallery],
     en: {
       title: "Harbor & Co.",
-      category: "Energy",
+      category: "Technology",
       summary: "A double-deck pavilion for technical storytelling and VIP hospitality.",
       scopeOfWork: "Double-deck structure, meeting suites, demo zones, environmental branding and delivery.",
       challenge:

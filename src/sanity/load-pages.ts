@@ -128,6 +128,16 @@ function parseJson<T>(raw: string | undefined): T | null {
   }
 }
 
+function isLegacyBusinessHours(value?: string | null) {
+  if (!value?.trim()) return true;
+  const normalized = value.trim().toLowerCase();
+  return (
+    normalized.includes("based in riyadh") ||
+    normalized.includes("مقرنا الرياض") ||
+    normalized.includes("delivering exhibitions across")
+  );
+}
+
 function localHubFallback(locale: Locale, kind: HubKind): HubPageChrome {
   const dict = getDictionaryLocal(locale);
 
@@ -287,7 +297,9 @@ export async function loadContactPage(
       ...fromBrief?.info,
     },
     businessHours:
-      remote.businessHours ?? fromBrief?.businessHours ?? local.businessHours,
+      isLegacyBusinessHours(remote.businessHours)
+        ? local.businessHours
+        : remote.businessHours ?? fromBrief?.businessHours ?? local.businessHours,
     map: {
       ...local.map,
       ...fromBrief?.map,

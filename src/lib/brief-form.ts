@@ -18,6 +18,16 @@ export type BoothType =
   | "unsure";
 
 export type ServiceNeed =
+  | "exhibitions-booths"
+  | "event-fabrication"
+  | "fit-out-interiors"
+  | "retail-displays"
+  | "custom-fabrication"
+  | "printing-signage"
+  | "rental-solutions"
+  | "installation-project-delivery"
+  | "installation-delivery"
+  // Legacy values kept so older submitted briefs still type-check.
   | "design"
   | "fabrication"
   | "install"
@@ -117,9 +127,6 @@ export function validateBriefStep(
 
   if (step === 2) {
     if (!data.eventName.trim()) errors.eventName = "required";
-    if (!data.eventLocation.trim()) errors.eventLocation = "required";
-    if (!data.eventDate.trim()) errors.eventDate = "required";
-    if (!data.boothSize.trim()) errors.boothSize = "required";
     if (!data.boothType) errors.boothType = "required";
     if (data.services.length === 0) errors.services = "required";
     if (!data.hasExistingDesign) errors.hasExistingDesign = "required";
@@ -143,7 +150,7 @@ export function validateBriefForm(data: BriefFormData): BriefFormErrors {
 
 export function formatBriefPlainText(data: BriefFormData, locale: string): string {
   const lines = [
-    `CPS Brief — ${locale.toUpperCase()}`,
+    `CPS Project Brief — ${locale.toUpperCase()}`,
     "",
     "— Contact —",
     `Type: ${data.userType}`,
@@ -160,12 +167,12 @@ export function formatBriefPlainText(data: BriefFormData, locale: string): strin
     `Size: ${data.companySize || "—"}`,
     `Location: ${data.city}, ${data.country}`,
     "",
-    "— Event & booth —",
-    `Event: ${data.eventName}`,
-    `Venue / city: ${data.eventLocation}`,
-    `Date: ${data.eventDate}`,
-    `Booth size: ${data.boothSize}`,
-    `Booth type: ${data.boothType}`,
+    "— Project —",
+    `Project / exhibition: ${data.eventName}`,
+    `Venue / city: ${data.eventLocation || "—"}`,
+    `Date: ${data.eventDate || "—"}`,
+    `Size / footprint: ${data.boothSize || "—"}`,
+    `Project type: ${data.boothType}`,
     `Services: ${data.services.join(", ")}`,
     `Existing design: ${data.hasExistingDesign}`,
     "",

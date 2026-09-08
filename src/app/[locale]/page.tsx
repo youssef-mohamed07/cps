@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { FeaturedWork } from "@/components/sections/featured-work";
 import { HomeHero } from "@/components/sections/home-hero";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
-import { LogosSection } from "@/components/sections/logos-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { WhyCpsSection } from "@/components/sections/why-cps-section";
 import { ProductionCapabilitiesSection } from "@/components/sections/production-capabilities-section";
-import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadHomeSeo } from "@/sanity/load-pages";
@@ -16,6 +14,17 @@ import { ensureSiteConfig } from "@/sanity/load-site-config";
 import { getSiteConfig } from "@/lib/site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
+
+/** Prefer a mix across services, including a clear non-booth retail project. */
+function featuredWorkItems<T extends { slug: string }>(items: T[]): T[] {
+  const preferred = ["northline", "pulse-retail", "qamar"];
+  const selected = preferred
+    .map((slug) => items.find((item) => item.slug === slug))
+    .filter((item): item is T => Boolean(item));
+  if (selected.length >= 3) return selected.slice(0, 3);
+  const rest = items.filter((item) => !preferred.includes(item.slug));
+  return [...selected, ...rest].slice(0, 3);
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale: localeParam } = await params;
@@ -50,18 +59,16 @@ export default async function HomePage({ params }: PageProps) {
         items={dictionary.lifecycle.items}
       />
       <ServicesSection locale={locale} content={dictionary.services} />
-      <ProductionCapabilitiesSection locale={locale} />
+      <ProductionCapabilitiesSection locale={locale} compact />
       <FeaturedWork
         locale={locale}
         eyebrow={dictionary.work.eyebrow}
         title={dictionary.work.title}
         support={dictionary.work.support}
         viewAll={dictionary.work.viewAll}
-        items={dictionary.work.items}
+        items={featuredWorkItems(dictionary.work.items)}
       />
       <WhyCpsSection locale={locale} content={dictionary.whyCps} />
-      <LogosSection locale={locale} />
-      <section className="service-closing"><div className="site-container"><h2>{locale === "ar" ? "لديك مشروع في ذهنك؟" : "Have a project in mind?"}</h2><p>{locale === "ar" ? "أخبرنا بما تبنيه وسنعود إليك بالخطوات التالية." : "Tell us what you are building and we will get back to you with next steps."}</p><Link href={localizePath("/contact", locale)} className="btn-primary">{locale === "ar" ? "ابدأ مشروعاً" : "Start a Project"}</Link></div></section>
     </>
   );
 }

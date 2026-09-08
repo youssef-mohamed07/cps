@@ -103,6 +103,7 @@ export interface Dictionary {
     studioTitle: string;
     studioSupport: string;
     studioItems: { title: string; description: string }[];
+    closingLine?: string;
     industriesTitle: string;
     industriesItems: string[];
     industriesMore: string;
@@ -131,6 +132,8 @@ export interface Dictionary {
   whyCps: {
     eyebrow: string;
     title: string;
+    support?: string;
+    clientsLine?: string;
     primary: { title: string; description: string; cta: string; href: string };
     secondary: { title: string; description: string; cta: string; href: string };
     images: {
@@ -278,7 +281,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     hero: {
       badge: "Production. Fabrication. Fit-Out.",
-      headline: "Exhibitions. Events. Interiors. Displays.\nBuilt under one roof.",
+      headline: "Exhibitions. Events.\nInteriors. Displays.\nBuilt under one roof.",
       support:
         "One production facility. Eight services. Built and installed in-house.",
       primaryCta: "Start a Project",
@@ -288,19 +291,21 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Who We Are",
       title: "One production partner. Multiple capabilities.",
       support: "One team carries every project from technical drawing to final install.",
-      imageAlt: "CPS team building an exhibition booth in the workshop",
+      imageAlt: "CPS production and installation craft",
       items: [
         {
           title: "Multiple environments",
-          description: "Exhibitions, events, interiors, retail displays, signage and custom fabrication.",
+          description:
+            "Exhibition booths, event structures, branded interiors, retail displays, signage and custom fabrication — all under one roof",
         },
         {
           title: "In-house production",
-          description: "Wood, metal, acrylic, printing and installation on one production floor.",
+          description:
+            "In-house production across wood, metal, acrylic, printing and installation",
         },
         {
           title: "One point of contact",
-          description: "One accountable team from concept through handover.",
+          description: "One point of contact from concept through handover",
         },
       ],
     },
@@ -404,24 +409,26 @@ const dictionaries: Record<Locale, Dictionary> = {
         "Exhibition booths, event structures, branded environments, retail displays, signage and custom-built solutions — all under one roof. CPS connects technical development, fabrication and final on-site execution through one accountable team.",
       storySecond:
         "Our in-house capabilities span wood, metal, acrylic, printing and installation, giving every project tighter quality control and a clearer path to handover.",
-      valuesTitle: "Clear Principles Behind Every Build",
-      valuesSupport: "The standards that guide how we design, build, and deliver.",
+      valuesTitle: "Key differentiators",
+      valuesSupport: "What stays consistent across every CPS project.",
       values: [
         {
-          title: "In-House, Always",
-          description: "No subcontractors, full control over quality.",
+          title: "In-house production",
+          description: "In-house production across every major discipline.",
         },
         {
-          title: "Detail-Driven",
-          description: "Nothing gets lost between design and delivery.",
+          title: "One accountable team",
+          description:
+            "One team from technical drawing through installation and handover.",
         },
         {
-          title: "Built to Last",
-          description: "Durable materials, real-world tested.",
+          title: "Nationwide delivery",
+          description: "Nationwide site survey, delivery and dismantling.",
         },
         {
-          title: "Accountable, Start to Finish",
-          description: "One team, one point of contact.",
+          title: "Proven with leading brands",
+          description:
+            "Confirmed KSA clients across banking, telecom and retail sectors.",
         },
       ],
       studioTitle: "Where every project gets built",
@@ -444,6 +451,8 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "Capable of handling multiple projects at once.",
         },
       ],
+      closingLine:
+        "One production partner. Multiple capabilities. Built around your project.",
       industriesTitle: "Trusted Across Industries",
       industriesItems: [
         "Banking & Finance",
@@ -458,12 +467,12 @@ const dictionaries: Record<Locale, Dictionary> = {
         {
           question: "Is CPS a design company, a production company, or both?",
           answer:
-            "Both. We handle the full booth lifecycle in-house — design, fabrication, branding, installation, and everything after.",
+            "Both. We handle design, fabrication, branding, installation and handover in-house across exhibitions, events, interiors, displays and signage.",
         },
         {
           question: "Do you work with clients outside Saudi Arabia?",
           answer:
-            "Our current focus is delivering across Saudi Arabia. If your event is elsewhere, reach out and we'll confirm what's possible.",
+            "Our current focus is delivering across Saudi Arabia. If your project is elsewhere, reach out and we'll confirm what's possible.",
         },
         {
           question: "What industries do you typically work with?",
@@ -471,24 +480,24 @@ const dictionaries: Record<Locale, Dictionary> = {
             "We work across a wide range of sectors, including finance, government, real estate, telecom, energy, healthcare, and retail.",
         },
         {
-          question: "How is CPS different from other booth companies?",
+          question: "How is CPS different from other production companies?",
           answer:
             "Everything is handled by one in-house team — no subcontractors, no handoffs between vendors. What you approve is exactly what gets built.",
         },
         {
           question: "Can CPS handle projects of any size?",
           answer:
-            "Yes, from small kiosks to large-scale national pavilions, our team and facilities are built to handle projects at any scale.",
+            "Yes — from single displays and kiosks to large-scale interiors, events and pavilions. Our team and facilities are built for scale.",
         },
         {
           question: "How do I start a project with CPS?",
           answer:
-            "Reach out through our contact form or request a quote — we'll schedule a brief to understand your goals and event details.",
+            "Reach out through our contact form — we'll schedule a brief to understand your goals, scope and timeline.",
         },
       ],
     },
     services: {
-      eyebrow: "What we do",
+      eyebrow: "What We Do",
       title: "Eight services. One production floor.",
       support: "Browse by service to see featured work — or jump straight to the full catalogue.",
       cta: "See All Services",
@@ -597,17 +606,20 @@ const dictionaries: Record<Locale, Dictionary> = {
     whyCps: {
       eyebrow: "Why CPS",
       title: "One team, from concept to final install",
+      support:
+        "Everything stays in-house, so nothing gets lost between subcontractors.",
+      clientsLine: "Delivered for Ajlan & Bros, SNB, SAB, Sirar by STC, Al Hilal",
       primary: {
-        title: "Everything stays in-house",
+        title: "In-house production",
         description:
-          "Wood, metal, acrylic, printing and signage stay with one accountable production team.",
-        cta: "Start a project",
+          "In-house production across wood, metal, acrylic, printing and signage — one accountable floor.",
+        cta: "Start a Project",
         href: "/contact",
       },
       secondary: {
-        title: "Nationwide project delivery",
+        title: "Nationwide delivery",
         description:
-          "Site survey, logistics, installation and dismantling are coordinated across Saudi Arabia.",
+          "Site survey, installation and dismantling — with a single point of contact from technical drawing to handover.",
         cta: "See our capabilities",
         href: "/production-capabilities",
       },
@@ -749,7 +761,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       title: "Recent work",
       support: "A look at what has gone out the door recently, across services.",
       items: workItems("en"),
-      viewAll: "View all projects",
+      viewAll: "View All Projects",
     },
     workPage: {
       eyebrow: "Work",
@@ -781,16 +793,18 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Let's plan your next booth",
-      support: "Share your event, footprint, and timeline — we'll reply with a clear next step.",
-      emailLabel: "Request a Quote",
+      title: "Let's plan your next project",
+      support:
+        "Share what you're building — booth, event, fit-out, display or fabrication — and we'll reply with a clear next step.",
+      emailLabel: "Start a Project",
       whatsappLabel: "WhatsApp",
     },
     briefForm: getBriefFormCopy("en"),
     contactPage: {
       eyebrow: "Contact",
       title: "Start with a conversation.",
-      lead: "Share your brief — we’ll reply with a clear next step.",
+      lead: "Share your project details — we’ll reply with a clear next step.",
+      businessHours: "Sun–Thu, 9:00–18:00 AST",
       info: {
         emailLabel: "Email",
         phoneLabel: "Phone",
@@ -842,7 +856,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     hero: {
       badge: "إنتاج. تصنيع. تجهيز داخلي.",
-      headline: "معارض. فعاليات. مساحات داخلية. عروض.\nكلها تحت سقف واحد.",
+      headline: "معارض. فعاليات.\nمساحات داخلية. عروض.\nكلها تحت سقف واحد.",
       support:
         "منشأة إنتاج واحدة. ثماني خدمات. تصنيع وتركيب داخلي.",
       primaryCta: "ابدأ مشروعاً",
@@ -852,19 +866,20 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "من نحن",
       title: "شريك إنتاج واحد. قدرات متعددة.",
       support: "فريق واحد يحمل كل مشروع من الرسم الفني إلى التركيب النهائي.",
-      imageAlt: "فريق CPS يبني جناح معرض في الورشة",
+      imageAlt: "حرفية الإنتاج والتركيب لدى CPS",
       items: [
         {
           title: "بيئات متعددة",
-          description: "معارض وفعاليات ومساحات داخلية وعروض تجزئة ولافتات وتصنيع مخصص.",
+          description:
+            "أجنحة معارض وهياكل فعاليات وتجهيزات داخلية تحمل الهوية وعروض تجزئة ولافتات وتصنيع مخصص — كلها تحت سقف واحد",
         },
         {
           title: "إنتاج داخلي",
-          description: "خشب ومعدن وأكريليك وطباعة وتركيب على أرض إنتاج واحدة.",
+          description: "إنتاج داخلي يشمل الخشب والمعدن والأكريليك والطباعة والتركيب",
         },
         {
           title: "نقطة اتصال واحدة",
-          description: "فريق واحد مسؤول من الفكرة حتى التسليم.",
+          description: "نقطة اتصال واحدة من الفكرة حتى التسليم",
         },
       ],
     },
@@ -968,24 +983,24 @@ const dictionaries: Record<Locale, Dictionary> = {
         "أجنحة معارض وهياكل فعاليات وبيئات تحمل الهوية وعروض تجزئة ولافتات وحلول مصنعة حسب الطلب — كلها تحت سقف واحد. تربط CPS التطوير الفني بالتصنيع والتنفيذ النهائي في الموقع عبر فريق واحد مسؤول.",
       storySecond:
         "تشمل قدراتنا الداخلية الخشب والمعدن والأكريليك والطباعة والتركيب، ما يمنح كل مشروع رقابة جودة أدق ومساراً أوضح إلى التسليم.",
-      valuesTitle: "مبادئ واضحة خلف كل بناء",
-      valuesSupport: "المعايير التي توجّه كيف نصمّم ونبني ونسلّم.",
+      valuesTitle: "ما يميزنا",
+      valuesSupport: "ما يبقى ثابتاً عبر كل مشروع لدى CPS.",
       values: [
         {
-          title: "داخلي دائماً",
-          description: "بدون مقاولين من الباطن، وتحكم كامل بالجودة.",
+          title: "إنتاج داخلي",
+          description: "إنتاج داخلي عبر كل التخصصات الرئيسية.",
         },
         {
-          title: "مدفوعون بالتفاصيل",
-          description: "لا شيء يضيع بين التصميم والتسليم.",
+          title: "فريق واحد مسؤول",
+          description: "فريق واحد من الرسم الفني حتى التركيب والتسليم.",
         },
         {
-          title: "مبني ليدوم",
-          description: "مواد متينة ومختبرة في الواقع.",
+          title: "تسليم على مستوى المملكة",
+          description: "معاينة موقع وتوصيل وتفكيك على مستوى المملكة.",
         },
         {
-          title: "مسؤولون من البداية للنهاية",
-          description: "فريق واحد، ونقطة تواصل واحدة.",
+          title: "خبرة مع علامات رائدة",
+          description: "عملاء مؤكدون في السعودية عبر البنوك والاتصالات والتجزئة.",
         },
       ],
       studioTitle: "حيث يُنفذ كل مشروع",
@@ -1008,6 +1023,7 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "قادر على إدارة عدة مشاريع في الوقت نفسه.",
         },
       ],
+      closingLine: "شريك إنتاج واحد. قدرات متعددة. مبنية حول مشروعك.",
       industriesTitle: "موثوقون عبر القطاعات",
       industriesItems: [
         "البنوك والمالية",
@@ -1022,12 +1038,12 @@ const dictionaries: Record<Locale, Dictionary> = {
         {
           question: "هل CPS شركة تصميم أم إنتاج أم الاثنين؟",
           answer:
-            "الاثنين. نتولى دورة حياة الجناح كاملة داخل الشركة — التصميم والتصنيع والهوية والتركيب وكل ما يلي ذلك.",
+            "الاثنين. نتولى التصميم والتصنيع والهوية والتركيب والتسليم داخلياً عبر المعارض والفعاليات والمساحات الداخلية والعروض واللافتات.",
         },
         {
           question: "هل تعملون مع عملاء خارج السعودية؟",
           answer:
-            "تركيزنا الحالي هو التنفيذ عبر السعودية. إذا كانت فعاليتك في مكان آخر، تواصل معنا وسنؤكد ما هو ممكن.",
+            "تركيزنا الحالي هو التنفيذ عبر السعودية. إذا كان مشروعك في مكان آخر، تواصل معنا وسنؤكد ما هو ممكن.",
         },
         {
           question: "ما القطاعات التي تعملون معها عادة؟",
@@ -1035,19 +1051,19 @@ const dictionaries: Record<Locale, Dictionary> = {
             "نعمل عبر قطاعات واسعة، بما في ذلك المالية والحكومة والعقارات والاتصالات والطاقة والرعاية الصحية والتجزئة.",
         },
         {
-          question: "ما الذي يميّز CPS عن شركات الأجنحة الأخرى؟",
+          question: "ما الذي يميّز CPS عن شركات الإنتاج الأخرى؟",
           answer:
             "كل شيء يتولاه فريق داخلي واحد — بدون مقاولين من الباطن وبدون تسليمات بين مزوّدين. ما تعتمده هو بالضبط ما يُبنى.",
         },
         {
           question: "هل تستطيع CPS التعامل مع مشاريع بأي حجم؟",
           answer:
-            "نعم، من الأكشاك الصغيرة إلى الأجنحة الوطنية واسعة النطاق، فريقنا ومرافقنا مبنية للتعامل مع المشاريع بأي مقياس.",
+            "نعم — من العروض والأكشاك إلى المساحات الداخلية والفعاليات والأجنحة واسعة النطاق. فريقنا ومرافقنا مبنية للتوسع.",
         },
         {
           question: "كيف أبدأ مشروعاً مع CPS؟",
           answer:
-            "تواصل عبر نموذج الاتصال أو اطلب عرض سعر — وسنحدد موعداً لنبريف لفهم أهدافك وتفاصيل الفعالية.",
+            "تواصل عبر نموذج الاتصال — وسنحدد موعداً لنبريف لفهم أهدافك ونطاق العمل والجدول.",
         },
       ],
     },
@@ -1161,17 +1177,19 @@ const dictionaries: Record<Locale, Dictionary> = {
     whyCps: {
       eyebrow: "لماذا CPS",
       title: "فريق واحد من الفكرة حتى التركيب النهائي",
+      support: "كل شيء يبقى داخلياً، فلا يضيع شيء بين المقاولين الفرعيين.",
+      clientsLine: "نُفّذ لـ Ajlan & Bros وSNB وSAB وSirar by STC وAl Hilal",
       primary: {
-        title: "كل شيء يبقى داخلياً",
+        title: "إنتاج داخلي",
         description:
-          "الخشب والمعدن والأكريليك والطباعة واللافتات مع فريق إنتاج واحد مسؤول.",
+          "إنتاج داخلي يشمل الخشب والمعدن والأكريليك والطباعة واللافتات — أرض إنتاج واحدة مسؤولة.",
         cta: "ابدأ مشروعاً",
         href: "/contact",
       },
       secondary: {
-        title: "تسليم مشاريع على مستوى المملكة",
+        title: "تسليم على مستوى المملكة",
         description:
-          "معاينة الموقع واللوجستيات والتركيب والتفكيك منسقة في أنحاء السعودية.",
+          "معاينة موقع وتركيب وتفكيك — مع نقطة اتصال واحدة من الرسم الفني حتى التسليم.",
         cta: "شاهد قدراتنا",
         href: "/production-capabilities",
       },
@@ -1345,16 +1363,18 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     contact: {
       eyebrow: "تواصل",
-      title: "لنخطّط لجناحك القادم",
-      support: "شاركنا الحدث والمساحة والجدول — نعود بخطوة تالية واضحة.",
-      emailLabel: "اطلب عرض سعر",
+      title: "لنخطّط لمشروعك القادم",
+      support:
+        "شاركنا ما تبنيه — جناح أو فعالية أو تجهيز داخلي أو عرض أو تصنيع — ونعود بخطوة تالية واضحة.",
+      emailLabel: "ابدأ مشروعاً",
       whatsappLabel: "واتساب",
     },
     briefForm: getBriefFormCopy("ar"),
     contactPage: {
       eyebrow: "تواصل",
       title: "نبدأ بمحادثة.",
-      lead: "شاركنا الموجز — نعود بخطوة تالية واضحة.",
+      lead: "شاركنا تفاصيل مشروعك — نعود بخطوة تالية واضحة.",
+      businessHours: "الأحد–الخميس، 9:00–18:00",
       info: {
         emailLabel: "البريد",
         phoneLabel: "الهاتف",

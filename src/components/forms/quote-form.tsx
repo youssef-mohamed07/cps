@@ -2,58 +2,114 @@
 
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, type FormEvent } from "react";
-import type { CatalogueCategory } from "@/content/service-architecture";
-import { localizeText } from "@/content/service-architecture";
+import type { QuoteFormCopy, QuoteFormOption } from "@/content/quote-form.copy";
 import type { Locale } from "@/lib/i18n";
 
 type QuoteFormProps = {
   locale: Locale;
-  serviceSlug: string;
-  serviceTitle: string;
-  categories: CatalogueCategory[];
+  copy: QuoteFormCopy;
+  options: QuoteFormOption[];
+  /** Context line included in the submission message. */
+  contextLabel?: string;
+  requestType?: "quote" | "service-add-on" | "contact";
+  /** When false, do not read ?item= from the URL (contact page). */
+  preferUrlItem?: boolean;
 };
 
-export function QuoteForm({ locale, serviceSlug, serviceTitle, categories }: QuoteFormProps) {
+export function QuoteForm({
+  locale,
+  copy,
+  options,
+  contextLabel,
+  requestType = "quote",
+  preferUrlItem = true,
+}: QuoteFormProps) {
   const searchParams = useSearchParams();
-  const options = useMemo(() => categories.flatMap((category) => category.items), [categories]);
-  const initialItem = searchParams.get("item") ?? "";
-  const selectedLayout = searchParams.get("layout") ?? "";
+  const urlItem = preferUrlItem ? (searchParams.get("item") ?? "") : "";
+  const selectedLayout = preferUrlItem ? (searchParams.get("layout") ?? "") : "";
+  const initialItem = options.some((option) => option.value === urlItem)
+    ? urlItem
+    : "";
+
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [fileLabel, setFileLabel] = useState(copy.placeholders.references);
+
+  const optionMap = useMemo(
+    () => new Map(options.map((option) => [option.value, option.label])),
+    [options],
+  );
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
     setError("");
+    setFieldErrors({});
 
-    const form = new FormData(event.currentTarget);
-    const item = options.find((entry) => entry.slug === form.get("item"));
-    const files = form
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "").trim();
+    const company = String(data.get("company") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const phone = String(data.get("phone") ?? "").trim();
+    const itemValue = String(data.get("item") ?? "").trim();
+    const projectName = String(data.get("projectName") ?? "").trim();
+    const details = String(data.get("details") ?? "").trim();
+    const files = data
       .getAll("references")
       .filter((value): value is File => value instanceof File && Boolean(value.name));
+
+    const nextErrors: Record<string, string> = {};
+    if (!name) nextErrors.name = copy.errors.required;
+    if (!company) nextErrors.company = copy.errors.required;
+    if (!email) nextErrors.email = copy.errors.required;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.email = copy.errors.email;
+    }
+    if (!phone) nextErrors.phone = copy.errors.required;
+    if (!itemValue) nextErrors.item = copy.errors.required;
+    if (!details) nextErrors.details = copy.errors.required;
+    if (files.length > 5) nextErrors.references = copy.errors.tooManyFiles;
+    if (files.some((file) => file.size > 10 * 1024 * 1024)) {
+      nextErrors.references = copy.errors.fileTooLarge;
+    }
+
+    if (Object.keys(nextErrors).length) {
+      setFieldErrors(nextErrors);
+      setSubmitting(false);
+      return;
+    }
+
+    const itemLabel = optionMap.get(itemValue) ?? itemValue;
     const message = [
-      `Service: ${serviceTitle} (${serviceSlug})`,
-      `Item / type: ${item ? localizeText(item.title, locale) : "Not specified"}`,
+      contextLabel ? `Context: ${contextLabel}` : null,
+      `${copy.labels.item}: ${itemLabel}`,
       selectedLayout ? `Booth layout: ${selectedLayout}` : null,
-      form.get("projectName") ? `Project / exhibition: ${form.get("projectName")}` : null,
-      files.length ? `Reference files: ${files.map((file) => file.name).join(", ")}` : null,
+      projectName ? `${copy.labels.projectName}: ${projectName}` : null,
+      company ? `${copy.labels.company}: ${company}` : null,
+      files.length
+        ? `Reference files: ${files.map((file) => file.name).join(", ")}`
+        : null,
       "",
-      String(form.get("details") ?? ""),
-      form.get("company") ? `Company: ${form.get("company")}` : null,
+      details,
     ]
       .filter(Boolean)
       .join("\n");
 
     try {
       const payload = new FormData();
-      payload.set("name", String(form.get("name") ?? ""));
-      payload.set("email", String(form.get("email") ?? ""));
-      payload.set("phone", String(form.get("phone") ?? ""));
+      payload.set("name", name);
+      payload.set("email", email);
+      payload.set("phone", phone);
       payload.set("message", message);
       payload.set("locale", locale);
-      payload.set("websiteAlt", String(form.get("websiteAlt") ?? ""));
-      payload.set("requestType", serviceSlug === "installation-project-delivery" ? "service-add-on" : "quote");
+      payload.set("websiteAlt", String(data.get("websiteAlt") ?? ""));
+      payload.set(
+        "requestType",
+        requestType === "service-add-on" ? "service-add-on" : "quote",
+      );
       files.forEach((file) => payload.append("references", file));
 
       const response = await fetch("/api/contact", {
@@ -64,11 +120,7 @@ export function QuoteForm({ locale, serviceSlug, serviceTitle, categories }: Quo
       if (!response.ok) throw new Error("submit failed");
       setDone(true);
     } catch {
-      setError(
-        locale === "ar"
-          ? "تعذر إرسال الطلب. حاول مرة أخرى أو تواصل معنا مباشرة."
-          : "We could not send your request. Try again or contact us directly.",
-      );
+      setError(copy.errors.submit);
     } finally {
       setSubmitting(false);
     }
@@ -76,63 +128,188 @@ export function QuoteForm({ locale, serviceSlug, serviceTitle, categories }: Quo
 
   if (done) {
     return (
-      <div className="brief-success" role="status">
-        <p className="brief-success-eyebrow">{locale === "ar" ? "اطلب عرض سعر" : "Get a Quote"}</p>
-        <h3 className="brief-success-title">{locale === "ar" ? "وصل طلبك" : "Quote request received"}</h3>
-        <p className="brief-success-copy">{locale === "ar" ? "سيتواصل معك فريقنا بالخطوة التالية." : "Our team will follow up with the next step."}</p>
+      <div className="brief-success quote-form-success" role="status">
+        <p className="brief-success-eyebrow">{copy.success.eyebrow}</p>
+        <h3 className="brief-success-title">{copy.success.title}</h3>
+        <p className="brief-success-copy">{copy.success.message}</p>
       </div>
     );
   }
 
   return (
-    <form className="brief-form service-quote-form" onSubmit={submit}>
+    <form className="brief-form quote-form" onSubmit={submit} noValidate>
       <div className="brief-form-grid">
         <div className="brief-field">
-          <label className="brief-label" htmlFor="quote-name">{locale === "ar" ? "الاسم" : "Name"}</label>
-          <input id="quote-name" name="name" className="brief-control" autoComplete="name" required />
+          <label className="brief-label" htmlFor="quote-name">
+            {copy.labels.name}
+          </label>
+          <input
+            id="quote-name"
+            name="name"
+            className="brief-control"
+            autoComplete="name"
+            placeholder={copy.placeholders.name}
+            required
+          />
+          {fieldErrors.name ? (
+            <span className="brief-error">{fieldErrors.name}</span>
+          ) : null}
         </div>
+
         <div className="brief-field">
-          <label className="brief-label" htmlFor="quote-company">{locale === "ar" ? "الشركة" : "Company"}</label>
-          <input id="quote-company" name="company" className="brief-control" autoComplete="organization" required />
+          <label className="brief-label" htmlFor="quote-company">
+            {copy.labels.company}
+          </label>
+          <input
+            id="quote-company"
+            name="company"
+            className="brief-control"
+            autoComplete="organization"
+            placeholder={copy.placeholders.company}
+            required
+          />
+          {fieldErrors.company ? (
+            <span className="brief-error">{fieldErrors.company}</span>
+          ) : null}
         </div>
+
         <div className="brief-field">
-          <label className="brief-label" htmlFor="quote-email">{locale === "ar" ? "البريد الإلكتروني" : "Email"}</label>
-          <input id="quote-email" name="email" className="brief-control" type="email" autoComplete="email" required />
+          <label className="brief-label" htmlFor="quote-email">
+            {copy.labels.email}
+          </label>
+          <input
+            id="quote-email"
+            name="email"
+            className="brief-control"
+            type="email"
+            autoComplete="email"
+            placeholder={copy.placeholders.email}
+            required
+          />
+          {fieldErrors.email ? (
+            <span className="brief-error">{fieldErrors.email}</span>
+          ) : null}
         </div>
+
         <div className="brief-field">
-          <label className="brief-label" htmlFor="quote-phone">{locale === "ar" ? "الهاتف" : "Phone"}</label>
-          <input id="quote-phone" name="phone" className="brief-control" type="tel" autoComplete="tel" dir="ltr" required />
+          <label className="brief-label" htmlFor="quote-phone">
+            {copy.labels.phone}
+          </label>
+          <input
+            id="quote-phone"
+            name="phone"
+            className="brief-control"
+            type="tel"
+            autoComplete="tel"
+            dir="ltr"
+            placeholder={copy.placeholders.phone}
+            required
+          />
+          {fieldErrors.phone ? (
+            <span className="brief-error">{fieldErrors.phone}</span>
+          ) : null}
         </div>
+
         <div className="brief-field brief-field--full">
-          <label className="brief-label" htmlFor="quote-item">{locale === "ar" ? "العنصر / النوع" : "Item / Type"}</label>
-          <select id="quote-item" name="item" className="brief-control" defaultValue={initialItem} required>
-            <option value="" disabled>{locale === "ar" ? "اختر" : "Select"}</option>
-            {options.map((entry) => (
-              <option key={entry.slug} value={entry.slug}>{localizeText(entry.title, locale)}</option>
+          <label className="brief-label" htmlFor="quote-item">
+            {copy.labels.item}
+          </label>
+          <select
+            id="quote-item"
+            name="item"
+            className="brief-control"
+            defaultValue={initialItem}
+            required
+          >
+            <option value="" disabled>
+              {copy.placeholders.item}
+            </option>
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
             ))}
           </select>
+          {fieldErrors.item ? (
+            <span className="brief-error">{fieldErrors.item}</span>
+          ) : null}
         </div>
+
         <div className="brief-field brief-field--full">
-          <label className="brief-label" htmlFor="quote-project">{locale === "ar" ? "اسم المشروع أو المعرض (اختياري)" : "Project or exhibition name (optional)"}</label>
-          <input id="quote-project" name="projectName" className="brief-control" />
+          <label className="brief-label" htmlFor="quote-project">
+            {copy.labels.projectName}
+          </label>
+          <input
+            id="quote-project"
+            name="projectName"
+            className="brief-control"
+            placeholder={copy.placeholders.projectName}
+          />
         </div>
+
         <div className="brief-field brief-field--full">
-          <label className="brief-label" htmlFor="quote-details">{locale === "ar" ? "تفاصيل المشروع" : "Project details"}</label>
-          <textarea id="quote-details" name="details" className="brief-control brief-control--area" required />
+          <label className="brief-label" htmlFor="quote-details">
+            {copy.labels.details}
+          </label>
+          <textarea
+            id="quote-details"
+            name="details"
+            className="brief-control brief-control--area"
+            placeholder={copy.placeholders.details}
+            rows={5}
+            required
+          />
+          {fieldErrors.details ? (
+            <span className="brief-error">{fieldErrors.details}</span>
+          ) : null}
         </div>
+
         <div className="brief-field brief-field--full">
-          <label className="brief-label" htmlFor="quote-references">{locale === "ar" ? "ملفات مرجعية (اختياري)" : "Reference files (optional)"}</label>
-          <input id="quote-references" name="references" className="brief-control service-quote-file" type="file" multiple />
+          <label className="brief-label" htmlFor="quote-references">
+            {copy.labels.references}
+          </label>
+          <label className="quote-file">
+            <input
+              id="quote-references"
+              name="references"
+              className="quote-file-input"
+              type="file"
+              multiple
+              accept=".pdf,.png,.jpg,.jpeg,.webp,.dwg,.zip"
+              onChange={(event) => {
+                const files = Array.from(event.target.files ?? []);
+                setFileLabel(
+                  files.length
+                    ? files.map((file) => file.name).join(", ")
+                    : copy.placeholders.references,
+                );
+              }}
+            />
+            <span className="quote-file-label">{fileLabel}</span>
+          </label>
+          {fieldErrors.references ? (
+            <span className="brief-error">{fieldErrors.references}</span>
+          ) : null}
         </div>
-        <input name="websiteAlt" className="brief-honeypot" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+
+        <input
+          name="websiteAlt"
+          className="brief-honeypot"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+        />
       </div>
-      {error ? <p className="brief-submit-error" role="alert">{error}</p> : null}
-      <div className="brief-form-actions service-quote-actions">
-        <span />
+
+      {error ? (
+        <p className="brief-submit-error" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      <div className="brief-form-actions quote-form-actions">
         <button type="submit" className="btn-primary brief-next" disabled={submitting}>
-          {submitting
-            ? (locale === "ar" ? "جارٍ الإرسال…" : "Sending…")
-            : (locale === "ar" ? "اطلب عرض السعر" : "Request My Quote")}
+          {submitting ? copy.submitting : copy.submit}
         </button>
       </div>
     </form>

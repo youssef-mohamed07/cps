@@ -1,38 +1,57 @@
 import Image from "next/image";
-import { logosEyebrow } from "@/content/clients";
+import {
+  logosEyebrow,
+  logosSupport,
+} from "@/content/clients";
 import type { Locale } from "@/lib/i18n";
 import { loadClients } from "@/sanity/load-collections";
 
 type LogosSectionProps = {
   locale: Locale;
+  /** Prefer Blueprint Trusted By names only (no supporting logos). */
+  blueprintOnly?: boolean;
 };
 
-export async function LogosSection({ locale }: LogosSectionProps) {
+export async function LogosSection({
+  locale,
+  blueprintOnly = false,
+}: LogosSectionProps) {
   const label = logosEyebrow(locale);
-  const logos = await loadClients(locale);
-  const track = [...logos, ...logos];
+  const support = logosSupport(locale);
+  const all = await loadClients(locale);
+  const logos = blueprintOnly
+    ? all.filter((logo) =>
+        ["Ajlan & Bros", "SNB", "SAB", "Sirar by STC", "Al Hilal"].includes(
+          logo.name,
+        ),
+      )
+    : all;
+  const items = logos.length ? logos : all;
+  const track = [...items, ...items];
 
   return (
     <section className="logos-section" aria-label={label}>
       <div className="site-container">
         <p className="eyebrow logos-eyebrow">{label}</p>
+        <p className="logos-support">{support}</p>
       </div>
 
       <div className="logos-marquee" role="presentation">
         <ul className="logos-track">
           {track.map((logo, index) => (
             <li
-              key={`${logo.src}-${index}`}
+              key={`${logo.name}-${logo.src}-${index}`}
               className="logos-item"
-              aria-hidden={index >= logos.length}
+              aria-hidden={index >= items.length}
             >
               <Image
                 src={logo.src}
-                alt={index < logos.length ? logo.name : ""}
-                width={160}
-                height={48}
+                alt={index < items.length ? logo.name : ""}
+                width={180}
+                height={56}
                 className="logos-image"
                 loading="lazy"
+                unoptimized={logo.src.endsWith(".svg")}
               />
             </li>
           ))}

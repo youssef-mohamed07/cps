@@ -43,7 +43,6 @@ export function InnerPageEngagement({
       <BriefFormSection
         id={`${namespace}-brief`}
         locale={locale}
-        copy={dictionary.briefForm}
       />
       <FaqSection
         id={`${namespace}-faq`}

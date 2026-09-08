@@ -76,7 +76,7 @@ export function ProcessTimeline({
           <div className="process-timeline-head">
             <div>
               <p className="eyebrow">{eyebrow}</p>
-              <h2 className="process-timeline-title">{title}</h2>
+              <h2 className="display process-timeline-title">{title}</h2>
             </div>
             {support ? <p className="process-timeline-support">{support}</p> : null}
           </div>

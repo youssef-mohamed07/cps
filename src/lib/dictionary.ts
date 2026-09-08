@@ -50,6 +50,15 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ? local.aboutPage
       : aboutPage;
 
+  const cmsHero = hasBlueprintServices
+    ? { ...remote.hero, ...homeOverlay.hero }
+    : undefined;
+  const heroLooksLegacy =
+    !cmsHero?.headline ||
+    /everything your booth|كل ما يحتاجه جناحك|request a quote|اطلب عرض سعر/i.test(
+      `${cmsHero.headline} ${cmsHero.primaryCta ?? ""}`,
+    );
+
   return {
     ...local,
     ...remote,
@@ -67,8 +76,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
     },
     hero: {
       ...local.hero,
-      ...(hasBlueprintServices ? remote.hero : undefined),
-      ...(hasBlueprintServices ? homeOverlay.hero : undefined),
+      ...(cmsHero && !heroLooksLegacy ? cmsHero : undefined),
     },
     lifecycle: mergeSection(
       local.lifecycle,
@@ -112,7 +120,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       },
       images: {
         ...local.whyCps.images,
-        ...sectionSource.whyCps?.images,
+        ...(hasBlueprintServices ? sectionSource.whyCps?.images : undefined),
       },
     },
     beforeAfter: {

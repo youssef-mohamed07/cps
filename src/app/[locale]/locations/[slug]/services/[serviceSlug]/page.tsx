@@ -5,7 +5,6 @@ import { faqJsonLd, JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
-import { LogosSection } from "@/components/sections/logos-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { ServiceDesignGrid } from "@/components/sections/service-design-grid";
 import { ServiceDetailSections } from "@/components/sections/service-detail-sections";
@@ -162,8 +161,6 @@ export default async function LocationServicePage({ params }: PageProps) {
             : undefined
         }
       />
-
-      <LogosSection locale={locale} />
 
       {service.cover?.items.length ? (
         <LifecycleSection
