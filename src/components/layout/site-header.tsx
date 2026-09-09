@@ -205,13 +205,31 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
   }, [pathname]);
 
   useEffect(() => {
-    if (!openKey) return;
+    if (!openKey && !mobileOpen) return;
     const onKey = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") setOpenKey(null);
+      if (event.key === "Escape") {
+        setOpenKey(null);
+        setMobileOpen(false);
+        setMobileExpanded(null);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [openKey]);
+  }, [mobileOpen, openKey]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [mobileOpen]);
 
   useEffect(() => {
     return () => {
@@ -277,6 +295,14 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
         .filter(Boolean)
         .join(" ")}
     >
+      {mobileOpen ? (
+        <button
+          type="button"
+          className="site-mobile-backdrop"
+          aria-label={locale === "ar" ? "إغلاق القائمة" : "Close menu"}
+          onClick={closeAll}
+        />
+      ) : null}
       <div className="site-container site-header-wrap">
         <div
           className="site-header-shell"
@@ -448,8 +474,9 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
         {mobileOpen ? (
           <div id="mobile-nav" className="site-mobile-nav">
             <nav className="site-mobile-accordion" aria-label="Mobile">
-              {items.map((item) => {
+              {items.map((item, itemIndex) => {
                 const key = `${item.href}-${item.label}`;
+                const mobilePanelId = `${navId}-mobile-group-${itemIndex}`;
                 const hasChildren =
                   (item.kind === "mega" && item.mega?.enabled !== false) ||
                   (item.kind === "dropdown" && (item.dropdown?.length ?? 0) > 0);
@@ -479,20 +506,23 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                       type="button"
                       className={`site-mobile-trigger${expanded ? " is-open" : ""}`}
                       aria-expanded={expanded}
+                      aria-controls={mobilePanelId}
                       onClick={() => setMobileExpanded(expanded ? null : key)}
                     >
                       <span>{item.label}</span>
                       <span className="site-nav-chevron" aria-hidden="true" />
                     </button>
                     {expanded ? (
-                      <div className="site-mobile-children">
-                        <Link
-                          href={localizePath(item.href, locale)}
-                          className="site-mobile-child"
-                          onClick={closeAll}
-                        >
-                          {item.label}
-                        </Link>
+                      <div id={mobilePanelId} className="site-mobile-children">
+                        {item.kind !== "mega" ? (
+                          <Link
+                            href={localizePath(item.href, locale)}
+                            className="site-mobile-child"
+                            onClick={closeAll}
+                          >
+                            {item.label}
+                          </Link>
+                        ) : null}
                         {childLinks.map((link) => (
                           <Link
                             key={link.href + link.label}
@@ -519,7 +549,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               })}
               <Link
                 href={localizePath(navigation.cta.href, locale)}
-                className="btn-primary mt-3 w-full"
+                className="site-mobile-primary-cta"
                 onClick={closeAll}
               >
                 {navigation.cta.label}
