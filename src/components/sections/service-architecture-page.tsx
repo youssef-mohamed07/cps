@@ -5,7 +5,9 @@ import { QuoteForm } from "@/components/forms/quote-form";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { FaqSection } from "@/components/sections/faq-section";
+import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
+import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
 import { blueprintClientLogos } from "@/content/clients";
 import { getQuoteFormCopy } from "@/content/quote-form.copy";
 import {
@@ -252,6 +254,14 @@ export function ServiceArchitecturePage({
           </Reveal>
         </div>
       </section>
+
+      {service.slug === "exhibitions-booths" ? (
+        <BoothTypeModelSection
+          locale={locale}
+          title={localizeText(service.title, locale)}
+          variant="custom"
+        />
+      ) : null}
 
       <section className="service-trusted">
         <div className="site-container">
@@ -655,25 +665,6 @@ export function ServiceArchitecturePage({
         </div>
       </section> : null}
 
-      <FaqSection
-        eyebrow="FAQ"
-        title={
-          ar
-            ? `أسئلة عن ${localizeText(service.title, locale)}`
-            : `Questions about ${localizeText(service.title, locale)}`
-        }
-        support={
-          ar
-            ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
-            : "Straight answers on timelines, scope, and delivery — before you start."
-        }
-        items={service.faq.map((entry) => ({
-          question: localizeText(entry.question, locale),
-          answer: localizeText(entry.answer, locale),
-        }))}
-        className="service-faq"
-      />
-
       {related.length ? (
         <section className="service-related-blueprint">
           <div className="site-container">
@@ -750,24 +741,38 @@ export function ServiceArchitecturePage({
         </div>
       </section>
 
-      <section className="service-closing">
-        <div className="site-container">
-          <h2 className="display display-on-dark">
-            {ar
-              ? `جاهز لبناء ${closingNoun} القادم؟`
-              : `Ready to build your next ${closingNoun}?`}
-          </h2>
-          <p>
-            {ar
-              ? "أخبرنا بما تبنيه وسنعود إليك بالخطوة التالية."
-              : "Tell us what you're building and we'll get back to you with next steps."}
-          </p>
-          <Link href={localizePath("/contact", locale)} className="btn-primary">
-            {ar ? "ابدأ مشروعاً" : "Start a Project"}
-            <CtaArrow size="sm" />
-          </Link>
-        </div>
-      </section>
+      <FaqSection
+        eyebrow="FAQ"
+        title={
+          ar
+            ? `أسئلة عن ${localizeText(service.title, locale)}`
+            : `Questions about ${localizeText(service.title, locale)}`
+        }
+        support={
+          ar
+            ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
+            : "Straight answers on timelines, scope, and delivery — before you start."
+        }
+        items={service.faq.map((entry) => ({
+          question: localizeText(entry.question, locale),
+          answer: localizeText(entry.answer, locale),
+        }))}
+        className="service-faq"
+      />
+
+      <ProjectLaunchSection
+        locale={locale}
+        title={
+          ar
+            ? `جاهز لبناء ${closingNoun} القادم؟`
+            : `Ready to build your next ${closingNoun}?`
+        }
+        support={
+          ar
+            ? "شاركنا ما تريد بناءه، وسنحوّل الفكرة إلى خطة واضحة وخطوة تنفيذ أولى."
+            : "Share what you want to build, and we’ll turn it into a clear plan and a confident first step."
+        }
+      />
     </>
   );
 }

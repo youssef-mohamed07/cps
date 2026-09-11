@@ -10,9 +10,14 @@ const legacyIndustrySlugs: Record<string, string> = {
 };
 
 function normalizeIndustrySlug(value?: string) {
-  const trimmed = value?.trim();
-  if (!trimmed) return undefined;
-  return legacyIndustrySlugs[trimmed] ?? trimmed;
+  const normalized = value
+    ?.normalize("NFKC")
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-|-$/g, "");
+  if (!normalized) return undefined;
+  return legacyIndustrySlugs[normalized] ?? normalized;
 }
 
 /** Fill missing fields on known seed projects without replacing editorial CMS copy. */

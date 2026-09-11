@@ -47,6 +47,7 @@ export default async function IndustriesPage({ params }: PageProps) {
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={page.eyebrow}
         title={page.title}
         lead={page.lead}

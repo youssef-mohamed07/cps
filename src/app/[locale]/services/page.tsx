@@ -46,6 +46,7 @@ export default async function ServicesPage({ params }: PageProps) {
     <>
       <Breadcrumbs locale={locale} items={[{ label: ar ? "الرئيسية" : "Home", href: "/" }, { label: ar ? "الخدمات" : "Services" }]} />
       <PageHero
+        locale={locale}
         eyebrow={ar ? "الخدمات" : "Services"}
         title={ar ? "ثمان خدمات. أرض إنتاج واحدة." : "Eight services. One production floor."}
         lead={ar ? "من المعارض والفعاليات إلى التجهيز الداخلي والطباعة والتسليم — فريق واحد يحمل مشروعك حتى النهاية." : "From exhibitions and events to fit-out, print and delivery — one team carries your project to completion."}

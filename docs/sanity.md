@@ -70,7 +70,7 @@ Revalidate tags: `siteFooter`, `siteFooter-{locale}`.
 | `siteSettings` | Company, contact, brand, analytics, default SEO |
 | `globalSeo` | Default SEO / org name / Twitter handle |
 | `homePage` | Home hero + section JSON overlay + SEO (wired via `resolveDictionary`) |
-| `aboutPageDoc` | About page copy + SEO (wired via `loadAboutPage`) |
+| `aboutPageDoc` | About page copy, five-step workflow, industries grid + SEO (wired via `loadAboutPage`) |
 | `contactPageDoc` | Contact page + brief form JSON + SEO (wired via `loadContactPage`) |
 | `hubPage` | Index hubs (services, booth types, work, industries, locations, news) — chrome + SEO |
 | `navigation` | Primary + footer menus |

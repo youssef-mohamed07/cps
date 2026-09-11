@@ -103,9 +103,16 @@ export interface Dictionary {
     studioTitle: string;
     studioSupport: string;
     studioItems: { title: string; description: string }[];
+    workflowEyebrow: string;
+    workflowTitle: string;
+    workflowSupport: string;
+    workflowSteps: { title: string; description: string }[];
     closingLine?: string;
+    industriesEyebrow: string;
     industriesTitle: string;
+    industriesSupport: string;
     industriesItems: string[];
+    industriesCta: string;
     industriesMore: string;
     industriesLogosTitle: string;
     faqItems: { question: string; answer: string }[];
@@ -452,16 +459,57 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "Capable of handling multiple projects at once.",
         },
       ],
+      workflowEyebrow: "How We Work",
+      workflowTitle: "From brief to handover",
+      workflowSupport:
+        "The same five-step process behind every project, whatever the service.",
+      workflowSteps: [
+        {
+          title: "Brief & Site Assessment",
+          description:
+            "We review your brief, site conditions and technical constraints before design starts.",
+        },
+        {
+          title: "Design & Technical Drawing",
+          description:
+            "Concepts developed into approved, production-ready drawings.",
+        },
+        {
+          title: "In-House Production",
+          description:
+            "Fabricated on our own floor: wood, metal, acrylic, printing and signage.",
+        },
+        {
+          title: "Installation & Delivery",
+          description:
+            "Site delivery, installation and dismantling handled by our own crews nationwide.",
+        },
+        {
+          title: "Handover & Support",
+          description:
+            "Final walkthrough, snagging and ongoing support if the piece needs maintenance or redeployment.",
+        },
+      ],
       closingLine:
         "One production partner. Multiple capabilities. Built around your project.",
-      industriesTitle: "Trusted Across Industries",
+      industriesEyebrow: "Industries",
+      industriesTitle: "Sectors we work with",
+      industriesSupport:
+        "Projects delivered across sectors that need precision execution.",
       industriesItems: [
-        "Banking & Finance",
         "Government & Public Sector",
-        "Real Estate & Construction",
-        "Telecom & Technology",
-        "Oil, Gas & Energy",
+        "Banking & Financial Services",
+        "Healthcare & Pharmaceutical",
+        "FMCG",
+        "Beauty & Cosmetics",
+        "Technology & Electronics",
+        "Automotive",
+        "Retail & Shopping Malls",
+        "Real Estate",
+        "Hospitality",
+        "Sports & Entertainment",
       ],
+      industriesCta: "View Projects by Industry",
       industriesMore: "+15 others",
       industriesLogosTitle: "Trusted Across Industries",
       faqItems: [
@@ -1042,15 +1090,56 @@ const dictionaries: Record<Locale, Dictionary> = {
           description: "قادر على إدارة عدة مشاريع في الوقت نفسه.",
         },
       ],
-      closingLine: "شريك إنتاج واحد. قدرات متعددة. مبنية حول مشروعك.",
-      industriesTitle: "موثوقون عبر القطاعات",
-      industriesItems: [
-        "البنوك والمالية",
-        "الحكومة والقطاع العام",
-        "العقارات والإنشاءات",
-        "الاتصالات والتقنية",
-        "النفط والغاز والطاقة",
+      workflowEyebrow: "كيف نعمل",
+      workflowTitle: "من البريف إلى التسليم",
+      workflowSupport:
+        "نفس العملية المكوّنة من خمس خطوات وراء كل مشروع، مهما كانت الخدمة.",
+      workflowSteps: [
+        {
+          title: "البريف ومعاينة الموقع",
+          description:
+            "نراجع البريف وظروف الموقع والقيود الفنية قبل بدء التصميم.",
+        },
+        {
+          title: "التصميم والرسومات الفنية",
+          description:
+            "نحوّل الأفكار إلى رسومات معتمدة وجاهزة للإنتاج.",
+        },
+        {
+          title: "الإنتاج الداخلي",
+          description:
+            "يُنفذ المشروع في منشأتنا: الخشب والمعدن والأكريليك والطباعة واللافتات.",
+        },
+        {
+          title: "التركيب والتسليم",
+          description:
+            "تتولى فرقنا التوصيل والتركيب والتفكيك في المواقع على مستوى المملكة.",
+        },
+        {
+          title: "التسليم والدعم",
+          description:
+            "جولة تسليم نهائية ومعالجة الملاحظات ودعم مستمر عند الحاجة إلى الصيانة أو إعادة الاستخدام.",
+        },
       ],
+      closingLine: "شريك إنتاج واحد. قدرات متعددة. مبنية حول مشروعك.",
+      industriesEyebrow: "القطاعات",
+      industriesTitle: "قطاعات نعمل معها",
+      industriesSupport:
+        "مشاريع منفذة عبر قطاعات تتطلب دقة عالية في التنفيذ.",
+      industriesItems: [
+        "الحكومة والقطاع العام",
+        "البنوك والخدمات المالية",
+        "الرعاية الصحية والأدوية",
+        "السلع الاستهلاكية سريعة التداول",
+        "الجمال ومستحضرات التجميل",
+        "التقنية والإلكترونيات",
+        "السيارات",
+        "التجزئة ومراكز التسوق",
+        "العقارات",
+        "الضيافة",
+        "الرياضة والترفيه",
+      ],
+      industriesCta: "استعرض المشاريع حسب القطاع",
       industriesMore: "+١٥ قطاعاً آخر",
       industriesLogosTitle: "موثوقون عبر القطاعات",
       faqItems: [

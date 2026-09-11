@@ -39,10 +39,11 @@ CSS variables live in `src/app/globals.css` (`@theme inline`) and can be overrid
 - Font: **Alexandria** (variable), loaded in `src/lib/fonts.ts` from `src/fonts/`
 - Applied on `<html>` via `rootFontClassName`
 - Used for both EN and AR
+- Light and dark section headings share `--section-display-size`, weight, line height, and tracking from `src/app/globals.css`. Page heroes, card titles, statistics, and the footer statement keep their own hierarchy.
 
 ## Current visual direction
 
-- Plain white site shell
+- Consistent white backgrounds across all light sections
 - No glass / blur stacks on the homepage
 - No hero background image on the homepage
 - Rounded corners kept modest (`0.5rem` on buttons / media)

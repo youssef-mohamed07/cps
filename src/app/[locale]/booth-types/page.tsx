@@ -48,6 +48,7 @@ export default async function BoothTypesPage({ params }: PageProps) {
           ]}
         />
         <PageHero
+          locale={locale}
           eyebrow={dictionary.boothTypesPage.eyebrow}
           title={dictionary.boothTypesPage.title}
           lead={dictionary.boothTypesPage.lead}

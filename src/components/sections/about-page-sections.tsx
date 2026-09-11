@@ -1,8 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
+import { ProcessTimeline } from "@/components/sections/process-timeline";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
-import type { Locale } from "@/lib/i18n";
+import { localizeText, projectIndustryOptions } from "@/content/service-architecture";
+import { localizePath, type Locale } from "@/lib/i18n";
 
 type AboutPageSectionsProps = {
   locale: Locale;
@@ -116,6 +120,76 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
                   </article>
                 </Reveal>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ProcessTimeline
+        id="process"
+        className="about-process"
+        eyebrow={page.workflowEyebrow}
+        title={page.workflowTitle}
+        support={page.workflowSupport}
+        steps={page.workflowSteps}
+      />
+
+      <section id="industries" className="about-industries scroll-mt-24">
+        <div className="site-container">
+          <div className="about-industries-shell">
+            <div className="about-industries-intro">
+              <Image
+                src={media.homeHero}
+                alt={
+                  isArabic
+                    ? "أحد مشاريع CPS المنفذة لقطاعات متنوعة"
+                    : "A CPS project delivered for a cross-industry client"
+                }
+                fill
+                sizes="(max-width: 899px) 100vw, 38vw"
+                className="object-cover"
+              />
+              <Reveal className="about-industries-copy">
+                <p className="eyebrow eyebrow-on-dark">{page.industriesEyebrow}</p>
+                <h2 className="about-industries-title">{page.industriesTitle}</h2>
+                <p className="about-industries-support">{page.industriesSupport}</p>
+                <Link
+                  href={localizePath("/our-work#work-filters", locale)}
+                  className="about-industries-link"
+                >
+                  <span>{page.industriesCta}</span>
+                  <CtaArrow size="sm" />
+                </Link>
+              </Reveal>
+
+              <div className="about-industries-count">
+                <strong>{page.industriesItems.length}</strong>
+                <span>{isArabic ? "قطاعاً نخدمه" : "sectors served"}</span>
+              </div>
+            </div>
+
+            <div className="about-industries-list" role="list">
+              {page.industriesItems.map((industry, index) => {
+                const matchedIndustry = projectIndustryOptions.find(
+                  (option) => localizeText(option.title, locale) === industry,
+                );
+                const slug = matchedIndustry?.slug ?? projectIndustryOptions[index]?.slug;
+                const href = slug
+                  ? `${localizePath("/our-work", locale)}?industry=${encodeURIComponent(slug)}#work-filters`
+                  : `${localizePath("/our-work", locale)}#work-filters`;
+
+                return (
+                  <Reveal key={industry} delay={index * 0.035}>
+                    <Link className="about-industries-item" href={href} role="listitem">
+                    <span className="about-industries-item-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{industry}</h3>
+                    <span className="about-industries-item-mark" aria-hidden="true" />
+                    </Link>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </div>

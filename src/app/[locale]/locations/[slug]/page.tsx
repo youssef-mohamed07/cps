@@ -93,6 +93,7 @@ export default async function LocationDetailPage({ params }: PageProps) {
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={hubLabel}
         title={location.title}
         lead={location.excerpt}

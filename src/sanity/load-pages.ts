@@ -32,8 +32,17 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPageDoc" && language == $locale][0]{
   vision,
   values[]{ title, description },
   process[]{ title, description },
+  workflowEyebrow,
+  workflowTitle,
+  workflowSupport,
+  workflowSteps[]{ title, description },
   studioTitle,
   studioBody,
+  industriesEyebrow,
+  industriesTitle,
+  industriesSupport,
+  industriesItems,
+  industriesCta,
   faq[]{ question, answer },
   seo
 }`;
@@ -88,8 +97,17 @@ type AboutDoc = SeoDoc & {
   vision?: string;
   values?: { title?: string; description?: string }[];
   process?: { title?: string; description?: string }[];
+  workflowEyebrow?: string;
+  workflowTitle?: string;
+  workflowSupport?: string;
+  workflowSteps?: { title?: string; description?: string }[];
   studioTitle?: string;
   studioBody?: string;
+  industriesEyebrow?: string;
+  industriesTitle?: string;
+  industriesSupport?: string;
+  industriesItems?: string[];
+  industriesCta?: string;
   faq?: { question?: string; answer?: string }[];
 };
 
@@ -268,6 +286,24 @@ export async function loadAboutPage(
             description: item.description ?? "",
           }))
       : local.studioItems,
+    workflowEyebrow: remote.workflowEyebrow ?? local.workflowEyebrow,
+    workflowTitle: remote.workflowTitle ?? local.workflowTitle,
+    workflowSupport: remote.workflowSupport ?? local.workflowSupport,
+    workflowSteps: remote.workflowSteps?.length
+      ? remote.workflowSteps
+          .filter((item) => item.title)
+          .map((item) => ({
+            title: item.title!,
+            description: item.description ?? "",
+          }))
+      : local.workflowSteps,
+    industriesEyebrow: remote.industriesEyebrow ?? local.industriesEyebrow,
+    industriesTitle: remote.industriesTitle ?? local.industriesTitle,
+    industriesSupport: remote.industriesSupport ?? local.industriesSupport,
+    industriesItems: remote.industriesItems?.length
+      ? remote.industriesItems
+      : local.industriesItems,
+    industriesCta: remote.industriesCta ?? local.industriesCta,
     faqItems: remote.faq?.length
       ? remote.faq
           .filter((item) => item.question)

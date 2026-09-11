@@ -46,11 +46,6 @@ export function BoothTypeModelSection({
               ? `معاينة تفاعلية ل${title} — اسحب للدوران وقرّب للتفاصيل.`
               : `Interactive preview of ${title} — drag to rotate and scroll to zoom.`}
           </p>
-          <ul className="booth-detail-model-hints">
-            <li>{isArabic ? "اسحب للدوران" : "Drag to rotate"}</li>
-            <li>{isArabic ? "مرّر للتكبير" : "Scroll to zoom"}</li>
-            <li>{isArabic ? "تدوير تلقائي" : "Auto-rotate on"}</li>
-          </ul>
         </Reveal>
 
         <Reveal delay={0.08} className="booth-detail-model-stage">

@@ -77,6 +77,8 @@ Sanity collections + singletons (optional) ─────────┘
 - Project detail facts use a compact summary row, followed by a separate two-column scope/services panel. Service tags normalize known service slugs and remove duplicate labels; narrow screens stack the delivery panel while keeping summary facts in two columns.
 
 - `SiteChrome` resolves `navigation` + `siteFooter` and renders mega-menu `SiteHeader` + premium `SiteFooter`
+- The shared `PageHero` renders the moving client-logo strip immediately after the hero. The home page adds the same strip after `HomeHero`; the eight canonical service-detail pages intentionally omit it.
+- `ProjectLaunchSection` is the shared closing conversion panel on home, production capabilities, and service-detail pages; it replaces the former full-width navy CTA strip and suppresses the duplicate footer CTA on those pages.
 - Footer services come from the eight-service architecture; the former secondary collection slot now renders the Work links required by the blueprint
 - Local seeds: `src/content/navigation.ts`, `src/content/footer.ts`
 

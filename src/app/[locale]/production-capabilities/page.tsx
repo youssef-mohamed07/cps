@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { CapabilityExplainerSection } from "@/components/sections/capability-explainer-section";
 import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProductionCapabilitiesSection } from "@/components/sections/production-capabilities-section";
+import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
 import { StatsSection } from "@/components/sections/stats-section";
 import { media } from "@/content/media";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -50,6 +50,7 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={ar ? "قدرات الإنتاج" : "Production Capabilities"}
         title={
           ar
@@ -78,14 +79,15 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
       <CapabilityExplainerSection locale={locale} />
       <ProductionCapabilitiesSection locale={locale} standalone />
       <BeforeAfterSection content={dictionary.beforeAfter} />
-      <section className="service-closing">
-        <div className="site-container">
-          <h2>{ar ? "لنبنِ مشروعك تحت سقف واحد." : "Let us build your project under one roof."}</h2>
-          <Link href={localizePath("/contact", locale)} className="btn-primary">
-            {ar ? "ابدأ مشروعاً" : "Start a Project"}
-          </Link>
-        </div>
-      </section>
+      <ProjectLaunchSection
+        locale={locale}
+        title={ar ? "لنبنِ مشروعك تحت سقف واحد." : "Let us build your project under one roof."}
+        support={
+          ar
+            ? "من البريف إلى التصنيع والتركيب، فريق واحد يمسك كل التفاصيل."
+            : "From brief to fabrication and installation, one team owns every detail."
+        }
+      />
     </>
   );
 }

@@ -95,6 +95,7 @@ export default async function IndustryDetailPage({ params }: PageProps) {
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={hubLabel}
         title={industry.title}
         lead={industry.excerpt}

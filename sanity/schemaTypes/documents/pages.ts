@@ -85,6 +85,55 @@ export const aboutPageDoc = defineType({
     defineField({ name: "studioTitle", type: "string", title: "Studio title" }),
     defineField({ name: "studioBody", type: "text", rows: 4, title: "Studio body" }),
     defineField({
+      name: "workflowEyebrow",
+      type: "string",
+      title: "Workflow eyebrow",
+    }),
+    defineField({
+      name: "workflowTitle",
+      type: "string",
+      title: "Workflow title",
+    }),
+    defineField({
+      name: "workflowSupport",
+      type: "text",
+      rows: 3,
+      title: "Workflow supporting copy",
+    }),
+    defineField({
+      name: "workflowSteps",
+      type: "array",
+      of: [{ type: "processStep" }],
+      title: "Workflow steps",
+    }),
+    defineField({
+      name: "industriesEyebrow",
+      type: "string",
+      title: "Industries eyebrow",
+    }),
+    defineField({
+      name: "industriesTitle",
+      type: "string",
+      title: "Industries title",
+    }),
+    defineField({
+      name: "industriesSupport",
+      type: "text",
+      rows: 3,
+      title: "Industries supporting copy",
+    }),
+    defineField({
+      name: "industriesItems",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Industries",
+    }),
+    defineField({
+      name: "industriesCta",
+      type: "string",
+      title: "Industries CTA",
+    }),
+    defineField({
       name: "faq",
       type: "array",
       of: [{ type: "faqItem" }],

@@ -22,6 +22,7 @@ export function LegalPage({ locale, title, lead, body }: LegalPageProps) {
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={locale === "ar" ? "معلومات قانونية" : "Legal information"}
         title={title}
         lead={lead}

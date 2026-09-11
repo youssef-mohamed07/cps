@@ -51,6 +51,7 @@ export default async function ContactPage({ params }: PageProps) {
         ]}
       />
       <PageHero
+        locale={locale}
         eyebrow={page.eyebrow}
         title={page.title}
         lead={page.lead}

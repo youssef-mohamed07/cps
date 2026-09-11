@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
+import { LogosSection } from "@/components/sections/logos-section";
 import type { Locale } from "@/lib/i18n";
 
 type PageHeroProps = {
@@ -12,7 +13,7 @@ type PageHeroProps = {
   image?: string;
   imageAlt?: string;
   meta?: string;
-  locale?: Locale;
+  locale: Locale;
   cta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
   animated?: boolean;
@@ -32,13 +33,14 @@ export function PageHero({
   animated = false,
   className,
 }: PageHeroProps) {
-  const hasCity = Boolean(locale && title.includes("{City}"));
+  const hasCity = title.includes("{City}");
   const showActions = Boolean(cta || secondaryCta);
 
   return (
-    <section
-      className={`page-hero${image ? " page-hero--media" : ""}${animated ? " page-hero--animated" : ""}${className ? ` ${className}` : ""}`}
-    >
+    <>
+      <section
+        className={`page-hero${image ? " page-hero--media" : ""}${animated ? " page-hero--animated" : ""}${className ? ` ${className}` : ""}`}
+      >
       {image ? (
         <div className="page-hero-media">
           <Image
@@ -68,7 +70,7 @@ export function PageHero({
               </p>
             ) : null}
 
-            {hasCity && locale ? (
+            {hasCity ? (
               <HeroCityRotator
                 locale={locale}
                 template={title}
@@ -110,6 +112,8 @@ export function PageHero({
           </div>
         </Reveal>
       </div>
-    </section>
+      </section>
+      <LogosSection locale={locale} />
+    </>
   );
 }

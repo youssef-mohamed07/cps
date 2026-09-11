@@ -186,6 +186,7 @@ export default async function ProjectPage({ params }: PageProps) {
       />
 
       <PageHero
+        locale={locale}
         className="page-hero--project"
         eyebrow={project.category}
         title={project.title}

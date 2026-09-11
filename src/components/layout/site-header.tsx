@@ -23,6 +23,7 @@ type SiteHeaderProps = {
 const OPEN_DELAY_MS = 150;
 const CLOSE_DELAY_MS = 120;
 const HEADER_HIDE_AFTER = 72;
+const PORTFOLIO_URL = "https://drive.google.com/";
 
 /** Body can be the real scroll root (overflow-y: auto + h-full). */
 function getScrollRoot(): Element {
@@ -420,7 +421,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               <span className="sr-only">{navigation.langLabel}</span>
             </Link>
             <Link
-              href="https://drive.google.com/"
+              href={PORTFOLIO_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="site-header-work"
@@ -555,6 +556,15 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
                 onClick={closeAll}
               >
                 {navigation.cta.label}
+              </Link>
+              <Link
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="site-mobile-portfolio"
+                onClick={closeAll}
+              >
+                {locale === "ar" ? "تحميل ملف الأعمال" : "Download Portfolio"}
               </Link>
             </nav>
           </div>

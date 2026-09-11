@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FeaturedWork } from "@/components/sections/featured-work";
 import { ClientsSection } from "@/components/sections/clients-section";
 import { BriefFormSection } from "@/components/sections/brief-form-section";
 import { HomeHero } from "@/components/sections/home-hero";
+import { LogosSection } from "@/components/sections/logos-section";
+import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { WhyCpsSection } from "@/components/sections/why-cps-section";
 import { ProductionCapabilitiesSection } from "@/components/sections/production-capabilities-section";
 import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { StatsSection } from "@/components/sections/stats-section";
-import { CtaArrow } from "@/components/motion/cta-arrow";
-import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { resolveDictionary } from "@/lib/dictionary";
 import { loadHomeFeaturedProjectSlugs, loadHomeSeo } from "@/sanity/load-pages";
@@ -70,13 +70,7 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <>
       <HomeHero locale={locale} content={dictionary.hero} />
-      <StatsSection
-        id="home-stats"
-        eyebrow={dictionary.stats.eyebrow}
-        title={dictionary.stats.title}
-        support={dictionary.stats.support}
-        items={dictionary.stats.items}
-      />
+      <LogosSection locale={locale} />
       <LifecycleSection
         eyebrow={dictionary.lifecycle.eyebrow}
         title={dictionary.lifecycle.title}
@@ -84,6 +78,13 @@ export default async function HomePage({ params }: PageProps) {
         imageAlt={dictionary.lifecycle.imageAlt}
         items={dictionary.lifecycle.items}
         centered
+      />
+      <StatsSection
+        id="home-stats"
+        eyebrow={dictionary.stats.eyebrow}
+        title={dictionary.stats.title}
+        support={dictionary.stats.support}
+        items={dictionary.stats.items}
       />
       <ServicesSection locale={locale} content={dictionary.services} />
       <ProductionCapabilitiesSection locale={locale} compact />
@@ -105,22 +106,15 @@ export default async function HomePage({ params }: PageProps) {
         items={dictionary.clients.items}
       />
       <BriefFormSection id="home-contact" locale={locale} />
-      <section className="service-closing home-closing-cta">
-        <div className="site-container">
-          <h2 className="display display-on-dark">
-            {locale === "ar" ? "هل لديك مشروع في ذهنك؟" : "Have a project in mind?"}
-          </h2>
-          <p>
-            {locale === "ar"
-              ? "أخبرنا بما تبنيه وسنعود إليك بالخطوات التالية."
-              : "Tell us what you're building and we'll get back to you with next steps."}
-          </p>
-          <Link href={localizePath("/contact", locale)} className="btn-primary">
-            {locale === "ar" ? "ابدأ مشروعاً" : "Start a Project"}
-            <CtaArrow size="sm" />
-          </Link>
-        </div>
-      </section>
+      <ProjectLaunchSection
+        locale={locale}
+        title={locale === "ar" ? "هل لديك مشروع في ذهنك؟" : "Have a project in mind?"}
+        support={
+          locale === "ar"
+            ? "شاركنا ما تريد بناءه، وسنحوّل الفكرة إلى خطة واضحة وخطوة تنفيذ أولى."
+            : "Share what you want to build, and we’ll turn it into a clear plan and a confident first step."
+        }
+      />
     </>
   );
 }

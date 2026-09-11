@@ -74,6 +74,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
           ]}
         />
         <PageHero
+          locale={locale}
           eyebrow={article.category || hubLabel}
           title={article.title}
           lead={article.excerpt}
