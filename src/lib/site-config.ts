@@ -26,7 +26,14 @@ export interface SiteConfigShape {
     x: string;
   };
   logo?: string;
+  icon?: string;
   favicon?: string;
+  portfolio?: {
+    enabled: boolean;
+    labelEn: string;
+    labelAr: string;
+    href: string;
+  };
   googleMapsUrl?: string;
   googleAnalyticsId?: string;
   googleTagManagerId?: string;
@@ -45,12 +52,7 @@ export interface SiteConfigShape {
 let cachedSiteConfig: SiteConfigShape | null = null;
 
 export function setSiteConfig(config: SiteConfigShape): void {
-  cachedSiteConfig = {
-    ...config,
-    email: CPS_EMAIL,
-    phone: CPS_PHONE,
-    phoneDisplay: CPS_PHONE_DISPLAY,
-  };
+  cachedSiteConfig = config;
 }
 
 export function getSiteConfig(): SiteConfigShape {
@@ -79,7 +81,14 @@ export function getSiteConfig(): SiteConfigShape {
       x: "https://x.com/",
     },
     logo: "/logo.png",
+    icon: "/icon.png",
     favicon: "/favicon.ico",
+    portfolio: {
+      enabled: true,
+      labelEn: "Download Portfolio",
+      labelAr: "تحميل ملف الأعمال",
+      href: process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "",
+    },
     brandColors: {
       accent: "#2192b4",
       primary: "#0f3355",

@@ -2,11 +2,16 @@ import { getSiteConfig } from "@/lib/site-config";
 import { placeholderUrl } from "@/lib/placeholders";
 
 const LOGO_FALLBACK = "/logo.png";
+const ICON_FALLBACK = "/icon.png";
 const FAVICON_FALLBACK = "/favicon.ico";
 const OG_FALLBACK = placeholderUrl(1200, 630);
 
 export function getSiteLogo(): string {
   return getSiteConfig().logo || LOGO_FALLBACK;
+}
+
+export function getSiteIcon(): string {
+  return getSiteConfig().icon || ICON_FALLBACK;
 }
 
 export function getSiteFavicon(): string {

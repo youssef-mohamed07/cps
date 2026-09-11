@@ -8,6 +8,8 @@ import { resolveDictionary } from "@/lib/dictionary";
 import { resolveFooter } from "@/lib/footer";
 import { resolveNavigation } from "@/lib/navigation";
 import { localizeText, serviceArchitecture, servicePath } from "@/content/service-architecture";
+import { getSiteIcon } from "@/lib/site-assets";
+import { getSiteConfig } from "@/lib/site-config";
 
 type SiteChromeProps = {
   locale: Locale;
@@ -20,11 +22,17 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
     resolveFooter(locale),
     resolveDictionary(locale),
   ]);
+  const siteConfig = getSiteConfig();
 
   return (
     <div className="site-shell">
       <GeometricPointer />
-      <SiteHeader locale={locale} navigation={navigation} />
+      <SiteHeader
+        locale={locale}
+        navigation={navigation}
+        brandIcon={getSiteIcon()}
+        portfolio={siteConfig.portfolio}
+      />
       <main className="site-main">{children}</main>
       <div className="site-global-testimonials">
         <ClientsSection

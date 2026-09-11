@@ -9,6 +9,7 @@ const MARQUEE_LOOPS = 2;
 
 type BeforeAfterSectionProps = {
   content: Dictionary["beforeAfter"];
+  brandIcon?: string;
 };
 
 function ComparisonMedia({
@@ -78,9 +79,11 @@ function MarqueeTrack({
 function TransformMarquee({
   beforeItems,
   afterItems,
+  brandIcon,
 }: {
   beforeItems: string[];
   afterItems: string[];
+  brandIcon: string;
 }) {
   return (
     <div className="ba-marquee-stage">
@@ -94,7 +97,7 @@ function TransformMarquee({
 
       <div className="ba-marquee-hub" aria-hidden="true">
         <Image
-          src="/icon.png"
+          src={brandIcon}
           alt=""
           width={44}
           height={44}
@@ -116,6 +119,7 @@ function BeforeAfterSlider({
   afterPoster,
   beforeItems,
   afterItems,
+  brandIcon,
 }: {
   beforeVideo?: string;
   afterVideo?: string;
@@ -123,6 +127,7 @@ function BeforeAfterSlider({
   afterPoster: string;
   beforeItems: string[];
   afterItems: string[];
+  brandIcon: string;
 }) {
   const clipAfter = 100 - DIVIDER_POSITION;
 
@@ -148,7 +153,11 @@ function BeforeAfterSlider({
         />
       </div>
 
-      <TransformMarquee beforeItems={beforeItems} afterItems={afterItems} />
+      <TransformMarquee
+        beforeItems={beforeItems}
+        afterItems={afterItems}
+        brandIcon={brandIcon}
+      />
 
       <div
         className="ba-divider"
@@ -159,7 +168,10 @@ function BeforeAfterSlider({
   );
 }
 
-export function BeforeAfterSection({ content }: BeforeAfterSectionProps) {
+export function BeforeAfterSection({
+  content,
+  brandIcon = "/icon.png",
+}: BeforeAfterSectionProps) {
   if (content.enabled === false) return null;
 
   return (
@@ -182,6 +194,7 @@ export function BeforeAfterSection({ content }: BeforeAfterSectionProps) {
               afterPoster={content.afterImage}
               beforeItems={content.beforeItems}
               afterItems={content.afterItems}
+              brandIcon={brandIcon}
             />
           </div>
         </Reveal>

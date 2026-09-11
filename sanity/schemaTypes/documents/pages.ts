@@ -40,6 +40,17 @@ export const homePage = defineType({
       of: [{ type: "reference", to: [{ type: "project" }] }],
       title: "Featured projects",
     }),
+    defineField({
+      name: "projectLaunch",
+      type: "object",
+      title: "Project launch CTA",
+      fields: [
+        defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
+        defineField({ name: "title", type: "string", title: "Title" }),
+        defineField({ name: "support", type: "text", rows: 3, title: "Supporting copy" }),
+        defineField({ name: "ctaLabel", type: "string", title: "CTA label" }),
+      ],
+    }),
   ],
 });
 
@@ -64,6 +75,30 @@ export const aboutPageDoc = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
     }),
+    defineField({
+      name: "storyImage",
+      type: "image",
+      title: "Story image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({ name: "storyImageUrl", type: "url", title: "Story image URL (fallback)" }),
+    defineField({
+      name: "studioImage",
+      type: "image",
+      title: "Workshop image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({ name: "studioImageUrl", type: "url", title: "Workshop image URL (fallback)" }),
+    defineField({
+      name: "industriesImage",
+      type: "image",
+      title: "Industries image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({ name: "industriesImageUrl", type: "url", title: "Industries image URL (fallback)" }),
     defineField({ name: "storyTitle", type: "string", title: "Story title" }),
     defineField({ name: "story", type: "text", rows: 5, title: "Story" }),
     defineField({ name: "missionTitle", type: "string", title: "Mission title" }),

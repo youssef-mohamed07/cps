@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
-import { getSiteHeroPoster, getSiteHeroVideo } from "@/lib/site-assets";
+import { getSiteHeroPoster, getSiteHeroVideo, getSiteLogo } from "@/lib/site-assets";
 import { getSiteConfig } from "@/lib/site-config";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
@@ -152,7 +152,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
 
         <div className="home-hero-copy">
           <Image
-            src="/logo.png"
+            src={getSiteLogo()}
             alt={
               locale === "ar"
                 ? "CPS — المبدعون المحترفون"

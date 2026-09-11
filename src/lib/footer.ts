@@ -109,37 +109,37 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
 
   const remoteSocial = mapSocial(remote.socialLinks);
   const remoteDescription = remote.description?.trim() ?? "";
-  const descriptionLooksLegacy =
-    !remoteDescription ||
-    /exhibition booth design|تصميم أجنحة المعارض|end to end|من البداية للنهاية/i.test(
-      remoteDescription,
-    );
+  const remoteCompanyLinks = mapLinks(remote.companyLinks);
+  const remoteCta =
+    remote.cta?.label && remote.cta.href
+      ? { label: remote.cta.label, href: remote.cta.href }
+      : local.cta;
 
   return {
     logo: toImageSrc(remote.logo) || config.logo || local.logo,
     logoAlt: remote.logo?.alt || local.logoAlt,
-    description: descriptionLooksLegacy ? local.description : remoteDescription,
+    description: remoteDescription || local.description,
     certifications: mapBadges(remote.certifications).length
       ? mapBadges(remote.certifications)
       : local.certifications,
     qualityBadges: mapBadges(remote.qualityBadges).length
       ? mapBadges(remote.qualityBadges)
       : local.qualityBadges,
-    cta: local.cta,
-    servicesTitle: local.servicesTitle,
-    showServices: true,
-    workTitle: local.workTitle,
-    showWork: true,
-    companyLinksTitle: local.companyLinksTitle,
-    companyLinks: local.companyLinks,
-    contactTitle: local.contactTitle,
+    cta: remoteCta,
+    servicesTitle: remote.servicesTitle || local.servicesTitle,
+    showServices: remote.showServices ?? local.showServices,
+    workTitle: remote.workTitle || local.workTitle,
+    showWork: remote.showWork ?? local.showWork,
+    companyLinksTitle: remote.companyLinksTitle || local.companyLinksTitle,
+    companyLinks: remoteCompanyLinks.length ? remoteCompanyLinks : local.companyLinks,
+    contactTitle: remote.contactTitle || local.contactTitle,
     officeAddress:
       remote.officeAddress ||
       local.officeAddress ||
       [config.address.city, config.address.countryName].filter(Boolean).join(", "),
-    phoneDisplay: config.phoneDisplay,
-    phoneHref: config.phone,
-    email: config.email,
+    phoneDisplay: remote.phoneDisplay || config.phoneDisplay || local.phoneDisplay,
+    phoneHref: remote.phoneHref || config.phone || local.phoneHref,
+    email: remote.email || config.email || local.email,
     whatsappLabel: remote.whatsappLabel || local.whatsappLabel,
     businessHours: remote.businessHours || local.businessHours,
     mapsLabel: remote.mapsLabel || local.mapsLabel,

@@ -23,12 +23,8 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
           <Reveal delay={0.06} className="about-story-visual-wrap">
             <div className="about-story-visual">
               <Image
-                src={media.about.studio}
-                alt={
-                  isArabic
-                    ? "ورشة تصنيع CPS أثناء العمل"
-                    : "CPS fabrication workshop in action"
-                }
+                src={page.storyImage || media.about.studio}
+                alt={page.storyImageAlt || ""}
                 fill
                 sizes="(max-width: 899px) 100vw, 70vw"
                 className="object-cover"
@@ -95,12 +91,8 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
             <Reveal delay={0.06}>
               <div className="about-workshop-media">
                 <Image
-                  src={media.about.studio}
-                  alt={
-                    isArabic
-                      ? "ورشة تصنيع CPS"
-                      : "CPS fabrication workshop"
-                  }
+                  src={page.studioImage || media.about.studio}
+                  alt={page.studioImageAlt || ""}
                   fill
                   sizes="(max-width: 899px) 100vw, 48vw"
                   className="object-cover"
@@ -139,12 +131,8 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
           <div className="about-industries-shell">
             <div className="about-industries-intro">
               <Image
-                src={media.homeHero}
-                alt={
-                  isArabic
-                    ? "أحد مشاريع CPS المنفذة لقطاعات متنوعة"
-                    : "A CPS project delivered for a cross-industry client"
-                }
+                src={page.industriesImage || media.homeHero}
+                alt={page.industriesImageAlt || ""}
                 fill
                 sizes="(max-width: 899px) 100vw, 38vw"
                 className="object-cover"

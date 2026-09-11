@@ -21,6 +21,7 @@ import {
   type ServiceArchitecture,
 } from "@/content/service-architecture";
 import { localizePath, type Locale } from "@/lib/i18n";
+import type { Dictionary } from "@/content/dictionaries.local";
 import type { CmsProject } from "@/sanity/transformers/collections";
 
 const industriesHeadline: Record<string, { en: string; ar: string }> = {
@@ -132,10 +133,12 @@ export function ServiceArchitecturePage({
   locale,
   service,
   projects,
+  projectLaunch,
 }: {
   locale: Locale;
   service: ServiceArchitecture;
   projects: CmsProject[];
+  projectLaunch: Dictionary["projectLaunch"];
 }) {
   const ar = locale === "ar";
   const quoteForm = getQuoteFormCopy(
@@ -167,7 +170,6 @@ export function ServiceArchitecturePage({
   const projectTitle = projectsHeadline[service.slug];
   const projectCta = projectsCta[service.slug];
   const allProjectsHref = `/our-work?service=${service.slug}`;
-  const closingNoun = localizeText(service.closingNoun, locale);
   const serviceNumber = String(
     serviceArchitecture.findIndex((entry) => entry.slug === service.slug) + 1,
   ).padStart(2, "0");
@@ -762,16 +764,10 @@ export function ServiceArchitecturePage({
 
       <ProjectLaunchSection
         locale={locale}
-        title={
-          ar
-            ? `جاهز لبناء ${closingNoun} القادم؟`
-            : `Ready to build your next ${closingNoun}?`
-        }
-        support={
-          ar
-            ? "شاركنا ما تريد بناءه، وسنحوّل الفكرة إلى خطة واضحة وخطوة تنفيذ أولى."
-            : "Share what you want to build, and we’ll turn it into a clear plan and a confident first step."
-        }
+        eyebrow={projectLaunch.eyebrow}
+        title={projectLaunch.title}
+        support={projectLaunch.support}
+        ctaLabel={projectLaunch.ctaLabel}
       />
     </>
   );

@@ -18,13 +18,18 @@ import { localizePath, switchLocalePath, type Locale } from "@/lib/i18n";
 type SiteHeaderProps = {
   locale: Locale;
   navigation: NavigationConfig;
+  brandIcon: string;
+  portfolio?: {
+    enabled: boolean;
+    labelEn: string;
+    labelAr: string;
+    href: string;
+  };
 };
 
 const OPEN_DELAY_MS = 150;
 const CLOSE_DELAY_MS = 120;
 const HEADER_HIDE_AFTER = 72;
-const PORTFOLIO_URL = "https://drive.google.com/";
-
 /** Body can be the real scroll root (overflow-y: auto + h-full). */
 function getScrollRoot(): Element {
   const body = document.body;
@@ -43,7 +48,12 @@ function getScrollY() {
   return window.scrollY || document.documentElement.scrollTop || 0;
 }
 
-export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
+export function SiteHeader({
+  locale,
+  navigation,
+  brandIcon,
+  portfolio,
+}: SiteHeaderProps) {
   const pathname = usePathname() || `/${locale}`;
   const items = navigation.items.filter((item) => item.enabled !== false);
   const isHome =
@@ -321,7 +331,7 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               onClick={closeAll}
             >
               <Image
-                src="/icon.png"
+                src={brandIcon}
                 alt=""
                 width={44}
                 height={44}
@@ -420,15 +430,17 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               />
               <span className="sr-only">{navigation.langLabel}</span>
             </Link>
-            <Link
-              href={PORTFOLIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="site-header-work"
-              onClick={closeAll}
-            >
-              {locale === "ar" ? "تحميل ملف الأعمال" : "Download Portfolio"}
-            </Link>
+            {portfolio?.enabled && portfolio.href ? (
+              <Link
+                href={portfolio.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="site-header-work"
+                onClick={closeAll}
+              >
+                {locale === "ar" ? portfolio.labelAr : portfolio.labelEn}
+              </Link>
+            ) : null}
             <Link
               href={localizePath(navigation.cta.href, locale)}
               className="site-header-cta"
@@ -557,15 +569,17 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               >
                 {navigation.cta.label}
               </Link>
-              <Link
-                href={PORTFOLIO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="site-mobile-portfolio"
-                onClick={closeAll}
-              >
-                {locale === "ar" ? "تحميل ملف الأعمال" : "Download Portfolio"}
-              </Link>
+              {portfolio?.enabled && portfolio.href ? (
+                <Link
+                  href={portfolio.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="site-mobile-portfolio"
+                  onClick={closeAll}
+                >
+                  {locale === "ar" ? portfolio.labelAr : portfolio.labelEn}
+                </Link>
+              ) : null}
             </nav>
           </div>
         ) : null}

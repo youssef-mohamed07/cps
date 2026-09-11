@@ -93,6 +93,12 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     lead: string;
+    storyImage?: string;
+    storyImageAlt?: string;
+    studioImage?: string;
+    studioImageAlt?: string;
+    industriesImage?: string;
+    industriesImageAlt?: string;
     storyTitle: string;
     storyHeadline: string;
     story: string;
@@ -245,6 +251,12 @@ export interface Dictionary {
       openMaps: string;
       hqLabel: string;
     };
+  };
+  projectLaunch: {
+    eyebrow: string;
+    title: string;
+    support: string;
+    ctaLabel: string;
   };
   footer: {
     tagline: string;
@@ -411,6 +423,12 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "About CPS",
       title: "We build ideas into reality.",
       lead: "A production, fabrication and fit-out company working across Saudi Arabia.",
+      storyImage: media.about.studio,
+      storyImageAlt: "CPS fabrication workshop in action",
+      studioImage: media.about.studio,
+      studioImageAlt: "CPS fabrication workshop",
+      industriesImage: media.homeHero,
+      industriesImageAlt: "A CPS project delivered for a cross-industry client",
       storyTitle: "Our story",
       storyHeadline: "One production partner. Multiple capabilities.",
       story:
@@ -887,6 +905,13 @@ const dictionaries: Record<Locale, Dictionary> = {
         hqLabel: "Headquarters",
       },
     },
+    projectLaunch: {
+      eyebrow: "New Project",
+      title: "Have a project in mind?",
+      support:
+        "Share what you want to build, and we’ll turn it into a clear plan and a confident first step.",
+      ctaLabel: "Start a Project",
+    },
     footer: {
       tagline: "Creatives Professionals",
       rights: "All rights reserved.",
@@ -1044,6 +1069,12 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "عن CPS",
       title: "نحوّل الأفكار إلى واقع.",
       lead: "شركة إنتاج وتصنيع وتجهيز داخلي تعمل في أنحاء المملكة العربية السعودية.",
+      storyImage: media.about.studio,
+      storyImageAlt: "ورشة تصنيع CPS أثناء العمل",
+      studioImage: media.about.studio,
+      studioImageAlt: "ورشة تصنيع CPS",
+      industriesImage: media.homeHero,
+      industriesImageAlt: "أحد مشاريع CPS المنفذة لقطاعات متنوعة",
       storyTitle: "قصتنا",
       storyHeadline: "شريك إنتاج واحد. قدرات متعددة.",
       story:
@@ -1515,6 +1546,13 @@ const dictionaries: Record<Locale, Dictionary> = {
         openMaps: "افتح في Google Maps",
         hqLabel: "المقر",
       },
+    },
+    projectLaunch: {
+      eyebrow: "مشروع جديد",
+      title: "هل لديك مشروع في ذهنك؟",
+      support:
+        "شاركنا ما تريد بناءه، وسنحوّل الفكرة إلى خطة واضحة وخطوة تنفيذ أولى.",
+      ctaLabel: "ابدأ مشروعاً",
     },
     footer: {
       tagline: "المبدعون المحترفون",

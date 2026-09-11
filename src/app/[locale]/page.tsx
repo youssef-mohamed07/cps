@@ -19,6 +19,7 @@ import { loadHomeFeaturedProjectSlugs, loadHomeSeo } from "@/sanity/load-pages";
 import { loadProjects } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 import { getSiteConfig } from "@/lib/site-config";
+import { getSiteIcon } from "@/lib/site-assets";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -97,7 +98,10 @@ export default async function HomePage({ params }: PageProps) {
         items={featuredProjects}
       />
       <WhyCpsSection locale={locale} content={dictionary.whyCps} />
-      <BeforeAfterSection content={dictionary.beforeAfter} />
+      <BeforeAfterSection
+        content={dictionary.beforeAfter}
+        brandIcon={getSiteIcon()}
+      />
       <ClientsSection
         id="testimonials"
         eyebrow={dictionary.clients.eyebrow}
@@ -108,12 +112,10 @@ export default async function HomePage({ params }: PageProps) {
       <BriefFormSection id="home-contact" locale={locale} />
       <ProjectLaunchSection
         locale={locale}
-        title={locale === "ar" ? "هل لديك مشروع في ذهنك؟" : "Have a project in mind?"}
-        support={
-          locale === "ar"
-            ? "شاركنا ما تريد بناءه، وسنحوّل الفكرة إلى خطة واضحة وخطوة تنفيذ أولى."
-            : "Share what you want to build, and we’ll turn it into a clear plan and a confident first step."
-        }
+        eyebrow={dictionary.projectLaunch.eyebrow}
+        title={dictionary.projectLaunch.title}
+        support={dictionary.projectLaunch.support}
+        ctaLabel={dictionary.projectLaunch.ctaLabel}
       />
     </>
   );

@@ -7,6 +7,7 @@ import { buildPageMetadata } from "@/lib/cms-seo";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { loadProjects, loadService } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
+import { loadProjectLaunch } from "@/sanity/load-pages";
 
 type PageProps = { params: Promise<{ locale: string; serviceSlug: string }> };
 
@@ -28,7 +29,10 @@ export default async function ServicePage({ params }: PageProps) {
   if (!isLocale(value)) notFound();
   const locale: Locale = value;
   const localService = getServiceArchitecture(serviceSlug);
-  const cmsService = await loadService(locale, serviceSlug);
+  const [cmsService, projectLaunch] = await Promise.all([
+    loadService(locale, serviceSlug),
+    loadProjectLaunch(locale),
+  ]);
   const cmsCopyReady = cmsService?.blueprintVersion === 5;
   const overlayText = (fallback: LocalizedText, next?: string): LocalizedText =>
     next ? { ...fallback, [locale]: next } : fallback;
@@ -113,5 +117,5 @@ export default async function ServicePage({ params }: PageProps) {
     : null;
   if (!service) notFound();
   const projects = await loadProjects(locale);
-  return <><Breadcrumbs locale={locale} items={[{ label: locale === "ar" ? "الرئيسية" : "Home", href: "/" }, { label: locale === "ar" ? "الخدمات" : "Services", href: "/services" }, { label: localizeText(service.title, locale) }]} /><ServiceArchitecturePage locale={locale} service={service} projects={projects} /></>;
+  return <><Breadcrumbs locale={locale} items={[{ label: locale === "ar" ? "الرئيسية" : "Home", href: "/" }, { label: locale === "ar" ? "الخدمات" : "Services", href: "/services" }, { label: localizeText(service.title, locale) }]} /><ServiceArchitecturePage locale={locale} service={service} projects={projects} projectLaunch={projectLaunch} /></>;
 }

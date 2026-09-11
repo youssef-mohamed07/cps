@@ -11,6 +11,8 @@ import { media } from "@/content/media";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { resolveDictionary } from "@/lib/dictionary";
+import { getSiteConfig } from "@/lib/site-config";
+import { getSiteIcon } from "@/lib/site-assets";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -39,6 +41,7 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
   const locale: Locale = value;
   const ar = locale === "ar";
   const dictionary = await resolveDictionary(locale);
+  const siteConfig = getSiteConfig();
 
   return (
     <>
@@ -62,7 +65,7 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
             ? "منشأة واحدة تجمع الحرفة والتقنية والتجميع والتركيب."
             : "One production floor connects craft, technology, assembly and on-site installation."
         }
-        image={media.about.studio}
+        image={siteConfig.productionImage || media.about.studio}
         imageAlt={ar ? "منشأة إنتاج CPS" : "CPS production facility"}
         cta={{
           label: ar ? "ابدأ مشروعاً" : "Start a Project",
@@ -78,15 +81,16 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
       />
       <CapabilityExplainerSection locale={locale} />
       <ProductionCapabilitiesSection locale={locale} standalone />
-      <BeforeAfterSection content={dictionary.beforeAfter} />
+      <BeforeAfterSection
+        content={dictionary.beforeAfter}
+        brandIcon={getSiteIcon()}
+      />
       <ProjectLaunchSection
         locale={locale}
-        title={ar ? "لنبنِ مشروعك تحت سقف واحد." : "Let us build your project under one roof."}
-        support={
-          ar
-            ? "من البريف إلى التصنيع والتركيب، فريق واحد يمسك كل التفاصيل."
-            : "From brief to fabrication and installation, one team owns every detail."
-        }
+        eyebrow={dictionary.projectLaunch.eyebrow}
+        title={dictionary.projectLaunch.title}
+        support={dictionary.projectLaunch.support}
+        ctaLabel={dictionary.projectLaunch.ctaLabel}
       />
     </>
   );

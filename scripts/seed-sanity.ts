@@ -115,6 +115,14 @@ async function seedSettings() {
     legalName: config.legalName,
     tagline: config.tagline,
     description: config.description,
+    portfolio: config.portfolio
+      ? {
+          enabled: config.portfolio.enabled,
+          labelEn: config.portfolio.labelEn,
+          labelAr: config.portfolio.labelAr,
+          externalUrl: config.portfolio.href,
+        }
+      : undefined,
     email: config.email,
     phone: config.phone,
     phoneDisplay: config.phoneDisplay,
@@ -636,6 +644,7 @@ async function seedDictionaryAndPages() {
         primaryCta: dict.hero.primaryCta,
         secondaryCta: dict.hero.secondaryCta,
       },
+      projectLaunch: dict.projectLaunch,
       sections: {
         payload: JSON.stringify({
           lifecycle: dict.lifecycle,
@@ -658,6 +667,7 @@ async function seedDictionaryAndPages() {
           locationsPage: dict.locationsPage,
           newsPage: dict.newsPage,
           projectPage: dict.projectPage,
+          projectLaunch: dict.projectLaunch,
         }),
       },
       seo: seoMeta(
@@ -674,6 +684,9 @@ async function seedDictionaryAndPages() {
       eyebrow: dict.aboutPage.eyebrow,
       title: dict.aboutPage.title,
       lead: dict.aboutPage.lead,
+      storyImageUrl: dict.aboutPage.storyImage,
+      studioImageUrl: dict.aboutPage.studioImage,
+      industriesImageUrl: dict.aboutPage.industriesImage,
       storyTitle: dict.aboutPage.storyTitle,
       story: [dict.aboutPage.story, dict.aboutPage.storySecond]
         .filter(Boolean)

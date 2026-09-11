@@ -15,12 +15,19 @@ export type HubKind =
 const HOME_PAGE_QUERY = `*[_type == "homePage" && language == $locale][0]{
   hero{ eyebrow, title, lead, primaryCta, secondaryCta },
   sections{ payload },
+  projectLaunch{ eyebrow, title, support, ctaLabel },
   "featuredProjectSlugs": featuredProjectIds[]->slug.current,
   seo
 }`;
 
 const ABOUT_PAGE_QUERY = `*[_type == "aboutPageDoc" && language == $locale][0]{
   heroImage{ asset, alt },
+  storyImage{ asset, alt },
+  storyImageUrl,
+  studioImage{ asset, alt },
+  studioImageUrl,
+  industriesImage{ asset, alt },
+  industriesImageUrl,
   eyebrow,
   title,
   lead,
@@ -81,11 +88,18 @@ type HomeDoc = SeoDoc & {
     secondaryCta?: string;
   };
   sections?: { payload?: string };
+  projectLaunch?: Partial<Dictionary["projectLaunch"]>;
   featuredProjectSlugs?: string[];
 };
 
 type AboutDoc = SeoDoc & {
   heroImage?: { asset?: unknown; alt?: string };
+  storyImage?: { asset?: unknown; alt?: string };
+  storyImageUrl?: string;
+  studioImage?: { asset?: unknown; alt?: string };
+  studioImageUrl?: string;
+  industriesImage?: { asset?: unknown; alt?: string };
+  industriesImageUrl?: string;
   eyebrow?: string;
   title?: string;
   lead?: string;
@@ -221,7 +235,27 @@ export async function loadHomeDictionaryOverlay(
     };
   }
 
+  if (remote.projectLaunch) {
+    overlay.projectLaunch = {
+      ...getDictionaryLocal(locale).projectLaunch,
+      ...remote.projectLaunch,
+    };
+  }
+
   return overlay;
+}
+
+export async function loadProjectLaunch(
+  locale: Locale,
+): Promise<Dictionary["projectLaunch"]> {
+  const local = getDictionaryLocal(locale).projectLaunch;
+  const remote = await sanityFetch<HomeDoc | null>({
+    query: HOME_PAGE_QUERY,
+    params: { locale },
+    tags: ["homePage", `homePage-${locale}`],
+  });
+
+  return { ...local, ...(remote?.projectLaunch ?? {}) };
 }
 
 export async function loadHomeSeo(locale: Locale): Promise<SeoMeta | undefined> {
@@ -262,6 +296,16 @@ export async function loadAboutPage(
     eyebrow: remote.eyebrow ?? local.eyebrow,
     title: remote.title ?? local.title,
     lead: remote.lead ?? local.lead,
+    storyImage:
+      toImageSrc(remote.storyImage, remote.storyImageUrl ?? "") || local.storyImage,
+    storyImageAlt: remote.storyImage?.alt ?? local.storyImageAlt,
+    studioImage:
+      toImageSrc(remote.studioImage, remote.studioImageUrl ?? "") || local.studioImage,
+    studioImageAlt: remote.studioImage?.alt ?? local.studioImageAlt,
+    industriesImage:
+      toImageSrc(remote.industriesImage, remote.industriesImageUrl ?? "") ||
+      local.industriesImage,
+    industriesImageAlt: remote.industriesImage?.alt ?? local.industriesImageAlt,
     storyTitle: remote.storyTitle ?? local.storyTitle,
     story: storyParts[0] ?? remote.story ?? local.story,
     storySecond: storyParts[1] ?? local.storySecond,

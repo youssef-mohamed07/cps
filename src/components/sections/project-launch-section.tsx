@@ -6,6 +6,8 @@ type ProjectLaunchSectionProps = {
   locale: Locale;
   title: string;
   support: string;
+  eyebrow?: string;
+  ctaLabel?: string;
   href?: string;
 };
 
@@ -13,6 +15,8 @@ export function ProjectLaunchSection({
   locale,
   title,
   support,
+  eyebrow,
+  ctaLabel,
   href = "/contact",
 }: ProjectLaunchSectionProps) {
   const ar = locale === "ar";
@@ -22,13 +26,15 @@ export function ProjectLaunchSection({
       <div className="site-container">
         <div className="project-launch-shell">
           <div className="project-launch-copy">
-            <p className="eyebrow">{ar ? "مشروع جديد" : "NEW PROJECT"}</p>
+            <p className="eyebrow">
+              {eyebrow ?? (ar ? "مشروع جديد" : "NEW PROJECT")}
+            </p>
             <h2>{title}</h2>
             <p className="project-launch-support">{support}</p>
           </div>
 
           <Link href={localizePath(href, locale)} className="project-launch-action">
-            <span>{ar ? "ابدأ مشروعاً" : "Start a Project"}</span>
+            <span>{ctaLabel ?? (ar ? "ابدأ مشروعاً" : "Start a Project")}</span>
             <CtaArrow tone="navy" size="lg" />
           </Link>
         </div>

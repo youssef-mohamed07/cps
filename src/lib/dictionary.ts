@@ -209,6 +209,10 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ...sectionSource.briefForm,
     },
     contactPage,
+    projectLaunch: {
+      ...local.projectLaunch,
+      ...sectionSource.projectLaunch,
+    },
     footer: {
       ...local.footer,
       ...remote.footer,

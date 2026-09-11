@@ -12,7 +12,15 @@ type SanitySiteSettings = {
   tagline?: string;
   description?: string;
   logo?: { asset?: unknown; alt?: string };
+  icon?: { asset?: unknown; alt?: string };
   favicon?: { asset?: unknown; alt?: string };
+  portfolio?: {
+    enabled?: boolean;
+    labelEn?: string;
+    labelAr?: string;
+    fileUrl?: string;
+    externalUrl?: string;
+  };
   email?: string;
   phone?: string;
   phoneDisplay?: string;
@@ -41,6 +49,12 @@ export function toSiteConfig(
 ): SiteConfigShape | null {
   if (!data?.companyName) return null;
 
+  const portfolioHref =
+    data.portfolio?.fileUrl ||
+    data.portfolio?.externalUrl ||
+    process.env.NEXT_PUBLIC_PORTFOLIO_URL ||
+    "";
+
   const instagram = data.socialLinks?.find((link) => link.platform === "instagram")?.url;
   const linkedin = data.socialLinks?.find((link) => link.platform === "linkedin")?.url;
   const x = data.socialLinks?.find((link) => link.platform === "x")?.url;
@@ -67,7 +81,14 @@ export function toSiteConfig(
       x: x ?? "",
     },
     logo: toImageSrc(data.logo),
+    icon: toImageSrc(data.icon),
     favicon: toImageSrc(data.favicon),
+    portfolio: {
+      enabled: data.portfolio?.enabled ?? Boolean(portfolioHref),
+      labelEn: data.portfolio?.labelEn || "Download Portfolio",
+      labelAr: data.portfolio?.labelAr || "تحميل ملف الأعمال",
+      href: portfolioHref,
+    },
     googleMapsUrl: data.googleMapsUrl,
     googleAnalyticsId: data.googleAnalyticsId,
     googleTagManagerId: data.googleTagManagerId,

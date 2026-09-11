@@ -4,7 +4,15 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   tagline,
   description,
   logo{ asset, alt },
+  icon{ asset, alt },
   favicon{ asset, alt },
+  portfolio{
+    enabled,
+    labelEn,
+    labelAr,
+    externalUrl,
+    "fileUrl": file.asset->url
+  },
   email,
   phone,
   phoneDisplay,
