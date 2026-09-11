@@ -8,7 +8,7 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing routing
 
 Bilingual production and fabrication site (`/en`, `/ar`) with eight service families, service catalogues, production capabilities, filtered work, and news/insights. About is one page with section anchors.
 
-Canonical service URLs are top-level:
+Canonical service URs are top-level:
 
 - `/services/[service]`
 - `/services/[service]/catalogue`
