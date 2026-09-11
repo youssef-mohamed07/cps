@@ -4,7 +4,7 @@ Bilingual marketing site for **CPS** (`المبدعون المحترفون`).
 
 - Locales: `/en`, `/ar` (RTL for Arabic)
 - Homepage today: plain white hero (logo + headline + CTAs)
-- Inner pages already exist: About, Services, Work, Work detail, Contact
+- Inner pages already exis: About, Services, Work, Work detail, Contact
 - Optional Sanity CMS at `/studio`
 
 ## Docs for the next person
