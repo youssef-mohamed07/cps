@@ -12,7 +12,7 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/[locale]` | Homepage | Positioning + eight services + production capabilities + featured work + Why CPS + CTA |
 | `/[locale]/about` | About page | Single page with anchors (`#overview` `#mission` `#why-us` `#process` `#team` `#certifications` `#clients` `#faq`) |
 | `/[locale]/services` | Services hub | Eight service families |
-| `/[locale]/services/[serviceSlug]` | Long-form service page | Hero, trusted brands, showcase, why, process, benefits, industries, related services, projects, FAQ, quote form, CTA |
+| `/[locale]/services/[serviceSlug]` | Long-form service page | Branded service/market hero, split narrative + portrait image, trusted brands, showcase, why, process, benefits, industries, related services, projects, FAQ, quote form, CTA |
 | `/[locale]/services/[serviceSlug]/catalogue` | Service catalogue | Full item grid; category tabs where needed; search for Printing & Signage |
 | `/[locale]/production-capabilities` | Production page | Manufacturing disciplines separate from customer-facing services |
 | `/[locale]/work` | Work index | Independent service and industry filters |

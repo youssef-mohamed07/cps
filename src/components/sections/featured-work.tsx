@@ -35,7 +35,7 @@ export function FeaturedWork({
               {support ? <p className="lede">{support}</p> : null}
             </div>
             <Link
-              href={localizePath("/work", locale)}
+              href={localizePath("/our-work", locale)}
               className="btn-secondary shrink-0 inline-flex items-center gap-2"
             >
               {viewAll}
@@ -47,7 +47,7 @@ export function FeaturedWork({
             {featured.map((item, index) => (
               <Link
                 key={item.slug}
-                href={localizePath(`/work/${item.slug}`, locale)}
+                href={localizePath(`/our-work/${item.slug}`, locale)}
                 className={`work-feature group ${index === 0 ? "work-feature-lead" : ""}`}
               >
                 <div className="work-feature-media">

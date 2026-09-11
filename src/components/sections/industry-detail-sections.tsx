@@ -55,7 +55,7 @@ export function IndustryDetailSections({
 }: IndustryDetailSectionsProps) {
   const isArabic = locale === "ar";
   const workFilterHref = localizePath(
-    `/work?industry=${industry.slug}`,
+    `/our-work?industry=${industry.slug}`,
     locale,
   );
 
@@ -210,12 +210,12 @@ export function IndustryDetailSections({
                 <h2 className="industry-detail-section-title">
                   {isArabic
                     ? `مشاريع في ${industry.title}.`
-                    : `Projects in ${industry.title}.`}
+                    : `Our work in ${industry.title}.`}
                 </h2>
               </div>
               <Link href={workFilterHref} className="industry-detail-work-link">
                 <span>
-                  {isArabic ? "عرض كل المشاريع" : "View all projects"}
+                  {isArabic ? "شاهد أعمالنا" : "View Our Work"}
                 </span>
                 <CtaArrow size="sm" />
               </Link>
@@ -227,7 +227,7 @@ export function IndustryDetailSections({
               {projects.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/work/${item.slug}`, locale)}
+                    href={localizePath(`/our-work/${item.slug}`, locale)}
                     className="work-card group"
                   >
                     <div className="work-card-media">

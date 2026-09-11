@@ -67,6 +67,7 @@ export async function POST(request: NextRequest) {
     revalidateTag(`location-${locale}`, "max");
     revalidateTag(`newsArticle-${locale}`, "max");
     revalidateTag(`client-${locale}`, "max");
+    revalidateTag(`testimonial-${locale}`, "max");
     revalidateTag(`navigation-${locale}`, "max");
     revalidateTag(`siteFooter-${locale}`, "max");
   }

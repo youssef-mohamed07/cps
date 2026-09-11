@@ -137,21 +137,34 @@ SANITY_API_READ_TOKEN=...          # required for draft preview
 SANITY_API_WRITE_TOKEN=...         # required for npm run seed:sanity
 SANITY_REVALIDATE_SECRET=...       # webhook auth
 SANITY_PREVIEW_SECRET=...          # optional; falls back to revalidate secret
+RESEND_API_KEY=...                 # contact and quote email delivery
+EMAIL_FROM_NAME=CPS
+EMAIL_FROM_ADDRESS=noreply@example.com
+EMAIL_TO_ADDRESS=hello@example.com
 ```
+
+To refresh only testimonial documents from the bilingual local dictionary, run:
+
+```bash
+SANITY_SEED_ONLY=testimonials npm run seed:sanity
+```
+
+Published `testimonial` documents are loaded into the existing client testimonial carousel by locale and ordered by `order`. If Sanity has no valid testimonials for a locale, the local dictionary entries remain the fallback. Publishing through Studio revalidates the shared `testimonial` tag and the locale-specific testimonial cache.
 
 3. Run `npm run setup:sanity`, then `npm run seed:sanity`, then `npm run dev`
 4. Open Studio: http://localhost:3000/studio
 
-## Form inbox (Contact + Brief)
+## Form delivery
 
-Contact and brief form POSTs create Sanity documents:
+Contact and quote submissions are delivered directly by Resend and are not persisted in Sanity. Configure the server-only variables `RESEND_API_KEY`, `EMAIL_FROM_NAME`, `EMAIL_FROM_ADDRESS`, and `EMAIL_TO_ADDRESS`; the sender domain must be verified in Resend. Uploaded reference and partner documents are attached to the email and discarded after delivery.
+
+Brief submissions continue to create Sanity documents:
 
 | Form | Document type | Studio |
 | --- | --- | --- |
-| `/api/contact` | `contactSubmission` | Inbox → Contact submissions; quote requests may include uploaded reference files and a quote/add-on request type |
 | `/api/brief` | `briefSubmission` | Inbox → Brief submissions |
 
-Requires `SANITY_API_WRITE_TOKEN` on the server (local `.env.local` and Vercel). Optional `CONTACT_WEBHOOK_URL` / `BRIEF_WEBHOOK_URL` still fire after a successful Sanity save.
+Brief persistence requires `SANITY_API_WRITE_TOKEN` on the server (local `.env.local` and Vercel). Optional `BRIEF_WEBHOOK_URL` fires after a successful Sanity save. The existing `contactSubmission` schema remains available only for historical records and receives no new form submissions.
 
 ## Revalidation
 

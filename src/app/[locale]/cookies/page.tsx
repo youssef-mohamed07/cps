@@ -14,7 +14,7 @@ const copy = {
     body: [
       "We may use essential cookies for site function and optional analytics cookies to understand traffic.",
       "You can control cookies through your browser settings.",
-      "Questions: hello@cps.com.",
+      "Questions: inquiry@creativeprofessionals.com.",
     ],
   },
   ar: {
@@ -23,7 +23,7 @@ const copy = {
     body: [
       "قد نستخدم ملفات أساسية لعمل الموقع وملفات تحليلات اختيارية لفهم الزيارات.",
       "يمكنك التحكم في ملفات تعريف الارتباط عبر إعدادات المتصفح.",
-      "للاستفسار: hello@cps.com.",
+      "للاستفسار: inquiry@creativeprofessionals.com.",
     ],
   },
 } as const;

@@ -8,6 +8,7 @@ import {
   loadHomeDictionaryOverlay,
   loadHubDictionaryOverlay,
 } from "@/sanity/load-pages";
+import { loadTestimonials } from "@/sanity/load-collections";
 
 function mergeSection<T extends Record<string, unknown>>(
   local: T,
@@ -27,7 +28,15 @@ function mergeSection<T extends Record<string, unknown>>(
 /** Merge remote CMS copy onto local defaults so pages never lose required fields. */
 export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
   const local = getDictionaryLocal(locale);
-  const [remote, navigation, homeOverlay, hubOverlay, aboutPage, contactPage] =
+  const [
+    remote,
+    navigation,
+    homeOverlay,
+    hubOverlay,
+    aboutPage,
+    contactPage,
+    testimonials,
+  ] =
     await Promise.all([
       getDictionary(locale),
       resolveNavigation(locale),
@@ -35,6 +44,7 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       loadHubDictionaryOverlay(locale),
       loadAboutPage(locale),
       loadContactPage(locale),
+      loadTestimonials(locale),
     ]);
 
   const sectionSource = { ...remote, ...homeOverlay, ...hubOverlay };
@@ -84,7 +94,10 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       "items",
     ),
     stats: mergeSection(local.stats, sectionSource.stats, "items"),
-    clients: mergeSection(local.clients, sectionSource.clients, "items"),
+    clients: {
+      ...mergeSection(local.clients, sectionSource.clients, "items"),
+      items: testimonials,
+    },
     about: { ...local.about, ...sectionSource.about },
     aboutPage: {
       ...resolvedAboutPage,
@@ -170,7 +183,9 @@ export async function resolveDictionary(locale: Locale): Promise<Dictionary> {
       ...local.workPage,
       ...remote.workPage,
       ...hubOverlay.workPage,
-      ...(hasBlueprintServices ? local.workPage : undefined),
+      /* Keep the public hub name consistent with the canonical /our-work route. */
+      eyebrow: local.workPage.eyebrow,
+      title: local.workPage.title,
     },
     industriesPage: {
       ...local.industriesPage,

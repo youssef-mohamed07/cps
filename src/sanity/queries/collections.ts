@@ -333,6 +333,16 @@ export const CLIENTS_QUERY = `*[_type == "client" && language == $locale && stat
   order
 }`;
 
+export const TESTIMONIALS_QUERY = `*[_type == "testimonial" && language == $locale && status != "archived"] | order(order asc) {
+  quote,
+  person,
+  role,
+  image{ asset, alt },
+  imageUrl,
+  imageAlt,
+  order
+}`;
+
 export const FOOTER_QUERY = `*[_type == "siteFooter" && language == $locale][0] {
   logo{ asset, alt },
   description,

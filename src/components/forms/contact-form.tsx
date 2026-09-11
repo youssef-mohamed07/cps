@@ -1,206 +1,286 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
-import { getMailtoUrl } from "@/lib/site-config";
+import { useState, type FormEvent } from "react";
+import { getContactFormCopy, type ContactInquiryOption } from "@/content/contact-form.copy";
 import type { Locale } from "@/lib/i18n";
 
-export type ContactFormCopy = {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  submit: string;
-  sending: string;
-  success: string;
-  error: string;
-  required: string;
-  emailInvalid: string;
-};
+const PARTNER_FILES = [
+  "nationalAddressCertificate",
+  "companyProfile",
+  "commercialRegisterFile",
+  "vatCertificate",
+] as const;
 
-type ContactFormProps = {
-  locale: Locale;
-  copy: ContactFormCopy;
-};
+export function ContactForm({ locale }: { locale: Locale }) {
+  const copy = getContactFormCopy(locale);
+  const [inquiryOption, setInquiryOption] = useState<ContactInquiryOption>("client");
+  const [eventType, setEventType] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+  const [error, setError] = useState("");
 
-type FormState = {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  websiteAlt: string;
-};
-
-type FormErrors = Partial<Record<keyof Omit<FormState, "websiteAlt">, string>>;
-
-const INITIAL: FormState = {
-  name: "",
-  email: "",
-  phone: "",
-  message: "",
-  websiteAlt: "",
-};
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-}
-
-export function ContactForm({ locale, copy }: ContactFormProps) {
-  const prefix = useId();
-  const id = (name: string) => `${prefix}-${name}`;
-
-  const [data, setData] = useState<FormState>(INITIAL);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-
-  function validate(values: FormState): FormErrors {
-    const next: FormErrors = {};
-    if (!values.name.trim()) next.name = copy.required;
-    if (!values.email.trim()) next.email = copy.required;
-    else if (!isValidEmail(values.email)) next.email = copy.emailInvalid;
-    if (!values.message.trim()) next.message = copy.required;
-    return next;
-  }
-
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitError(null);
+    if (status !== "idle") return;
 
-    const nextErrors = validate(data);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "").trim();
+    const phone = String(data.get("phone") ?? "").trim();
+    const country = String(data.get("country") ?? "").trim();
+    const cvUrl = String(data.get("cvUrl") ?? "").trim();
+    const otherEventType = String(data.get("otherEventType") ?? "").trim();
+    const resolvedEventType = eventType === copy.other ? otherEventType : eventType;
 
-    if (data.websiteAlt.trim()) {
-      setDone(true);
+    if (
+      !name ||
+      !country ||
+      phone.replace(/\D/g, "").length < 6 ||
+      (inquiryOption === "client" && !resolvedEventType) ||
+      (inquiryOption === "recruitment" && !cvUrl)
+    ) {
+      setError(
+        phone && phone.replace(/\D/g, "").length < 6
+          ? copy.errors.phone
+          : copy.errors.required,
+      );
       return;
     }
 
-    setSubmitting(true);
+    const oversized = PARTNER_FILES.some((field) => {
+      const file = data.get(field);
+      return file instanceof File && file.size > 10 * 1024 * 1024;
+    });
+    if (oversized) {
+      setError(copy.errors.fileTooLarge);
+      return;
+    }
+
+    data.set("inquiryOption", inquiryOption);
+    data.set("eventType", resolvedEventType);
+    data.set("locale", locale);
+    data.set("source", "contact");
+
+    setStatus("sending");
+    setError("");
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, locale }),
-      });
-
-      if (!response.ok) {
-        throw new Error("request failed");
-      }
-
-      setDone(true);
-      setData(INITIAL);
+      const response = await fetch("/api/contact", { method: "POST", body: data });
+      if (!response.ok) throw new Error("submit_failed");
+      form.reset();
+      setEventType("");
+      setStatus("done");
     } catch {
-      const mailto = getMailtoUrl({
-        subject: `Contact — ${data.name}`,
-        body: [
-          `Name: ${data.name}`,
-          `Email: ${data.email}`,
-          data.phone ? `Phone: ${data.phone}` : null,
-          "",
-          data.message,
-        ]
-          .filter(Boolean)
-          .join("\n"),
-      });
-      window.location.href = mailto;
-      setSubmitError(copy.error);
-    } finally {
-      setSubmitting(false);
+      setStatus("idle");
+      setError(copy.errors.submit);
     }
   }
 
-  if (done) {
+  if (status === "done") {
     return (
       <div className="contact-form-success" role="status">
-        <p>{copy.success}</p>
+        <div>
+          <h3>{copy.successTitle}</h3>
+          <p>{copy.successMessage}</p>
+        </div>
       </div>
     );
   }
 
+  const isClient = inquiryOption === "client";
+  const isRecruitment = inquiryOption === "recruitment";
+  const isPartner = inquiryOption === "partner";
+
   return (
-    <form className="contact-form" onSubmit={onSubmit} noValidate>
-      <div className="contact-form-grid">
-        <div className="contact-form-field">
-          <label htmlFor={id("name")}>{copy.name}</label>
-          <input
-            id={id("name")}
-            name="name"
-            autoComplete="name"
-            value={data.name}
-            onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
-            className="contact-form-control"
-            aria-invalid={Boolean(errors.name)}
-          />
-          {errors.name ? <span className="contact-form-error">{errors.name}</span> : null}
-        </div>
-
-        <div className="contact-form-field">
-          <label htmlFor={id("email")}>{copy.email}</label>
-          <input
-            id={id("email")}
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={data.email}
-            onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))}
-            className="contact-form-control"
-            aria-invalid={Boolean(errors.email)}
-          />
-          {errors.email ? <span className="contact-form-error">{errors.email}</span> : null}
-        </div>
-
-        <div className="contact-form-field contact-form-field--full">
-          <label htmlFor={id("phone")}>{copy.phone}</label>
-          <input
-            id={id("phone")}
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            dir="ltr"
-            value={data.phone}
-            onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
-            className="contact-form-control"
-          />
-        </div>
-
-        <div className="contact-form-field contact-form-field--full">
-          <label htmlFor={id("message")}>{copy.message}</label>
-          <textarea
-            id={id("message")}
-            name="message"
-            rows={5}
-            value={data.message}
-            onChange={(e) => setData((prev) => ({ ...prev, message: e.target.value }))}
-            className="contact-form-control contact-form-control--area"
-            aria-invalid={Boolean(errors.message)}
-          />
-          {errors.message ? (
-            <span className="contact-form-error">{errors.message}</span>
-          ) : null}
-        </div>
-      </div>
-
+    <form className="brief-form contact-role-form" onSubmit={submit} noValidate>
       <input
-        type="text"
+        className="brief-honeypot"
         name="websiteAlt"
-        value={data.websiteAlt}
-        onChange={(e) => setData((prev) => ({ ...prev, websiteAlt: e.target.value }))}
-        className="contact-form-honeypot"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
       />
 
-      {submitError ? (
-        <p className="contact-form-submit-error" role="alert">
-          {submitError}
-        </p>
-      ) : null}
+      <fieldset className="brief-fieldset brief-field--full">
+        <legend className="brief-label">{copy.inquiryLabel}</legend>
+        <div className="brief-chip-group contact-role-options">
+          {copy.inquiryOptions.map((option) => (
+            <label className="brief-chip" key={option.value}>
+              <input
+                type="radio"
+                name="inquiryOptionChoice"
+                value={option.value}
+                checked={inquiryOption === option.value}
+                onChange={() => {
+                  setInquiryOption(option.value);
+                  setEventType("");
+                  setError("");
+                }}
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
-      <button type="submit" className="btn-primary contact-form-submit" disabled={submitting}>
-        {submitting ? copy.sending : copy.submit}
-      </button>
+      <div className="brief-form-grid contact-role-fields">
+        <label className="brief-field">
+          <span className="brief-label">
+            {isPartner ? copy.labels.companyName : copy.labels.name}
+          </span>
+          <input
+            className="brief-control"
+            name="name"
+            placeholder={isPartner ? copy.placeholders.companyName : copy.placeholders.name}
+            required
+          />
+        </label>
+        <label className="brief-field">
+          <span className="brief-label">{copy.labels.phone}</span>
+          <input
+            className="brief-control"
+            name="phone"
+            type="tel"
+            dir="ltr"
+            autoComplete="tel"
+            placeholder={copy.placeholders.phone}
+            required
+          />
+        </label>
+        <label className="brief-field brief-field--full">
+          <span className="brief-label">{copy.labels.country}</span>
+          <select className="brief-control" name="country" defaultValue="" required>
+            <option value="" disabled>{copy.placeholders.country}</option>
+            {copy.countries.map((country) => (
+              <option key={country} value={country}>{country}</option>
+            ))}
+          </select>
+        </label>
+
+        {isClient ? (
+          <fieldset className="brief-fieldset brief-field--full contact-role-panel">
+            <legend className="brief-label">{copy.labels.eventType}</legend>
+            <div className="brief-chip-group">
+              {[...copy.eventTypes, copy.other].map((option) => (
+                <label className="brief-chip" key={option}>
+                  <input
+                    type="radio"
+                    name="eventTypeChoice"
+                    value={option}
+                    checked={eventType === option}
+                    onChange={() => setEventType(option)}
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+            {eventType === copy.other ? (
+              <label className="brief-field contact-role-other">
+                <span className="brief-label">{copy.labels.otherEventType}</span>
+                <input
+                  className="brief-control"
+                  name="otherEventType"
+                  placeholder={copy.placeholders.otherEventType}
+                />
+              </label>
+            ) : null}
+          </fieldset>
+        ) : null}
+
+        {isRecruitment ? (
+          <label className="brief-field brief-field--full contact-role-panel">
+            <span className="brief-label">{copy.labels.cvUrl}</span>
+            <input
+              className="brief-control"
+              name="cvUrl"
+              type="url"
+              autoComplete="url"
+              placeholder={copy.placeholders.cvUrl}
+              required
+            />
+          </label>
+        ) : null}
+
+        {isPartner ? (
+          <>
+            <fieldset className="brief-fieldset brief-field--full contact-role-panel">
+              <legend className="contact-role-panel-title">{copy.labels.commercial}</legend>
+              <div className="brief-form-grid">
+                <ContactField name="commercialRegister" label={copy.labels.commercialRegister} />
+                <ContactField name="vatNumber" label={copy.labels.vatNumber} />
+                <ContactField name="websiteSocial" label={copy.labels.websiteSocial} full />
+                <ContactField name="nationalAddress" label={copy.labels.nationalAddress} full />
+                <ContactField name="authorizedPersonName" label={copy.labels.authorizedPersonName} full />
+              </div>
+            </fieldset>
+            <fieldset className="brief-fieldset brief-field--full contact-role-panel">
+              <legend className="contact-role-panel-title">{copy.labels.documents}</legend>
+              <div className="contact-file-grid">
+                {PARTNER_FILES.map((name) => (
+                  <label className="quote-file contact-file" key={name}>
+                    <span>
+                      <strong>{copy.labels[name]}</strong>
+                      <small>{copy.chooseFile} · {copy.optional}</small>
+                    </span>
+                    <input
+                      className="quote-file-input"
+                      name={name}
+                      type="file"
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    />
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <fieldset className="brief-fieldset brief-field--full contact-role-panel">
+              <legend className="contact-role-panel-title">{copy.labels.bank}</legend>
+              <div className="brief-form-grid">
+                <ContactField name="bankName" label={copy.labels.bankName} />
+                <ContactField name="iban" label={copy.labels.iban} dir="ltr" />
+                <ContactField name="beneficiaryName" label={copy.labels.beneficiaryName} full />
+              </div>
+            </fieldset>
+          </>
+        ) : null}
+
+        {!isPartner ? (
+          <label className="brief-field brief-field--full">
+            <span className="brief-label">
+              {copy.labels.notes} <small>{copy.optional}</small>
+            </span>
+            <textarea
+              className="brief-control brief-control--area"
+              name="note"
+              rows={4}
+              placeholder={copy.placeholders.notes}
+            />
+          </label>
+        ) : null}
+      </div>
+
+      {error ? <p className="brief-submit-error" role="alert">{error}</p> : null}
+      <div className="brief-form-actions quote-form-actions">
+        <button className="btn-primary" type="submit" disabled={status === "sending"}>
+          {status === "sending" ? copy.submitting : copy.submit}
+        </button>
+      </div>
     </form>
+  );
+}
+
+function ContactField({
+  name,
+  label,
+  full = false,
+  dir,
+}: {
+  name: string;
+  label: string;
+  full?: boolean;
+  dir?: "ltr";
+}) {
+  return (
+    <label className={`brief-field${full ? " brief-field--full" : ""}`}>
+      <span className="brief-label">{label}</span>
+      <input className="brief-control" name={name} dir={dir} />
+    </label>
   );
 }

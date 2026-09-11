@@ -176,7 +176,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
               {content.primaryCta}
               <CtaArrow tone="white" size="lg" />
             </Link>
-            <Link href={localizePath("/work", locale)} className="hero-cta-ghost">
+            <Link href={localizePath("/our-work", locale)} className="hero-cta-ghost">
               {content.secondaryCta}
             </Link>
           </div>

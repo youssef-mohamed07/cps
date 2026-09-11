@@ -53,7 +53,7 @@ export function LocationDetailSections({
 }: LocationDetailSectionsProps) {
   const isArabic = locale === "ar";
   const workFilterHref = localizePath(
-    `/work?country=${location.slug}`,
+    `/our-work?country=${location.slug}`,
     locale,
   );
 
@@ -138,12 +138,12 @@ export function LocationDetailSections({
                 <h2 className="location-detail-section-title">
                   {isArabic
                     ? `مشاريع في ${location.title}.`
-                    : `Projects in ${location.title}.`}
+                    : `Our work in ${location.title}.`}
                 </h2>
               </div>
               <Link href={workFilterHref} className="location-detail-work-link">
                 <span>
-                  {isArabic ? "عرض كل المشاريع" : "View all projects"}
+                  {isArabic ? "شاهد أعمالنا" : "View Our Work"}
                 </span>
                 <CtaArrow size="sm" />
               </Link>
@@ -155,7 +155,7 @@ export function LocationDetailSections({
               {projects.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/work/${item.slug}`, locale)}
+                    href={localizePath(`/our-work/${item.slug}`, locale)}
                     className="work-card group"
                   >
                     <div className="work-card-media">
@@ -185,7 +185,7 @@ export function LocationDetailSections({
             <p className="location-detail-projects-empty">
               {isArabic
                 ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط معرضك."
-                : "New projects coming soon — contact us to plan your show."}
+                : "New work coming soon — contact us to plan your show."}
             </p>
           )}
         </div>

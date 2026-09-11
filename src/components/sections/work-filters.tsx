@@ -113,7 +113,7 @@ export function WorkFilters({
                 <span aria-hidden="true">×</span>
               </Link>
             ))}
-            <Link href={localizePath("/work", locale)} className="work-filter-clear">
+            <Link href={localizePath("/our-work", locale)} className="work-filter-clear">
               {labels.clear}
             </Link>
           </div>

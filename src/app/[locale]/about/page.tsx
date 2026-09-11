@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AboutPageSections } from "@/components/sections/about-page-sections";
 import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
+import { LogosSection } from "@/components/sections/logos-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { faqJsonLd, JsonLd } from "@/components/seo/json-ld";
@@ -66,6 +67,8 @@ export default async function AboutPage({ params }: PageProps) {
           />
         </div>
 
+        <LogosSection locale={locale} />
+
         <AboutPageSections locale={locale} page={page} />
 
         <InnerPageEngagement
@@ -74,7 +77,6 @@ export default async function AboutPage({ params }: PageProps) {
           namespace="about"
           faqItems={page.faqItems}
           faqTitle={locale === "ar" ? "أسئلة عن CPS" : "Questions about CPS"}
-          showStats={false}
           showClients={false}
         />
     </>

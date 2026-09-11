@@ -17,17 +17,18 @@
     "@react-three/fiber": "^9.6.1",
     "@sanity/client": "^7.23.0",
     "@sanity/image-url": "^2.1.1",
-    "@sanity/vision": "^6.3.0",
+    "@sanity/vision": "^5.31.2",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.40.0",
     "lottie-react": "^2.4.1",
     "lottie-web": "^5.13.0",
-    "next": "16.2.9",
-    "next-sanity": "^13.1.1",
+    "next": "^16.3.4",
+    "next-sanity": "^11.6.13",
     "playwright": "^1.49.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sanity": "^6.3.0",
+    "resend": "^6.27.0",
+    "sanity": "^5.14.1",
     "three": "^0.185.1"
   },
   "devDependencies": {
@@ -41,5 +42,12 @@
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "fsevents@2.3.2": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.27.3": true
   }
 }

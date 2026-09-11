@@ -14,7 +14,7 @@ const copy = {
     body: [
       "We use contact details you share through forms, email, or WhatsApp only to respond to your inquiry and deliver related services.",
       "Analytics may be used to understand site performance. We do not sell personal data.",
-      "For privacy questions, email hello@cps.com.",
+      "For privacy questions, email inquiry@creativeprofessionals.com.",
     ],
   },
   ar: {
@@ -23,7 +23,7 @@ const copy = {
     body: [
       "نستخدم بيانات التواصل التي تشاركها عبر النماذج أو البريد أو واتساب للرد على استفسارك وتقديم الخدمات ذات الصلة فقط.",
       "قد نستخدم التحليلات لفهم أداء الموقع. لا نبيع البيانات الشخصية.",
-      "لأسئلة الخصوصية، راسل hello@cps.com.",
+      "لأسئلة الخصوصية، راسل inquiry@creativeprofessionals.com.",
     ],
   },
 } as const;

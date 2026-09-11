@@ -257,10 +257,10 @@ export function ProjectDetailSections({
               <div className="project-detail-related-head">
                 <p className="eyebrow">{isArabic ? "المزيد" : "More work"}</p>
                 <h2 className="project-detail-related-title">
-                  {isArabic ? "مشاريع أخرى." : "More projects."}
+                  {isArabic ? "أعمال أخرى." : "More of our work."}
                 </h2>
                 <Link
-                  href={localizePath("/work", locale)}
+                  href={localizePath("/our-work", locale)}
                   className="project-detail-related-all"
                 >
                   <span>{labels.back}</span>
@@ -273,7 +273,7 @@ export function ProjectDetailSections({
               {relatedProjects.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/work/${item.slug}`, locale)}
+                  href={localizePath(`/our-work/${item.slug}`, locale)}
                     className="project-detail-related-card"
                   >
                     <div className="project-detail-related-media">

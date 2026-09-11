@@ -52,7 +52,7 @@ export default async function ServicesPage({ params }: PageProps) {
         image={firstService?.image ?? ""}
         imageAlt={firstService?.imageAlt ?? firstService?.title ?? ""}
         cta={{ label: ar ? "ابدأ مشروعاً" : "Start a Project", href: localizePath("/contact", locale) }}
-        secondaryCta={{ label: ar ? "شاهد أعمالنا" : "View Our Work", href: localizePath("/work", locale) }}
+        secondaryCta={{ label: ar ? "شاهد أعمالنا" : "View Our Work", href: localizePath("/our-work", locale) }}
       />
       <CollectionGrid
         columns={2}

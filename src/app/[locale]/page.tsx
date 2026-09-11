@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FeaturedWork } from "@/components/sections/featured-work";
+import { ClientsSection } from "@/components/sections/clients-section";
+import { BriefFormSection } from "@/components/sections/brief-form-section";
 import { HomeHero } from "@/components/sections/home-hero";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { WhyCpsSection } from "@/components/sections/why-cps-section";
 import { ProductionCapabilitiesSection } from "@/components/sections/production-capabilities-section";
+import { BeforeAfterSection } from "@/components/sections/before-after-section";
+import { StatsSection } from "@/components/sections/stats-section";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -66,6 +70,13 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <>
       <HomeHero locale={locale} content={dictionary.hero} />
+      <StatsSection
+        id="home-stats"
+        eyebrow={dictionary.stats.eyebrow}
+        title={dictionary.stats.title}
+        support={dictionary.stats.support}
+        items={dictionary.stats.items}
+      />
       <LifecycleSection
         eyebrow={dictionary.lifecycle.eyebrow}
         title={dictionary.lifecycle.title}
@@ -85,6 +96,15 @@ export default async function HomePage({ params }: PageProps) {
         items={featuredProjects}
       />
       <WhyCpsSection locale={locale} content={dictionary.whyCps} />
+      <BeforeAfterSection content={dictionary.beforeAfter} />
+      <ClientsSection
+        id="testimonials"
+        eyebrow={dictionary.clients.eyebrow}
+        title={dictionary.clients.title}
+        support={dictionary.clients.support}
+        items={dictionary.clients.items}
+      />
+      <BriefFormSection id="home-contact" locale={locale} />
       <section className="service-closing home-closing-cta">
         <div className="site-container">
           <h2 className="display display-on-dark">

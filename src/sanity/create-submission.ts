@@ -1,54 +1,6 @@
 import type { BriefFormData } from "@/lib/brief-form";
 import { getSanityWriteClient } from "@/sanity/write-client";
 
-type ContactSubmissionInput = {
-  locale: string;
-  name: string;
-  email: string;
-  phone?: string;
-  message: string;
-  plainText: string;
-  requestType?: "quote" | "service-add-on";
-  referenceFiles?: File[];
-};
-
-export async function createContactSubmission(
-  input: ContactSubmissionInput,
-): Promise<{ id: string } | null> {
-  const client = getSanityWriteClient();
-  if (!client) return null;
-
-  const referenceFiles = await Promise.all(
-    (input.referenceFiles ?? []).map(async (file, index) => {
-      const asset = await client.assets.upload("file", Buffer.from(await file.arrayBuffer()), {
-        filename: file.name,
-        contentType: file.type || "application/octet-stream",
-      });
-      return {
-        _key: `reference-${index}`,
-        _type: "file" as const,
-        asset: { _type: "reference" as const, _ref: asset._id },
-      };
-    }),
-  );
-
-  const doc = await client.create({
-    _type: "contactSubmission",
-    status: "new",
-    submittedAt: new Date().toISOString(),
-    locale: input.locale,
-    name: input.name,
-    email: input.email,
-    phone: input.phone || undefined,
-    message: input.message,
-    requestType: input.requestType,
-    referenceFiles,
-    plainText: input.plainText,
-  });
-
-  return { id: doc._id };
-}
-
 export async function createBriefSubmission(input: {
   locale: string;
   data: BriefFormData;

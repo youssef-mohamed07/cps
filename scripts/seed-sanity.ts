@@ -180,6 +180,27 @@ async function seedClients() {
   }
 }
 
+async function seedTestimonials() {
+  console.log("\n→ testimonials");
+  for (const locale of locales) {
+    const testimonials = getDictionaryLocal(locale).clients.items;
+    for (const [index, testimonial] of testimonials.entries()) {
+      await upsert({
+        _id: id("testimonial", String(index + 1), locale),
+        _type: "testimonial",
+        language: locale,
+        status: "published",
+        quote: testimonial.quote,
+        person: testimonial.name,
+        role: testimonial.role,
+        imageUrl: testimonial.image,
+        imageAlt: testimonial.imageAlt,
+        order: index + 1,
+      });
+    }
+  }
+}
+
 async function seedServices() {
   console.log("\n→ services");
   for (const locale of locales) {
@@ -797,8 +818,14 @@ async function seedRedirects() {
 
 async function main() {
   console.log(`Seeding Sanity dataset "${dataset}" (${projectId})…`);
+  if (process.env.SANITY_SEED_ONLY === "testimonials") {
+    await seedTestimonials();
+    console.log("\nDone. Seeded testimonials only.");
+    return;
+  }
   await seedSettings();
   await seedClients();
+  await seedTestimonials();
   await seedBoothTypes();
   await seedServices();
   await seedIndustries();

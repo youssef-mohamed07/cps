@@ -181,7 +181,7 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
         }}
         secondaryCta={{
           label: dictionary.servicesPage.secondaryCta,
-          href: localizePath("/work", locale),
+          href: localizePath("/our-work", locale),
         }}
       />
 

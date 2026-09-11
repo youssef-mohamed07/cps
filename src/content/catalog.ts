@@ -4218,7 +4218,7 @@ export function localizeNews(article: NewsRecord, locale: Locale) {
 }
 
 export const redirects = [
-  { from: "/portfolio", to: "/work", status: 301 as const },
+  { from: "/portfolio", to: "/our-work", status: 301 as const },
   { from: "/blog", to: "/news", status: 301 as const },
   { from: "/locations/saudi-arabia", to: "/locations/riyadh", status: 301 as const },
   { from: "/locations/uae", to: "/locations/jeddah", status: 301 as const },

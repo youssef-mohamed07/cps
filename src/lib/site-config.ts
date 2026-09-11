@@ -1,5 +1,9 @@
 import type { SeoMeta } from "@/types/seo";
 
+export const CPS_EMAIL = "inquiry@creativeprofessionals.com";
+export const CPS_PHONE = "+966560846520";
+export const CPS_PHONE_DISPLAY = "+966 56 084 6520";
+
 export interface SiteConfigShape {
   name: string;
   legalName: string;
@@ -41,7 +45,12 @@ export interface SiteConfigShape {
 let cachedSiteConfig: SiteConfigShape | null = null;
 
 export function setSiteConfig(config: SiteConfigShape): void {
-  cachedSiteConfig = config;
+  cachedSiteConfig = {
+    ...config,
+    email: CPS_EMAIL,
+    phone: CPS_PHONE,
+    phoneDisplay: CPS_PHONE_DISPLAY,
+  };
 }
 
 export function getSiteConfig(): SiteConfigShape {
@@ -55,9 +64,9 @@ export function getSiteConfig(): SiteConfigShape {
       "CPS delivers exhibitions, events, interiors, displays, printing and custom fabrication across Saudi Arabia.",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
     locale: "en_SA",
-    email: "hello@cps.com",
-    phone: "+966500000000",
-    phoneDisplay: "+966 50 000 0000",
+    email: CPS_EMAIL,
+    phone: CPS_PHONE,
+    phoneDisplay: CPS_PHONE_DISPLAY,
     whatsappMessage: "Hi CPS! I'd like to get in touch.",
     address: {
       city: "Riyadh",

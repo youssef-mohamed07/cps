@@ -12,6 +12,7 @@ import {
   industrySlug,
   localizeText,
   serviceArchitecture,
+  serviceLandingHeroes,
   cataloguePath,
   servicePath,
   sharedProcess,
@@ -57,70 +58,70 @@ const industriesHeadline: Record<string, { en: string; ar: string }> = {
 
 const projectsHeadline: Record<string, { en: string; ar: string }> = {
   "exhibitions-booths": {
-    en: "Recent exhibitions & booths projects",
+    en: "Recent exhibitions & booths work",
     ar: "مشاريع معارض وأجنحة حديثة",
   },
   "event-fabrication": {
-    en: "Recent event fabrication projects",
+    en: "Recent event fabrication work",
     ar: "مشاريع تجهيز فعاليات حديثة",
   },
   "fit-out-interiors": {
-    en: "Recent fit-out & interiors projects",
+    en: "Recent fit-out & interiors work",
     ar: "مشاريع تجهيز داخلي حديثة",
   },
   "retail-displays": {
-    en: "Recent retail displays projects",
+    en: "Recent retail displays work",
     ar: "مشاريع عروض تجزئة حديثة",
   },
   "custom-fabrication": {
-    en: "Recent custom fabrication projects",
+    en: "Recent custom fabrication work",
     ar: "مشاريع تصنيع مخصص حديثة",
   },
   "printing-signage": {
-    en: "Recent printing & signage projects",
+    en: "Recent printing & signage work",
     ar: "مشاريع طباعة ولافتات حديثة",
   },
   "rental-solutions": {
-    en: "Recent rental solutions projects",
+    en: "Recent rental solutions work",
     ar: "مشاريع حلول تأجير حديثة",
   },
   "installation-project-delivery": {
-    en: "Recent installation & project delivery projects",
+    en: "Recent installation & project delivery work",
     ar: "مشاريع تركيب وتسليم حديثة",
   },
 };
 
 const projectsCta: Record<string, { en: string; ar: string }> = {
   "exhibitions-booths": {
-    en: "View All Exhibitions & Booths Projects",
+    en: "View All Exhibitions & Booths Work",
     ar: "عرض كل مشاريع المعارض والأجنحة",
   },
   "event-fabrication": {
-    en: "View All Event Fabrication Projects",
+    en: "View All Event Fabrication Work",
     ar: "عرض كل مشاريع تجهيز الفعاليات",
   },
   "fit-out-interiors": {
-    en: "View All Fit-Out & Interiors Projects",
+    en: "View All Fit-Out & Interiors Work",
     ar: "عرض كل مشاريع التجهيز الداخلي",
   },
   "retail-displays": {
-    en: "View All Retail Displays Projects",
+    en: "View All Retail Displays Work",
     ar: "عرض كل مشاريع عروض التجزئة",
   },
   "custom-fabrication": {
-    en: "View All Custom Fabrication Projects",
+    en: "View All Custom Fabrication Work",
     ar: "عرض كل مشاريع التصنيع المخصص",
   },
   "printing-signage": {
-    en: "View All Printing & Signage Projects",
+    en: "View All Printing & Signage Work",
     ar: "عرض كل مشاريع الطباعة واللافتات",
   },
   "rental-solutions": {
-    en: "View All Rental Solutions Projects",
+    en: "View All Rental Solutions Work",
     ar: "عرض كل مشاريع حلول التأجير",
   },
   "installation-project-delivery": {
-    en: "View All Installation & Project Delivery Projects",
+    en: "View All Installation & Project Delivery Work",
     ar: "عرض كل مشاريع التركيب وتسليم المشاريع",
   },
 };
@@ -163,37 +164,92 @@ export function ServiceArchitecturePage({
   const industryTitle = industriesHeadline[service.slug];
   const projectTitle = projectsHeadline[service.slug];
   const projectCta = projectsCta[service.slug];
-  const allProjectsHref = `/work?service=${service.slug}`;
+  const allProjectsHref = `/our-work?service=${service.slug}`;
   const closingNoun = localizeText(service.closingNoun, locale);
+  const serviceNumber = String(
+    serviceArchitecture.findIndex((entry) => entry.slug === service.slug) + 1,
+  ).padStart(2, "0");
+  const landingHero = serviceLandingHeroes[service.slug];
+  const marketName = ar ? "السعودية" : "Saudi Arabia";
+  const landingHeadline = localizeText(landingHero.headline, locale).replace(
+    "{City}",
+    marketName,
+  );
 
   return (
     <>
       <section className="service-architecture-hero">
-        <Image src={service.image} alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="service-architecture-hero-shade" />
         <div className="site-container service-architecture-hero-inner">
-          <p className="eyebrow eyebrow-on-dark">{localizeText(service.title, locale)}</p>
-          <h1>{localizeText(service.hero.headline, locale)}</h1>
+          <div className="service-architecture-hero-meta">
+            <p className="service-architecture-hero-service">
+              <span>{serviceNumber}</span>
+              {localizeText(service.title, locale)}
+            </p>
+            <p className="eyebrow eyebrow-on-dark">
+              {localizeText(landingHero.eyebrow, locale)}
+            </p>
+          </div>
+          <h1>{landingHeadline}</h1>
           <p className="service-architecture-hero-lead">
-            {localizeText(service.hero.support, locale)}
+            {localizeText(landingHero.subheadline, locale)}
           </p>
-          <ul>
-            {service.hero.bullets.map((bullet) => (
-              <li key={bullet.en}>{localizeText(bullet, locale)}</li>
-            ))}
-          </ul>
           <div className="service-architecture-hero-actions">
             <Link href="#quote" className="hero-cta">
               {ar ? "ابدأ مشروعاً" : "Start a Project"}
               <CtaArrow tone="white" size="sm" />
             </Link>
             <Link
-              href={localizePath(cataloguePath(service.slug), locale)}
-              className="hero-cta-ghost"
+              href={localizePath(allProjectsHref, locale)}
+              className="hero-cta-ghost service-architecture-hero-work"
             >
-              {localizeText(service.hero.catalogueCta, locale)}
+              {ar ? "عرض أعمالنا" : "View Our Work"}
+              <CtaArrow tone="white" size="sm" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="service-architecture-overview">
+        <div className="site-container service-architecture-overview-grid">
+          <Reveal>
+            <div className="service-architecture-overview-copy">
+              <p className="eyebrow">{localizeText(service.title, locale)}</p>
+              <h2 className="display">{localizeText(service.hero.headline, locale)}</h2>
+              <p className="service-architecture-overview-lead">
+                {localizeText(service.hero.support, locale)}
+              </p>
+              <ul>
+                {service.hero.bullets.map((bullet) => (
+                  <li key={bullet.en}>{localizeText(bullet, locale)}</li>
+                ))}
+              </ul>
+              <div className="service-architecture-overview-actions">
+                <Link href="#quote" className="hero-cta">
+                  {ar ? "ابدأ مشروعاً" : "Start a Project"}
+                  <CtaArrow tone="white" size="sm" />
+                </Link>
+                <Link
+                  href={localizePath(cataloguePath(service.slug), locale)}
+                  className="hero-cta-ghost"
+                >
+                  {localizeText(service.hero.catalogueCta, locale)}
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="service-architecture-overview-media">
+              <Image
+                src={service.image}
+                alt={localizeText(service.title, locale)}
+                fill
+                priority
+                sizes="(max-width: 700px) 100vw, 38vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -518,7 +574,7 @@ export function ServiceArchitecturePage({
               <Reveal key={entry.en} delay={index * 0.03}>
                 <Link
                   href={localizePath(
-                    `/work?service=${service.slug}&industry=${industrySlug(entry)}`,
+                    `/our-work?service=${service.slug}&industry=${industrySlug(entry)}`,
                     locale,
                   )}
                   className="service-industry-tile"
@@ -567,7 +623,7 @@ export function ServiceArchitecturePage({
               {filteredProjects.map((project, index) => (
                 <Reveal key={project.slug} delay={index * 0.05}>
                   <Link
-                    href={localizePath(`/work/${project.slug}`, locale)}
+                    href={localizePath(`/our-work/${project.slug}`, locale)}
                     className="service-project-card"
                   >
                     <div className="service-project-card-media">

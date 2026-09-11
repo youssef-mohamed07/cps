@@ -63,7 +63,7 @@ export function BoothTypeDetailSections({
 }: BoothTypeDetailSectionsProps) {
   const isArabic = locale === "ar";
   const workFilterHref = localizePath(
-    `/work?boothType=${encodeURIComponent(boothType.slug)}`,
+    `/our-work?boothType=${encodeURIComponent(boothType.slug)}`,
     locale,
   );
   const boothLabel = formatBoothTypeTitle(boothType.title);
@@ -230,7 +230,7 @@ export function BoothTypeDetailSections({
               </div>
               <Link href={workFilterHref} className="booth-detail-work-link">
                 <span>
-                  {isArabic ? "عرض كل المشاريع" : "View all projects"}
+                  {isArabic ? "شاهد أعمالنا" : "View Our Work"}
                 </span>
                 <CtaArrow size="sm" />
               </Link>
@@ -242,7 +242,7 @@ export function BoothTypeDetailSections({
               {caseStudies.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.06}>
                   <Link
-                    href={localizePath(`/work/${item.slug}`, locale)}
+                    href={localizePath(`/our-work/${item.slug}`, locale)}
                     className="work-card group booth-detail-case-card"
                   >
                     <div className="work-card-media">
@@ -272,7 +272,7 @@ export function BoothTypeDetailSections({
             <p className="booth-detail-cases-empty">
               {isArabic
                 ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط جناحك."
-                : "New projects coming soon — contact us to plan your booth."}
+                : "New work coming soon — contact us to plan your booth."}
             </p>
           )}
         </div>

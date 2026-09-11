@@ -38,7 +38,7 @@ function navigation(locale: Locale): NavigationConfig {
     footer: [
       { label: ar ? "من نحن" : "About", href: "/about" },
       { label: ar ? "الخدمات" : "Services", href: "/services" },
-      { label: ar ? "المشاريع" : "Projects", href: "/work" },
+      { label: ar ? "أعمالنا" : "Our Work", href: "/our-work" },
       { label: ar ? "تواصل" : "Contact", href: "/contact" },
     ],
     items: [
@@ -72,7 +72,7 @@ function navigation(locale: Locale): NavigationConfig {
           cta: { label: ar ? "عرض كل الخدمات" : "View All Services", href: "/services" },
         },
       },
-      { enabled: true, label: ar ? "المشاريع" : "Projects", href: "/work", kind: "link" },
+      { enabled: true, label: ar ? "أعمالنا" : "Our Work", href: "/our-work", kind: "link" },
       { enabled: true, label: ar ? "تواصل" : "Contact", href: "/contact", kind: "link" },
     ],
   };

@@ -1,0 +1,171 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { CtaArrow } from "@/components/motion/cta-arrow";
+import { InnerPageEngagement } from "@/components/sections/inner-page-engagement";
+import { PageHero } from "@/components/sections/page-hero";
+import { WorkFilters } from "@/components/sections/work-filters";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { isLocale, localizePath, type Locale } from "@/lib/i18n";
+import { buildPageMetadata } from "@/lib/cms-seo";
+import { resolveDictionary } from "@/lib/dictionary";
+import { localizeText, projectIndustryOptions, serviceArchitecture } from "@/content/service-architecture";
+import {
+  loadProjects,
+} from "@/sanity/load-collections";
+import { loadHubPage } from "@/sanity/load-pages";
+import { ensureSiteConfig } from "@/sanity/load-site-config";
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  if (!isLocale(localeParam)) return {};
+  await ensureSiteConfig();
+  const hub = await loadHubPage(localeParam, "work");
+  return buildPageMetadata({
+    path: "/our-work",
+    locale: localeParam,
+    seo: hub.seo,
+    fallbackTitle: `CPS — ${hub.title}`,
+    fallbackDescription: hub.lead,
+  });
+}
+
+export default async function WorkPage({ params, searchParams }: PageProps) {
+  const { locale: localeParam } = await params;
+  if (!isLocale(localeParam)) notFound();
+
+  const locale: Locale = localeParam;
+  const filters = await searchParams;
+  const service = first(filters.service);
+  const industry = first(filters.industry);
+
+  const dictionary = await resolveDictionary(locale);
+  const page = dictionary.workPage;
+  const projects = await loadProjects(locale);
+
+  const filtered = projects.filter((project) => {
+    if (
+      service &&
+      project.serviceSlug !== service &&
+      !project.serviceSlugs?.includes(service)
+    ) return false;
+    if (industry && project.industrySlug !== industry) return false;
+    return true;
+  });
+
+  const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
+  const basePath = localizePath("/our-work", locale);
+
+  return (
+    <>
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: homeLabel, href: "/" },
+          { label: page.title },
+        ]}
+      />
+      <PageHero
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lead={page.lead}
+        image={projects[0]?.image}
+        imageAlt={projects[0]?.imageAlt}
+        cta={{
+          label: locale === "ar" ? "ابدأ مشروعك" : "Start your project",
+          href: "#work-brief",
+        }}
+      />
+
+      <WorkFilters
+        locale={locale}
+        basePath={basePath}
+        values={{ service, industry }}
+        options={{
+          service: serviceArchitecture.map((item) => ({
+            value: item.slug,
+            label: localizeText(item.title, locale),
+          })),
+          industry: projectIndustryOptions.map((item) => ({
+            value: item.slug,
+            label: localizeText(item.title, locale),
+          })),
+        }}
+        labels={{
+          service: locale === "ar" ? "الخدمة" : "Service",
+          industry: locale === "ar" ? "القطاع" : "Industry",
+          all: locale === "ar" ? "الكل" : "All",
+          clear: locale === "ar" ? "مسح الكل" : "Clear all",
+          filters: locale === "ar" ? "تصفية" : "Filter",
+        }}
+      />
+
+      <section className="work-gallery-section">
+        <div className="site-container">
+          <div className="work-gallery-bar">
+            <p className="work-gallery-count">
+              {filtered.length}{" "}
+              {locale === "ar"
+                ? "مشروع"
+                : filtered.length === 1
+                  ? "project"
+                : "work items"}
+            </p>
+          </div>
+          {filtered.length ? (
+            <div className="work-gallery-grid">
+              {filtered.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={localizePath(`/our-work/${item.slug}`, locale)}
+                  className="work-card group"
+                >
+                  <div className="work-card-media">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      fill
+                      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    />
+                    <span className="work-card-tag">{item.category}</span>
+                  </div>
+                  <div className="work-card-copy">
+                    <p className="work-card-meta">{item.year}</p>
+                    <h2 className="work-card-title">{item.title}</h2>
+                    <p className="work-card-summary">{item.summary}</p>
+                    <span className="work-card-cta">
+                      {locale === "ar" ? "عرض المشروع" : "View project"}
+                      <CtaArrow size="sm" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="work-gallery-empty">
+              {locale === "ar"
+                ? "لا توجد مشاريع مطابقة لهذه الفلاتر."
+                : "No work items match these filters."}
+            </p>
+          )}
+        </div>
+      </section>
+      <InnerPageEngagement
+        locale={locale}
+        dictionary={dictionary}
+        namespace="work"
+      />
+    </>
+  );
+}

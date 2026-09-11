@@ -100,6 +100,9 @@ export const testimonial = defineType({
     defineField({ name: "quote", type: "text", rows: 4, title: "Quote", validation: (Rule) => Rule.required() }),
     defineField({ name: "person", type: "string", title: "Person" }),
     defineField({ name: "role", type: "string", title: "Role" }),
+    defineField({ name: "imageUrl", type: "url", title: "Portrait URL" }),
+    defineField({ name: "imageAlt", type: "string", title: "Portrait alt text" }),
+    defineField({ name: "order", type: "number", title: "Display order" }),
     defineField({
       name: "client",
       type: "reference",

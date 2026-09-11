@@ -1,4 +1,5 @@
 import { getBoothComparisonRow } from "@/content/booth-comparison";
+import { getDictionaryLocal } from "@/content/dictionaries.local";
 import {
   boothTypes,
   getBoothType,
@@ -42,6 +43,7 @@ import {
   REDIRECTS_QUERY,
   SERVICE_BY_SLUG_QUERY,
   SERVICES_QUERY,
+  TESTIMONIALS_QUERY,
 } from "@/sanity/queries/collections";
 import {
   mapBoothType,
@@ -603,4 +605,41 @@ export async function loadClients(locale: Locale): Promise<ClientLogo[]> {
       .filter((item): item is ClientLogo => Boolean(item)) ?? [];
 
   return fromCms.length ? fromCms : clientLogos;
+}
+
+export async function loadTestimonials(
+  locale: Locale,
+): Promise<ReturnType<typeof getDictionaryLocal>["clients"]["items"]> {
+  const fallback = getDictionaryLocal(locale).clients.items;
+  const remote = await sanityFetch<
+    {
+      quote?: string;
+      person?: string;
+      role?: string;
+      image?: { asset?: unknown; alt?: string };
+      imageUrl?: string;
+      imageAlt?: string;
+    }[]
+  >({
+    query: TESTIMONIALS_QUERY,
+    params: { locale },
+    tags: ["testimonial", `testimonial-${locale}`],
+  });
+
+  const fromCms =
+    remote
+      ?.map((item) => {
+        if (!item.quote?.trim() || !item.person?.trim()) return null;
+        const image = toImageSrc(item.image, item.imageUrl ?? "");
+        return {
+          quote: item.quote,
+          name: item.person,
+          role: item.role?.trim() ?? "",
+          image,
+          imageAlt: item.imageAlt?.trim() || item.image?.alt?.trim() || item.person,
+        };
+      })
+      .filter((item): item is (typeof fallback)[number] => Boolean(item)) ?? [];
+
+  return fromCms.length ? fromCms : fallback;
 }

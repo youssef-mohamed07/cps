@@ -137,9 +137,9 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
       remote.officeAddress ||
       local.officeAddress ||
       [config.address.city, config.address.countryName].filter(Boolean).join(", "),
-    phoneDisplay: remote.phoneDisplay || config.phoneDisplay || local.phoneDisplay,
-    phoneHref: remote.phoneHref || config.phone || local.phoneHref,
-    email: remote.email || config.email || local.email,
+    phoneDisplay: config.phoneDisplay,
+    phoneHref: config.phone,
+    email: config.email,
     whatsappLabel: remote.whatsappLabel || local.whatsappLabel,
     businessHours: remote.businessHours || local.businessHours,
     mapsLabel: remote.mapsLabel || local.mapsLabel,

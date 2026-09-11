@@ -12,7 +12,7 @@ const staticPaths = [
   "/about",
   "/services",
   "/production-capabilities",
-  "/work",
+  "/our-work",
   "/news",
   "/contact",
   "/privacy",
@@ -59,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entry(path, { priority: path === "/" ? 1 : 0.8 }),
     ),
     ...projects.flatMap((item) =>
-      entry(`/work/${item.slug}`, {
+      entry(`/our-work/${item.slug}`, {
         changeFrequency: "monthly",
         priority: 0.7,
       }),

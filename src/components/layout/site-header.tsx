@@ -420,11 +420,13 @@ export function SiteHeader({ locale, navigation }: SiteHeaderProps) {
               <span className="sr-only">{navigation.langLabel}</span>
             </Link>
             <Link
-              href={localizePath("/work", locale)}
+              href="https://drive.google.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="site-header-work"
               onClick={closeAll}
             >
-              {locale === "ar" ? "شاهد أعمالنا" : "View Our Work"}
+              {locale === "ar" ? "تحميل ملف الأعمال" : "Download Portfolio"}
             </Link>
             <Link
               href={localizePath(navigation.cta.href, locale)}

@@ -1,12 +1,8 @@
-import { Suspense } from "react";
-import { QuoteForm } from "@/components/forms/quote-form";
+import { ContactForm } from "@/components/forms/contact-form";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { SocialIcon } from "@/components/ui/social-icon";
-import {
-  contactServiceOptions,
-  getQuoteFormCopy,
-} from "@/content/quote-form.copy";
+import { getContactFormCopy } from "@/content/contact-form.copy";
 import type { Locale } from "@/lib/i18n";
 import {
   getMailtoUrl,
@@ -67,7 +63,7 @@ export function ContactPageSections({
 }: ContactPageSectionsProps) {
   const isArabic = locale === "ar";
   const embedUrl = mapsEmbedUrl(config);
-  const quoteCopy = getQuoteFormCopy(locale, "contact");
+  const formCopy = getContactFormCopy(locale);
 
   return (
     <>
@@ -158,20 +154,11 @@ export function ContactPageSections({
           <Reveal delay={0.08}>
             <div className="brief-form-shell contact-brief-shell">
               <div className="quote-form-intro">
-                <p className="eyebrow">{quoteCopy.eyebrow}</p>
-                <h2 className="display">{quoteCopy.title}</h2>
-                <p className="lede">{quoteCopy.support}</p>
+                <p className="eyebrow">{formCopy.eyebrow}</p>
+                <h2 className="display">{formCopy.title}</h2>
+                <p className="lede">{formCopy.support}</p>
               </div>
-              <Suspense fallback={<div className="quote-form-loading" />}>
-                <QuoteForm
-                  locale={locale}
-                  copy={quoteCopy}
-                  options={contactServiceOptions[locale]}
-                  contextLabel="Contact page"
-                  requestType="contact"
-                  preferUrlItem={false}
-                />
-              </Suspense>
+              <ContactForm locale={locale} />
             </div>
           </Reveal>
         </div>

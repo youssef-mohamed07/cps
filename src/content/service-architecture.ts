@@ -56,6 +56,87 @@ export type ServiceArchitecture = {
 };
 
 const t = (en: string, ar: string): LocalizedText => ({ en, ar });
+
+export const serviceLandingHeroes: Record<
+  string,
+  {
+    eyebrow: LocalizedText;
+    headline: LocalizedText;
+    subheadline: LocalizedText;
+  }
+> = {
+  "exhibitions-booths": {
+    eyebrow: t("Custom-Built & Modular", "مخصص ومعياري"),
+    headline: t("Top Exhibition Booths in {City}", "أفضل أجنحة المعارض في {City}"),
+    subheadline: t(
+      "Custom exhibition booths, engineered and installed in-house.",
+      "أجنحة معارض مخصصة تُهندس وتُنفذ وتُركب داخلياً.",
+    ),
+  },
+  "event-fabrication": {
+    eyebrow: t("Stages, Scenic & Branded Builds", "مسارح ومناظر وهياكل تحمل الهوية"),
+    headline: t("Leading Event Fabrication in {City}", "حلول رائدة لتجهيز الفعاليات في {City}"),
+    subheadline: t(
+      "Stages, scenic builds and branded event structures.",
+      "مسارح ومناظر وهياكل فعاليات تحمل الهوية.",
+    ),
+  },
+  "fit-out-interiors": {
+    eyebrow: t("Offices, Showrooms & Retail Spaces", "مكاتب وصالات عرض ومساحات تجزئة"),
+    headline: t("Trusted Fit-Out & Interiors in {City}", "تجهيز داخلي موثوق في {City}"),
+    subheadline: t(
+      "Commercial interiors built and finished end-to-end.",
+      "مساحات تجارية تُنفذ وتُشطب بالكامل من البداية للنهاية.",
+    ),
+  },
+  "retail-displays": {
+    eyebrow: t("Gondolas, POS & Window Displays", "جندولات ونقاط بيع وواجهات عرض"),
+    headline: t("Premier Retail Displays in {City}", "عروض تجزئة متميزة في {City}"),
+    subheadline: t(
+      "Custom displays built for visibility and sales.",
+      "عروض مخصصة مصممة للظهور وزيادة المبيعات.",
+    ),
+  },
+  "custom-fabrication": {
+    eyebrow: t("Wood, Metal & Acrylic Production", "إنتاج الخشب والمعدن والأكريليك"),
+    headline: t("Expert Custom Fabrication in {City}", "تصنيع مخصص بخبرة في {City}"),
+    subheadline: t(
+      "Wood, metal, acrylic and CNC production, in-house.",
+      "إنتاج الخشب والمعدن والأكريليك وCNC داخل منشأتنا.",
+    ),
+  },
+  "printing-signage": {
+    eyebrow: t(
+      "Large-Format Print & Illuminated Signs",
+      "طباعة كبيرة الحجم ولافتات مضيئة",
+    ),
+    headline: t("Professional Printing & Signage in {City}", "طباعة ولافتات احترافية في {City}"),
+    subheadline: t(
+      "Print and signage production, installed nationwide.",
+      "إنتاج الطباعة واللافتات مع التركيب في أنحاء المملكة.",
+    ),
+  },
+  "rental-solutions": {
+    eyebrow: t("Furniture, Counters & Décor", "أثاث وكاونترات وديكور"),
+    headline: t("Reliable Rental Solutions in {City}", "حلول تأجير موثوقة في {City}"),
+    subheadline: t(
+      "Furniture, counters and displays for any event.",
+      "أثاث وكاونترات وعروض تناسب أي فعالية.",
+    ),
+  },
+  "installation-project-delivery": {
+    eyebrow: t("Nationwide Site Delivery", "تسليم مواقع على مستوى المملكة"),
+    headline: t(
+      "Specialist Installation & Project Delivery in {City}",
+      "تركيب وتسليم مشاريع متخصص في {City}",
+    ),
+    subheadline: t(
+      "From production floor to finished site, nationwide.",
+      "من أرضية الإنتاج إلى الموقع المكتمل، في أنحاء المملكة.",
+    ),
+  },
+};
+
 const slugify = (value: string) =>
   value
     .toLowerCase()

@@ -1,10 +1,6 @@
-import { Suspense } from "react";
-import { QuoteForm } from "@/components/forms/quote-form";
+import { ContactForm } from "@/components/forms/contact-form";
 import { Reveal } from "@/components/motion/reveal";
-import {
-  contactServiceOptions,
-  getQuoteFormCopy,
-} from "@/content/quote-form.copy";
+import { getContactFormCopy } from "@/content/contact-form.copy";
 import type { Locale } from "@/lib/i18n";
 
 type BriefFormSectionProps = {
@@ -12,12 +8,12 @@ type BriefFormSectionProps = {
   locale: Locale;
 };
 
-/** Shared project form (Blueprint Get a Quote) on inner pages. */
+/** Shared role-based contact form used on inner pages and `/contact`. */
 export function BriefFormSection({
   id = "brief",
   locale,
 }: BriefFormSectionProps) {
-  const copy = getQuoteFormCopy(locale, "contact");
+  const copy = getContactFormCopy(locale);
 
   return (
     <section id={id} className="section-pad brief-form-section scroll-mt-24">
@@ -31,16 +27,7 @@ export function BriefFormSection({
             </div>
 
             <div className="brief-form-shell">
-              <Suspense fallback={<div className="quote-form-loading" />}>
-                <QuoteForm
-                  locale={locale}
-                  copy={copy}
-                  options={contactServiceOptions[locale]}
-                  contextLabel="Inner page brief"
-                  requestType="contact"
-                  preferUrlItem={false}
-                />
-              </Suspense>
+              <ContactForm locale={locale} />
             </div>
           </div>
         </Reveal>
