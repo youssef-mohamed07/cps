@@ -289,7 +289,7 @@ export function ServiceArchitecturePage({
                   width={140}
                   height={48}
                   className="object-contain"
-                  unoptimized={logo.src.endsWith(".svg")}
+                  unoptimized
                 />
               </div>
             ))}
@@ -561,52 +561,77 @@ export function ServiceArchitecturePage({
       </section>
 
       <section className="service-industries">
-        <div className="site-container service-industries-grid">
-          <Reveal>
-            <div className="service-industries-head">
-              <p className="eyebrow">{ar ? "القطاعات" : "Industries"}</p>
-              <h2 className="display">
-                {industryTitle
-                  ? ar
-                    ? industryTitle.ar
-                    : industryTitle.en
-                  : ar
-                    ? `قطاعات نبني لها ${localizeText(service.title, locale)}`
-                    : `Sectors we build ${localizeText(service.title, locale).toLowerCase()} for`}
-              </h2>
-              <p className="service-industries-lead">
-                {ar
-                  ? "خبرات تصنيع متخصصة مصممة لتلبية متطلبات ومعايير كل قطاع بدقة."
-                  : "Tailored fabrication expertise engineered to meet specific industry standards and footprints."}
-              </p>
-            </div>
-          </Reveal>
-          <div className="service-industries-links">
-            {service.industries.map((entry, index) => (
-              <Reveal key={entry.en} delay={index * 0.03}>
+        <div className="site-container">
+          <div className="about-industries-shell service-industries-shell">
+            <div className="about-industries-intro service-industries-intro">
+              <Image
+                src={service.image}
+                alt={
+                  ar
+                    ? `مشاريع ${localizeText(service.title, locale)} لمختلف القطاعات`
+                    : `${localizeText(service.title, locale)} projects across industries`
+                }
+                fill
+                sizes="(max-width: 899px) 100vw, 38vw"
+                className="object-cover"
+              />
+
+              <Reveal className="about-industries-copy">
+                <p className="eyebrow eyebrow-on-dark">
+                  {ar ? "القطاعات" : "Industries"}
+                </p>
+                <h2 className="about-industries-title">
+                  {industryTitle
+                    ? ar
+                      ? industryTitle.ar
+                      : industryTitle.en
+                    : ar
+                      ? `قطاعات نبني لها ${localizeText(service.title, locale)}`
+                      : `Sectors we build ${localizeText(service.title, locale).toLowerCase()} for`}
+                </h2>
+                <p className="about-industries-support">
+                  {ar
+                    ? "خبرات تصنيع متخصصة مصممة لتلبية متطلبات ومعايير كل قطاع بدقة."
+                    : "Tailored fabrication expertise engineered to meet specific industry standards and footprints."}
+                </p>
                 <Link
-                  href={localizePath(
-                    `/our-work?service=${service.slug}&industry=${industrySlug(entry)}`,
-                    locale,
-                  )}
-                  className="service-industry-tile"
+                  href={`${localizePath("/our-work", locale)}?service=${encodeURIComponent(service.slug)}#work-filters`}
+                  className="about-industries-link"
                 >
-                  <span className="service-industry-tile-name">
-                    <span
-                      className="service-industry-tile-dot"
-                      aria-hidden="true"
-                    />
-                    {localizeText(entry, locale)}
-                  </span>
-                  <span
-                    className="service-industry-tile-arrow"
-                    aria-hidden="true"
-                  >
-                    <CtaArrow size="sm" />
-                  </span>
+                  <span>{ar ? "استعرض المشاريع" : "Explore industry work"}</span>
+                  <CtaArrow size="sm" />
                 </Link>
               </Reveal>
-            ))}
+
+              <div className="about-industries-count">
+                <strong>{service.industries.length}</strong>
+                <span>{ar ? "قطاعات نخدمها" : "sectors served"}</span>
+              </div>
+            </div>
+
+            <div
+              className="about-industries-list service-industries-list"
+              role="list"
+            >
+              {service.industries.map((entry, index) => (
+                <Reveal key={entry.en} delay={index * 0.035}>
+                  <Link
+                    href={localizePath(
+                      `/our-work?service=${service.slug}&industry=${industrySlug(entry)}#work-filters`,
+                      locale,
+                    )}
+                    className="about-industries-item"
+                    role="listitem"
+                  >
+                    <span className="about-industries-item-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{localizeText(entry, locale)}</h3>
+                    <span className="about-industries-item-mark" aria-hidden="true" />
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -100,7 +100,9 @@ Document-level i18n: each content doc has `language: en | ar`.
   hero media with seeded URL fallbacks.
 - Project and booth-type galleries can use uploaded images or URL fallbacks.
 - Project motion video accepts an upload or URL; an uploaded file wins.
-- Booth-type 3D models accept GLB/GLTF upload or URL; an uploaded model wins.
+- Booth-type 3D models accept GLB/GLTF upload or URL. Booth pages currently show
+  a bilingual production brief in place of the old procedural placeholder; the
+  source field remains available for the final approved model.
 - Site Settings controls the optional home hero poster/video.
 - Uploaded media is resolved from Sanity's image/file CDN; local URLs remain as a
   safe fallback when CMS media is incomplete.

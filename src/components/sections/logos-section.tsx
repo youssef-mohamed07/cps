@@ -51,7 +51,7 @@ export async function LogosSection({
                 height={56}
                 className="logos-image"
                 loading="lazy"
-                unoptimized={logo.src.endsWith(".svg")}
+                unoptimized
               />
             </li>
           ))}

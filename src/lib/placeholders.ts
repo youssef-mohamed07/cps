@@ -31,7 +31,6 @@ function isPlaceholderUrl(src: string): boolean {
 }
 
 export function isBrandAsset(src: string): boolean {
-  if (isRemoteUrl(src)) return isSanityCdnUrl(src);
   if (src.startsWith("/clients/")) return true;
   if (src.startsWith("/lang_switch/")) return true;
   return PUBLIC_BRAND_ASSETS.has(src);

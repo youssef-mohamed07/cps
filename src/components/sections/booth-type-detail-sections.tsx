@@ -138,7 +138,6 @@ export function BoothTypeDetailSections({
         locale={locale}
         title={boothLabel}
         variant={modelVariant}
-        modelUrl={boothType.model3d}
       />
 
       <BoothTypeCompareSection
