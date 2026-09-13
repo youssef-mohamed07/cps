@@ -420,6 +420,8 @@ async function seedProjects() {
         _type: "project",
         language: locale,
         status: "published",
+        projectCode: project.projectCode,
+        cloudinaryFolder: project.cloudinaryFolder,
         title: loc.title,
         slug: slugValue(project.slug),
         year: project.year,
@@ -431,6 +433,7 @@ async function seedProjects() {
         technologies: project.technologies ?? [],
         event: project.event,
         size: project.size,
+        clientName: project.clientName?.[locale],
         serviceSlug: project.serviceSlug,
         services: (project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : [])).map(
           (serviceSlug, i) => ({
@@ -847,6 +850,11 @@ async function main() {
   if (process.env.SANITY_SEED_ONLY === "testimonials") {
     await seedTestimonials();
     console.log("\nDone. Seeded testimonials only.");
+    return;
+  }
+  if (process.env.SANITY_SEED_ONLY === "projects") {
+    await seedProjects();
+    console.log("\nDone. Seeded projects only.");
     return;
   }
   await seedSettings();

@@ -74,6 +74,8 @@ export type CmsBoothType = CmsListItem & {
 };
 
 export type CmsProject = {
+  projectCode?: string;
+  cloudinaryFolder?: string;
   slug: string;
   title: string;
   year: string;
@@ -356,6 +358,8 @@ export function mapBoothType(doc: {
 }
 
 export function mapProject(doc: {
+  projectCode?: string;
+  cloudinaryFolder?: string;
   title?: string;
   slug?: string;
   year?: string;
@@ -385,6 +389,8 @@ export function mapProject(doc: {
     .map((item) => toImageSrc(item.image, item.imageUrl ?? ""))
     .filter(Boolean);
   return {
+    projectCode: doc.projectCode,
+    cloudinaryFolder: doc.cloudinaryFolder,
     slug: doc.slug,
     title: doc.title,
     year: doc.year ?? "",

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/motion/reveal";
 
 type ProjectMotionSectionProps = {
@@ -23,6 +23,21 @@ function uniqueImages(images: string[]) {
   });
 }
 
+function cloudinaryDeliveryUrl(src: string, transformation: string) {
+  try {
+    const url = new URL(src);
+    if (url.hostname !== "res.cloudinary.com") return src;
+
+    const version = url.pathname.match(/\/v\d+\//);
+    if (!version?.index) return src;
+
+    url.pathname = `${url.pathname.slice(0, version.index)}/${transformation}${url.pathname.slice(version.index)}`;
+    return url.toString();
+  } catch {
+    return src;
+  }
+}
+
 export function ProjectMotionSection({
   title,
   poster,
@@ -35,6 +50,15 @@ export function ProjectMotionSection({
   const frames = uniqueImages([poster, ...images]).slice(0, 5);
   const [active, setActive] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const optimizedPoster = cloudinaryDeliveryUrl(
+    poster,
+    "c_limit,w_1280/f_auto/q_auto",
+  );
+  const optimizedVideo = videoSrc
+    ? cloudinaryDeliveryUrl(videoSrc, "c_limit,w_1280/q_auto/f_auto")
+    : undefined;
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -54,6 +78,28 @@ export function ProjectMotionSection({
     return () => window.clearInterval(id);
   }, [frames.length, reduceMotion, videoSrc]);
 
+  useEffect(() => {
+    if (!videoSrc) return;
+
+    const video = videoRef.current;
+    if (!video || typeof IntersectionObserver === "undefined") {
+      setShouldLoadVideo(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadVideo(true);
+        observer.disconnect();
+      },
+      { rootMargin: "300px 0px" },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [videoSrc]);
+
   return (
     <section className="project-detail-motion">
       <div className="site-container">
@@ -69,14 +115,15 @@ export function ProjectMotionSection({
           <div className="project-detail-motion-stage">
             {videoSrc ? (
               <video
+                ref={videoRef}
                 className="project-detail-motion-video"
-                src={videoSrc}
-                poster={poster}
-                autoPlay
+                src={shouldLoadVideo ? optimizedVideo : undefined}
+                poster={optimizedPoster}
+                autoPlay={shouldLoadVideo}
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 aria-label={title}
               />
             ) : (

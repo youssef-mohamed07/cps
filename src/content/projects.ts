@@ -1,6 +1,9 @@
+import { cloudinaryProjects } from "@/content/cloudinary-projects";
 import { media } from "@/content/media";
 
 export type Project = {
+  projectCode?: string;
+  cloudinaryFolder?: string;
   slug: string;
   year: string;
   image: string;
@@ -16,6 +19,10 @@ export type Project = {
   size?: string;
   technologies?: string[];
   featured?: boolean;
+  clientName?: {
+    en: string;
+    ar: string;
+  };
   en: {
     title: string;
     category: string;
@@ -36,7 +43,7 @@ export type Project = {
   };
 };
 
-export const projects: Project[] = [
+export const demoProjects: Project[] = [
   {
     slug: "northline",
     year: "2025",
@@ -256,6 +263,12 @@ export const projects: Project[] = [
   },
 ];
 
+/** Production portfolio sourced from the CPS Cloudinary media library. */
+export const projects: Project[] = cloudinaryProjects;
+export const legacyDemoProjectSlugs = new Set(
+  demoProjects.map((project) => project.slug),
+);
+
 export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
 }
@@ -267,6 +280,7 @@ export function getLocalizedProject(project: Project, locale: "en" | "ar") {
     image: project.image,
     imageAlt: project.imageAlt,
     gallery: project.gallery,
+    clientName: project.clientName?.[locale],
     ...project[locale],
   };
 }

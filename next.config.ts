@@ -131,6 +131,16 @@ const nextConfig: NextConfig = {
         protocol: "https" as const,
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https" as const,
+        hostname: "res.cloudinary.com",
+        pathname: "/jivfgunl/image/upload/**",
+      },
+      {
+        protocol: "https" as const,
+        hostname: "res.cloudinary.com",
+        pathname: "/jivfgunl/video/upload/**",
+      },
     ],
   },
 };

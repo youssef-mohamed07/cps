@@ -98,7 +98,9 @@ Document-level i18n: each content doc has `language: en | ar`.
 
 - Services, booth types, projects, industries, locations, and news support uploaded
   hero media with seeded URL fallbacks.
-- Project and booth-type galleries can use uploaded images or URL fallbacks.
+- Project and booth-type galleries can use uploaded images or URL fallbacks. The
+  production project fallbacks point at the CPS Cloudinary library; see
+  [cloudinary.md](cloudinary.md).
 - Project motion video accepts an upload or URL; an uploaded file wins.
 - Booth-type 3D models accept GLB/GLTF upload or URL. Booth pages currently show
   a bilingual production brief in place of the old procedural placeholder; the
@@ -149,6 +151,13 @@ To refresh only testimonial documents from the bilingual local dictionary, run:
 
 ```bash
 SANITY_SEED_ONLY=testimonials npm run seed:sanity
+```
+
+To create or fill only the bilingual project documents from the Cloudinary-backed
+local manifest, run:
+
+```bash
+SANITY_SEED_ONLY=projects npm run seed:sanity
 ```
 
 Published `testimonial` documents are loaded into the existing client testimonial carousel by locale and ordered by `order`. If Sanity has no valid testimonials for a locale, the local dictionary entries remain the fallback. Publishing through Studio revalidates the shared `testimonial` tag and the locale-specific testimonial cache.

@@ -8,6 +8,7 @@ Start here if you are taking over the repo.
 4. [brand.md](brand.md) — logo, colors, fonts  
 5. [development.md](development.md) — extend homepage & UI  
 6. [sanity.md](sanity.md) — optional CMS  
-7. [blueprint-v5-audit.ar.md](blueprint-v5-audit.ar.md) — current Blueprint v5 implementation status
+7. [cloudinary.md](cloudinary.md) — production portfolio media and CMS flow
+8. [blueprint-v5-audit.ar.md](blueprint-v5-audit.ar.md) — current Blueprint v5 implementation status
 
 Agent conventions: [../AGENTS.md](../AGENTS.md)

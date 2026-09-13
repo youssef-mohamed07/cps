@@ -8,6 +8,18 @@ export const project = defineType({
   fields: [
     languageField,
     statusField,
+    defineField({
+      name: "projectCode",
+      type: "string",
+      title: "Project code",
+      description: "Stable CPS production code used to match the Cloudinary folder.",
+    }),
+    defineField({
+      name: "cloudinaryFolder",
+      type: "string",
+      title: "Cloudinary folder",
+      description: "Source asset folder in the Cloudinary media library.",
+    }),
     defineField({ name: "title", type: "string", title: "Title", validation: (Rule) => Rule.required() }),
     slugField,
     defineField({ name: "year", type: "string", title: "Year" }),
@@ -55,6 +67,12 @@ export const project = defineType({
     }),
     defineField({ name: "event", type: "string", title: "Event" }),
     defineField({ name: "size", type: "string", title: "Booth size" }),
+    defineField({
+      name: "clientName",
+      type: "string",
+      title: "Client name",
+      description: "Localized client label used when no Client reference is selected.",
+    }),
     defineField({
       name: "serviceSlug",
       type: "string",

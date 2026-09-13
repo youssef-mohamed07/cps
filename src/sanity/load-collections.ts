@@ -20,6 +20,7 @@ import {
 import {
   getLocalizedProject,
   getProject,
+  legacyDemoProjectSlugs,
   projects as localProjects,
   type Project,
 } from "@/content/projects";
@@ -123,6 +124,8 @@ function localBoothType(slug: string, locale: Locale): CmsBoothType | null {
 function localProject(project: Project, locale: Locale): CmsProject {
   const localized = getLocalizedProject(project, locale);
   return {
+    projectCode: project.projectCode,
+    cloudinaryFolder: project.cloudinaryFolder,
     slug: localized.slug,
     title: localized.title,
     year: localized.year,
@@ -144,7 +147,7 @@ function localProject(project: Project, locale: Locale): CmsProject {
     boothTypeSlug: project.boothTypeSlug,
     locationSlug: project.locationSlug,
     category: localized.category,
-    clientName: localized.title,
+    clientName: localized.clientName || localized.title,
     featured: project.featured,
   };
 }
@@ -289,7 +292,12 @@ export async function loadProjects(locale: Locale): Promise<CmsProject[]> {
 
   const mapped = (remote ?? [])
     .map((doc) => mapProject(doc as Parameters<typeof mapProject>[0]))
-    .filter((item): item is CmsProject => Boolean(item));
+    .filter((item): item is CmsProject => Boolean(item))
+    .filter(
+      (item) =>
+        !legacyDemoProjectSlugs.has(item.slug) ||
+        Boolean(item.projectCode || item.cloudinaryFolder),
+    );
 
   if (mapped.length) {
     const merged = mapped.map((item) => {
@@ -318,6 +326,12 @@ export async function loadProject(
 
   const mapped = mapProject(remote as Parameters<typeof mapProject>[0]);
   const project = getProject(slug);
+  const isLegacyDemo =
+    Boolean(mapped) &&
+    legacyDemoProjectSlugs.has(slug) &&
+    !mapped?.projectCode &&
+    !mapped?.cloudinaryFolder;
+  if (isLegacyDemo) return null;
   if (mapped) {
     const local = project ? localProject(project, locale) : null;
     return mergeProjectFallback(mapped, local);

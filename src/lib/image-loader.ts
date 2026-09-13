@@ -2,8 +2,29 @@ import type { ImageLoaderProps } from "next/image";
 import { isBrandAsset, placeholderUrl } from "@/lib/placeholders";
 
 const OPTIMIZED_HOSTS = new Set(["cdn.sanity.io", "images.unsplash.com"]);
+const CLOUDINARY_HOST = "res.cloudinary.com";
+const CLOUDINARY_PATH_PREFIXES = [
+  "/jivfgunl/image/upload/",
+  "/jivfgunl/video/upload/",
+] as const;
 
-export default function imageLoader({ src, width }: ImageLoaderProps): string {
+function cloudinaryImageUrl(url: URL, width: number, quality?: number): string {
+  if (
+    url.hostname !== CLOUDINARY_HOST ||
+    !CLOUDINARY_PATH_PREFIXES.some((prefix) => url.pathname.startsWith(prefix))
+  ) {
+    return "";
+  }
+
+  const version = url.pathname.match(/\/v\d+\//);
+  if (!version?.index) return "";
+
+  const transform = `c_limit,w_${width}/f_auto/q_${quality ?? "auto"}`;
+  url.pathname = `${url.pathname.slice(0, version.index)}/${transform}${url.pathname.slice(version.index)}`;
+  return url.toString();
+}
+
+export default function imageLoader({ src, width, quality }: ImageLoaderProps): string {
   if (isBrandAsset(src)) return src;
 
   const sourceWidth = width;
@@ -22,6 +43,9 @@ export default function imageLoader({ src, width }: ImageLoaderProps): string {
   }
 
   const url = new URL(src);
+  const cloudinaryUrl = cloudinaryImageUrl(url, width, quality);
+  if (cloudinaryUrl) return cloudinaryUrl;
+
   if (!OPTIMIZED_HOSTS.has(url.hostname)) {
     return placeholderUrl(sourceWidth, sourceHeight);
   }

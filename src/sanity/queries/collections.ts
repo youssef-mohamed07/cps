@@ -144,6 +144,8 @@ export const BOOTH_TYPE_BY_SLUG_QUERY = `*[_type == "boothType" && language == $
 }`;
 
 export const PROJECTS_QUERY = `*[_type == "project" && language == $locale && status != "archived"] | order(year desc, title asc) {
+  projectCode,
+  cloudinaryFolder,
   title,
   "slug": slug.current,
   year,
@@ -165,11 +167,13 @@ export const PROJECTS_QUERY = `*[_type == "project" && language == $locale && st
   "serviceSlugs": services[]->slug.current,
   "boothTypeSlug": boothType->slug.current,
   "locationSlug": location->slug.current,
-  "clientName": client->name,
+  "clientName": coalesce(client->name, clientName),
   seo${seoProjection}
 }`;
 
 export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && language == $locale && slug.current == $slug && status != "archived"][0] {
+  projectCode,
+  cloudinaryFolder,
   title,
   "slug": slug.current,
   year,
@@ -191,7 +195,7 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && language == $local
   "serviceSlugs": services[]->slug.current,
   "boothTypeSlug": boothType->slug.current,
   "locationSlug": location->slug.current,
-  "clientName": client->name,
+  "clientName": coalesce(client->name, clientName),
   seo${seoProjection}
 }`;
 

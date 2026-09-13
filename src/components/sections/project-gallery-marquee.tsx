@@ -5,59 +5,38 @@ type ProjectGalleryMarqueeProps = {
   title: string;
 };
 
-function GalleryRow({
-  images,
-  title,
-  direction,
-}: {
-  images: string[];
-  title: string;
-  direction: "right" | "left";
-}) {
-  const track = [...images, ...images];
-
-  return (
-    <div
-      className={`project-detail-gallery-marquee project-detail-gallery-marquee--${direction}`}
-      role="presentation"
-    >
-      <div className="project-detail-gallery-track">
-        {track.map((src, index) => (
-          <figure
-            key={`${direction}-${src}-${index}`}
-            className="project-detail-gallery-slide"
-            aria-hidden={index >= images.length ? true : undefined}
-          >
-            <Image
-              src={src}
-              alt={
-                index >= images.length
-                  ? ""
-                  : `${title} ${String((index % images.length) + 1).padStart(2, "0")}`
-              }
-              fill
-              sizes="320px"
-              className="object-cover"
-            />
-          </figure>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function ProjectGalleryMarquee({
   images,
   title,
 }: ProjectGalleryMarqueeProps) {
-  const rowTop = images.filter((_, index) => index % 2 === 0);
-  const rowBottom = images.filter((_, index) => index % 2 === 1);
-  const bottom = rowBottom.length ? rowBottom : rowTop;
-
   return (
-    <div className="project-detail-gallery-rows">
-      <GalleryRow images={rowTop} title={title} direction="right" />
-      <GalleryRow images={bottom} title={title} direction="left" />
+    <div
+      className="project-detail-gallery-grid site-container"
+      data-count={Math.min(images.length, 3)}
+    >
+      {images.map((src, index) => {
+        const isFeature = images.length === 1 || (images.length >= 3 && index === 0);
+
+        return (
+          <figure className="project-detail-gallery-item" key={src}>
+            <Image
+              src={src}
+              alt={`${title} ${String(index + 1).padStart(2, "0")}`}
+              fill
+              loading={index < 4 ? "eager" : "lazy"}
+              sizes={
+                isFeature
+                  ? "(min-width: 1180px) 1180px, calc(100vw - 3rem)"
+                  : "(min-width: 1180px) 580px, (min-width: 640px) calc(50vw - 2rem), calc(100vw - 1.5rem)"
+              }
+              className="object-cover"
+            />
+            <figcaption aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </figcaption>
+          </figure>
+        );
+      })}
     </div>
   );
 }
