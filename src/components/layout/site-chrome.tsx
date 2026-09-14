@@ -62,7 +62,6 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
         }))}
         workLinks={[
           { label: locale === "ar" ? "أعمالنا" : "Our Work", href: "/our-work" },
-          { label: locale === "ar" ? "دراسات الحالة حسب القطاع" : "Case Studies by Industry", href: "/our-work#work-filters" },
         ]}
       />
     </div>
