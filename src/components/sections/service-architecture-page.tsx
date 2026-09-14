@@ -21,6 +21,7 @@ import {
   type ServiceArchitecture,
 } from "@/content/service-architecture";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { locationServicePath } from "@/lib/locations";
 import type { Dictionary } from "@/content/dictionaries.local";
 import type { CmsProject } from "@/sanity/transformers/collections";
 
@@ -134,11 +135,25 @@ export function ServiceArchitecturePage({
   service,
   projects,
   projectLaunch,
+  marketName: marketNameOverride,
+  heroHeadline,
+  heroLead,
+  heroEyebrow,
+  image: imageOverride,
+  locationSlug,
+  faqItems,
 }: {
   locale: Locale;
   service: ServiceArchitecture;
   projects: CmsProject[];
   projectLaunch: Dictionary["projectLaunch"];
+  marketName?: string;
+  heroHeadline?: string;
+  heroLead?: string;
+  heroEyebrow?: string;
+  image?: string;
+  locationSlug?: string;
+  faqItems?: { question: string; answer: string }[];
 }) {
   const ar = locale === "ar";
   const quoteForm = getQuoteFormCopy(
@@ -162,23 +177,30 @@ export function ServiceArchitecturePage({
   const filteredProjects = projects
     .filter(
       (project) =>
-        project.serviceSlug === service.slug ||
-        project.serviceSlugs?.includes(service.slug),
+        (project.serviceSlug === service.slug ||
+          project.serviceSlugs?.includes(service.slug)) &&
+        (!locationSlug || project.locationSlug === locationSlug),
     )
     .slice(0, 3);
   const industryTitle = industriesHeadline[service.slug];
   const projectTitle = projectsHeadline[service.slug];
   const projectCta = projectsCta[service.slug];
-  const allProjectsHref = `/our-work?service=${service.slug}`;
+  const allProjectsHref = `/our-work?service=${service.slug}${locationSlug ? `&country=${locationSlug}` : ""}`;
   const serviceNumber = String(
     serviceArchitecture.findIndex((entry) => entry.slug === service.slug) + 1,
   ).padStart(2, "0");
   const landingHero = serviceLandingHeroes[service.slug];
-  const marketName = ar ? "السعودية" : "Saudi Arabia";
-  const landingHeadline = localizeText(landingHero.headline, locale).replace(
+  const marketName = marketNameOverride ?? (ar ? "السعودية" : "Saudi Arabia");
+  const landingHeadline = heroHeadline ?? localizeText(landingHero.headline, locale).replace(
     "{City}",
     marketName,
   );
+  const landingLead = heroLead ?? localizeText(landingHero.subheadline, locale);
+  const displayImage = imageOverride || service.image;
+  const resolvedFaq = faqItems ?? service.faq.map((entry) => ({
+    question: localizeText(entry.question, locale),
+    answer: localizeText(entry.answer, locale),
+  }));
 
   return (
     <>
@@ -191,12 +213,12 @@ export function ServiceArchitecturePage({
               {localizeText(service.title, locale)}
             </p>
             <p className="eyebrow eyebrow-on-dark">
-              {localizeText(landingHero.eyebrow, locale)}
+              {heroEyebrow || localizeText(landingHero.eyebrow, locale)}
             </p>
           </div>
           <h1>{landingHeadline}</h1>
           <p className="service-architecture-hero-lead">
-            {localizeText(landingHero.subheadline, locale)}
+            {landingLead}
           </p>
           <div className="service-architecture-hero-actions">
             <Link href="#quote" className="hero-cta">
@@ -277,7 +299,7 @@ export function ServiceArchitecturePage({
           <Reveal delay={0.1}>
             <div className="service-architecture-overview-media">
               <Image
-                src={service.image}
+                src={displayImage}
                 alt={localizeText(service.title, locale)}
                 fill
                 priority
@@ -567,7 +589,7 @@ export function ServiceArchitecturePage({
           <div className="about-industries-shell service-industries-shell">
             <div className="about-industries-intro service-industries-intro">
               <Image
-                src={service.image}
+                src={displayImage}
                 alt={
                   ar
                     ? `مشاريع ${localizeText(service.title, locale)} لمختلف القطاعات`
@@ -706,10 +728,7 @@ export function ServiceArchitecturePage({
             ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
             : "Straight answers on timelines, scope, and delivery — before you start."
         }
-        items={service.faq.map((entry) => ({
-          question: localizeText(entry.question, locale),
-          answer: localizeText(entry.answer, locale),
-        }))}
+        items={resolvedFaq}
         className="service-faq"
       />
 
@@ -726,7 +745,7 @@ export function ServiceArchitecturePage({
                 locale={locale}
                 copy={quoteForm}
                 options={catalogueOptions}
-                contextLabel={`${localizeText(service.title, locale)} (${service.slug})`}
+                contextLabel={`${localizeText(service.title, locale)}${marketNameOverride ? ` — ${marketNameOverride}` : ""} (${service.slug})`}
                 requestType={
                   service.slug === "installation-project-delivery"
                     ? "service-add-on"
@@ -756,7 +775,12 @@ export function ServiceArchitecturePage({
               {related.map((entry, index) => (
                 <Reveal key={entry.slug} delay={index * 0.04}>
                   <Link
-                    href={localizePath(servicePath(entry.slug), locale)}
+                    href={localizePath(
+                      locationSlug
+                        ? locationServicePath(entry.slug, locationSlug)
+                        : servicePath(entry.slug),
+                      locale,
+                    )}
                     className="service-related-card"
                   >
                     <div className="service-related-card-media">
