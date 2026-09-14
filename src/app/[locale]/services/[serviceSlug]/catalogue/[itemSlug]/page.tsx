@@ -172,7 +172,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                   <div className="catalogue-related-media">
                     <Image
                       src={service.image}
-                      alt=""
+                      alt={localizeText(entry.title, locale)}
                       fill
                       sizes="(max-width: 700px) 100vw, 33vw"
                       className="object-cover"
