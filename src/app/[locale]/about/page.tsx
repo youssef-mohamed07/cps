@@ -39,6 +39,10 @@ export default async function AboutPage({ params }: PageProps) {
   const dictionary = await resolveDictionary(locale);
   const page = dictionary.aboutPage;
   const heroImage = await loadAboutHeroImage(locale);
+  const heroImageSrc = heroImage.src || media.about.hero;
+  const heroImageAlt =
+    heroImage.alt ||
+    (locale === "ar" ? "فريق CPS في ورشة التصنيع" : "CPS team in the fabrication workshop");
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
   const faq = faqJsonLd(page.faqItems);
 
@@ -58,8 +62,6 @@ export default async function AboutPage({ params }: PageProps) {
             eyebrow={page.eyebrow}
             title={page.title}
             lead={page.lead}
-            image={heroImage.src || media.about.hero}
-            imageAlt={heroImage.alt || (locale === "ar" ? "فريق CPS في ورشة التصنيع" : "CPS team in the fabrication workshop")}
             cta={{
               label: dictionary.nav.cta,
               href: "#about-brief",
@@ -67,7 +69,12 @@ export default async function AboutPage({ params }: PageProps) {
           />
         </div>
 
-        <AboutPageSections locale={locale} page={page} />
+        <AboutPageSections
+          locale={locale}
+          page={page}
+          storyImage={heroImageSrc}
+          storyImageAlt={heroImageAlt}
+        />
 
         <InnerPageEngagement
           locale={locale}

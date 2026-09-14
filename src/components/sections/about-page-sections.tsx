@@ -12,9 +12,16 @@ import { localizePath, type Locale } from "@/lib/i18n";
 type AboutPageSectionsProps = {
   locale: Locale;
   page: Dictionary["aboutPage"];
+  storyImage?: string;
+  storyImageAlt?: string;
 };
 
-export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
+export function AboutPageSections({
+  locale,
+  page,
+  storyImage,
+  storyImageAlt,
+}: AboutPageSectionsProps) {
   const isArabic = locale === "ar";
 
   return (
@@ -24,8 +31,8 @@ export function AboutPageSections({ locale, page }: AboutPageSectionsProps) {
           <Reveal delay={0.06} className="about-story-visual-wrap">
             <div className="about-story-visual">
               <Image
-                src={page.storyImage || media.about.studio}
-                alt={page.storyImageAlt || ""}
+                src={storyImage || page.storyImage || media.about.studio}
+                alt={storyImageAlt || page.storyImageAlt || ""}
                 fill
                 sizes="(max-width: 899px) 100vw, 70vw"
                 className="object-cover"
