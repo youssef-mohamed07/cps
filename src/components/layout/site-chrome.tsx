@@ -8,7 +8,7 @@ import { resolveDictionary } from "@/lib/dictionary";
 import { resolveFooter } from "@/lib/footer";
 import { resolveNavigation } from "@/lib/navigation";
 import { localizeText, serviceArchitecture, servicePath } from "@/content/service-architecture";
-import { getSiteLogo } from "@/lib/site-assets";
+import { getSiteIcon, getSiteLogo } from "@/lib/site-assets";
 import { getSiteConfig } from "@/lib/site-config";
 
 type SiteChromeProps = {
@@ -30,6 +30,7 @@ export async function SiteChrome({ locale, children }: SiteChromeProps) {
       <SiteHeader
         locale={locale}
         navigation={navigation}
+        brandIcon={getSiteIcon()}
         brandLogo={getSiteLogo()}
         portfolio={siteConfig.portfolio}
       />

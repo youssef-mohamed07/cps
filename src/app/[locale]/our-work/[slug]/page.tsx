@@ -178,6 +178,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
       <Breadcrumbs
         locale={locale}
+        compactOnMobile
         items={[
           { label: homeLabel, href: "/" },
           { label: dictionary.workPage.title, href: "/our-work" },

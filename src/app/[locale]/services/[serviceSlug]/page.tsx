@@ -39,7 +39,6 @@ export default async function ServicePage({ params }: PageProps) {
   const service = localService
     ? {
         ...localService,
-        ...(cmsService?.image ? { image: cmsService.image } : {}),
         ...(cmsCopyReady && cmsService?.title
           ? { title: { ...localService.title, [locale]: cmsService.title } }
           : {}),

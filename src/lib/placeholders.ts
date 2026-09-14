@@ -6,6 +6,7 @@
 /** Assets confirmed present under `public/`. */
 const PUBLIC_BRAND_ASSETS = new Set([
   "/logo.png",
+  "/icon.png",
   "/favicon.ico",
   "/clients/almarai.svg",
   "/clients/hikma.svg",

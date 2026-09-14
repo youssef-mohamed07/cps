@@ -74,13 +74,19 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
         }}
       />
       <div className="production-page-flow">
-        <ProductionCapabilitiesSection locale={locale} standalone />
+        <ProductionCapabilitiesSection
+          locale={locale}
+          standalone
+          image={media.services.fabrication}
+        />
         <ProductionReassuranceBand locale={locale} />
         <WorkshopSection
           locale={locale}
           page={dictionary.aboutPage}
           id="production-workshop"
           className="production-workshop"
+          image={media.about.build}
+          imageAlt={ar ? "ورشة وإنتاج CPS" : "CPS workshop and production"}
         />
         <CapabilityExplainerSection locale={locale} />
         <BeforeAfterSection

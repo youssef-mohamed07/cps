@@ -270,7 +270,7 @@ export const sharedProcess = [
 export const serviceArchitecture: ServiceArchitecture[] = [
   {
     slug: "exhibitions-booths",
-    image: media.boothTypes.custom,
+    image: media.services.exhibitions,
     title: t("Exhibitions & Booths", "المعارض والأجنحة"),
     excerpt: t(
       "Custom exhibition environments, modular solutions and large-scale pavilions.",
@@ -346,7 +346,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
   },
   {
     slug: "event-fabrication",
-    image: media.boothTypes.outdoor,
+    image: media.services.events,
     title: t("Event Fabrication", "تصنيع وتجهيز الفعاليات"),
     excerpt: t("Stages, scenic structures, branded environments and experiential builds.", "منصات وهياكل مشهدية وبيئات تحمل الهوية وتجارب تفاعلية."),
     showcase: {
@@ -402,7 +402,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
   },
   {
     slug: "fit-out-interiors",
-    image: media.about.studio,
+    image: media.services.fitOut,
     title: t("Fit-Out & Interiors", "التجهيزات الداخلية"),
     excerpt: t("Commercial interiors, offices, showrooms, retail and branded spaces.", "مساحات تجارية ومكاتب وصالات عرض ومتاجر وبيئات تحمل الهوية."),
     showcase: {
@@ -448,7 +448,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
   },
   {
     slug: "retail-displays",
-    image: media.boothTypes.kiosk,
+    image: media.services.retail,
     title: t("Retail Displays", "عروض ونقاط البيع"),
     excerpt: t("Gondolas, product displays, POS/POP units, kiosks and window displays.", "جندولات وحوامل منتجات ووحدات نقاط بيع وأكشاك وواجهات عرض."),
     showcase: {
@@ -542,7 +542,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
   },
   {
     slug: "printing-signage",
-    image: media.services.branding,
+    image: media.services.printing,
     title: t("Printing & Signage", "الطباعة واللافتات"),
     excerpt: t("Large-format graphics, environmental branding and signage systems.", "رسومات كبيرة وهوية بيئية وأنظمة لافتات."),
     showcase: {
@@ -592,7 +592,7 @@ export const serviceArchitecture: ServiceArchitecture[] = [
   },
   {
     slug: "rental-solutions",
-    image: media.services.storage,
+    image: media.services.rental,
     title: t("Rental Solutions", "حلول التأجير"),
     excerpt: t("Reusable event, exhibition and display assets.", "أصول قابلة لإعادة الاستخدام للفعاليات والمعارض والعرض."),
     showcase: {

@@ -32,14 +32,16 @@ export function ProductionCapabilitiesSection({
   locale,
   compact = false,
   standalone = false,
+  image,
 }: {
   locale: Locale;
   compact?: boolean;
   standalone?: boolean;
+  image?: string;
 }) {
   const ar = locale === "ar";
   const items = compact ? productionCapabilitiesHighlight : productionCapabilities;
-  const productionImage = getSiteConfig().productionImage || media.about.studio;
+  const productionImage = image || getSiteConfig().productionImage || media.about.studio;
 
   return (
     <section

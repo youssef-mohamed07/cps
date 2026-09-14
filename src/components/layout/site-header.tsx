@@ -18,6 +18,7 @@ import { localizePath, switchLocalePath, type Locale } from "@/lib/i18n";
 type SiteHeaderProps = {
   locale: Locale;
   navigation: NavigationConfig;
+  brandIcon: string;
   brandLogo: string;
   portfolio?: {
     enabled: boolean;
@@ -51,6 +52,7 @@ function getScrollY() {
 export function SiteHeader({
   locale,
   navigation,
+  brandIcon,
   brandLogo,
   portfolio,
 }: SiteHeaderProps) {
@@ -336,7 +338,16 @@ export function SiteHeader({
                 width={184}
                 height={65}
                 priority
-                className="site-brand-logo"
+                className="site-brand-logo site-brand-logo--full"
+              />
+              <Image
+                src={brandIcon}
+                alt=""
+                width={512}
+                height={512}
+                priority
+                unoptimized
+                className="site-brand-logo site-brand-logo--icon"
               />
             </Link>
 

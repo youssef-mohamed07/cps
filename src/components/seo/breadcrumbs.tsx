@@ -9,13 +9,17 @@ import {
 type BreadcrumbsProps = {
   locale: Locale;
   items: BreadcrumbItem[];
+  compactOnMobile?: boolean;
 };
 
-export function Breadcrumbs({ locale, items }: BreadcrumbsProps) {
+export function Breadcrumbs({ locale, items, compactOnMobile = false }: BreadcrumbsProps) {
   return (
     <>
       <JsonLd data={breadcrumbsJsonLd(items, locale)} />
-      <nav aria-label="Breadcrumb" className="page-breadcrumbs">
+      <nav
+        aria-label="Breadcrumb"
+        className={`page-breadcrumbs${compactOnMobile ? " page-breadcrumbs--compact-mobile" : ""}`}
+      >
         <div className="site-container">
           <ol className="page-breadcrumbs-list">
             {items.map((item, index) => {

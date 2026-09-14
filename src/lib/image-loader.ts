@@ -8,6 +8,20 @@ const CLOUDINARY_PATH_PREFIXES = [
   "/jivfgunl/video/upload/",
 ] as const;
 
+function optimizedRemoteImageUrl(
+  url: URL,
+  width: number,
+  quality?: number,
+): string {
+  if (!OPTIMIZED_HOSTS.has(url.hostname)) return "";
+
+  url.searchParams.set("w", String(width));
+  url.searchParams.set("q", String(quality ?? 85));
+  url.searchParams.set("auto", "format");
+  if (!url.searchParams.has("fit")) url.searchParams.set("fit", "max");
+  return url.toString();
+}
+
 function cloudinaryImageUrl(url: URL, width: number, quality?: number): string {
   if (
     url.hostname !== CLOUDINARY_HOST ||
@@ -46,9 +60,8 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
   const cloudinaryUrl = cloudinaryImageUrl(url, width, quality);
   if (cloudinaryUrl) return cloudinaryUrl;
 
-  if (!OPTIMIZED_HOSTS.has(url.hostname)) {
-    return placeholderUrl(sourceWidth, sourceHeight);
-  }
+  const optimizedRemoteUrl = optimizedRemoteImageUrl(url, width, quality);
+  if (optimizedRemoteUrl) return optimizedRemoteUrl;
 
   return placeholderUrl(sourceWidth, sourceHeight);
 }

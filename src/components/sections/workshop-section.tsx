@@ -9,6 +9,8 @@ type WorkshopSectionProps = {
   page: Dictionary["aboutPage"];
   id?: string;
   className?: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 export function WorkshopSection({
@@ -16,6 +18,8 @@ export function WorkshopSection({
   page,
   id = "workshop",
   className = "",
+  image,
+  imageAlt,
 }: WorkshopSectionProps) {
   const isArabic = locale === "ar";
 
@@ -37,8 +41,8 @@ export function WorkshopSection({
           <Reveal delay={0.06}>
             <div className="about-workshop-media">
               <Image
-                src={page.studioImage || media.about.studio}
-                alt={page.studioImageAlt || ""}
+                src={image || page.studioImage || media.about.studio}
+                alt={imageAlt || page.studioImageAlt || ""}
                 fill
                 sizes="(max-width: 899px) 100vw, 48vw"
                 className="object-cover"

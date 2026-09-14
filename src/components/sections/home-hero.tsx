@@ -3,7 +3,12 @@ import Link from "next/link";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { media } from "@/content/media";
 import { localizePath, type Locale } from "@/lib/i18n";
-import { getSiteHeroPoster, getSiteHeroVideo, getSiteLogo } from "@/lib/site-assets";
+import {
+  getSiteHeroPoster,
+  getSiteHeroVideo,
+  getSiteIcon,
+  getSiteLogo,
+} from "@/lib/site-assets";
 import { getSiteConfig } from "@/lib/site-config";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
@@ -97,18 +102,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
   const heroVideo = getSiteHeroVideo();
   const heroPoster = getSiteHeroPoster();
   const floatingImages = getSiteConfig().homeFloatingImages ?? [];
-  const fallbackImages = [
-    media.services.design,
-    media.boothTypes.custom,
-    media.boothTypes.pavilion,
-    media.services.fabrication,
-    media.services.installation,
-    media.services.lightbox,
-    media.boothTypes.modular,
-    media.boothTypes.outdoor,
-    media.boothTypes.kiosk,
-    media.services.branding,
-  ];
+  const fallbackImages = media.homeFloating;
   const image = (index: number) => floatingImages[index] || fallbackImages[index];
 
   return (
@@ -160,7 +154,15 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
             }
             width={380}
             height={135}
-            className="home-hero-logo"
+            className="home-hero-logo home-hero-logo--full"
+          />
+          <Image
+            src={getSiteIcon()}
+            alt=""
+            width={512}
+            height={512}
+            unoptimized
+            className="home-hero-logo home-hero-logo--icon"
           />
           <HeroCityRotator locale={locale} template={content.badge} />
           <h1 className="home-hero-headline">
