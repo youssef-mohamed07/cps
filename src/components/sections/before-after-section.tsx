@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content/dictionaries.local";
 import { Reveal } from "@/components/motion/reveal";
 
 const DIVIDER_POSITION = 50;
-const MARQUEE_LOOPS = 2;
+const MARQUEE_LOOPS = 4;
 
 type BeforeAfterSectionProps = {
   content: Dictionary["beforeAfter"];
@@ -57,8 +58,12 @@ function MarqueeTrack({
   items: string[];
   variant: "before" | "after";
 }) {
+  const loopStyle = {
+    "--ba-marquee-shift": `${-100 / MARQUEE_LOOPS}%`,
+  } as CSSProperties;
+
   return (
-    <div className="ba-marquee-scroll">
+    <div className="ba-marquee-scroll" style={loopStyle}>
       {Array.from({ length: MARQUEE_LOOPS }, (_, loopIndex) => (
         <div
           key={`${variant}-${loopIndex}`}

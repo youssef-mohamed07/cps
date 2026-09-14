@@ -13768,7 +13768,7 @@ button:hover .cta-arrow {
 
 @keyframes ba-marquee-flow {
   from {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(var(--ba-marquee-shift), 0, 0);
   }
   to {
     transform: translate3d(0, 0, 0);
