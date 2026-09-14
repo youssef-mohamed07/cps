@@ -6,7 +6,6 @@ import {
   loadProjects,
 } from "@/sanity/load-collections";
 import { serviceArchitecture } from "@/content/service-architecture";
-import { locations } from "@/content/catalog";
 
 const staticPaths = [
   "/",
@@ -68,12 +67,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...serviceArchitecture.flatMap((service) => [
       ...entry(`/services/${service.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
       ...entry(`/services/${service.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
-      ...locations.flatMap((location) =>
-        entry(`/locations/${location.slug}/services/${service.slug}`, {
-          changeFrequency: "monthly",
-          priority: 0.7,
-        }),
-      ),
+      // Location x service landing pages stay reachable via internal links and
+      // redirects, but are intentionally excluded from the sitemap: they are
+      // templated variants of the canonical /services/[slug] page, and pushing
+      // dozens of near-duplicate city variants risks thin/doorway-content
+      // signals. See docs/architecture.md "SEO" section.
       ...service.catalogue.categories.flatMap((category) =>
         category.items.flatMap((item) =>
           entry(`/services/${service.slug}/catalogue/${item.slug}`, {

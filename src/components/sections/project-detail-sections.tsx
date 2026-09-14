@@ -57,6 +57,10 @@ function uniqueImages(images: string[]) {
   });
 }
 
+const projectsWithoutMotionSection = new Set([
+  "riyad-bank-al-hilal-activations-2025-2026",
+]);
+
 export function ProjectDetailSections({
   locale,
   project,
@@ -161,19 +165,21 @@ export function ProjectDetailSections({
         </section>
       ) : null}
 
-      <ProjectMotionSection
-        title={project.title}
-        poster={project.image}
-        images={project.gallery}
-        videoSrc={project.motionVideo}
-        eyebrow={isArabic ? "موشن" : "Motion"}
-        heading={isArabic ? "شاهد المشروع يتحرّك." : "See the project in motion."}
-        support={
-          isArabic
-            ? "لقطة من التنفيذ والموقع النهائي."
-            : "A cinematic cut from fabrication through final install."
-        }
-      />
+      {!projectsWithoutMotionSection.has(project.slug) ? (
+        <ProjectMotionSection
+          title={project.title}
+          poster={project.image}
+          images={project.gallery}
+          videoSrc={project.motionVideo}
+          eyebrow={isArabic ? "موشن" : "Motion"}
+          heading={isArabic ? "شاهد المشروع يتحرّك." : "See the project in motion."}
+          support={
+            isArabic
+              ? "لقطة من التنفيذ والموقع النهائي."
+              : "A cinematic cut from fabrication through final install."
+          }
+        />
+      ) : null}
 
       {story.length ? (
         <section className="project-detail-story">

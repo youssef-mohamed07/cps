@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/sections/page-hero";
 import { ContactPageSections } from "@/components/sections/contact-page-sections";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd, localBusinessJsonLd } from "@/components/seo/json-ld";
 import { media } from "@/content/media";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -43,6 +44,7 @@ export default async function ContactPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={localBusinessJsonLd()} />
       <Breadcrumbs
         locale={locale}
         items={[

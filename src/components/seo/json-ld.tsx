@@ -105,6 +105,27 @@ export function creativeWorkJsonLd(input: {
   };
 }
 
+export function localBusinessJsonLd() {
+  const config = getSiteConfig();
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: config.name,
+    legalName: config.legalName,
+    url: config.url,
+    email: config.email,
+    telephone: config.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: config.address.city,
+      addressCountry: config.address.country,
+    },
+    sameAs: [config.social.instagram, config.social.linkedin, config.social.x].filter(
+      Boolean,
+    ),
+  };
+}
+
 export function faqJsonLd(items: { question: string; answer: string }[]) {
   if (!items.length) return null;
   return {

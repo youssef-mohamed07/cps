@@ -87,8 +87,8 @@ export function buildMetadata({
   const ogImageUrl = resolvedOgImage.startsWith("http")
     ? resolvedOgImage
     : getSiteUrl(resolvedOgImage);
-  const ogLocale = locale === "ar" ? "ar_SA" : "en_SA";
-  const alternateLocale = locale === "ar" ? "en_SA" : "ar_SA";
+  const ogLocale = locale === "ar" ? "ar_SA" : "en_US";
+  const alternateLocale = locale === "ar" ? "en_US" : "ar_SA";
 
   return {
     metadataBase: new URL(config.url),
@@ -182,14 +182,14 @@ export function organizationJsonLd() {
   };
 }
 
-export function webSiteJsonLd() {
+export function webSiteJsonLd(locale: Locale = defaultLocale) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: getSiteConfig().name,
     url: getSiteConfig().url,
     description: getSiteConfig().description,
-    inLanguage: "en",
+    inLanguage: locale,
     publisher: { "@type": "Organization", name: getSiteConfig().name },
   };
 }

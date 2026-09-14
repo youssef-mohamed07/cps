@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import { ServiceArchitecturePage } from "@/components/sections/service-architecture-page";
 import { getServiceArchitecture, localizeText, serviceArchitecture } from "@/content/service-architecture";
 import { buildPageMetadata } from "@/lib/cms-seo";
@@ -37,5 +38,19 @@ export default async function ServicePage({ params }: PageProps) {
   const service = resolveServiceArchitecture(locale, localService, cmsService);
   if (!service) notFound();
   const projects = await loadProjects(locale);
-  return <><Breadcrumbs locale={locale} items={[{ label: locale === "ar" ? "الرئيسية" : "Home", href: "/" }, { label: locale === "ar" ? "الخدمات" : "Services", href: "/services" }, { label: localizeText(service.title, locale) }]} /><ServiceArchitecturePage locale={locale} service={service} projects={projects} projectLaunch={projectLaunch} /></>;
+  return (
+    <>
+      <JsonLd
+        data={serviceJsonLd({
+          name: localizeText(service.title, locale),
+          description: localizeText(service.excerpt, locale),
+          path: `/services/${serviceSlug}`,
+          locale,
+          image: service.image,
+        })}
+      />
+      <Breadcrumbs locale={locale} items={[{ label: locale === "ar" ? "الرئيسية" : "Home", href: "/" }, { label: locale === "ar" ? "الخدمات" : "Services", href: "/services" }, { label: localizeText(service.title, locale) }]} />
+      <ServiceArchitecturePage locale={locale} service={service} projects={projects} projectLaunch={projectLaunch} />
+    </>
+  );
 }
