@@ -12,9 +12,10 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/[locale]` | Homepage | Positioning + eight services + production capabilities + featured work + Why CPS + CTA |
 | `/[locale]/about` | About page | Single page with anchors (`#overview` `#mission` `#why-us` `#process` `#team` `#certifications` `#clients` `#faq`) |
 | `/[locale]/services` | Services hub | Eight service families |
-| `/[locale]/services/[serviceSlug]` | Long-form service page | Branded service/market hero, split narrative + portrait image, trusted brands, showcase, why, process, benefits, industries, related services, projects, FAQ, quote form, CTA |
+| `/[locale]/services/[serviceSlug]` | Long-form service page | Hero, trusted brands, overview, catalogue showcase, benefits, Why CPS, process, production link, industries, projects, FAQ, quote form, related services, closing CTA |
 | `/[locale]/services/[serviceSlug]/catalogue` | Service catalogue | Full item grid; category tabs where needed; search for Printing & Signage |
-| `/[locale]/production-capabilities` | Production page | Manufacturing disciplines separate from customer-facing services |
+| `/[locale]/services/[serviceSlug]/catalogue/[itemSlug]` | Catalogue item detail | Product-style detail view with item summary, CPS benefits, availability, contact and quote actions, and related items |
+| `/[locale]/production-capabilities` | Production page | Hero, ten manufacturing disciplines, reassurance band, shared workshop/team proof, services-vs-capabilities explainer, before/after proof, and closing CTA |
 | `/[locale]/work` | Work index | Independent service and industry filters |
 | `/[locale]/work/[slug]` | Project detail | Client / sector, project type, location, scope of work, services, challenge, CPS solution, production elements and gallery; CMS + `projects.ts` fallback |
 | `/[locale]/industries` | Legacy redirect | Redirects to filtered Projects / Work |
@@ -77,8 +78,8 @@ Sanity collections + singletons (optional) ─────────┘
 - Project detail facts use a compact summary row, followed by a separate two-column scope/services panel. Service tags normalize known service slugs and remove duplicate labels; narrow screens stack the delivery panel while keeping summary facts in two columns.
 
 - `SiteChrome` resolves `navigation` + `siteFooter` and renders mega-menu `SiteHeader` + premium `SiteFooter`
-- The shared `PageHero` renders the moving client-logo strip immediately after the hero. The home page adds the same strip after `HomeHero`; the eight canonical service-detail pages intentionally omit it.
-- `ProjectLaunchSection` is the shared closing conversion panel on home, production capabilities, and service-detail pages; it replaces the former full-width navy CTA strip and suppresses the duplicate footer CTA on those pages.
+- The moving client-logo strip appears only on the homepage, immediately after `HomeHero`; shared inner-page heroes do not render it.
+- `ProjectLaunchSection` is the shared closing conversion panel on production capabilities and service-detail pages; the homepage ends its main content with the brief form before the global FAQ.
 - Footer services come from the eight-service architecture; the former secondary collection slot now renders the Work links required by the blueprint
 - Local seeds: `src/content/navigation.ts`, `src/content/footer.ts`
 

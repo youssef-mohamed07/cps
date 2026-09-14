@@ -18,7 +18,7 @@ import { localizePath, switchLocalePath, type Locale } from "@/lib/i18n";
 type SiteHeaderProps = {
   locale: Locale;
   navigation: NavigationConfig;
-  brandIcon: string;
+  brandLogo: string;
   portfolio?: {
     enabled: boolean;
     labelEn: string;
@@ -51,7 +51,7 @@ function getScrollY() {
 export function SiteHeader({
   locale,
   navigation,
-  brandIcon,
+  brandLogo,
   portfolio,
 }: SiteHeaderProps) {
   const pathname = usePathname() || `/${locale}`;
@@ -331,18 +331,13 @@ export function SiteHeader({
               onClick={closeAll}
             >
               <Image
-                src={brandIcon}
+                src={brandLogo}
                 alt=""
-                width={44}
-                height={44}
+                width={184}
+                height={65}
                 priority
-                className="site-brand-icon"
+                className="site-brand-logo"
               />
-              <span className="site-brand-name">
-                {locale === "ar"
-                  ? "المبدعون المحترفون"
-                  : "Creatives Professionals"}
-              </span>
             </Link>
 
           <nav className="site-nav-desktop" aria-label="Primary">

@@ -1,7 +1,13 @@
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/content/dictionaries";
 import { getDictionaryLocal } from "@/content/dictionaries.local";
-import type { SiteConfigShape } from "@/lib/site-config";
+import {
+  resolveContactEmail,
+  resolveContactPhone,
+  resolveContactPhoneDisplay,
+  resolveWhatsAppMessage,
+  type SiteConfigShape,
+} from "@/lib/site-config";
 import { sanitizeBrandColors } from "@/lib/sanitize-css-color";
 import { fileUrl } from "@/sanity/file";
 import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
@@ -66,10 +72,10 @@ export function toSiteConfig(
     description: data.description ?? "",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
     locale: "en_SA",
-    email: data.email ?? "",
-    phone: data.phone ?? "",
-    phoneDisplay: data.phoneDisplay ?? data.phone ?? "",
-    whatsappMessage: data.whatsappMessage ?? "",
+    email: resolveContactEmail(data.email),
+    phone: resolveContactPhone(data.phone),
+    phoneDisplay: resolveContactPhoneDisplay(data.phoneDisplay ?? data.phone),
+    whatsappMessage: resolveWhatsAppMessage(data.whatsappMessage),
     address: {
       city: data.addressCity ?? "",
       country: data.addressCountry ?? "SA",

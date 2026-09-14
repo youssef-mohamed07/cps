@@ -100,9 +100,6 @@ export function MegaMenuPanel({ locale, mega, onNavigate }: MegaMenuPanelProps) 
               <div className="mega-services-layout">
                 {mega.columns.map((column, index) => (
                   <div key={column.title || index} className="mega-services-group">
-                    {column.title ? (
-                      <p className="mega-group-title">{column.title}</p>
-                    ) : null}
                     <ul className="mega-card-grid is-services">
                       {column.links.map((link) => (
                         <li key={link.href + link.label}>

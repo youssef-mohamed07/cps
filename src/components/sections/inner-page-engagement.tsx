@@ -1,7 +1,6 @@
 import { BriefFormSection } from "@/components/sections/brief-form-section";
 import { ClientsSection } from "@/components/sections/clients-section";
 import { FaqSection } from "@/components/sections/faq-section";
-import { StatsSection } from "@/components/sections/stats-section";
 import type { Dictionary } from "@/content/dictionaries.local";
 import type { Locale } from "@/lib/i18n";
 
@@ -11,7 +10,6 @@ type InnerPageEngagementProps = {
   faqItems?: Dictionary["faq"]["items"];
   faqTitle?: string;
   namespace?: string;
-  showStats?: boolean;
   showClients?: boolean;
 };
 
@@ -21,20 +19,10 @@ export function InnerPageEngagement({
   faqItems,
   faqTitle,
   namespace = "inner",
-  showStats = true,
   showClients = true,
 }: InnerPageEngagementProps) {
   return (
     <div className="inner-engagement">
-      {showStats ? (
-        <StatsSection
-          id={`${namespace}-stats`}
-          eyebrow={dictionary.stats.eyebrow}
-          title={dictionary.stats.title}
-          support={dictionary.stats.support}
-          items={dictionary.stats.items}
-        />
-      ) : null}
       {showClients ? (
         <ClientsSection
           id={`${namespace}-clients`}

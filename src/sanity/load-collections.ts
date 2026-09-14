@@ -63,6 +63,16 @@ import {
 import { toImageSrc } from "@/sanity/transformers/shared";
 import { mergeProjectFallback } from "@/sanity/transformers/project-fallback";
 
+/**
+ * Strip invisible Unicode characters (zero-width joiners, etc.) from text.
+ * These characters break accessibility and SEO but are invisible visually.
+ */
+const INVISIBLE_CHARS = /[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF\u2060\u00AD]/g;
+function sanitizeText(text: string | undefined | null): string {
+  if (!text) return "";
+  return text.replace(INVISIBLE_CHARS, "").trim();
+}
+
 function localService(slug: string, locale: Locale): CmsService | null {
   const record = getService(slug);
   if (!record) return null;
@@ -127,27 +137,27 @@ function localProject(project: Project, locale: Locale): CmsProject {
     projectCode: project.projectCode,
     cloudinaryFolder: project.cloudinaryFolder,
     slug: localized.slug,
-    title: localized.title,
-    year: localized.year,
-    summary: localized.summary,
-    scopeOfWork: localized.scopeOfWork,
-    challenge: localized.challenge,
-    solution: localized.approach,
-    result: localized.outcome,
+    title: sanitizeText(localized.title),
+    year: sanitizeText(localized.year),
+    summary: sanitizeText(localized.summary),
+    scopeOfWork: sanitizeText(localized.scopeOfWork),
+    challenge: sanitizeText(localized.challenge),
+    solution: sanitizeText(localized.approach),
+    result: sanitizeText(localized.outcome),
     image: localized.image,
-    imageAlt: localized.imageAlt,
+    imageAlt: sanitizeText(localized.imageAlt),
     gallery: localized.gallery,
     motionVideo: project.motionVideo,
     technologies: project.technologies ?? [],
-    event: project.event,
+    event: sanitizeText(project.event),
     size: project.size,
     industrySlug: project.industrySlug,
     serviceSlug: project.serviceSlug,
     serviceSlugs: project.serviceSlugs ?? (project.serviceSlug ? [project.serviceSlug] : []),
     boothTypeSlug: project.boothTypeSlug,
     locationSlug: project.locationSlug,
-    category: localized.category,
-    clientName: localized.clientName || localized.title,
+    category: sanitizeText(localized.category),
+    clientName: sanitizeText(localized.clientName) || sanitizeText(localized.title),
     featured: project.featured,
   };
 }

@@ -214,6 +214,38 @@ export function ServiceArchitecturePage({
         </div>
       </section>
 
+      <section className="service-trusted">
+        <div className="site-container">
+          <div className="service-trusted-copy">
+            <p className="eyebrow">{ar ? "يثقون بنا" : "Trusted By"}</p>
+            <h2 className="display">
+              {ar
+                ? "نفذنا لأسماء رائدة في السعودية"
+                : "Delivered for leading brands in Saudi Arabia"}
+            </h2>
+            <p>
+              {ar
+                ? "مجموعة من العملاء الذين نفذت لهم CPS."
+                : "A selection of clients CPS has produced for."}
+            </p>
+          </div>
+          <div className="service-trusted-logos">
+            {blueprintClientLogos.map((logo) => (
+              <div key={logo.name} className="service-trusted-logo">
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  width={140}
+                  height={48}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="service-architecture-overview">
         <div className="site-container service-architecture-overview-grid">
           <Reveal>
@@ -254,46 +286,6 @@ export function ServiceArchitecturePage({
               />
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {service.slug === "exhibitions-booths" ? (
-        <BoothTypeModelSection
-          locale={locale}
-          title={localizeText(service.title, locale)}
-          variant="custom"
-        />
-      ) : null}
-
-      <section className="service-trusted">
-        <div className="site-container">
-          <div className="service-trusted-copy">
-            <p className="eyebrow">{ar ? "يثقون بنا" : "Trusted By"}</p>
-            <h2 className="display">
-              {ar
-                ? "نفذنا لأسماء رائدة في السعودية"
-                : "Delivered for leading brands in Saudi Arabia"}
-            </h2>
-            <p>
-              {ar
-                ? "مجموعة من العملاء الذين نفذت لهم CPS."
-                : "A selection of clients CPS has produced for."}
-            </p>
-          </div>
-          <div className="service-trusted-logos">
-            {blueprintClientLogos.map((logo) => (
-              <div key={logo.name} className="service-trusted-logo">
-                <Image
-                  src={logo.src}
-                  alt={logo.name}
-                  width={140}
-                  height={48}
-                  className="object-contain"
-                  unoptimized
-                />
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -387,6 +379,60 @@ export function ServiceArchitecturePage({
                 </div>
               </Link>
             </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {service.slug === "exhibitions-booths" ? (
+        <BoothTypeModelSection
+          locale={locale}
+          title={localizeText(service.title, locale)}
+          variant="custom"
+        />
+      ) : null}
+
+      <section className="service-benefits">
+        <div className="site-container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">{ar ? "الفوائد" : "Benefits"}</p>
+              <h2 className="display">{ar ? "ما تحصل عليه" : "What you get"}</h2>
+            </div>
+          </Reveal>
+          <div className="service-benefits-grid">
+            {service.benefits.map((entry, index) => (
+              <Reveal key={entry.en} delay={index * 0.04}>
+                <article
+                  className={`service-benefit-card${index === 0 ? " is-featured" : ""}`}
+                >
+                  <div className="service-benefit-card-top">
+                    <span
+                      className="service-benefit-card-number"
+                      aria-hidden="true"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className="service-benefit-card-check"
+                      aria-hidden="true"
+                    >
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path
+                          d="M4 10.5l4 4L16 6.5"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 className="service-benefit-card-text">
+                    {localizeText(entry, locale)}
+                  </h3>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -513,50 +559,6 @@ export function ServiceArchitecturePage({
           >
             {ar ? "شاهد قدرات الإنتاج" : "See Production Capabilities"}
           </Link>
-        </div>
-      </section>
-
-      <section className="service-benefits">
-        <div className="site-container">
-          <Reveal>
-            <div className="section-head">
-              <p className="eyebrow">{ar ? "الفوائد" : "Benefits"}</p>
-              <h2 className="display">{ar ? "ما تحصل عليه" : "What you get"}</h2>
-            </div>
-          </Reveal>
-          <div className="service-benefits-grid">
-            {service.benefits.map((entry, index) => (
-              <Reveal key={entry.en} delay={index * 0.04}>
-                <article className="service-benefit-card">
-                  <div className="service-benefit-card-top">
-                    <span
-                      className="service-benefit-card-number"
-                      aria-hidden="true"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className="service-benefit-card-check"
-                      aria-hidden="true"
-                    >
-                      <svg viewBox="0 0 20 20" fill="none">
-                        <path
-                          d="M4 10.5l4 4L16 6.5"
-                          stroke="currentColor"
-                          strokeWidth="2.2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <h3 className="service-benefit-card-text">
-                    {localizeText(entry, locale)}
-                  </h3>
-                </article>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -692,6 +694,50 @@ export function ServiceArchitecturePage({
         </div>
       </section> : null}
 
+      <FaqSection
+        eyebrow="FAQ"
+        title={
+          ar
+            ? `أسئلة عن ${localizeText(service.title, locale)}`
+            : `Questions about ${localizeText(service.title, locale)}`
+        }
+        support={
+          ar
+            ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
+            : "Straight answers on timelines, scope, and delivery — before you start."
+        }
+        items={service.faq.map((entry) => ({
+          question: localizeText(entry.question, locale),
+          answer: localizeText(entry.answer, locale),
+        }))}
+        className="service-faq"
+      />
+
+      <section id="quote" className="service-quote section-pad scroll-mt-24">
+        <div className="site-container service-quote-grid">
+          <div className="brief-form-intro">
+            <p className="eyebrow">{quoteForm.eyebrow}</p>
+            <h2 className="display">{quoteForm.title}</h2>
+            <p>{quoteForm.support}</p>
+          </div>
+          <div className="brief-form-shell">
+            <Suspense fallback={<div className="quote-form-loading" />}>
+              <QuoteForm
+                locale={locale}
+                copy={quoteForm}
+                options={catalogueOptions}
+                contextLabel={`${localizeText(service.title, locale)} (${service.slug})`}
+                requestType={
+                  service.slug === "installation-project-delivery"
+                    ? "service-add-on"
+                    : "quote"
+                }
+              />
+            </Suspense>
+          </div>
+        </div>
+      </section>
+
       {related.length ? (
         <section className="service-related-blueprint">
           <div className="site-container">
@@ -742,50 +788,6 @@ export function ServiceArchitecturePage({
           </div>
         </section>
       ) : null}
-
-      <section id="quote" className="service-quote section-pad scroll-mt-24">
-        <div className="site-container service-quote-grid">
-          <div className="brief-form-intro">
-            <p className="eyebrow">{quoteForm.eyebrow}</p>
-            <h2 className="display">{quoteForm.title}</h2>
-            <p>{quoteForm.support}</p>
-          </div>
-          <div className="brief-form-shell">
-            <Suspense fallback={<div className="quote-form-loading" />}>
-              <QuoteForm
-                locale={locale}
-                copy={quoteForm}
-                options={catalogueOptions}
-                contextLabel={`${localizeText(service.title, locale)} (${service.slug})`}
-                requestType={
-                  service.slug === "installation-project-delivery"
-                    ? "service-add-on"
-                    : "quote"
-                }
-              />
-            </Suspense>
-          </div>
-        </div>
-      </section>
-
-      <FaqSection
-        eyebrow="FAQ"
-        title={
-          ar
-            ? `أسئلة عن ${localizeText(service.title, locale)}`
-            : `Questions about ${localizeText(service.title, locale)}`
-        }
-        support={
-          ar
-            ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
-            : "Straight answers on timelines, scope, and delivery — before you start."
-        }
-        items={service.faq.map((entry) => ({
-          question: localizeText(entry.question, locale),
-          answer: localizeText(entry.answer, locale),
-        }))}
-        className="service-faq"
-      />
 
       <ProjectLaunchSection
         locale={locale}

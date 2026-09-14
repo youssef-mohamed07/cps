@@ -5,8 +5,9 @@ import { CapabilityExplainerSection } from "@/components/sections/capability-exp
 import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProductionCapabilitiesSection } from "@/components/sections/production-capabilities-section";
+import { ProductionReassuranceBand } from "@/components/sections/production-reassurance-band";
 import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
-import { StatsSection } from "@/components/sections/stats-section";
+import { WorkshopSection } from "@/components/sections/workshop-section";
 import { media } from "@/content/media";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
@@ -72,26 +73,28 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
           href: localizePath("/contact", locale),
         }}
       />
-      <StatsSection
-        id="production-stats"
-        eyebrow={dictionary.stats.eyebrow}
-        title={dictionary.stats.title}
-        support={dictionary.stats.support}
-        items={dictionary.stats.items}
-      />
-      <CapabilityExplainerSection locale={locale} />
-      <ProductionCapabilitiesSection locale={locale} standalone />
-      <BeforeAfterSection
-        content={dictionary.beforeAfter}
-        brandIcon={getSiteIcon()}
-      />
-      <ProjectLaunchSection
-        locale={locale}
-        eyebrow={dictionary.projectLaunch.eyebrow}
-        title={dictionary.projectLaunch.title}
-        support={dictionary.projectLaunch.support}
-        ctaLabel={dictionary.projectLaunch.ctaLabel}
-      />
+      <div className="production-page-flow">
+        <ProductionCapabilitiesSection locale={locale} standalone />
+        <ProductionReassuranceBand locale={locale} />
+        <WorkshopSection
+          locale={locale}
+          page={dictionary.aboutPage}
+          id="production-workshop"
+          className="production-workshop"
+        />
+        <CapabilityExplainerSection locale={locale} />
+        <BeforeAfterSection
+          content={dictionary.beforeAfter}
+          brandIcon={getSiteIcon()}
+        />
+        <ProjectLaunchSection
+          locale={locale}
+          eyebrow={dictionary.projectLaunch.eyebrow}
+          title={dictionary.projectLaunch.title}
+          support={dictionary.projectLaunch.support}
+          ctaLabel={dictionary.projectLaunch.ctaLabel}
+        />
+      </div>
     </>
   );
 }

@@ -1,6 +1,11 @@
 import { getFooterLocal, type FooterConfig, type FooterLink, type FooterSocial } from "@/content/footer";
 import type { Locale } from "@/lib/i18n";
-import { getSiteConfig } from "@/lib/site-config";
+import {
+  getSiteConfig,
+  resolveContactEmail,
+  resolveContactPhone,
+  resolveContactPhoneDisplay,
+} from "@/lib/site-config";
 import { sanityFetch } from "@/sanity/fetch";
 import { FOOTER_QUERY } from "@/sanity/queries/collections";
 import { toImageSrc } from "@/sanity/transformers/shared";
@@ -137,9 +142,11 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
       remote.officeAddress ||
       local.officeAddress ||
       [config.address.city, config.address.countryName].filter(Boolean).join(", "),
-    phoneDisplay: remote.phoneDisplay || config.phoneDisplay || local.phoneDisplay,
-    phoneHref: remote.phoneHref || config.phone || local.phoneHref,
-    email: remote.email || config.email || local.email,
+    phoneDisplay: resolveContactPhoneDisplay(
+      remote.phoneDisplay || config.phoneDisplay || local.phoneDisplay,
+    ),
+    phoneHref: resolveContactPhone(remote.phoneHref || config.phone || local.phoneHref),
+    email: resolveContactEmail(remote.email || config.email || local.email),
     whatsappLabel: remote.whatsappLabel || local.whatsappLabel,
     businessHours: remote.businessHours || local.businessHours,
     mapsLabel: remote.mapsLabel || local.mapsLabel,
@@ -151,7 +158,7 @@ export async function resolveFooter(locale: Locale): Promise<FooterConfig> {
       description: remote.newsletter?.description || local.newsletter.description,
       placeholder: remote.newsletter?.placeholder || local.newsletter.placeholder,
       buttonLabel: remote.newsletter?.buttonLabel || local.newsletter.buttonLabel,
-      mailto: remote.newsletter?.mailto || local.newsletter.mailto,
+      mailto: resolveContactEmail(remote.newsletter?.mailto || local.newsletter.mailto),
     },
     trust: {
       enabled: remote.trust?.enabled ?? local.trust.enabled,

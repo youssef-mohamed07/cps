@@ -3,6 +3,16 @@ import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
 
 type SanityImage = { asset?: unknown; alt?: string } | null | undefined;
 
+/**
+ * Strip invisible Unicode characters (zero-width joiners, etc.) from text.
+ * These characters break accessibility and SEO but are invisible visually.
+ */
+const INVISIBLE_CHARS = /[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF\u2060\u00AD]/g;
+function sanitizeText(text: string | undefined | null): string {
+  if (!text) return "";
+  return text.replace(INVISIBLE_CHARS, "").trim();
+}
+
 export type CmsListItem = {
   slug: string;
   title: string;
@@ -392,27 +402,27 @@ export function mapProject(doc: {
     projectCode: doc.projectCode,
     cloudinaryFolder: doc.cloudinaryFolder,
     slug: doc.slug,
-    title: doc.title,
-    year: doc.year ?? "",
-    summary: doc.summary ?? "",
-    scopeOfWork: doc.scopeOfWork ?? "",
-    challenge: doc.challenge ?? "",
-    solution: doc.solution ?? "",
-    result: doc.result ?? "",
+    title: sanitizeText(doc.title),
+    year: sanitizeText(doc.year),
+    summary: sanitizeText(doc.summary),
+    scopeOfWork: sanitizeText(doc.scopeOfWork),
+    challenge: sanitizeText(doc.challenge),
+    solution: sanitizeText(doc.solution),
+    result: sanitizeText(doc.result),
     image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
-    imageAlt: doc.hero?.alt ?? doc.title,
+    imageAlt: sanitizeText(doc.hero?.alt || doc.title),
     gallery,
     motionVideo: doc.motionVideo || undefined,
     technologies: doc.technologies ?? [],
-    event: doc.event,
+    event: sanitizeText(doc.event),
     size: doc.size,
     industrySlug: doc.industrySlug,
     serviceSlug: doc.serviceSlug,
     serviceSlugs: doc.serviceSlugs?.filter(Boolean) ?? [],
     boothTypeSlug: doc.boothTypeSlug,
     locationSlug: doc.locationSlug,
-    clientName: doc.clientName,
-    category: doc.clientName || doc.industrySlug || "Project",
+    clientName: sanitizeText(doc.clientName),
+    category: sanitizeText(doc.clientName) || doc.industrySlug || "Project",
     featured: doc.featured,
     seo: mapSeo(doc.seo),
   };

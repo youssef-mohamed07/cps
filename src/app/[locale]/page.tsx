@@ -5,7 +5,6 @@ import { ClientsSection } from "@/components/sections/clients-section";
 import { BriefFormSection } from "@/components/sections/brief-form-section";
 import { HomeHero } from "@/components/sections/home-hero";
 import { LogosSection } from "@/components/sections/logos-section";
-import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
 import { LifecycleSection } from "@/components/sections/lifecycle-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { WhyCpsSection } from "@/components/sections/why-cps-section";
@@ -110,13 +109,6 @@ export default async function HomePage({ params }: PageProps) {
         items={dictionary.clients.items}
       />
       <BriefFormSection id="home-contact" locale={locale} />
-      <ProjectLaunchSection
-        locale={locale}
-        eyebrow={dictionary.projectLaunch.eyebrow}
-        title={dictionary.projectLaunch.title}
-        support={dictionary.projectLaunch.support}
-        ctaLabel={dictionary.projectLaunch.ctaLabel}
-      />
     </>
   );
 }

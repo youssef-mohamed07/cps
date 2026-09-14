@@ -9,7 +9,6 @@ import { PageHero } from "@/components/sections/page-hero";
 import { ServiceDesignGrid } from "@/components/sections/service-design-grid";
 import { ServiceDetailSections } from "@/components/sections/service-detail-sections";
 import { ServiceWhySection } from "@/components/sections/service-why-section";
-import { StatsSection } from "@/components/sections/stats-section";
 import {
   buildServiceLocationPage,
 } from "@/content/programmatic-seo";
@@ -217,15 +216,6 @@ export default async function LocationServicePage({ params }: PageProps) {
         related={related}
         briefHref={briefHref}
         ctaLabel={dictionary.nav.cta}
-        afterOverview={
-          <StatsSection
-            id={`location-service-${slug}-${serviceSlug}-stats`}
-            eyebrow={dictionary.stats.eyebrow}
-            title={dictionary.stats.title}
-            support={dictionary.stats.support}
-            items={dictionary.stats.items}
-          />
-        }
       />
 
       <InnerPageEngagement
@@ -238,7 +228,6 @@ export default async function LocationServicePage({ params }: PageProps) {
             : `Questions about ${page.title}`
         }
         namespace={`location-service-${slug}-${serviceSlug}`}
-        showStats={false}
       />
     </>
   );

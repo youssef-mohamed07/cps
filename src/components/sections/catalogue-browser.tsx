@@ -93,9 +93,10 @@ export function CatalogueBrowser({
       <div className="catalogue-grid" aria-live="polite">
         {visible.map((entry, index) => {
           const title = localizeText(entry.title, locale);
-          const layoutParam = layout !== "all" ? `&layout=${encodeURIComponent(layout)}` : "";
-          const cityParam = selectedCity ? `&city=${encodeURIComponent(selectedCity)}` : "";
-          const quoteHref = localizePath(`/services/${serviceSlug}?item=${encodeURIComponent(entry.slug)}${layoutParam}${cityParam}#quote`, locale);
+          const detailHref = localizePath(
+            `/services/${serviceSlug}/catalogue/${entry.slug}`,
+            locale,
+          );
           return (
             <article
               id={`catalogue-${entry.slug}`}
@@ -107,7 +108,11 @@ export function CatalogueBrowser({
                 <span>{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div className="catalogue-card-copy">
-                <h2>{title}</h2>
+                <h2>
+                  <Link href={detailHref} className="catalogue-card-details-link">
+                    {title}
+                  </Link>
+                </h2>
                 <p>{localizeText(entry.description, locale)}</p>
                 {entry.cityAnchors?.length ? (
                   <div className="catalogue-city-anchors">
@@ -129,8 +134,8 @@ export function CatalogueBrowser({
                     </ul>
                   </div>
                 ) : null}
-                <Link href={quoteHref} className="catalogue-card-cta">
-                  {locale === "ar" ? "اطلب عرض سعر" : "Get a Quote"}
+                <Link href={detailHref} className="catalogue-card-cta">
+                  {locale === "ar" ? "عرض التفاصيل" : "View details"}
                   <CtaArrow size="sm" />
                 </Link>
               </div>

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import { HeroCityRotator } from "@/components/motion/hero-city-rotator";
 import { CtaArrow } from "@/components/motion/cta-arrow";
-import { LogosSection } from "@/components/sections/logos-section";
 import type { Locale } from "@/lib/i18n";
 
 type PageHeroProps = {
@@ -37,10 +36,9 @@ export function PageHero({
   const showActions = Boolean(cta || secondaryCta);
 
   return (
-    <>
-      <section
-        className={`page-hero${image ? " page-hero--media" : ""}${animated ? " page-hero--animated" : ""}${className ? ` ${className}` : ""}`}
-      >
+    <section
+      className={`page-hero${image ? " page-hero--media" : ""}${animated ? " page-hero--animated" : ""}${className ? ` ${className}` : ""}`}
+    >
       {image ? (
         <div className="page-hero-media">
           <Image
@@ -112,8 +110,6 @@ export function PageHero({
           </div>
         </Reveal>
       </div>
-      </section>
-      <LogosSection locale={locale} />
-    </>
+    </section>
   );
 }

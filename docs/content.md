@@ -56,8 +56,9 @@ Routes:
 
 - `/[locale]/services/[serviceSlug]`
 - `/[locale]/services/[serviceSlug]/catalogue`
+- `/[locale]/services/[serviceSlug]/catalogue/[itemSlug]`
 
-Catalogue quote links pass the selected item in the query string and preselect it in the shared quote form. Exhibition layout chips filter compatible booth formats and carry the selected layout into the quote. Reference files are submitted as real multipart uploads rather than filename-only notes.
+Catalogue cards open product-style item detail pages. Each detail page links to the contact page and passes the selected item to the service quote form so it is preselected. Exhibition layout chips filter compatible booth formats. Reference files are submitted as real multipart uploads rather than filename-only notes.
 
 The Custom-Built Exhibition Booths item also exposes seven city anchors. Their `item` and `city` query parameters produce city-specific metadata without duplicating the catalogue page.
 

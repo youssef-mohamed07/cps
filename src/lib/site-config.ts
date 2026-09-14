@@ -4,6 +4,30 @@ export const CPS_EMAIL = "inquiry@creativeprofessionals.com";
 export const CPS_PHONE = "+966560846520";
 export const CPS_PHONE_DISPLAY = "+966 56 084 6520";
 
+export function resolveContactEmail(value?: string): string {
+  const email = value?.trim();
+  return !email || email.toLowerCase() === "hello@cps.com" ? CPS_EMAIL : email;
+}
+
+export function resolveContactPhone(value?: string): string {
+  const phone = value?.trim();
+  return !phone || phone.replace(/\D/g, "") === "966500000000" ? CPS_PHONE : phone;
+}
+
+export function resolveContactPhoneDisplay(value?: string): string {
+  const phone = value?.trim();
+  return !phone || phone.replace(/\D/g, "") === "966500000000"
+    ? CPS_PHONE_DISPLAY
+    : phone;
+}
+
+export function resolveWhatsAppMessage(value?: string): string {
+  const message = value
+    ?.replace(/[\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/g, "")
+    .trim();
+  return message || "Hi CPS! I'd like to get in touch.";
+}
+
 export interface SiteConfigShape {
   name: string;
   legalName: string;
@@ -69,7 +93,7 @@ export function getSiteConfig(): SiteConfigShape {
     email: CPS_EMAIL,
     phone: CPS_PHONE,
     phoneDisplay: CPS_PHONE_DISPLAY,
-    whatsappMessage: "Hi CPS! I'd like to get in touch.",
+    whatsappMessage: resolveWhatsAppMessage(),
     address: {
       city: "Riyadh",
       country: "SA",

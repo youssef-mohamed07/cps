@@ -64,9 +64,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       }),
     ),
-    ...serviceArchitecture.flatMap((item) => [
-      ...entry(`/services/${item.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
-      ...entry(`/services/${item.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
+    ...serviceArchitecture.flatMap((service) => [
+      ...entry(`/services/${service.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
+      ...entry(`/services/${service.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
+      ...service.catalogue.categories.flatMap((category) =>
+        category.items.flatMap((item) =>
+          entry(`/services/${service.slug}/catalogue/${item.slug}`, {
+            changeFrequency: "monthly",
+            priority: 0.65,
+          }),
+        ),
+      ),
     ]),
     ...news.flatMap((item) =>
       entry(`/news/${item.slug}`, {
