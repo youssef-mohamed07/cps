@@ -171,12 +171,12 @@ export function ProjectDetailSections({
           poster={project.image}
           images={project.gallery}
           videoSrc={project.motionVideo}
-          eyebrow={isArabic ? "موشن" : "Motion"}
-          heading={isArabic ? "شاهد المشروع يتحرّك." : "See the project in motion."}
+          eyebrow={isArabic ? "المشروع بالحركة" : "Project in Motion"}
+          heading={isArabic ? "شاهد العمل ينبض بالحياة." : "Watch the work come to life."}
           support={
             isArabic
-              ? "لقطة من التنفيذ والموقع النهائي."
-              : "A cinematic cut from fabrication through final install."
+              ? "نظرة أقرب على التنفيذ، والحِرفية، والتفاصيل وراء النتيجة النهائية."
+              : "A closer look at the execution, craftsmanship, and details behind the final result."
           }
         />
       ) : null}
