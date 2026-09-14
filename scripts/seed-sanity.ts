@@ -23,6 +23,7 @@ import { getFooterLocal } from "../src/content/footer";
 import { getNavigationLocal } from "../src/content/navigation";
 import { localizeText, serviceArchitecture } from "../src/content/service-architecture";
 import { projects } from "../src/content/projects";
+import { buildServiceLocationPage } from "../src/content/programmatic-seo";
 import { getSiteConfig } from "../src/lib/site-config";
 import type { Locale } from "../src/lib/i18n";
 
@@ -406,6 +407,57 @@ async function seedLocations() {
           [loc.title, "exhibition", "CPS"],
         ),
       });
+    }
+  }
+}
+
+async function seedServiceLocations() {
+  console.log("\n→ service × city variations");
+  for (const locale of locales) {
+    for (const location of locations) {
+      for (const [serviceIndex, service] of serviceArchitecture.entries()) {
+        const page = buildServiceLocationPage(locale, location.slug, service.slug);
+        if (!page) continue;
+        await upsert({
+          _id: id("serviceLocation", location.slug, service.slug, locale),
+          _type: "serviceLocation",
+          language: locale,
+          status: "published",
+          title: page.title,
+          service: {
+            _type: "reference",
+            _ref: id("service", service.slug, locale),
+          },
+          location: {
+            _type: "reference",
+            _ref: id("location", location.slug, locale),
+          },
+          serviceSlug: service.slug,
+          locationSlug: location.slug,
+          eyebrow: locale === "ar"
+            ? `${location[locale].title} · الخدمات`
+            : `${location[locale].title} · Services`,
+          lead: page.lead,
+          overview: page.overview,
+          heroUrl: page.image,
+          highlights: page.highlights.map((item, index) => ({
+            _key: `highlight-${index}`,
+            title: item.title,
+            description: item.description,
+          })),
+          faq: page.faqs.map((item, index) => ({
+            _key: `faq-${index}`,
+            question: item.question,
+            answer: item.answer,
+          })),
+          cta: {
+            label: locale === "ar" ? "ابدأ مشروعاً" : "Start a Project",
+            href: `#location-service-${location.slug}-${service.slug}-brief`,
+          },
+          order: location.order * 100 + serviceIndex + 1,
+          seo: seoMeta(`CPS — ${page.title}`, page.lead, page.keywords),
+        });
+      }
     }
   }
 }
@@ -857,6 +909,11 @@ async function main() {
     console.log("\nDone. Seeded projects only.");
     return;
   }
+  if (process.env.SANITY_SEED_ONLY === "service-locations") {
+    await seedServiceLocations();
+    console.log("\nDone. Seeded service × city variations only.");
+    return;
+  }
   await seedSettings();
   await seedClients();
   await seedTestimonials();
@@ -864,6 +921,7 @@ async function main() {
   await seedServices();
   await seedIndustries();
   await seedLocations();
+  await seedServiceLocations();
   await seedProjects();
   await seedNews();
   await seedNavigation();

@@ -15,6 +15,27 @@ const seoProjection = `{
 
 const imageProjection = `{ asset, alt }`;
 
+export const SERVICE_LOCATION_VARIANT_QUERY = `*[
+  _type == "serviceLocation" &&
+  language == $locale &&
+  status != "archived" &&
+  coalesce(locationSlug, location->slug.current) == $locationSlug &&
+  coalesce(serviceSlug, service->slug.current) == $serviceSlug
+][0] {
+  title,
+  eyebrow,
+  lead,
+  overview,
+  "locationSlug": coalesce(locationSlug, location->slug.current),
+  "serviceSlug": coalesce(serviceSlug, service->slug.current),
+  hero${imageProjection},
+  heroUrl,
+  highlights[]{ title, description },
+  faq[]{ question, answer },
+  cta{ label, href },
+  seo${seoProjection}
+}`;
+
 export const SERVICES_QUERY = `*[_type == "service" && language == $locale && status != "archived"] | order(order asc) {
   title,
   "slug": slug.current,

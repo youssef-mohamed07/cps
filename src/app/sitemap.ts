@@ -6,6 +6,7 @@ import {
   loadProjects,
 } from "@/sanity/load-collections";
 import { serviceArchitecture } from "@/content/service-architecture";
+import { locations } from "@/content/catalog";
 
 const staticPaths = [
   "/",
@@ -67,6 +68,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...serviceArchitecture.flatMap((service) => [
       ...entry(`/services/${service.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
       ...entry(`/services/${service.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
+      ...locations.flatMap((location) =>
+        entry(`/locations/${location.slug}/services/${service.slug}`, {
+          changeFrequency: "monthly",
+          priority: 0.7,
+        }),
+      ),
       ...service.catalogue.categories.flatMap((category) =>
         category.items.flatMap((item) =>
           entry(`/services/${service.slug}/catalogue/${item.slug}`, {

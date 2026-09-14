@@ -1,6 +1,10 @@
 import { getBoothComparisonRow } from "@/content/booth-comparison";
 import { getDictionaryLocal } from "@/content/dictionaries.local";
 import {
+  getServiceArchitecture,
+  localizeText,
+} from "@/content/service-architecture";
+import {
   boothTypes,
   getBoothType,
   getIndustry,
@@ -43,6 +47,7 @@ import {
   PROJECTS_QUERY,
   REDIRECTS_QUERY,
   SERVICE_BY_SLUG_QUERY,
+  SERVICE_LOCATION_VARIANT_QUERY,
   SERVICES_QUERY,
   TESTIMONIALS_QUERY,
 } from "@/sanity/queries/collections";
@@ -53,12 +58,14 @@ import {
   mapNewsArticle,
   mapProject,
   mapService,
+  mapServiceLocation,
   type CmsBoothType,
   type CmsIndustry,
   type CmsLocation,
   type CmsNewsArticle,
   type CmsProject,
   type CmsService,
+  type CmsServiceLocation,
 } from "@/sanity/transformers/collections";
 import { toImageSrc } from "@/sanity/transformers/shared";
 import { mergeProjectFallback } from "@/sanity/transformers/project-fallback";
@@ -74,6 +81,56 @@ function sanitizeText(text: string | undefined | null): string {
 }
 
 function localService(slug: string, locale: Locale): CmsService | null {
+  const canonical = getServiceArchitecture(slug);
+  if (canonical) {
+    return {
+      slug: canonical.slug,
+      title: localizeText(canonical.title, locale),
+      excerpt: localizeText(canonical.excerpt, locale),
+      blueprintVersion: 5,
+      overview: localizeText(canonical.hero.support, locale),
+      overviewTitle: localizeText(canonical.hero.headline, locale),
+      overviewBullets: canonical.hero.bullets.map((item) => ({
+        title: localizeText(item, locale),
+        description: "",
+      })),
+      heroLead: localizeText(canonical.hero.support, locale),
+      image: canonical.image,
+      imageAlt: localizeText(canonical.title, locale),
+      designs: {
+        title: localizeText(canonical.showcase.title, locale),
+        support: localizeText(canonical.catalogue.support, locale),
+        cta: {
+          label: localizeText(canonical.hero.catalogueCta, locale),
+          href: `/services/${canonical.slug}/catalogue`,
+        },
+        items: canonical.showcase.items.map((item) => ({
+          title: localizeText(item.title, locale),
+          description: localizeText(item.description, locale),
+          image: canonical.image,
+          imageAlt: localizeText(item.title, locale),
+        })),
+      },
+      why: {
+        title: localizeText(canonical.why.headline, locale),
+        support: localizeText(canonical.why.support, locale),
+        items: canonical.why.items.map((item) => ({
+          title: localizeText(item, locale),
+          description: "",
+        })),
+      },
+      benefits: canonical.benefits.map((item) => ({
+        title: localizeText(item, locale),
+        description: "",
+      })),
+      process: [],
+      faq: canonical.faq.map((item) => ({
+        question: localizeText(item.question, locale),
+        answer: localizeText(item.answer, locale),
+      })),
+    };
+  }
+
   const record = getService(slug);
   if (!record) return null;
   const localized = localizeService(record, locale);
@@ -210,6 +267,26 @@ export async function loadService(
     };
   }
   return localService(slug, locale);
+}
+
+export async function loadServiceLocationVariant(
+  locale: Locale,
+  locationSlug: string,
+  serviceSlug: string,
+): Promise<CmsServiceLocation | null> {
+  const remote = await sanityFetch<unknown>({
+    query: SERVICE_LOCATION_VARIANT_QUERY,
+    params: { locale, locationSlug, serviceSlug },
+    tags: [
+      "serviceLocation",
+      `serviceLocation-${locale}`,
+      `serviceLocation-${locationSlug}-${serviceSlug}`,
+    ],
+  });
+
+  return mapServiceLocation(
+    remote as Parameters<typeof mapServiceLocation>[0],
+  );
 }
 
 export async function loadBoothTypes(locale: Locale): Promise<CmsBoothType[]> {

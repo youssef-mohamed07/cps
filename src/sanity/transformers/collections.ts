@@ -65,6 +65,58 @@ export type CmsService = CmsListItem & {
   cta?: { label: string; href: string };
 };
 
+export type CmsServiceLocation = {
+  title: string;
+  eyebrow: string;
+  lead: string;
+  overview: string;
+  locationSlug: string;
+  serviceSlug: string;
+  image: string;
+  imageAlt: string;
+  highlights: { title: string; description: string }[];
+  faq: { question: string; answer: string }[];
+  cta?: { label: string; href: string };
+  seo?: SeoMeta;
+};
+
+export function mapServiceLocation(doc: {
+  title?: string;
+  eyebrow?: string;
+  lead?: string;
+  overview?: string;
+  locationSlug?: string;
+  serviceSlug?: string;
+  hero?: SanityImage;
+  heroUrl?: string;
+  highlights?: { title?: string; description?: string }[];
+  faq?: { question?: string; answer?: string }[];
+  cta?: { label?: string; href?: string };
+  seo?: Parameters<typeof toSeoMeta>[0];
+}): CmsServiceLocation | null {
+  if (!doc?.title || !doc.locationSlug || !doc.serviceSlug) return null;
+  return {
+    title: doc.title,
+    eyebrow: doc.eyebrow ?? "",
+    lead: doc.lead ?? "",
+    overview: doc.overview ?? "",
+    locationSlug: doc.locationSlug,
+    serviceSlug: doc.serviceSlug,
+    image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
+    imageAlt: doc.hero?.alt ?? doc.title,
+    highlights: (doc.highlights ?? [])
+      .filter((item) => item.title)
+      .map((item) => ({ title: item.title!, description: item.description ?? "" })),
+    faq: (doc.faq ?? [])
+      .filter((item) => item.question)
+      .map((item) => ({ question: item.question!, answer: item.answer ?? "" })),
+    cta: doc.cta?.label && doc.cta.href
+      ? { label: doc.cta.label, href: doc.cta.href }
+      : undefined,
+    seo: mapSeo(doc.seo),
+  };
+}
+
 export type CmsBoothType = CmsListItem & {
   description: string;
   overviewTitle: string;

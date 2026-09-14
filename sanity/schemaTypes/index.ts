@@ -1,5 +1,5 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { boothType, service } from "./documents/services";
+import { boothType, service, serviceLocation } from "./documents/services";
 import { industry, location, newsArticle, project } from "./documents/content";
 import { dictionaryTypes } from "./documents/dictionary";
 import { footerBadge, footerTrustItem, siteFooter } from "./documents/footer";
@@ -25,6 +25,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   footerTrustItem,
   siteFooter,
   service,
+  serviceLocation,
   boothType,
   project,
   industry,
@@ -54,6 +55,7 @@ export const singletonDocumentIds = [
 
 export const collectionTypes = [
   "service",
+  "serviceLocation",
   "boothType",
   "project",
   "industry",

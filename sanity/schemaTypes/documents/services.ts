@@ -108,6 +108,65 @@ export const service = defineType({
   },
 });
 
+export const serviceLocation = defineType({
+  name: "serviceLocation",
+  title: "Service × City Variation",
+  type: "document",
+  fields: [
+    languageField,
+    statusField,
+    defineField({
+      name: "title",
+      type: "string",
+      title: "Page title",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "service",
+      type: "reference",
+      to: [{ type: "service" }],
+      title: "Service",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "location",
+      type: "reference",
+      to: [{ type: "location" }],
+      title: "City",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({ name: "serviceSlug", type: "string", title: "Service slug", readOnly: true }),
+    defineField({ name: "locationSlug", type: "string", title: "City slug", readOnly: true }),
+    defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
+    defineField({ name: "lead", type: "text", rows: 3, title: "Lead" }),
+    defineField({ name: "overview", type: "text", rows: 6, title: "Local overview" }),
+    defineField({
+      name: "hero",
+      type: "image",
+      title: "Social / hero image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+    }),
+    defineField({ name: "heroUrl", type: "url", title: "Image URL (seed / fallback)" }),
+    defineField({ name: "highlights", type: "array", of: [{ type: "benefitItem" }], title: "Local highlights" }),
+    defineField({ name: "faq", type: "array", of: [{ type: "faqItem" }], title: "Local FAQ" }),
+    defineField({ name: "cta", type: "ctaBlock", title: "CTA" }),
+    defineField({ name: "seo", type: "seoMeta", title: "SEO & social sharing" }),
+    defineField({ name: "order", type: "number", title: "Sort order", initialValue: 0 }),
+  ],
+  orderings: [
+    { title: "City, then service", name: "cityService", by: [{ field: "locationSlug", direction: "asc" }, { field: "serviceSlug", direction: "asc" }] },
+  ],
+  preview: {
+    select: { title: "title", media: "hero", language: "language", city: "location.title", service: "service.title" },
+    prepare: ({ title, media, language, city, service }) => ({
+      title,
+      subtitle: [language?.toUpperCase(), city, service].filter(Boolean).join(" · "),
+      media,
+    }),
+  },
+});
+
 export const boothType = defineType({
   name: "boothType",
   title: "Booth Type",

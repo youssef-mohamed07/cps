@@ -88,6 +88,7 @@ Every collection document (`service`, `boothType`, `project`, …) and page sing
 | `project` | `/work`, `/work/[slug]`; supports primary `serviceSlug` plus multiple `services[]` references |
 | `industry` | Project metadata; standalone public routes redirect to `/work` |
 | `location` | `/locations`, `/locations/[slug]` |
+| `serviceLocation` | City-specific service variations at `/locations/[city]/services/[service]` |
 | `newsArticle` | `/news`, `/news/[slug]` |
 | `client` | Logo marquee (`loadClients`) |
 | `category`, `author`, `faq`, `testimonial`, `redirect` | Taxonomies / redirects |

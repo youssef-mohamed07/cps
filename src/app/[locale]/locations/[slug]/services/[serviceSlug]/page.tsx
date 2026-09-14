@@ -23,6 +23,7 @@ import {
   loadLocation,
   loadLocations,
   loadService,
+  loadServiceLocationVariant,
   loadServices,
 } from "@/sanity/load-collections";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
@@ -62,19 +63,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale: localeParam, slug, serviceSlug } = await params;
   if (!isLocale(localeParam)) return {};
   await ensureSiteConfig();
-  const [page, service] = await Promise.all([
+  const [page, service, variant] = await Promise.all([
     Promise.resolve(buildServiceLocationPage(localeParam, slug, serviceSlug)),
     loadService(localeParam, serviceSlug),
+    loadServiceLocationVariant(localeParam, slug, serviceSlug),
   ]);
   if (!page) return {};
   return buildPageMetadata({
     path: page.path,
     locale: localeParam,
-    seo: service?.seo,
-    fallbackTitle: `CPS — ${page.title}`,
-    fallbackDescription: page.lead,
-    fallbackOgImage: page.image,
-    keywords: service?.seo?.keywords ?? page.keywords,
+    seo: variant?.seo,
+    fallbackTitle: `CPS — ${variant?.title || page.title}`,
+    fallbackDescription: variant?.lead || page.lead,
+    fallbackOgImage: variant?.image || page.image,
+    keywords: variant?.seo?.keywords ?? service?.seo?.keywords ?? page.keywords,
   });
 }
 
@@ -83,13 +85,27 @@ export default async function LocationServicePage({ params }: PageProps) {
   if (!isLocale(localeParam)) notFound();
 
   const locale: Locale = localeParam;
-  const [page, service, allServices, dictionary] = await Promise.all([
+  const [fallbackPage, variant, service, allServices, dictionary] = await Promise.all([
     Promise.resolve(buildServiceLocationPage(locale, slug, serviceSlug)),
+    loadServiceLocationVariant(locale, slug, serviceSlug),
     loadService(locale, serviceSlug),
     loadServices(locale),
     resolveDictionary(locale),
   ]);
-  if (!page || !service) notFound();
+  if (!fallbackPage || !service) notFound();
+
+  const page = {
+    ...fallbackPage,
+    title: variant?.title || fallbackPage.title,
+    lead: variant?.lead || fallbackPage.lead,
+    overview: variant?.overview || fallbackPage.overview,
+    image: variant?.image || fallbackPage.image,
+    imageAlt: variant?.imageAlt || fallbackPage.imageAlt,
+    highlights: variant?.highlights.length
+      ? variant.highlights
+      : fallbackPage.highlights,
+    faqs: variant?.faq.length ? variant.faq : fallbackPage.faqs,
+  };
 
   const location = await loadLocation(locale, slug);
   if (!location) notFound();
@@ -111,7 +127,7 @@ export default async function LocationServicePage({ params }: PageProps) {
   const locationsLabel = locale === "ar" ? "المواقع" : "Locations";
   const servicesLabel = locale === "ar" ? "الخدمات" : "Services";
   const briefHref = `#location-service-${slug}-${serviceSlug}-brief`;
-  const faq = faqJsonLd(service.faq.length ? service.faq : page.faqs);
+  const faq = faqJsonLd(page.faqs);
 
   return (
     <>
@@ -138,15 +154,15 @@ export default async function LocationServicePage({ params }: PageProps) {
       />
 
       <PageHero
-        eyebrow={`${location.title} · ${servicesLabel}`}
+        eyebrow={variant?.eyebrow || `${location.title} · ${servicesLabel}`}
         title={page.title}
-        lead={service.heroLead ?? page.lead}
-        image={service.image}
-        imageAlt={service.imageAlt}
+        lead={page.lead}
+        image={page.image}
+        imageAlt={page.imageAlt}
         locale={locale}
         cta={{
-          label: dictionary.servicesPage?.primaryCta ?? dictionary.nav.cta,
-          href: briefHref,
+          label: variant?.cta?.label ?? dictionary.servicesPage?.primaryCta ?? dictionary.nav.cta,
+          href: variant?.cta?.href || briefHref,
         }}
         secondaryCta={
           service.secondaryCta
@@ -206,9 +222,9 @@ export default async function LocationServicePage({ params }: PageProps) {
           slug: service.slug,
           title: service.title,
           excerpt: service.excerpt,
-          overview: service.overview,
-          overviewTitle: service.overviewTitle,
-          overviewBullets: service.overviewBullets,
+          overview: page.overview,
+          overviewTitle: variant?.title || service.overviewTitle,
+          overviewBullets: page.highlights,
           image: service.image,
           imageAlt: service.imageAlt,
           process: service.process,
@@ -221,7 +237,7 @@ export default async function LocationServicePage({ params }: PageProps) {
       <InnerPageEngagement
         locale={locale}
         dictionary={dictionary}
-        faqItems={service.faq.length ? service.faq : page.faqs}
+        faqItems={page.faqs}
         faqTitle={
           locale === "ar"
             ? `أسئلة عن ${page.title}`

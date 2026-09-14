@@ -21,7 +21,7 @@ Locale-first bilingual site with local content as the source of truth, and optio
 | `/[locale]/industries` | Legacy redirect | Redirects to filtered Projects / Work |
 | `/[locale]/locations` | Legacy cities hub | Retained for existing URLs; not linked from the footer |
 | `/[locale]/locations/[slug]` | Legacy city detail | Retained for existing URLs |
-| `/[locale]/locations/[slug]/services/[serviceSlug]` | Legacy service URL | Redirected to the matching top-level service |
+| `/[locale]/locations/[slug]/services/[serviceSlug]` | CMS city-service variation | Shareable city-specific service page with its own copy, image, and SEO/social metadata |
 | `/[locale]/locations/[slug]/booth-types/[boothTypeSlug]` | Legacy booth URL | Redirected to Exhibitions & Booths catalogue |
 | `/[locale]/news` | Insights index | |
 | `/[locale]/news/[slug]` | Article | |

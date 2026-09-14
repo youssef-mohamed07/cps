@@ -10,6 +10,11 @@ import {
   locations,
   services,
 } from "@/content/catalog";
+import {
+  getServiceArchitecture,
+  localizeText,
+  serviceArchitecture,
+} from "@/content/service-architecture";
 import type { Locale } from "@/lib/i18n";
 
 export type ProgrammaticKind = "service" | "boothType";
@@ -45,7 +50,7 @@ function boothTypePath(locationSlug: string, boothTypeSlug: string) {
 
 export function getAllProgrammaticServiceParams() {
   return locations.flatMap((location) =>
-    services.map((service) => ({
+    serviceArchitecture.map((service) => ({
       slug: location.slug,
       serviceSlug: service.slug,
     })),
@@ -100,26 +105,29 @@ export function buildServiceLocationPage(
   serviceSlug: string,
 ): ProgrammaticPageData | null {
   const locationRecord = getLocation(locationSlug);
-  const serviceRecord = getService(serviceSlug);
+  const serviceRecord = getServiceArchitecture(serviceSlug);
   if (!locationRecord || !serviceRecord) return null;
 
   const location = localizeLocation(locationRecord, locale);
-  const service = localizeService(serviceRecord, locale);
   const isArabic = locale === "ar";
+  const serviceTitle = localizeText(serviceRecord.title, locale);
+  const serviceSupport = localizeText(serviceRecord.hero.support, locale);
 
   const title = isArabic
-    ? `${service.title} في ${location.title}`
-    : `${service.title} in ${location.title}`;
+    ? `${serviceTitle} في ${location.title}`
+    : `${serviceTitle} in ${location.title}`;
 
-  const lead =
-    service.heroLead ??
-    (isArabic
-      ? `خدمة ${service.title} لمعارض وفعاليات في ${location.title} — تصميم، إنتاج، وتنفيذ بمعايير CPS.`
-      : `${service.title} for exhibitions and events in ${location.title} — designed, built, and delivered to CPS standards.`);
+  const lead = isArabic
+    ? `${serviceSupport} متاحة في ${location.title} بتصميم وإنتاج وتنفيذ من CPS.`
+    : `${serviceSupport} Available in ${location.title}, designed, built, and delivered by CPS.`;
 
   const overview = isArabic
-    ? `${service.overview} نقدّم هذه الخدمة في ${location.title} مع تنسيق محلي للوجستيات والمواقع وجداول التركيب. ${location.localExperience}`
-    : `${service.overview} We deliver this service in ${location.title} with local logistics, venue coordination, and install planning. ${location.localExperience}`;
+    ? `${localizeText(serviceRecord.excerpt, locale)} نقدّم هذه الخدمة في ${location.title} مع تنسيق محلي للوجستيات والمواقع وجداول التركيب. ${location.localExperience}`
+    : `${localizeText(serviceRecord.excerpt, locale)} We deliver this service in ${location.title} with local logistics, venue coordination, and install planning. ${location.localExperience}`;
+
+  const firstBenefit = serviceRecord.benefits[0]
+    ? localizeText(serviceRecord.benefits[0], locale)
+    : "";
 
   const highlights = [
     {
@@ -134,11 +142,11 @@ export function buildServiceLocationPage(
         ? "نفس جودة التصميم والتصنيع عبر مدن المملكة."
         : "The same design and fabrication quality across Saudi cities.",
     },
-    ...(service.benefits[0]
+    ...(firstBenefit
       ? [
           {
-            title: service.benefits[0].title,
-            description: service.benefits[0].description,
+            title: firstBenefit,
+            description: serviceSupport,
           },
         ]
       : []),
@@ -147,11 +155,11 @@ export function buildServiceLocationPage(
   const faqs = [
     {
       question: isArabic
-        ? `هل تقدّمون ${service.title} في ${location.title}؟`
-        : `Do you offer ${service.title} in ${location.title}?`,
+        ? `هل تقدّمون ${serviceTitle} في ${location.title}؟`
+        : `Do you offer ${serviceTitle} in ${location.title}?`,
       answer: isArabic
-        ? `نعم. CPS تنفّذ ${service.title} في ${location.title} مع تخطيط لوجستي وتركيب في الموقع.`
-        : `Yes. CPS delivers ${service.title} in ${location.title} with logistics planning and on-site install support.`,
+        ? `نعم. CPS تنفّذ ${serviceTitle} في ${location.title} مع تخطيط لوجستي وتركيب في الموقع.`
+        : `Yes. CPS delivers ${serviceTitle} in ${location.title} with logistics planning and on-site install support.`,
     },
     {
       question: isArabic
@@ -161,8 +169,11 @@ export function buildServiceLocationPage(
         ? "يعتمد على حجم الجناح وتقويم المعرض. نحدد مراحل واضحة للتصميم والتصنيع والتركيب منذ البداية."
         : "It depends on footprint and the show calendar. We lock clear stages for design, fabrication, and install from day one.",
     },
-    ...(service.faq[0]
-      ? [{ question: service.faq[0].question, answer: service.faq[0].answer }]
+    ...(serviceRecord.faq[0]
+      ? [{
+          question: localizeText(serviceRecord.faq[0].question, locale),
+          answer: localizeText(serviceRecord.faq[0].answer, locale),
+        }]
       : []),
   ];
 
@@ -171,39 +182,38 @@ export function buildServiceLocationPage(
     locationSlug,
     entitySlug: serviceSlug,
     locationTitle: location.title,
-    entityTitle: service.title,
+    entityTitle: serviceTitle,
     countryCode: location.countryCode,
     path: servicePath(locationSlug, serviceSlug),
     title,
     lead,
     overview,
-    image: service.image || location.image,
-    imageAlt: service.imageAlt || location.imageAlt,
+    image: serviceRecord.image || location.image,
+    imageAlt: `${serviceTitle} in ${location.title}`,
     keywords: isArabic
       ? [
-          service.title,
+          serviceTitle,
           location.title,
           `أجنحة معارض ${location.title}`,
-          `${service.title} ${location.title}`,
+          `${serviceTitle} ${location.title}`,
           "CPS",
         ]
       : [
-          service.title,
+          serviceTitle,
           location.title,
           `exhibition booths ${location.title}`,
-          `${service.title} ${location.title}`,
+          `${serviceTitle} ${location.title}`,
           "CPS",
         ],
     highlights,
     faqs,
-    relatedServices: services
+    relatedServices: serviceArchitecture
       .filter((item) => item.slug !== serviceSlug)
       .slice(0, 4)
       .map((item) => {
-        const localized = localizeService(item, locale);
         return {
           slug: item.slug,
-          title: localized.title,
+          title: localizeText(item.title, locale),
           href: servicePath(locationSlug, item.slug),
         };
       }),
