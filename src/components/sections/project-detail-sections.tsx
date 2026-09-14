@@ -112,7 +112,7 @@ export function ProjectDetailSections({
 
   return (
     <>
-      {(facts.length || project.technologies?.length) ? (
+      {facts.length ? (
         <section className="project-detail-facts">
           <div className="site-container project-detail-facts-shell">
             {facts.length ? (
@@ -157,20 +157,6 @@ export function ProjectDetailSections({
               </Reveal>
             ) : null}
 
-            {project.technologies?.length ? (
-              <Reveal delay={0.06}>
-                <div className="project-detail-tech-inline">
-                  <p className="project-detail-tech-label">
-                    {isArabic ? "عناصر الإنتاج الرئيسية" : "Key Production Elements"}
-                  </p>
-                  <ul className="project-detail-tech-list">
-                    {project.technologies.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ) : null}
           </div>
         </section>
       ) : null}

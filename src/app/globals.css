@@ -8273,47 +8273,6 @@ a.contact-card:hover {
   font-weight: 550;
 }
 
-.project-detail-tech-inline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.75rem 1.5rem;
-  padding: 0;
-}
-
-.project-detail-tech-label {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(15, 51, 85, 0.45);
-}
-
-.project-detail-tech-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.35rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.project-detail-tech-list li {
-  position: relative;
-  padding: 0;
-  color: #0f3355;
-  font-size: 0.92rem;
-  font-weight: 650;
-}
-
-.project-detail-tech-list li:not(:last-child)::after {
-  content: "·";
-  position: absolute;
-  inset-inline-end: -0.8rem;
-  color: #2192b4;
-}
-
 @media (max-width: 900px) {
   .project-detail-facts-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
