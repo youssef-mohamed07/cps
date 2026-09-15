@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
 import {
   cataloguePath,
   getServiceArchitecture,
@@ -83,6 +84,15 @@ export default async function CatalogueItemPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={serviceJsonLd({
+          name: localizeText(item.title, locale),
+          description: localizeText(item.description, locale),
+          path: `/services/${service.slug}/catalogue/${item.slug}`,
+          locale,
+          image: service.image,
+        })}
+      />
       <Breadcrumbs
         locale={locale}
         items={[

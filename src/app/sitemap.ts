@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { locales, localizePath } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/seo";
 import {
+  loadLocations,
   loadNews,
   loadProjects,
 } from "@/sanity/load-collections";
@@ -14,6 +15,7 @@ const staticPaths = [
   "/production-capabilities",
   "/our-work",
   "/news",
+  "/locations",
   "/contact",
   "/privacy",
   "/terms",
@@ -25,9 +27,9 @@ function entry(
   options: {
     changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
     priority?: number;
+    lastModified?: string | Date;
   } = {},
 ): MetadataRoute.Sitemap {
-  const now = new Date();
   return locales.map((locale) => {
     const localizedPath = localizePath(path, locale);
     const languages = Object.fromEntries(
@@ -37,7 +39,7 @@ function entry(
 
     return {
       url: getSiteUrl(localizedPath),
-      lastModified: now,
+      ...(options.lastModified ? { lastModified: options.lastModified } : {}),
       changeFrequency: options.changeFrequency ?? "weekly",
       priority: options.priority ?? (path === "/" ? 1 : 0.8),
       alternates: {
@@ -48,10 +50,11 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [projects, news] =
+  const [projects, news, locations] =
     await Promise.all([
       loadProjects("en"),
       loadNews("en"),
+      loadLocations("en"),
     ]);
 
   return [
@@ -64,14 +67,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       }),
     ),
+    ...locations.flatMap((location) => [
+      ...entry(`/locations/${location.slug}`, {
+        changeFrequency: "monthly",
+        priority: 0.7,
+      }),
+      ...serviceArchitecture.flatMap((service) =>
+        entry(`/locations/${location.slug}/services/${service.slug}`, {
+          changeFrequency: "monthly",
+          priority: 0.65,
+        }),
+      ),
+    ]),
     ...serviceArchitecture.flatMap((service) => [
       ...entry(`/services/${service.slug}`, { changeFrequency: "monthly", priority: 0.8 }),
       ...entry(`/services/${service.slug}/catalogue`, { changeFrequency: "monthly", priority: 0.7 }),
-      // Location x service landing pages stay reachable via internal links and
-      // redirects, but are intentionally excluded from the sitemap: they are
-      // templated variants of the canonical /services/[slug] page, and pushing
-      // dozens of near-duplicate city variants risks thin/doorway-content
-      // signals. See docs/architecture.md "SEO" section.
       ...service.catalogue.categories.flatMap((category) =>
         category.items.flatMap((item) =>
           entry(`/services/${service.slug}/catalogue/${item.slug}`, {
@@ -85,6 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entry(`/news/${item.slug}`, {
         changeFrequency: "weekly",
         priority: 0.6,
+        lastModified: item.publishedAt || undefined,
       }),
     ),
   ];

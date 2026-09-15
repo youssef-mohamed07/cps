@@ -1,17 +1,7 @@
 import type { SeoMeta } from "@/types/seo";
-import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
+import { sanitizeText, toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
 
 type SanityImage = { asset?: unknown; alt?: string } | null | undefined;
-
-/**
- * Strip invisible Unicode characters (zero-width joiners, etc.) from text.
- * These characters break accessibility and SEO but are invisible visually.
- */
-const INVISIBLE_CHARS = /[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF\u2060\u00AD]/g;
-function sanitizeText(text: string | undefined | null): string {
-  if (!text) return "";
-  return text.replace(INVISIBLE_CHARS, "").trim();
-}
 
 export type CmsListItem = {
   slug: string;
@@ -96,22 +86,28 @@ export function mapServiceLocation(doc: {
 }): CmsServiceLocation | null {
   if (!doc?.title || !doc.locationSlug || !doc.serviceSlug) return null;
   return {
-    title: doc.title,
-    eyebrow: doc.eyebrow ?? "",
-    lead: doc.lead ?? "",
-    overview: doc.overview ?? "",
-    locationSlug: doc.locationSlug,
-    serviceSlug: doc.serviceSlug,
+    title: sanitizeText(doc.title),
+    eyebrow: sanitizeText(doc.eyebrow),
+    lead: sanitizeText(doc.lead),
+    overview: sanitizeText(doc.overview),
+    locationSlug: sanitizeText(doc.locationSlug),
+    serviceSlug: sanitizeText(doc.serviceSlug),
     image: toImageSrc(doc.hero, doc.heroUrl ?? ""),
-    imageAlt: doc.hero?.alt ?? doc.title,
+    imageAlt: sanitizeText(doc.hero?.alt ?? doc.title),
     highlights: (doc.highlights ?? [])
       .filter((item) => item.title)
-      .map((item) => ({ title: item.title!, description: item.description ?? "" })),
+      .map((item) => ({
+        title: sanitizeText(item.title),
+        description: sanitizeText(item.description),
+      })),
     faq: (doc.faq ?? [])
       .filter((item) => item.question)
-      .map((item) => ({ question: item.question!, answer: item.answer ?? "" })),
+      .map((item) => ({
+        question: sanitizeText(item.question),
+        answer: sanitizeText(item.answer),
+      })),
     cta: doc.cta?.label && doc.cta.href
-      ? { label: doc.cta.label, href: doc.cta.href }
+      ? { label: sanitizeText(doc.cta.label), href: sanitizeText(doc.cta.href) }
       : undefined,
     seo: mapSeo(doc.seo),
   };

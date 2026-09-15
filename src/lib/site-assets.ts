@@ -1,10 +1,9 @@
 import { getSiteConfig } from "@/lib/site-config";
-import { placeholderUrl } from "@/lib/placeholders";
-
 const LOGO_FALLBACK = "/logo.png";
 const ICON_FALLBACK = "/icon.png";
 const FAVICON_FALLBACK = "/favicon.ico";
-const OG_FALLBACK = placeholderUrl(1200, 630);
+const OG_FALLBACK =
+  "https://res.cloudinary.com/jivfgunl/image/upload/c_fill,g_auto,w_1200,h_630,q_auto,f_auto/v1789398995/Top_Exhibition_Booths.png";
 
 export function getSiteLogo(): string {
   return getSiteConfig().logo || LOGO_FALLBACK;
@@ -19,7 +18,13 @@ export function getSiteFavicon(): string {
 }
 
 export function getDefaultOgImage(): string {
-  return getSiteConfig().defaultOgImage || OG_FALLBACK;
+  const config = getSiteConfig();
+  return (
+    config.defaultOgImage ||
+    config.homeHero ||
+    config.productionImage ||
+    OG_FALLBACK
+  );
 }
 
 export function getSiteHeroVideo(): string | undefined {

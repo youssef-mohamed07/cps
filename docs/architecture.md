@@ -87,7 +87,7 @@ Sanity collections + singletons (optional) ─────────┘
 
 - Per-page metadata via `buildPageMetadata` (hreflang already in `buildMetadata`)
 - Breadcrumbs + JSON-LD on detail templates
-- Sitemap emits canonical Blueprint routes with `alternates.languages`; legacy location and booth-type routes remain reachable through redirects but are excluded from the sitemap
+- Sitemap emits canonical Blueprint routes, catalogue items, location pages, and CMS-backed city/service variants with `alternates.languages`; redirected booth-type and industry routes remain excluded
 
 ## Related docs
 

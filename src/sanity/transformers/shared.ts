@@ -11,6 +11,13 @@ type SanityImageField = {
   height?: number;
 };
 
+const INVISIBLE_CHARS = /[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF\u00AD]/g;
+
+/** Remove invisible/control characters that can corrupt metadata and JSON-LD. */
+export function sanitizeText(value: string | undefined | null): string {
+  return value?.replace(INVISIBLE_CHARS, "").trim() ?? "";
+}
+
 export function toImageSrc(
   image: SanityImageField | SanityImageSource | null | undefined,
   fallback = "",
@@ -40,12 +47,12 @@ export function toSeoMeta(seo: {
 
   const ogImage = toImageSrc(seo.ogImage);
   return {
-    title: seo.title,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: sanitizeText(seo.title) || undefined,
+    description: sanitizeText(seo.description) || undefined,
+    keywords: seo.keywords?.map(sanitizeText).filter(Boolean),
     ogImage: ogImage || undefined,
-    canonicalUrl: seo.canonicalUrl,
+    canonicalUrl: sanitizeText(seo.canonicalUrl) || undefined,
     noIndex: seo.noIndex,
-    robots: seo.robots,
+    robots: sanitizeText(seo.robots) || undefined,
   };
 }

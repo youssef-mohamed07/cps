@@ -88,7 +88,7 @@ export function getSiteConfig(): SiteConfigShape {
     tagline: "Production Fabrication and Fit Out",
     description:
       "CPS delivers exhibitions, events, interiors, displays, printing and custom fabrication across Saudi Arabia.",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.build8.dev",
     locale: "en_SA",
     email: CPS_EMAIL,
     phone: CPS_PHONE,

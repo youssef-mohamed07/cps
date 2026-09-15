@@ -44,7 +44,12 @@ export function isIndexingAllowed(): boolean {
   if (vercelEnv && vercelEnv !== "production") {
     return false;
   }
-  return process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
+  const setting = process.env.NEXT_PUBLIC_ALLOW_INDEXING;
+  if (setting === "true") return true;
+  if (setting === "false") return false;
+
+  return process.env.NODE_ENV === "production";
 }
 
 export interface BuildMetadataOptions {
@@ -92,10 +97,7 @@ export function buildMetadata({
 
   return {
     metadataBase: new URL(config.url),
-    title: {
-      default: title,
-      template: `%s | ${config.name}`,
-    },
+    title: { absolute: title },
     description,
     keywords: resolvedKeywords,
     applicationName: config.name,
@@ -178,7 +180,7 @@ export function organizationJsonLd() {
       getSiteConfig().social.instagram,
       getSiteConfig().social.linkedin,
       getSiteConfig().social.x,
-    ],
+    ].filter(Boolean),
   };
 }
 

@@ -10,7 +10,7 @@ import {
 } from "@/lib/site-config";
 import { sanitizeBrandColors } from "@/lib/sanitize-css-color";
 import { fileUrl } from "@/sanity/file";
-import { toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
+import { sanitizeText, toImageSrc, toSeoMeta } from "@/sanity/transformers/shared";
 
 type SanitySiteSettings = {
   companyName?: string;
@@ -61,45 +61,49 @@ export function toSiteConfig(
     process.env.NEXT_PUBLIC_PORTFOLIO_URL ||
     "";
 
-  const instagram = data.socialLinks?.find((link) => link.platform === "instagram")?.url;
-  const linkedin = data.socialLinks?.find((link) => link.platform === "linkedin")?.url;
-  const x = data.socialLinks?.find((link) => link.platform === "x")?.url;
+  const instagram = data.socialLinks?.find((link) => sanitizeText(link.platform) === "instagram")?.url;
+  const linkedin = data.socialLinks?.find((link) => sanitizeText(link.platform) === "linkedin")?.url;
+  const x = data.socialLinks?.find((link) => sanitizeText(link.platform) === "x")?.url;
 
   return {
-    name: data.companyName,
-    legalName: data.legalName ?? data.companyName,
-    tagline: data.tagline ?? "",
-    description: data.description ?? "",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cps.com",
+    name: sanitizeText(data.companyName),
+    legalName: sanitizeText(data.legalName ?? data.companyName),
+    tagline: sanitizeText(data.tagline),
+    description: sanitizeText(data.description),
+    url: sanitizeText(process.env.NEXT_PUBLIC_SITE_URL) || "https://cps.build8.dev",
     locale: "en_SA",
-    email: resolveContactEmail(data.email),
-    phone: resolveContactPhone(data.phone),
-    phoneDisplay: resolveContactPhoneDisplay(data.phoneDisplay ?? data.phone),
+    email: resolveContactEmail(sanitizeText(data.email)),
+    phone: resolveContactPhone(sanitizeText(data.phone)),
+    phoneDisplay: resolveContactPhoneDisplay(sanitizeText(data.phoneDisplay ?? data.phone)),
     whatsappMessage: resolveWhatsAppMessage(data.whatsappMessage),
     address: {
-      city: data.addressCity ?? "",
-      country: data.addressCountry ?? "SA",
-      countryName: data.addressCountryName ?? "Saudi Arabia",
+      city: sanitizeText(data.addressCity),
+      country: sanitizeText(data.addressCountry) || "SA",
+      countryName: sanitizeText(data.addressCountryName) || "Saudi Arabia",
     },
     social: {
-      instagram: instagram ?? "",
-      linkedin: linkedin ?? "",
-      x: x ?? "",
+      instagram: sanitizeText(instagram),
+      linkedin: sanitizeText(linkedin),
+      x: sanitizeText(x),
     },
     logo: toImageSrc(data.logo),
     icon: toImageSrc(data.icon),
     favicon: toImageSrc(data.favicon),
     portfolio: {
       enabled: data.portfolio?.enabled ?? Boolean(portfolioHref),
-      labelEn: data.portfolio?.labelEn || "Download Portfolio",
-      labelAr: data.portfolio?.labelAr || "تحميل ملف الأعمال",
-      href: portfolioHref,
+      labelEn: sanitizeText(data.portfolio?.labelEn) || "Download Portfolio",
+      labelAr: sanitizeText(data.portfolio?.labelAr) || "تحميل ملف الأعمال",
+      href: sanitizeText(portfolioHref),
     },
-    googleMapsUrl: data.googleMapsUrl,
-    googleAnalyticsId: data.googleAnalyticsId,
-    googleTagManagerId: data.googleTagManagerId,
-    defaultKeywords: data.defaultKeywords,
-    defaultSeoByLocale: data.defaultSeoByLocale,
+    googleMapsUrl: sanitizeText(data.googleMapsUrl) || undefined,
+    googleAnalyticsId: sanitizeText(data.googleAnalyticsId) || undefined,
+    googleTagManagerId: sanitizeText(data.googleTagManagerId) || undefined,
+    defaultKeywords: data.defaultKeywords?.map(sanitizeText).filter(Boolean),
+    defaultSeoByLocale: data.defaultSeoByLocale?.map((item) => ({
+      locale: sanitizeText(item.locale),
+      title: sanitizeText(item.title),
+      description: sanitizeText(item.description),
+    })),
     defaultOgImage: toImageSrc(data.ogImage),
     homeHero: toImageSrc(data.homeHero),
     homeHeroVideo: fileUrl(data.homeHeroVideo),
@@ -111,7 +115,10 @@ export function toSiteConfig(
     defaultSeo: toSeoMeta(data.defaultSeo),
     footerExploreLinks: data.footerExploreLinks
       ?.filter((link) => link.label && link.href)
-      .map((link) => ({ label: link.label!, href: link.href! })),
+      .map((link) => ({
+        label: sanitizeText(link.label),
+        href: sanitizeText(link.href),
+      })),
   };
 }
 

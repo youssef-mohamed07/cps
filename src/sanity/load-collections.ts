@@ -67,18 +67,8 @@ import {
   type CmsService,
   type CmsServiceLocation,
 } from "@/sanity/transformers/collections";
-import { toImageSrc } from "@/sanity/transformers/shared";
+import { sanitizeText, toImageSrc } from "@/sanity/transformers/shared";
 import { mergeProjectFallback } from "@/sanity/transformers/project-fallback";
-
-/**
- * Strip invisible Unicode characters (zero-width joiners, etc.) from text.
- * These characters break accessibility and SEO but are invisible visually.
- */
-const INVISIBLE_CHARS = /[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF\u2060\u00AD]/g;
-function sanitizeText(text: string | undefined | null): string {
-  if (!text) return "";
-  return text.replace(INVISIBLE_CHARS, "").trim();
-}
 
 function localService(slug: string, locale: Locale): CmsService | null {
   const canonical = getServiceArchitecture(slug);
