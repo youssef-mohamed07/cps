@@ -102,7 +102,7 @@ export function SiteHeader({
     });
 
     const hero = document.querySelector(
-      ".home-hero, .page-hero, .service-architecture-hero",
+      ".home-hero, .page-hero, .service-architecture-hero, .catalogue-product-hero",
     );
     if (!hero) return () => window.cancelAnimationFrame(resetFrame);
 

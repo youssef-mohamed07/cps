@@ -160,13 +160,26 @@ export function ServiceArchitecturePage({
     locale,
     service.slug === "installation-project-delivery" ? "delivery" : "service",
   );
-  const catalogueOptions = service.catalogue.categories.flatMap((category) =>
-    category.items.map((entry) => ({
+  const catalogueItems = service.catalogue.categories.flatMap((category) =>
+    category.items.map((entry) => ({ ...entry, category })),
+  );
+  const catalogueOptions = catalogueItems.map((entry) => ({
       value: entry.slug,
       label: localizeText(entry.title, locale),
-    })),
+    }));
+  const featuredMatches = service.showcase.items
+    .map((showcaseItem) =>
+      catalogueItems.find((entry) => entry.title.en === showcaseItem.title.en),
+    )
+    .filter((entry): entry is (typeof catalogueItems)[number] => Boolean(entry));
+  const remainingCatalogueItems = catalogueItems.filter(
+    (entry) => !featuredMatches.some((featuredEntry) => featuredEntry.slug === entry.slug),
   );
-  const featured = service.showcase.items;
+  const featured = [
+    ...featuredMatches,
+    ...remainingCatalogueItems.filter((entry) => Boolean(entry.image)),
+    ...remainingCatalogueItems.filter((entry) => !entry.image),
+  ].slice(0, 5);
   const totalCatalogueItems = service.catalogue.categories.reduce(
     (acc, cat) => acc + cat.items.length,
     0,
@@ -337,9 +350,22 @@ export function ServiceArchitecturePage({
                 className="service-showcase-item-reveal"
               >
                 <Link
-                  href={localizePath(cataloguePath(service.slug), locale)}
+                  href={localizePath(
+                    `${cataloguePath(service.slug)}/${entry.slug}`,
+                    locale,
+                  )}
                   className="service-showcase-card"
                 >
+                  <div className="service-showcase-card-media">
+                    <Image
+                      src={entry.image || service.image}
+                      alt={localizeText(entry.title, locale)}
+                      fill
+                      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                    <span>{localizeText(entry.category.title, locale)}</span>
+                  </div>
                   <div className="service-showcase-card-header">
                     <span className="service-showcase-card-index" aria-hidden="true">
                       {String(index + 1).padStart(2, "0")}
@@ -359,7 +385,7 @@ export function ServiceArchitecturePage({
                   </div>
                   <div className="service-showcase-card-footer">
                     <span className="service-showcase-card-link">
-                      <span>{ar ? "استكشف في الكتالوج" : "Explore in catalogue"}</span>
+                      <span>{ar ? "عرض التفاصيل" : "View details"}</span>
                       <CtaArrow size="sm" />
                     </span>
                   </div>

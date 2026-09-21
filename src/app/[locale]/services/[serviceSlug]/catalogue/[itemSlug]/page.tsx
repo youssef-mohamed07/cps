@@ -57,8 +57,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     path: `/services/${serviceSlug}/catalogue/${itemSlug}`,
     locale,
     fallbackTitle: `CPS — ${localizeText(result.item.title, locale)}`,
-    fallbackDescription: localizeText(result.item.description, locale),
-    fallbackOgImage: result.service.image,
+    fallbackDescription:
+      result.item.detail?.introduction || localizeText(result.item.description, locale),
+    fallbackOgImage: result.item.image || result.service.image,
   });
 }
 
@@ -70,6 +71,12 @@ export default async function CatalogueItemPage({ params }: PageProps) {
   if (!result) notFound();
 
   const { service, category, item } = result;
+  const productImage = item.image || service.image;
+  const introduction = (
+    item.detail?.introduction || localizeText(item.description, locale)
+  )
+    .replace(/\s+(?:The|This) page should\b.*$/i, "")
+    .trim();
   const catalogueHref = localizePath(cataloguePath(service.slug), locale);
   const contactHref = localizePath("/contact", locale);
   const quoteHref = localizePath(
@@ -87,82 +94,112 @@ export default async function CatalogueItemPage({ params }: PageProps) {
       <JsonLd
         data={serviceJsonLd({
           name: localizeText(item.title, locale),
-          description: localizeText(item.description, locale),
+          description: introduction,
           path: `/services/${service.slug}/catalogue/${item.slug}`,
           locale,
-          image: service.image,
+          image: productImage,
         })}
       />
-      <Breadcrumbs
-        locale={locale}
-        items={[
-          { label: ar ? "الرئيسية" : "Home", href: "/" },
-          { label: ar ? "الخدمات" : "Services", href: "/services" },
-          { label: localizeText(service.title, locale), href: servicePath(service.slug) },
-          { label: localizeText(service.catalogue.title, locale), href: cataloguePath(service.slug) },
-          { label: localizeText(item.title, locale) },
-        ]}
-      />
-
       <main className="catalogue-product">
-        <div className="site-container">
-          <Link href={catalogueHref} className="catalogue-product-back">
-            <CtaArrow size="sm" />
-            {ar ? "العودة إلى الكتالوج" : "Back to catalogue"}
-          </Link>
+        <section className="catalogue-product-hero">
+          <Breadcrumbs
+            locale={locale}
+            compactOnMobile
+            items={[
+              { label: ar ? "الرئيسية" : "Home", href: "/" },
+              { label: ar ? "الخدمات" : "Services", href: "/services" },
+              { label: localizeText(service.title, locale), href: servicePath(service.slug) },
+              { label: localizeText(service.catalogue.title, locale), href: cataloguePath(service.slug) },
+              { label: localizeText(item.title, locale) },
+            ]}
+          />
+          <div className="site-container">
+            <Link href={catalogueHref} className="catalogue-product-back">
+              <CtaArrow size="sm" />
+              {ar ? "العودة إلى الكتالوج" : "Back to catalogue"}
+            </Link>
 
-          <div className="catalogue-product-grid">
-            <div className="catalogue-product-media">
-              <Image
-                src={service.image}
-                alt={localizeText(item.title, locale)}
-                fill
-                priority
-                sizes="(max-width: 900px) 100vw, 58vw"
-                className="object-cover"
-              />
-              <span>{localizeText(category.title, locale)}</span>
-            </div>
-
-            <div className="catalogue-product-panel">
-              <p className="eyebrow">{localizeText(service.title, locale)}</p>
-              <h1>{localizeText(item.title, locale)}</h1>
-              <p className="catalogue-product-description">
-                {localizeText(item.description, locale)}
-              </p>
-
-              <div className="catalogue-product-details">
-                <h2>{ar ? "لماذا تختار CPS" : "Why choose CPS"}</h2>
-                <ul>
-                  {service.benefits.slice(0, 4).map((benefit) => (
-                    <li key={benefit.en}>{localizeText(benefit, locale)}</li>
-                  ))}
-                </ul>
+            <div className="catalogue-product-grid">
+              <div className="catalogue-product-media">
+                <Image
+                  src={productImage}
+                  alt={localizeText(item.title, locale)}
+                  fill
+                  preload
+                  sizes="(max-width: 900px) 100vw, 58vw"
+                  className="object-cover"
+                />
+                <span>{localizeText(category.title, locale)}</span>
               </div>
 
-              {item.cityAnchors?.length ? (
-                <div className="catalogue-product-cities">
-                  <h2>{ar ? "متاح في" : "Available in"}</h2>
-                  <ul>
-                    {item.cityAnchors.map((city) => (
-                      <li key={city.slug}>{localizeText(city.title, locale)}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+              <div className="catalogue-product-panel">
+                <p className="eyebrow">{localizeText(service.title, locale)}</p>
+                <h1>{localizeText(item.title, locale)}</h1>
+                <p className="catalogue-product-description">{introduction}</p>
 
-              <div className="catalogue-product-actions">
-                <Link href={contactHref} className="btn-primary">
-                  {ar ? "تواصل معنا" : "Get in touch"}
-                  <CtaArrow size="sm" />
-                </Link>
-                <Link href={quoteHref} className="btn-secondary">
-                  {ar ? "اطلب عرض سعر" : "Request a quote"}
-                </Link>
+                {item.cityAnchors?.length ? (
+                  <div className="catalogue-product-cities">
+                    <h2>{ar ? "متاح في" : "Available in"}</h2>
+                    <ul>
+                      {item.cityAnchors.map((city) => (
+                        <li key={city.slug}>{localizeText(city.title, locale)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                <div className="catalogue-product-actions">
+                  <Link href={quoteHref} className="btn-primary">
+                    {ar ? "اطلب عرض سعر" : "Request a quote"}
+                    <CtaArrow size="sm" />
+                  </Link>
+                  <Link href={contactHref} className="btn-secondary">
+                    {ar ? "تواصل معنا" : item.detail?.primaryCta || "Get in touch"}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {item.detail ? (
+          <div className="site-container catalogue-product-content-wrap">
+            <div className="catalogue-product-content-head">
+              <p className="eyebrow">{ar ? "تفاصيل المنتج" : "Product details"}</p>
+              <h2>{ar ? "التفاصيل الأساسية" : "At a glance"}</h2>
+            </div>
+            <div className="catalogue-product-content-grid">
+              <section className="catalogue-product-content-card">
+                <h3><span aria-hidden="true">01</span>{ar ? "ما الذي يشمله" : "What's included"}</h3>
+                <ul dir={ar ? "ltr" : undefined}>
+                  {item.detail.included.map((entry) => (
+                    <li key={entry}>{entry}</li>
+                  ))}
+                </ul>
+              </section>
+              <section className="catalogue-product-content-card">
+                <h3><span aria-hidden="true">02</span>{ar ? "الأنسب لـ" : "Best for"}</h3>
+                <ul dir={ar ? "ltr" : undefined}>
+                  {item.detail.bestFor.map((entry) => (
+                    <li key={entry}>{entry}</li>
+                  ))}
+                </ul>
+              </section>
+              <section className="catalogue-product-content-card">
+                <h3><span aria-hidden="true">03</span>{ar ? "الخيارات المتاحة" : "Available options"}</h3>
+                <ul dir={ar ? "ltr" : undefined}>
+                  {item.detail.options.map((entry) => (
+                    <li key={entry}>{entry}</li>
+                  ))}
+                </ul>
+              </section>
+              <section className="catalogue-product-content-card catalogue-product-content-card--coverage">
+                <h3><span aria-hidden="true">04</span>{ar ? "التغطية والتوفر" : "Coverage and availability"}</h3>
+                <p dir={ar ? "ltr" : undefined}>{item.detail.coverage}</p>
+              </section>
+            </div>
+          </div>
+        ) : null}
       </main>
 
       {relatedItems.length ? (
@@ -181,7 +218,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                 >
                   <div className="catalogue-related-media">
                     <Image
-                      src={service.image}
+                      src={entry.image || service.image}
                       alt={localizeText(entry.title, locale)}
                       fill
                       sizes="(max-width: 700px) 100vw, 33vw"

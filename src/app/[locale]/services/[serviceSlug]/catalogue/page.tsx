@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd, serviceJsonLd } from "@/components/seo/json-ld";
-import { CtaArrow } from "@/components/motion/cta-arrow";
 import { CatalogueBrowser } from "@/components/sections/catalogue-browser";
 import { PageHero } from "@/components/sections/page-hero";
-import { getServiceArchitecture, localizeText, serviceArchitecture, servicePath } from "@/content/service-architecture";
+import {
+  getServiceArchitecture,
+  localizeText,
+  serviceArchitecture,
+  servicePath,
+} from "@/content/service-architecture";
 import { buildPageMetadata } from "@/lib/cms-seo";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n";
 import { ensureSiteConfig } from "@/sanity/load-site-config";
@@ -15,16 +20,146 @@ type PageProps = {
   params: Promise<{ locale: string; serviceSlug: string }>;
   searchParams: Promise<{ item?: string | string[]; city?: string | string[] }>;
 };
-const first = (value?: string | string[]) => Array.isArray(value) ? value[0] : value;
-export function generateStaticParams() { return serviceArchitecture.flatMap((service) => (["en", "ar"] as const).map((locale) => ({ locale, serviceSlug: service.slug }))); }
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> { const { locale, serviceSlug } = await params; if (!isLocale(locale)) return {}; const service = getServiceArchitecture(serviceSlug); if (!service) return {}; const query = await searchParams; const itemSlug = first(query.item); const citySlug = first(query.city); const cityAnchor = service.catalogue.categories.flatMap((category) => category.items).find((item) => item.slug === itemSlug)?.cityAnchors?.find((city) => city.slug === citySlug); await ensureSiteConfig(); return buildPageMetadata({ path: `/services/${serviceSlug}/catalogue`, locale, fallbackTitle: cityAnchor ? `CPS — ${localizeText(cityAnchor.seoTitle, locale)}` : `CPS — ${localizeText(service.catalogue.title, locale)}`, fallbackDescription: cityAnchor ? localizeText(cityAnchor.seoDescription, locale) : localizeText(service.catalogue.support, locale), fallbackOgImage: service.image }); }
+
+const first = (value?: string | string[]) =>
+  Array.isArray(value) ? value[0] : value;
+
+function serviceCatalogueItems(serviceSlug: string) {
+  return (
+    getServiceArchitecture(serviceSlug)?.catalogue.categories.flatMap(
+      (category) => category.items,
+    ) ?? []
+  );
+}
+export function generateStaticParams() {
+  return serviceArchitecture.flatMap((service) =>
+    (["en", "ar"] as const).map((locale) => ({
+      locale,
+      serviceSlug: service.slug,
+    })),
+  );
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { locale, serviceSlug } = await params;
+  if (!isLocale(locale)) return {};
+
+  const service = getServiceArchitecture(serviceSlug);
+  if (!service) return {};
+
+  const query = await searchParams;
+  const itemSlug = first(query.item);
+  const citySlug = first(query.city);
+  const items = serviceCatalogueItems(serviceSlug);
+  const cityAnchor = items
+    .find((item) => item.slug === itemSlug)
+    ?.cityAnchors?.find((city) => city.slug === citySlug);
+
+  await ensureSiteConfig();
+  return buildPageMetadata({
+    path: `/services/${serviceSlug}/catalogue`,
+    locale,
+    fallbackTitle: cityAnchor
+      ? `CPS — ${localizeText(cityAnchor.seoTitle, locale)}`
+      : `CPS — ${localizeText(service.catalogue.title, locale)}`,
+    fallbackDescription: cityAnchor
+      ? localizeText(cityAnchor.seoDescription, locale)
+      : localizeText(service.catalogue.support, locale),
+    fallbackOgImage: items.find((item) => item.image)?.image || service.image,
+  });
+}
+
 export default async function CataloguePage({ params, searchParams }: PageProps) {
   const { locale: value, serviceSlug } = await params;
   const query = await searchParams;
   if (!isLocale(value)) notFound();
+
   const locale: Locale = value;
   const service = getServiceArchitecture(serviceSlug);
   if (!service) notFound();
+
+  const items = serviceCatalogueItems(serviceSlug);
+  const catalogueImage = items.find((item) => item.image)?.image || service.image;
   const contactHref = localizePath("/contact", locale);
-  return <><JsonLd data={serviceJsonLd({ name: localizeText(service.catalogue.title, locale), description: localizeText(service.catalogue.support, locale), path: `/services/${serviceSlug}/catalogue`, locale, image: service.image })} /><Breadcrumbs locale={locale} items={[{ label: locale === "ar" ? "الرئيسية" : "Home", href: "/" }, { label: locale === "ar" ? "الخدمات" : "Services", href: "/services" }, { label: localizeText(service.title, locale), href: servicePath(service.slug) }, { label: localizeText(service.catalogue.title, locale) }]} /><PageHero locale={locale} eyebrow={localizeText(service.title, locale)} title={localizeText(service.catalogue.title, locale)} lead={localizeText(service.catalogue.support, locale)} image={service.image} imageAlt={localizeText(service.title, locale)} cta={{ label: locale === "ar" ? "ابدأ مشروعاً" : "Start a Project", href: localizePath(`${servicePath(service.slug)}#quote`, locale) }} /><section className="catalogue-section section-pad"><div className="site-container"><CatalogueBrowser locale={locale} serviceSlug={service.slug} serviceImage={service.image} categories={service.catalogue.categories} layoutFilters={service.catalogue.layoutFilters} searchable={service.catalogue.searchable} highlightedItem={first(query.item)} selectedCity={first(query.city)} /><div className="catalogue-bottom"><h2>{locale === "ar" ? <>لم تجد ما تحتاجه بالضبط؟ <Link href={contactHref} className="catalogue-bottom-link">تواصل معنا.</Link></> : <>Don&apos;t see exactly what you need? <Link href={contactHref} className="catalogue-bottom-link">Get in touch.</Link></>}</h2><Link href={contactHref} className="btn-primary catalogue-bottom-cta">{locale === "ar" ? "تواصل معنا" : "Get in touch"}<CtaArrow size="sm" /></Link></div></div></section></>;
+  const ar = locale === "ar";
+
+  return (
+    <>
+      <JsonLd
+        data={serviceJsonLd({
+          name: localizeText(service.catalogue.title, locale),
+          description: localizeText(service.catalogue.support, locale),
+          path: `/services/${serviceSlug}/catalogue`,
+          locale,
+          image: catalogueImage,
+        })}
+      />
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: ar ? "الرئيسية" : "Home", href: "/" },
+          { label: ar ? "الخدمات" : "Services", href: "/services" },
+          {
+            label: localizeText(service.title, locale),
+            href: servicePath(service.slug),
+          },
+          { label: localizeText(service.catalogue.title, locale) },
+        ]}
+      />
+      <PageHero
+        className="page-hero--catalogue"
+        locale={locale}
+        eyebrow={localizeText(service.title, locale)}
+        title={localizeText(service.catalogue.title, locale)}
+        lead={localizeText(service.catalogue.support, locale)}
+        meta={`${items.length} ${ar ? "منتجاً وخدمة" : "products and capabilities"}`}
+        image={catalogueImage}
+        imageAlt={localizeText(service.catalogue.title, locale)}
+        cta={{
+          label: ar ? "ابدأ مشروعاً" : "Start a Project",
+          href: localizePath(`${servicePath(service.slug)}#quote`, locale),
+        }}
+      />
+      <section className="catalogue-section section-pad">
+        <div className="site-container">
+          <CatalogueBrowser
+            locale={locale}
+            serviceSlug={service.slug}
+            serviceImage={service.image}
+            categories={service.catalogue.categories}
+            layoutFilters={service.catalogue.layoutFilters}
+            searchable={service.catalogue.searchable}
+            highlightedItem={first(query.item)}
+            selectedCity={first(query.city)}
+          />
+          <div className="catalogue-bottom">
+            <h2>
+              {ar ? (
+                <>
+                  لم تجد ما تحتاجه بالضبط؟{" "}
+                  <Link href={contactHref} className="catalogue-bottom-link">
+                    تواصل معنا.
+                  </Link>
+                </>
+              ) : (
+                <>
+                  Don&apos;t see exactly what you need?{" "}
+                  <Link href={contactHref} className="catalogue-bottom-link">
+                    Get in touch.
+                  </Link>
+                </>
+              )}
+            </h2>
+            <Link href={contactHref} className="btn-primary catalogue-bottom-cta">
+              {ar ? "تواصل معنا" : "Get in touch"}
+              <CtaArrow size="sm" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

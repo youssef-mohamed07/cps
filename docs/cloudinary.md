@@ -48,3 +48,19 @@ editorial overwrite has been approved.
 The source library currently contains one exact duplicate in the Ajlan project:
 `WhatsApp_Image_2026-01-09_at_3.27.31_AM` and `IMG-20260109-WA0021`. Both are
 retained in the manifest so it represents every Cloudinary source asset.
+
+## Service catalogue product media
+
+The `CPS Website/Our Services (Products)` folder supplies the product-level
+images used by the service catalogue cards and catalogue detail pages. Content
+for those pages comes from `CPS_Catalogue_Detail_Page_Content.xlsx` and is
+checked into `src/content/catalogue-detail-content.generated.ts` so production
+builds do not need to read an Excel workbook or call the Cloudinary Admin API.
+
+The workbook defines 122 catalogue items. Cloudinary currently supplies 119
+matching product images. These three Custom Fabrication items intentionally use
+their service image until matching assets are uploaded:
+
+- `custom-fabrication:display-units`
+- `custom-fabrication:decorative-structures`
+- `custom-fabrication:product-displays`

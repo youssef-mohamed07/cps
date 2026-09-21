@@ -1,4 +1,8 @@
 import { media } from "@/content/media";
+import {
+  catalogueDetailContent,
+  type CatalogueDetailContent,
+} from "@/content/catalogue-detail-content.generated";
 import type { Locale } from "@/lib/i18n";
 
 export type LocalizedText = { en: string; ar: string };
@@ -7,6 +11,8 @@ export type CatalogueItem = {
   slug: string;
   title: LocalizedText;
   description: LocalizedText;
+  image?: string;
+  detail?: CatalogueDetailContent;
   cityAnchors?: {
     slug: string;
     title: LocalizedText;
@@ -678,6 +684,17 @@ export const serviceArchitecture: ServiceArchitecture[] = [
     closingNoun: t("installation", "تركيب"),
   },
 ];
+
+for (const service of serviceArchitecture) {
+  for (const category of service.catalogue.categories) {
+    for (const catalogueItem of category.items) {
+      const detail = catalogueDetailContent[`${service.slug}:${catalogueItem.slug}`];
+      if (!detail) continue;
+      catalogueItem.detail = detail;
+      catalogueItem.image = detail.image;
+    }
+  }
+}
 
 export function localizeText(value: LocalizedText, locale: Locale) {
   return value[locale];

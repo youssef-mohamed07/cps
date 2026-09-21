@@ -42,7 +42,11 @@ export function CatalogueBrowser({
   const [layout, setLayout] = useState("all");
   const [query, setQuery] = useState("");
   const allItems = useMemo(
-    () => categories.flatMap((group) => group.items.map((entry) => ({ ...entry, categorySlug: group.slug }))),
+    () => categories.flatMap((group) => group.items.map((entry) => ({
+      ...entry,
+      categorySlug: group.slug,
+      categoryTitle: group.title,
+    }))),
     [categories],
   );
   const visible = allItems.filter((entry) => {
@@ -104,8 +108,17 @@ export function CatalogueBrowser({
               key={`${entry.categorySlug}-${entry.slug}`}
             >
               <div className="catalogue-card-media">
-                <Image src={serviceImage} alt="" fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" className="object-cover" />
-                <span>{String(index + 1).padStart(2, "0")}</span>
+                <Image
+                  src={entry.image || serviceImage}
+                  alt=""
+                  fill
+                  sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  className="object-cover"
+                />
+                <div className="catalogue-card-media-meta">
+                  <span>{localizeText(entry.categoryTitle, locale)}</span>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </div>
               </div>
               <div className="catalogue-card-copy">
                 <h2>

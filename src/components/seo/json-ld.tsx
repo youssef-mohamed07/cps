@@ -3,12 +3,17 @@ import { getSiteUrl } from "@/lib/seo";
 import { localizePath, type Locale } from "@/lib/i18n";
 
 export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
-  return (
+  const entries = Array.isArray(data) ? data : [data];
+
+  return entries.map((entry, index) => (
     <script
+      key={`${String(entry["@type"] ?? "schema")}-${index}`}
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(entry).replace(/</g, "\\u003c"),
+      }}
     />
-  );
+  ));
 }
 
 export type BreadcrumbItem = {
