@@ -505,32 +505,36 @@ export async function loadLocations(locale: Locale): Promise<CmsLocation[]> {
     .map((doc) => mapLocation(doc as Parameters<typeof mapLocation>[0]))
     .filter((item): item is CmsLocation => Boolean(item));
 
-  if (mapped.length) {
-    return mapped.map((item) => {
-      const record = getLocation(item.slug);
-      const local = record ? localizeLocation(record, locale) : null;
-      return {
-        ...item,
-        image: item.image || local?.image || "",
-        imageAlt: item.imageAlt || local?.imageAlt || item.title,
-      };
-    });
-  }
-
-  return locations.map((item) => {
-    const localized = localizeLocation(item, locale);
+  const fromCms = mapped.map((item) => {
+    const record = getLocation(item.slug);
+    const local = record ? localizeLocation(record, locale) : null;
     return {
-      slug: localized.slug,
-      title: localized.title,
-      excerpt: localized.excerpt,
-      localExperience: localized.localExperience,
-      capabilities: localized.capabilities,
-      countryCode: localized.countryCode,
-      order: item.order,
-      image: localized.image,
-      imageAlt: localized.imageAlt,
+      ...item,
+      image: item.image || local?.image || "",
+      imageAlt: item.imageAlt || local?.imageAlt || item.title,
     };
   });
+
+  // Local cities not yet seeded into Sanity still get pages, links and sitemap entries.
+  const cmsSlugs = new Set(fromCms.map((item) => item.slug));
+  const fromLocal = locations
+    .filter((item) => !cmsSlugs.has(item.slug))
+    .map((item) => {
+      const localized = localizeLocation(item, locale);
+      return {
+        slug: localized.slug,
+        title: localized.title,
+        excerpt: localized.excerpt,
+        localExperience: localized.localExperience,
+        capabilities: localized.capabilities,
+        countryCode: localized.countryCode,
+        order: item.order,
+        image: localized.image,
+        imageAlt: localized.imageAlt,
+      };
+    });
+
+  return [...fromCms, ...fromLocal];
 }
 
 export async function loadLocation(

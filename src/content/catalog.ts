@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { media } from "@/content/media";
+import { cityRegion, type RegionKey } from "@/content/regions";
 import { serviceDetailExtras } from "@/content/service-detail-extras";
 
 export type ContentSeo = {
@@ -588,9 +589,9 @@ export const services: ServiceRecord[] = [
         ],
       },
       benefits: [
-        { title: "Brand-led", description: "Layouts that express your identity clearly." },
-        { title: "Visitor flow", description: "Circulation planned for engagement and demos." },
-        { title: "Buildable", description: "Designs engineered for real fabrication timelines." },
+      { title: "Brand-led", description: "Layouts that express your identity clearly." },
+      { title: "Visitor flow", description: "Circulation planned for engagement and demos." },
+      { title: "Buildable", description: "Designs engineered for real fabrication timelines." },
       ],
       process: [
         {
@@ -769,9 +770,9 @@ export const services: ServiceRecord[] = [
         ],
       },
       benefits: [
-        { title: "العلامة أولاً", description: "مخططات تعكس هويتك بوضوح." },
-        { title: "حركة الزوار", description: "مسارات مدروسة للتفاعل والعروض." },
-        { title: "قابل للتنفيذ", description: "تصاميم مدروسة هندسياً لتناسب جداول التصنيع الفعلية." },
+      { title: "العلامة أولاً", description: "مخططات تعكس هويتك بوضوح." },
+      { title: "حركة الزوار", description: "مسارات مدروسة للتفاعل والعروض." },
+      { title: "قابل للتنفيذ", description: "تصاميم مدروسة هندسياً لتناسب جداول التصنيع الفعلية." },
       ],
       process: [
         {
@@ -3772,12 +3773,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "Technology exhibitors need clear demo zones, AV reliability, and a presence that reads as innovative without chaos.",
       challenges: [
-        { title: "Demo density", description: "Too many products fighting for attention." },
-        { title: "AV risk", description: "Power, screens, and lighting must work under show pressure." },
+      { title: "Demo density", description: "Too many products fighting for attention." },
+      { title: "AV risk", description: "Power, screens, and lighting must work under show pressure." },
       ],
       solutions: [
-        { title: "Zoned storytelling", description: "Clear paths from attraction to conversion." },
-        { title: "Integrated tech", description: "AV planned into the structure from day one." },
+      { title: "Zoned storytelling", description: "Clear paths from attraction to conversion." },
+      { title: "Integrated tech", description: "AV planned into the structure from day one." },
       ],
     },
     ar: {
@@ -3786,12 +3787,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "يحتاج عارضو التقنية إلى مناطق عرض واضحة، وأنظمة سمعية وبصرية (AV) يُعتمد عليها، وحضور يعبّر عن الابتكار دون فوضى.",
       challenges: [
-        { title: "كثرة المنتجات المعروضة", description: "منتجات كثيرة تتنافس على انتباه الزائر." },
-        { title: "موثوقية الصوتيات والشاشات", description: "الكهرباء والشاشات والإضاءة يجب أن تعمل بلا انقطاع تحت ضغط المعرض." },
+      { title: "كثرة المنتجات المعروضة", description: "منتجات كثيرة تتنافس على انتباه الزائر." },
+      { title: "موثوقية الصوتيات والشاشات", description: "الكهرباء والشاشات والإضاءة يجب أن تعمل بلا انقطاع تحت ضغط المعرض." },
       ],
       solutions: [
-        { title: "مناطق بتسلسل مدروس", description: "مسار واضح يقود الزائر من لفت الانتباه إلى التواصل الجاد مع فريقك." },
-        { title: "تقنية مدمجة", description: "الصوتيات والشاشات جزء من تخطيط الهيكل منذ اليوم الأول." },
+      { title: "مناطق بتسلسل مدروس", description: "مسار واضح يقود الزائر من لفت الانتباه إلى التواصل الجاد مع فريقك." },
+      { title: "تقنية مدمجة", description: "الصوتيات والشاشات جزء من تخطيط الهيكل منذ اليوم الأول." },
       ],
     },
   },
@@ -3807,12 +3808,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "Healthcare brands need trust, privacy for discussions, and materials that feel precise and professional.",
       challenges: [
-        { title: "Trust signals", description: "The space must feel clinical and credible." },
-        { title: "Private talks", description: "Meeting rooms without losing floor presence." },
+      { title: "Trust signals", description: "The space must feel clinical and credible." },
+      { title: "Private talks", description: "Meeting rooms without losing floor presence." },
       ],
       solutions: [
-        { title: "Quiet hospitality", description: "Meeting suites and soft zones for longer conversations." },
-        { title: "Clear hierarchy", description: "Messaging that prioritizes science and outcomes." },
+      { title: "Quiet hospitality", description: "Meeting suites and soft zones for longer conversations." },
+      { title: "Clear hierarchy", description: "Messaging that prioritizes science and outcomes." },
       ],
     },
     ar: {
@@ -3821,12 +3822,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "تحتاج علامات الرعاية الصحية إلى الثقة، وإلى خصوصية للنقاشات، وإلى خامات تعكس الدقة والاحترافية.",
       challenges: [
-        { title: "عناصر الثقة", description: "يجب أن توحي المساحة بالانضباط الطبي والمصداقية." },
-        { title: "نقاشات خاصة", description: "غرف اجتماعات دون التفريط في الحضور داخل القاعة." },
+      { title: "عناصر الثقة", description: "يجب أن توحي المساحة بالانضباط الطبي والمصداقية." },
+      { title: "نقاشات خاصة", description: "غرف اجتماعات دون التفريط في الحضور داخل القاعة." },
       ],
       solutions: [
-        { title: "ضيافة هادئة", description: "غرف اجتماعات وزوايا جلوس مريحة للنقاشات المطوّلة." },
-        { title: "رسائل مرتبة بوضوح", description: "رسائل تضع العلم والنتائج في المقدمة." },
+      { title: "ضيافة هادئة", description: "غرف اجتماعات وزوايا جلوس مريحة للنقاشات المطوّلة." },
+      { title: "رسائل مرتبة بوضوح", description: "رسائل تضع العلم والنتائج في المقدمة." },
       ],
     },
   },
@@ -3842,12 +3843,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "Energy and industrial exhibitors often need scale, structural confidence, and space for technical storytelling.",
       challenges: [
-        { title: "Scale", description: "Large footprints that still feel intentional." },
-        { title: "Technical depth", description: "Complex offerings need clear narrative layers." },
+      { title: "Scale", description: "Large footprints that still feel intentional." },
+      { title: "Technical depth", description: "Complex offerings need clear narrative layers." },
       ],
       solutions: [
-        { title: "Architectural presence", description: "Structures that signal capability at a distance." },
-        { title: "Layered content", description: "From headline impact to deep technical rooms." },
+      { title: "Architectural presence", description: "Structures that signal capability at a distance." },
+      { title: "Layered content", description: "From headline impact to deep technical rooms." },
       ],
     },
     ar: {
@@ -3856,12 +3857,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "يحتاج عارضو الطاقة والصناعة غالباً إلى مساحات كبيرة، وهياكل تبعث على الثقة، ومساحة لعرض المحتوى التقني بوضوح.",
       challenges: [
-        { title: "الحجم", description: "مساحات كبيرة يبقى كل جزء منها مدروساً." },
-        { title: "العمق التقني", description: "حلول معقدة تحتاج عرضاً متدرجاً وواضحاً." },
+      { title: "الحجم", description: "مساحات كبيرة يبقى كل جزء منها مدروساً." },
+      { title: "العمق التقني", description: "حلول معقدة تحتاج عرضاً متدرجاً وواضحاً." },
       ],
       solutions: [
-        { title: "حضور معماري", description: "هياكل تُظهر قدراتك قبل أن يصل الزائر إلى الجناح." },
-        { title: "محتوى متدرج", description: "من رسالة رئيسية لافتة إلى غرف متخصصة للنقاش التقني." },
+      { title: "حضور معماري", description: "هياكل تُظهر قدراتك قبل أن يصل الزائر إلى الجناح." },
+      { title: "محتوى متدرج", description: "من رسالة رئيسية لافتة إلى غرف متخصصة للنقاش التقني." },
       ],
     },
   },
@@ -3877,12 +3878,12 @@ export const industries: IndustryRecord[] = [
       overview:
         "Retail and FMCG booths win on attraction, sampling flow, and brand immersion that feels shoppable.",
       challenges: [
-        { title: "Attraction", description: "Compete with dense neighboring stands." },
-        { title: "Throughput", description: "Move visitors through sampling without bottlenecks." },
+      { title: "Attraction", description: "Compete with dense neighboring stands." },
+      { title: "Throughput", description: "Move visitors through sampling without bottlenecks." },
       ],
       solutions: [
-        { title: "Retail logic", description: "Counters, storage, and flow designed like a store." },
-        { title: "Graphic punch", description: "Fast-read branding that works in crowded halls." },
+      { title: "Retail logic", description: "Counters, storage, and flow designed like a store." },
+      { title: "Graphic punch", description: "Fast-read branding that works in crowded halls." },
       ],
     },
     ar: {
@@ -3891,16 +3892,231 @@ export const industries: IndustryRecord[] = [
       overview:
         "تنجح أجنحة التجزئة والسلع الاستهلاكية بقدرتها على الجذب، وسلاسة توزيع العينات، وتجربة علامة تشبه تجربة التسوق.",
       challenges: [
-        { title: "الجذب", description: "منافسة أجنحة متلاصقة ومزدحمة." },
-        { title: "انسيابية الحركة", description: "تنقّل الزوار بين العينات دون تكدّس." },
+      { title: "الجذب", description: "منافسة أجنحة متلاصقة ومزدحمة." },
+      { title: "انسيابية الحركة", description: "تنقّل الزوار بين العينات دون تكدّس." },
       ],
       solutions: [
-        { title: "منطق المتجر", description: "طاولات وتخزين ومسارات حركة مصممة كأنها متجر." },
-        { title: "رسومات قوية", description: "هوية تُقرأ بلمحة وتعمل في القاعات المزدحمة." },
+      { title: "منطق المتجر", description: "طاولات وتخزين ومسارات حركة مصممة كأنها متجر." },
+      { title: "رسومات قوية", description: "هوية تُقرأ بلمحة وتعمل في القاعات المزدحمة." },
       ],
     },
   },
 ];
+
+type LocationCapability = LocationRecord["en"]["capabilities"][number];
+
+/** Shared capability copy per region — city records add their own excerpt and local context. */
+const regionCapabilities: Record<RegionKey, { en: LocationCapability[]; ar: LocationCapability[] }> = {
+  central: {
+    en: [
+      { title: "Short supply line", description: "Built in our Riyadh facility and delivered by road the same day." },
+      { title: "Flexible install windows", description: "Crews scheduled around venue access and client timelines." },
+      { title: "Full project scope", description: "Booths, event structures, fit-out and signage from one team." },
+    ],
+    ar: [
+      { title: "قرب من المصنع", description: "يُصنّع المشروع في مصنعنا بالرياض ويصل إلى الموقع براً في اليوم نفسه." },
+      { title: "مرونة في مواعيد التركيب", description: "نجدول فرق التركيب وفق مواعيد دخول الموقع وجدول العميل." },
+      { title: "نطاق عمل متكامل", description: "أجنحة وهياكل فعاليات وتجهيز داخلي ولافتات من فريق واحد." },
+    ],
+  },
+  eastern: {
+    en: [
+      { title: "Eastern Province logistics", description: "Planned freight and install for industrial, corporate and exhibition sites." },
+      { title: "Energy & industrial standards", description: "Builds that meet the safety and site requirements of large operators." },
+      { title: "Multi-city programs", description: "One team covering several Eastern Province venues in the same season." },
+    ],
+    ar: [
+      { title: "لوجستيات المنطقة الشرقية", description: "تخطيط الشحن والتركيب للمواقع الصناعية والمؤسسية وقاعات المعارض." },
+      { title: "اشتراطات الطاقة والصناعة", description: "تنفيذ يلتزم باشتراطات السلامة ومتطلبات مواقع الشركات الكبرى." },
+      { title: "مشاريع في أكثر من مدينة", description: "فريق واحد يغطي عدة مواقع في المنطقة الشرقية خلال الموسم نفسه." },
+    ],
+  },
+  qassim: {
+    en: [
+      { title: "Direct road access", description: "Delivered from our Riyadh facility along the Qassim corridor." },
+      { title: "Seasonal event support", description: "Builds timed around festivals, exhibitions and seasonal programs." },
+      { title: "Retail & brand presence", description: "Displays, kiosks and branded spaces for the region's retail market." },
+    ],
+    ar: [
+      { title: "وصول بري مباشر", description: "ننقل المشاريع من مصنعنا بالرياض عبر طريق القصيم مباشرة." },
+      { title: "دعم الفعاليات الموسمية", description: "تنفيذ يواكب المهرجانات والمعارض والمواسم في المنطقة." },
+      { title: "حضور في قطاع التجزئة", description: "وحدات عرض وأكشاك ومساحات بهوية العلامة لسوق التجزئة في المنطقة." },
+    ],
+  },
+  western: {
+    en: [
+      { title: "Western region coverage", description: "Freight and crews planned for sites across the western region." },
+      { title: "Tourism & heritage settings", description: "Builds that respect sensitive sites and demanding visitor programs." },
+      { title: "Outdoor-ready structures", description: "Materials and fixings chosen for open-air and seasonal events." },
+    ],
+    ar: [
+      { title: "تغطية المنطقة الغربية", description: "شحن وفرق تركيب مخطط لها لمواقع المنطقة الغربية." },
+      { title: "بيئات سياحية وتراثية", description: "تنفيذ يراعي حساسية المواقع وبرامج الزوار الكبيرة." },
+      { title: "هياكل للمواقع المفتوحة", description: "خامات وطرق تثبيت مناسبة للفعاليات الخارجية والموسمية." },
+    ],
+  },
+  southern: {
+    en: [
+      { title: "Southern region logistics", description: "Long-haul freight and install planned around mountain and coastal access." },
+      { title: "Tourism season builds", description: "Event structures and activations ready for the summer season." },
+      { title: "Government & public programs", description: "Pavilions and exhibition spaces for regional initiatives." },
+    ],
+    ar: [
+      { title: "لوجستيات المنطقة الجنوبية", description: "تخطيط الشحن والتركيب بما يناسب الطرق الجبلية والساحلية." },
+      { title: "تجهيزات موسم السياحة", description: "هياكل فعاليات وتفعيلات جاهزة لموسم الصيف." },
+      { title: "برامج حكومية وعامة", description: "أجنحة ومساحات عرض لمبادرات المنطقة وفعالياتها الرسمية." },
+    ],
+  },
+  northern: {
+    en: [
+      { title: "Long-distance delivery", description: "Freight, crews and schedules planned for northern region sites." },
+      { title: "Robust, reusable builds", description: "Structures engineered to travel well and install quickly." },
+      { title: "Regional events", description: "Booths and event structures for regional exhibitions and festivals." },
+    ],
+    ar: [
+      { title: "تسليم لمسافات طويلة", description: "نخطط الشحن والفرق والجداول لمواقع المنطقة الشمالية." },
+      { title: "هياكل متينة قابلة لإعادة الاستخدام", description: "تصاميم تتحمل النقل وتُركّب بسرعة." },
+      { title: "فعاليات المنطقة", description: "أجنحة وهياكل فعاليات للمعارض والمهرجانات الإقليمية." },
+    ],
+  },
+};
+
+function regionalLocations(): LocationRecord[] {
+  const cities: {
+    slug: string;
+    image: string;
+    en: [title: string, excerpt: string, localExperience: string];
+    ar: [title: string, excerpt: string, localExperience: string];
+  }[] = [
+    {
+      slug: "abha",
+      image: media.locations.abha,
+      en: ["Abha", "Summer-season events, tourism activations and regional exhibitions.", "Abha projects are planned around the Aseer summer season, with builds that handle mountain access and outdoor conditions."],
+      ar: ["أبها", "فعاليات موسم الصيف وتفعيلات سياحية ومعارض إقليمية.", "نخطط مشاريع أبها وفق موسم صيف عسير، بتنفيذ يراعي الطرق الجبلية وظروف المواقع المفتوحة."],
+    },
+    {
+      slug: "al-ahsa",
+      image: media.locations.alAhsa,
+      en: ["Al Ahsa", "Heritage festivals, agricultural shows and corporate events.", "In Al Ahsa we deliver exhibition and event builds for heritage, agriculture and corporate programs, coordinated with our Eastern Province crews."],
+      ar: ["الأحساء", "مهرجانات تراثية ومعارض زراعية وفعاليات للشركات.", "ننفّذ في الأحساء أجنحة وهياكل فعاليات لبرامج التراث والزراعة والشركات، بالتنسيق مع فرقنا في المنطقة الشرقية."],
+    },
+    {
+      slug: "al-baha",
+      image: media.locations.alBaha,
+      en: ["Al Baha", "Seasonal festivals and government-led regional events.", "Al Baha builds are scheduled around the summer festival calendar, with freight planned for mountain routes."],
+      ar: ["الباحة", "مهرجانات موسمية وفعاليات إقليمية تنظمها الجهات الحكومية.", "نجدول مشاريع الباحة وفق تقويم مهرجانات الصيف، ونخطط الشحن بما يناسب الطرق الجبلية."],
+    },
+    {
+      slug: "al-kharj",
+      image: media.locations.alKharj,
+      en: ["Al Kharj", "Industrial, agricultural and corporate projects close to Riyadh.", "Al Kharj sits within easy reach of our Riyadh facility, so projects move from fabrication to site with minimal lead time."],
+      ar: ["الخرج", "مشاريع صناعية وزراعية وفعاليات للشركات على مقربة من الرياض.", "تقع الخرج على مسافة قريبة من مصنعنا في الرياض، فينتقل المشروع من التصنيع إلى الموقع بأقل وقت ممكن."],
+    },
+    {
+      slug: "al-qassim",
+      image: media.locations.alQassim,
+      en: ["Al Qassim", "Regional exhibitions, date festivals and retail programs.", "Across the Qassim region we deliver booths, event structures and retail displays for seasonal festivals and regional exhibitions."],
+      ar: ["القصيم", "معارض إقليمية ومهرجانات التمور وبرامج التجزئة.", "ننفّذ في منطقة القصيم أجنحة وهياكل فعاليات ووحدات عرض للمهرجانات الموسمية والمعارض الإقليمية."],
+    },
+    {
+      slug: "alula",
+      image: media.locations.alula,
+      en: ["AlUla", "Cultural festivals, premium activations and heritage-site events.", "AlUla projects demand careful logistics and builds that respect heritage landscapes while meeting premium event standards."],
+      ar: ["العلا", "مهرجانات ثقافية وتفعيلات فاخرة وفعاليات في مواقع تراثية.", "تتطلب مشاريع العلا لوجستيات دقيقة وتنفيذاً يحترم طبيعة المواقع التراثية ويحقق معايير الفعاليات الفاخرة."],
+    },
+    {
+      slug: "buraidah",
+      image: media.locations.buraidah,
+      en: ["Buraidah", "Trade shows, date festival activations and retail displays.", "Buraidah hosts some of the region's busiest seasonal events; we plan builds to be ready before peak visitor days."],
+      ar: ["بريدة", "معارض تجارية وتفعيلات مهرجان التمور ووحدات عرض للمتاجر.", "تستضيف بريدة بعضاً من أكثر فعاليات المنطقة الموسمية ازدحاماً، ونخطط التنفيذ ليكون جاهزاً قبل أيام الذروة."],
+    },
+    {
+      slug: "dhahran",
+      image: media.locations.dhahran,
+      en: ["Dhahran", "Energy-sector exhibitions, conferences and corporate events.", "Dhahran projects often serve the energy sector, with builds that meet corporate safety standards and precise install windows."],
+      ar: ["الظهران", "معارض قطاع الطاقة ومؤتمرات وفعاليات للشركات.", "تخدم مشاريع الظهران غالباً قطاع الطاقة، بتنفيذ يلتزم باشتراطات السلامة المؤسسية ومواعيد تركيب دقيقة."],
+    },
+    {
+      slug: "hail",
+      image: media.locations.hail,
+      en: ["Hail", "Regional festivals, rally events and government exhibitions.", "Hail builds are planned for long-distance delivery, from rally activations to regional exhibition stands."],
+      ar: ["حائل", "مهرجانات إقليمية وفعاليات الرالي ومعارض حكومية.", "نخطط مشاريع حائل للتسليم لمسافات طويلة، من تفعيلات الرالي إلى أجنحة المعارض الإقليمية."],
+    },
+    {
+      slug: "jazan",
+      image: media.locations.jazan,
+      en: ["Jazan", "Winter festivals, industrial projects and regional events.", "In Jazan we deliver event structures and exhibition builds suited to coastal humidity and the winter festival season."],
+      ar: ["جازان", "مهرجانات شتوية ومشاريع صناعية وفعاليات إقليمية.", "ننفّذ في جازان هياكل فعاليات وأجنحة معارض تناسب رطوبة الساحل وموسم المهرجانات الشتوية."],
+    },
+    {
+      slug: "jubail",
+      image: media.locations.jubail,
+      en: ["Jubail", "Industrial exhibitions, corporate facilities and plant events.", "Jubail projects serve one of the Kingdom's largest industrial cities, with builds that meet plant access and safety requirements."],
+      ar: ["الجبيل", "معارض صناعية ومنشآت للشركات وفعاليات داخل المصانع.", "تخدم مشاريعنا في الجبيل واحدة من أكبر المدن الصناعية في المملكة، بتنفيذ يلتزم باشتراطات الدخول والسلامة في المصانع."],
+    },
+    {
+      slug: "khamis-mushait",
+      image: media.locations.khamisMushait,
+      en: ["Khamis Mushait", "Retail displays, commercial fit-outs and regional events.", "Khamis Mushait projects are coordinated with our Abha schedule, covering retail, fit-out and event work in the Aseer region."],
+      ar: ["خميس مشيط", "وحدات عرض للمتاجر وتجهيز مساحات تجارية وفعاليات إقليمية.", "ننسّق مشاريع خميس مشيط مع جدول أعمالنا في أبها، لتغطية أعمال التجزئة والتجهيز الداخلي والفعاليات في منطقة عسير."],
+    },
+    {
+      slug: "qatif",
+      image: media.locations.qatif,
+      en: ["Qatif", "Retail, commercial interiors and community events.", "Qatif work is delivered alongside our Dammam and Khobar programs, from retail displays to event structures."],
+      ar: ["القطيف", "مشاريع تجزئة وتجهيز مساحات تجارية وفعاليات مجتمعية.", "ننفّذ أعمال القطيف ضمن برامجنا في الدمام والخبر، من وحدات العرض في المتاجر إلى هياكل الفعاليات."],
+    },
+    {
+      slug: "tabuk",
+      image: media.locations.tabuk,
+      en: ["Tabuk", "Regional exhibitions and giga-project activations in the northwest.", "Tabuk projects connect to the northwest's giga-project activity, with freight and crews planned for long-distance delivery."],
+      ar: ["تبوك", "معارض إقليمية وتفعيلات للمشاريع الكبرى في الشمال الغربي.", "ترتبط مشاريع تبوك بنشاط المشاريع الكبرى في الشمال الغربي، ونخطط لها الشحن والفرق للتسليم لمسافات طويلة."],
+    },
+    {
+      slug: "taif",
+      image: media.locations.taif,
+      en: ["Taif", "Summer-season festivals, cultural events and brand activations.", "Taif builds are timed around the summer season and cultural festivals, with outdoor-ready structures and fast installs."],
+      ar: ["الطائف", "مهرجانات الصيف وفعاليات ثقافية وتفعيلات للعلامات التجارية.", "نوقّت مشاريع الطائف وفق موسم الصيف والمهرجانات الثقافية، بهياكل مناسبة للمواقع المفتوحة وتركيب سريع."],
+    },
+    {
+      slug: "unaizah",
+      image: media.locations.unaizah,
+      en: ["Unaizah", "Heritage festivals, seasonal events and retail programs.", "Unaizah projects are delivered with our Qassim region schedule, covering festival structures, booths and retail displays."],
+      ar: ["عنيزة", "مهرجانات تراثية وفعاليات موسمية وبرامج تجزئة.", "ننفّذ مشاريع عنيزة ضمن جدول أعمالنا في منطقة القصيم، من هياكل المهرجانات إلى الأجنحة ووحدات العرض."],
+    },
+    {
+      slug: "yanbu",
+      image: media.locations.yanbu,
+      en: ["Yanbu", "Industrial exhibitions, coastal festivals and corporate events.", "Yanbu combines industrial and coastal programs; we deliver builds that meet plant requirements and hold up in seaside conditions."],
+      ar: ["ينبع", "معارض صناعية ومهرجانات ساحلية وفعاليات للشركات.", "تجمع ينبع بين البرامج الصناعية والساحلية، وننفّذ فيها أعمالاً تلتزم باشتراطات المصانع وتتحمل أجواء الساحل."],
+    },
+  ];
+
+  return cities.map((city, index) => {
+    const shared = regionCapabilities[cityRegion[city.slug] ?? "central"];
+    const [enTitle, enExcerpt, enExperience] = city.en;
+    const [arTitle, arExcerpt, arExperience] = city.ar;
+    return {
+      slug: city.slug,
+      order: 8 + index,
+      countryCode: "SA",
+      image: city.image,
+      imageAlt: `Exhibition booth delivery in ${enTitle}`,
+      en: {
+        title: enTitle,
+        excerpt: enExcerpt,
+        localExperience: enExperience,
+        capabilities: shared.en,
+      },
+      ar: {
+        title: arTitle,
+        excerpt: arExcerpt,
+        localExperience: arExperience,
+        capabilities: shared.ar,
+      },
+    };
+  });
+}
 
 export const locations: LocationRecord[] = [
   {
@@ -3915,9 +4131,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Riyadh is our primary delivery base — in-house production with crews experienced across the city's major venues and national exhibition calendar.",
       capabilities: [
-        { title: "Venue-ready crews", description: "Install teams familiar with Riyadh venues, access rules, and show schedules." },
-        { title: "In-house production", description: "Design through fabrication under one roof for tighter quality and timelines." },
-        { title: "National show support", description: "Flagship programs and recurring exhibitor builds across the Riyadh calendar." },
+      { title: "Venue-ready crews", description: "Install teams familiar with Riyadh venues, access rules, and show schedules." },
+      { title: "In-house production", description: "Design through fabrication under one roof for tighter quality and timelines." },
+      { title: "National show support", description: "Flagship programs and recurring exhibitor builds across the Riyadh calendar." },
       ],
     },
     ar: {
@@ -3926,9 +4142,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "الرياض مقرّنا الرئيسي للتنفيذ، ففيها مصنعنا وفرق تركيب خبيرة بأبرز قاعات المدينة وبرنامج المعارض الوطنية.",
       capabilities: [
-        { title: "فرق تعرف مواقع الرياض", description: "فرق تركيب تعرف قاعات الرياض واشتراطات الدخول ومواعيد المعارض." },
-        { title: "إنتاج في مصنعنا", description: "من التصميم إلى التصنيع تحت سقف واحد، لجودة أعلى والتزام أدق بالمواعيد." },
-        { title: "دعم المعارض الوطنية", description: "مشاريع رئيسية وأجنحة للعارضين الدائمين طوال موسم معارض الرياض." },
+      { title: "فرق تعرف مواقع الرياض", description: "فرق تركيب تعرف قاعات الرياض واشتراطات الدخول ومواعيد المعارض." },
+      { title: "إنتاج في مصنعنا", description: "من التصميم إلى التصنيع تحت سقف واحد، لجودة أعلى والتزام أدق بالمواعيد." },
+      { title: "دعم المعارض الوطنية", description: "مشاريع رئيسية وأجنحة للعارضين الدائمين طوال موسم معارض الرياض." },
       ],
     },
   },
@@ -3944,9 +4160,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Jeddah programs combine brand-led design with logistics tuned to Red Sea venues and the western region calendar.",
       capabilities: [
-        { title: "Coastal venue logistics", description: "Shipping, access, and install coordinated for Jeddah exhibition sites." },
-        { title: "Retail & trade shows", description: "Booths built for visitor flow in busy Jeddah halls." },
-        { title: "Western region coverage", description: "Crews and scheduling for shows across the Jeddah market." },
+      { title: "Coastal venue logistics", description: "Shipping, access, and install coordinated for Jeddah exhibition sites." },
+      { title: "Retail & trade shows", description: "Booths built for visitor flow in busy Jeddah halls." },
+      { title: "Western region coverage", description: "Crews and scheduling for shows across the Jeddah market." },
       ],
     },
     ar: {
@@ -3955,9 +4171,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "نجمع في مشاريع جدة بين تصميم ينطلق من العلامة ولوجستيات تناسب مواقع البحر الأحمر ومواسم فعاليات المنطقة الغربية.",
       capabilities: [
-        { title: "لوجستيات المواقع الساحلية", description: "تنسيق الشحن والدخول والتركيب لمواقع المعارض في جدة." },
-        { title: "التجزئة والمعارض التجارية", description: "أجنحة مصممة لحركة الزوار في قاعات جدة المزدحمة." },
-        { title: "تغطية المنطقة الغربية", description: "فرق وجداول عمل تغطي معارض جدة." },
+      { title: "لوجستيات المواقع الساحلية", description: "تنسيق الشحن والدخول والتركيب لمواقع المعارض في جدة." },
+      { title: "التجزئة والمعارض التجارية", description: "أجنحة مصممة لحركة الزوار في قاعات جدة المزدحمة." },
+      { title: "تغطية المنطقة الغربية", description: "فرق وجداول عمل تغطي معارض جدة." },
       ],
     },
   },
@@ -3973,9 +4189,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Dammam deliveries focus on practical fabrication, install windows, and venues serving the Eastern Province calendar.",
       capabilities: [
-        { title: "Eastern Province crews", description: "On-site teams coordinated for Dammam venues and show dates." },
-        { title: "Industrial & energy shows", description: "Booths built for technical demos and buyer traffic." },
-        { title: "Regional logistics", description: "Freight and install planning across the Eastern corridor." },
+      { title: "Eastern Province crews", description: "On-site teams coordinated for Dammam venues and show dates." },
+      { title: "Industrial & energy shows", description: "Booths built for technical demos and buyer traffic." },
+      { title: "Regional logistics", description: "Freight and install planning across the Eastern corridor." },
       ],
     },
     ar: {
@@ -3984,9 +4200,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "نركّز في مشاريع الدمام على التصنيع العملي والالتزام بمواعيد التركيب في القاعات التي تستضيف معارض المنطقة الشرقية.",
       capabilities: [
-        { title: "فرق المنطقة الشرقية", description: "فرق ميدانية منسّقة وفق مواقع الدمام ومواعيد معارضها." },
-        { title: "معارض الصناعة والطاقة", description: "أجنحة مصممة للعروض التقنية واستقبال المشترين." },
-        { title: "لوجستيات إقليمية", description: "تخطيط الشحن والتركيب على امتداد المنطقة الشرقية." },
+      { title: "فرق المنطقة الشرقية", description: "فرق ميدانية منسّقة وفق مواقع الدمام ومواعيد معارضها." },
+      { title: "معارض الصناعة والطاقة", description: "أجنحة مصممة للعروض التقنية واستقبال المشترين." },
+      { title: "لوجستيات إقليمية", description: "تخطيط الشحن والتركيب على امتداد المنطقة الشرقية." },
       ],
     },
   },
@@ -4002,9 +4218,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Khobar projects emphasize polished brand presence with install support across local halls and corporate events.",
       capabilities: [
-        { title: "Brand activations", description: "High-finish booths for corporate and tech audiences." },
-        { title: "Local venue access", description: "Crews familiar with Khobar site rules and timing." },
-        { title: "Reuse-ready builds", description: "Storage and redeploy options for returning exhibitors." },
+      { title: "Brand activations", description: "High-finish booths for corporate and tech audiences." },
+      { title: "Local venue access", description: "Crews familiar with Khobar site rules and timing." },
+      { title: "Reuse-ready builds", description: "Storage and redeploy options for returning exhibitors." },
       ],
     },
     ar: {
@@ -4013,9 +4229,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "نركّز في مشاريع الخبر على حضور متقن للعلامة، مع دعم التركيب في القاعات المحلية وفعاليات الشركات.",
       capabilities: [
-        { title: "تفعيلات العلامة", description: "أجنحة بتشطيبات عالية لجمهور الشركات وقطاع التقنية." },
-        { title: "معرفة بالمواقع المحلية", description: "فرق تعرف اشتراطات مواقع الخبر ومواعيدها." },
-        { title: "جاهزة لإعادة الاستخدام", description: "خيارات تخزين وإعادة تركيب للعارضين الدائمين." },
+      { title: "تفعيلات العلامة", description: "أجنحة بتشطيبات عالية لجمهور الشركات وقطاع التقنية." },
+      { title: "معرفة بالمواقع المحلية", description: "فرق تعرف اشتراطات مواقع الخبر ومواعيدها." },
+      { title: "جاهزة لإعادة الاستخدام", description: "خيارات تخزين وإعادة تركيب للعارضين الدائمين." },
       ],
     },
   },
@@ -4031,9 +4247,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Makkah deliveries are planned around venue access, local regulations, and clear install windows.",
       capabilities: [
-        { title: "Venue coordination", description: "Access, power, and schedule aligned before build day." },
-        { title: "Respectful planning", description: "Programs timed carefully around local calendars and constraints." },
-        { title: "Reliable install", description: "Crews focused on clean setup and safe teardown." },
+      { title: "Venue coordination", description: "Access, power, and schedule aligned before build day." },
+      { title: "Respectful planning", description: "Programs timed carefully around local calendars and constraints." },
+      { title: "Reliable install", description: "Crews focused on clean setup and safe teardown." },
       ],
     },
     ar: {
@@ -4042,9 +4258,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "نخطط مشاريع مكة المكرمة وفق مواعيد الدخول إلى المواقع والأنظمة المحلية، مع فترات تركيب محددة بوضوح.",
       capabilities: [
-        { title: "التنسيق مع المواقع", description: "مواءمة الدخول والكهرباء والجدول الزمني قبل يوم التركيب." },
-        { title: "تخطيط يراعي خصوصية المكان", description: "جداول مدروسة بعناية وفق المواسم والاشتراطات المحلية." },
-        { title: "تركيب موثوق", description: "فرق تركّز على تركيب متقن وفك آمن." },
+      { title: "التنسيق مع المواقع", description: "مواءمة الدخول والكهرباء والجدول الزمني قبل يوم التركيب." },
+      { title: "تخطيط يراعي خصوصية المكان", description: "جداول مدروسة بعناية وفق المواسم والاشتراطات المحلية." },
+      { title: "تركيب موثوق", description: "فرق تركّز على تركيب متقن وفك آمن." },
       ],
     },
   },
@@ -4060,9 +4276,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "Madinah projects pair CPS fabrication standards with logistics and install support for the local event calendar.",
       capabilities: [
-        { title: "Regional delivery", description: "Production and install coordinated for Madinah shows." },
-        { title: "Clear timelines", description: "Design-to-install stages locked early for smaller venue windows." },
-        { title: "On-site support", description: "Show-day adjustments when the floor needs them." },
+      { title: "Regional delivery", description: "Production and install coordinated for Madinah shows." },
+      { title: "Clear timelines", description: "Design-to-install stages locked early for smaller venue windows." },
+      { title: "On-site support", description: "Show-day adjustments when the floor needs them." },
       ],
     },
     ar: {
@@ -4071,9 +4287,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "نقدّم في مشاريع المدينة المنورة معايير CPS في التصنيع، مع لوجستيات ودعم تركيب يواكب مواسم الفعاليات المحلية.",
       capabilities: [
-        { title: "تنفيذ إقليمي", description: "إنتاج وتركيب منسّقان لمعارض المدينة المنورة." },
-        { title: "جداول واضحة", description: "نحدد مراحل التصميم والتركيب مبكراً لتناسب فترات الدخول القصيرة في المواقع الأصغر." },
-        { title: "دعم في الموقع", description: "تعديلات خلال أيام المعرض كلما دعت الحاجة." },
+      { title: "تنفيذ إقليمي", description: "إنتاج وتركيب منسّقان لمعارض المدينة المنورة." },
+      { title: "جداول واضحة", description: "نحدد مراحل التصميم والتركيب مبكراً لتناسب فترات الدخول القصيرة في المواقع الأصغر." },
+      { title: "دعم في الموقع", description: "تعديلات خلال أيام المعرض كلما دعت الحاجة." },
       ],
     },
   },
@@ -4089,9 +4305,9 @@ export const locations: LocationRecord[] = [
       localExperience:
         "NEOM projects demand precise logistics, premium finishes, and crews ready for ambitious spatial programs.",
       capabilities: [
-        { title: "Premium fabrication", description: "Materials and detailing built for high-visibility environments." },
-        { title: "Complex logistics", description: "Freight and install planned for remote and controlled sites." },
-        { title: "Pavilion-ready teams", description: "Capability for large-scale and experiential builds." },
+      { title: "Premium fabrication", description: "Materials and detailing built for high-visibility environments." },
+      { title: "Complex logistics", description: "Freight and install planned for remote and controlled sites." },
+      { title: "Pavilion-ready teams", description: "Capability for large-scale and experiential builds." },
       ],
     },
     ar: {
@@ -4100,13 +4316,15 @@ export const locations: LocationRecord[] = [
       localExperience:
         "تتطلب مشاريع نيوم لوجستيات دقيقة وتشطيبات فاخرة وفرقاً مستعدة لمشاريع مكانية طموحة.",
       capabilities: [
-        { title: "تصنيع فاخر", description: "خامات وتفاصيل مصنوعة لبيئات تحت الأضواء." },
-        { title: "لوجستيات معقّدة", description: "تخطيط الشحن والتركيب للمواقع النائية ومحدودة الدخول." },
-        { title: "فرق للمشاريع الكبرى", description: "قدرة على تنفيذ المنشآت الكبيرة والتجارب التفاعلية." },
+      { title: "تصنيع فاخر", description: "خامات وتفاصيل مصنوعة لبيئات تحت الأضواء." },
+      { title: "لوجستيات معقّدة", description: "تخطيط الشحن والتركيب للمواقع النائية ومحدودة الدخول." },
+      { title: "فرق للمشاريع الكبرى", description: "قدرة على تنفيذ المنشآت الكبيرة والتجارب التفاعلية." },
       ],
     },
   },
+  ...regionalLocations(),
 ];
+
 
 
 export const newsArticles: NewsRecord[] = [

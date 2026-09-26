@@ -289,8 +289,9 @@ export function ServiceArchitecturePage({
                 {localizeText(service.hero.support, locale)}
               </p>
               <ul>
-                {service.hero.bullets.map((bullet) => (
-                  <li key={bullet.en}>{localizeText(bullet, locale)}</li>
+                {service.hero.bullets.map((bullet, index) => (
+                  // City pages fill only the active locale, so key on the rendered text.
+                  <li key={`${index}-${localizeText(bullet, locale)}`}>{localizeText(bullet, locale)}</li>
                 ))}
               </ul>
               <div className="service-architecture-overview-actions">

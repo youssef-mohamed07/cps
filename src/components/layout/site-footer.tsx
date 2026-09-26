@@ -4,6 +4,7 @@ import type { FooterConfig, FooterSocial } from "@/content/footer";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { getSiteConfig, getWhatsAppUrl } from "@/lib/site-config";
 import { CtaArrow } from "@/components/motion/cta-arrow";
+import { FooterServiceAreas, type AreaRegion } from "@/components/layout/footer-service-areas";
 import { SocialIcon } from "@/components/ui/social-icon";
 
 type FooterColumnLink = { label: string; href: string };
@@ -13,6 +14,8 @@ type SiteFooterProps = {
   footer: FooterConfig;
   serviceLinks: FooterColumnLink[];
   workLinks: FooterColumnLink[];
+  areaServices: { slug: string; label: string; href: string }[];
+  areaRegions: AreaRegion[];
 }
 
 function socialLabel(link: FooterSocial) {
@@ -65,6 +68,8 @@ export function SiteFooter({
   footer,
   serviceLinks,
   workLinks,
+  areaServices,
+  areaRegions,
 }: SiteFooterProps) {
   const config = getSiteConfig();
   const year = new Date().getFullYear();
@@ -158,6 +163,20 @@ export function SiteFooter({
           </section>
         </div>
 
+        {footer.showAreas ? (
+          <FooterServiceAreas
+            locale={locale}
+            title={footer.areasTitle}
+            support={footer.areasSupport}
+            allCitiesLabel={footer.areasAllLabel}
+            searchPlaceholder={footer.areasSearchPlaceholder}
+            emptyLabel={footer.areasEmpty}
+            contactLabel={footer.contactTitle}
+            servicePageLabel={footer.areasServiceLink}
+            services={areaServices}
+            regions={areaRegions}
+          />
+        ) : null}
       </div>
 
       <div className="footer-closing-line">

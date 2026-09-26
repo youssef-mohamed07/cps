@@ -59,6 +59,11 @@ CMS singleton `siteFooter` (`siteFooter-en` / `siteFooter-ar`):
 
 Local fallback: `src/content/footer.ts` via `resolveFooter(locale)`. Contact falls back to Site Settings when empty.
 
+**Where We Deliver** (service × city directory) sits under the footer menu: one tab per service, each listing every
+city linked to `/locations/{city}/services/{service}`. Its copy (`areasTitle`, `areasSupport`, `areasAllLabel`,
+`showAreas`) is local-only in `footer.ts`. Cities come from `loadLocations`, which merges Sanity `location` docs with
+any local `catalog.ts` cities not yet seeded, so a new city appears in the footer, sitemap and pages before re-seeding.
+
 Revalidate tags: `siteFooter`, `siteFooter-{locale}`.
 
 ## Document model

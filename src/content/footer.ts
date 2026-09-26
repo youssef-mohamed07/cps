@@ -28,6 +28,13 @@ export type FooterConfig = {
   showServices: boolean;
   workTitle: string;
   showWork: boolean;
+  areasTitle: string;
+  areasSupport: string;
+  areasAllLabel: string;
+  areasSearchPlaceholder: string;
+  areasEmpty: string;
+  areasServiceLink: string;
+  showAreas: boolean;
   companyLinksTitle: string;
   companyLinks: FooterLink[];
   contactTitle: string;
@@ -69,6 +76,13 @@ function footerEn(): FooterConfig {
     showServices: true,
     workTitle: "Work",
     showWork: true,
+    areasTitle: "Where We Deliver",
+    areasSupport: "Eight services, built in Riyadh and installed across the Kingdom.",
+    areasAllLabel: "Explore all locations",
+    areasSearchPlaceholder: "Find your city",
+    areasEmpty: "We don't list that city yet — get in touch and we'll confirm coverage.",
+    areasServiceLink: "View service",
+    showAreas: true,
     companyLinksTitle: "Company",
     companyLinks: [
       { label: "About CPS", href: "/about" },
@@ -128,6 +142,13 @@ function footerAr(): FooterConfig {
     showServices: true,
     workTitle: "أعمالنا",
     showWork: true,
+    areasTitle: "مناطق خدمتنا",
+    areasSupport: "ثماني خدمات، نصنعها في الرياض ونركّبها في أنحاء المملكة.",
+    areasAllLabel: "استكشف كل المدن",
+    areasSearchPlaceholder: "ابحث عن مدينتك",
+    areasEmpty: "لم نُدرج هذه المدينة بعد، تواصل معنا وسنؤكد لك إمكانية التنفيذ فيها.",
+    areasServiceLink: "تفاصيل الخدمة",
+    showAreas: true,
     companyLinksTitle: "الشركة",
     companyLinks: [
       { label: "من نحن", href: "/about" },
