@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { locationServicePath } from "@/lib/locations";
+import "./footer-service-areas.css";
 
 type AreaOption = { slug: string; label: string };
 export type AreaRegion = { key: string; label: string; cities: AreaOption[] };
