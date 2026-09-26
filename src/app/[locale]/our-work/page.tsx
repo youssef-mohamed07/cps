@@ -156,7 +156,7 @@ export default async function WorkPage({ params, searchParams }: PageProps) {
           ) : (
             <p className="work-gallery-empty">
               {locale === "ar"
-                ? "لا توجد مشاريع مطابقة لهذه الفلاتر."
+                ? "لا توجد مشاريع تطابق خيارات التصفية المحددة."
                 : "No work items match these filters."}
             </p>
           )}

@@ -54,19 +54,19 @@ export default async function IndustriesPage({ params }: PageProps) {
         image={items[0]?.image}
         imageAlt={items[0]?.imageAlt}
         cta={{
-          label: locale === "ar" ? "ناقش مشروعك" : "Discuss your project",
+          label: locale === "ar" ? "ناقش مشروعك معنا" : "Discuss your project",
           href: "#industries-brief",
         }}
       />
       <CollectionGrid
         columns={2}
-        eyebrow={locale === "ar" ? "خبرة متخصصة" : "Sector expertise"}
+        eyebrow={locale === "ar" ? "خبرة في كل قطاع" : "Sector expertise"}
         title={
           locale === "ar"
-            ? "نفهم جمهورك قبل أن نصمم مساحتك."
+            ? "نفهم جمهورك قبل أن نصمّم مساحتك."
             : "We understand your audience before we shape your space."
         }
-        ctaLabel={locale === "ar" ? "اكتشف الحلول" : "Explore solutions"}
+        ctaLabel={locale === "ar" ? "استكشف الحلول" : "Explore solutions"}
         items={items.map((item) => ({
           href: localizePath(`/industries/${item.slug}`, locale),
           title: item.title,

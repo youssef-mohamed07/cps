@@ -59,7 +59,7 @@ export function ServiceDetailSections({
             <h2 className="service-detail-overview-title">
               {service.overviewTitle ??
                 (isArabic
-                  ? "ماذا تغطي هذه الخدمة."
+                  ? "ما تشمله هذه الخدمة."
                   : "What this service covers.")}
             </h2>
             <p className="service-detail-overview-body">{service.overview}</p>
@@ -113,11 +113,11 @@ export function ServiceDetailSections({
 
       {service.process.length ? (
         <ProcessTimeline
-          eyebrow={isArabic ? "عمليتنا" : "Our Process"}
-          title={isArabic ? "كيف يعمل." : "How It Works"}
+          eyebrow={isArabic ? "طريقة عملنا" : "Our Process"}
+          title={isArabic ? "خطوات العمل" : "How It Works"}
           support={
             isArabic
-              ? "من الموجز إلى الإنتاج — كل مرحلة مع فريق CPS واحد."
+              ? "من الموجز إلى الإنتاج، يتولى فريق واحد من CPS كل مرحلة."
               : "From brief to production — every stage with one CPS team."
           }
           steps={service.process}
@@ -135,7 +135,7 @@ export function ServiceDetailSections({
                 </p>
                 <h2 className="service-detail-section-title">
                   {isArabic
-                    ? "أكمل الحل بخدمات أخرى."
+                    ? "خدمات تكمّل مشروعك."
                     : "Complete the build with related services."}
                 </h2>
               </div>

@@ -34,46 +34,46 @@ function navigation(locale: Locale): NavigationConfig {
   return {
     langLabel: ar ? "English" : "العربية",
     langHrefLocale: ar ? "en" : "ar",
-    cta: { label: ar ? "ابدأ مشروعاً" : "Start a Project", href: "/contact" },
+    cta: { label: ar ? "ابدأ مشروعك" : "Start a Project", href: "/contact" },
     footer: [
       { label: ar ? "من نحن" : "About", href: "/about" },
-      { label: ar ? "الخدمات" : "Services", href: "/services" },
+      { label: ar ? "خدماتنا" : "Services", href: "/services" },
       { label: ar ? "أعمالنا" : "Our Work", href: "/our-work" },
-      { label: ar ? "تواصل" : "Contact", href: "/contact" },
+      { label: ar ? "تواصل معنا" : "Contact", href: "/contact" },
     ],
     items: [
       { enabled: true, label: ar ? "الرئيسية" : "Home", href: "/", kind: "link" },
       { enabled: true, label: ar ? "من نحن" : "About", href: "/about", kind: "link" },
       {
         enabled: true,
-        label: ar ? "الخدمات" : "Services",
+        label: ar ? "خدماتنا" : "Services",
         href: "/services",
         kind: "mega",
         mega: {
           enabled: true,
           layout: "services",
-          title: ar ? "ثمان خدمات تحت سقف واحد" : "Eight services under one roof",
-          description: ar ? "من الأجنحة والفعاليات إلى التجهيزات والطباعة والتسليم." : "From exhibitions and events to fit-out, print and delivery.",
+          title: ar ? "ثماني خدمات تحت سقف واحد" : "Eight services under one roof",
+          description: ar ? "من أجنحة المعارض والفعاليات إلى التجهيز الداخلي والطباعة والتركيب." : "From exhibitions and events to fit-out, print and delivery.",
           columns: [
-            { title: ar ? "البيئات" : "Environments", links: links.slice(0, 4) },
-            { title: ar ? "الإنتاج والتسليم" : "Production & Delivery", links: links.slice(4) },
+            { title: ar ? "المساحات والتجارب" : "Environments", links: links.slice(0, 4) },
+            { title: ar ? "الإنتاج والتنفيذ" : "Production & Delivery", links: links.slice(4) },
           ],
           featured: {
             enabled: true,
             title: ar ? "قدرات الإنتاج" : "Production Capabilities",
             description: ar
-              ? "شاهد كيف نبني — أرض إنتاج واحدة للخشب والمعدن والأكريليك والطباعة والتركيب."
+              ? "تعرّف على طريقة عملنا: مصنع واحد يضم ورش الخشب والمعادن والأكريليك والطباعة، وفريق تركيب خاص بنا."
               : "See how we build it — one production floor for wood, metal, acrylic, print and installation.",
             href: "/production-capabilities",
-            ctaLabel: ar ? "شاهد كيف نبني ← قدرات الإنتاج" : "See how we build it → Production Capabilities",
+            ctaLabel: ar ? "تعرّف على قدرات الإنتاج ←" : "See how we build it → Production Capabilities",
             image: media.services.fabrication,
-            imageAlt: ar ? "الإنتاج داخل CPS" : "CPS in-house production",
+            imageAlt: ar ? "داخل مصنع CPS" : "CPS in-house production",
           },
-          cta: { label: ar ? "عرض كل الخدمات" : "View All Services", href: "/services" },
+          cta: { label: ar ? "جميع الخدمات" : "View All Services", href: "/services" },
         },
       },
       { enabled: true, label: ar ? "أعمالنا" : "Our Work", href: "/our-work", kind: "link" },
-      { enabled: true, label: ar ? "تواصل" : "Contact", href: "/contact", kind: "link" },
+      { enabled: true, label: ar ? "تواصل معنا" : "Contact", href: "/contact", kind: "link" },
     ],
   };
 }

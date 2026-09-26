@@ -63,9 +63,9 @@ export default async function NotFound() {
   const body =
     cms?.body ??
     (locale === "ar"
-      ? "قد تكون الصفحة التي تبحث عنها قد نُقلت أو لم تعد متاحة."
+      ? "ربما نُقلت الصفحة التي تبحث عنها أو لم تعد متاحة."
       : "The page you are looking for may have moved or no longer exists.");
-  const ctaLabel = cms?.ctaLabel ?? (locale === "ar" ? "العودة للرئيسية" : "Back to home");
+  const ctaLabel = cms?.ctaLabel ?? (locale === "ar" ? "العودة إلى الرئيسية" : "Back to home");
   const ctaHref = cms?.ctaHref ?? localizePath("/", locale);
 
   return (

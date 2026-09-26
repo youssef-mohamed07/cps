@@ -61,9 +61,9 @@ export default async function BoothTypesPage({ params }: PageProps) {
         />
         <CollectionGrid
           columns={4}
-          eyebrow={locale === "ar" ? "حلول مرنة" : "Flexible formats"}
+          eyebrow={locale === "ar" ? "خيارات مرنة" : "Flexible formats"}
           title={locale === "ar" ? "جناح يناسب مساحتك وطموحك" : "A booth for every footprint and ambition"}
-          ctaLabel={locale === "ar" ? "عرض النوع" : "View booth type"}
+          ctaLabel={locale === "ar" ? "عرض نوع الجناح" : "View booth type"}
           items={items.map((item) => ({
             href: localizePath(locationBoothTypePath(item.slug), locale),
             title: formatBoothTypeTitle(item.title),

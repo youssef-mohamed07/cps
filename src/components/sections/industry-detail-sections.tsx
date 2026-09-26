@@ -69,7 +69,7 @@ export function IndustryDetailSections({
             </p>
             <h2 className="industry-detail-overview-title">
               {isArabic
-                ? `أجنحة مصممة لقطاع ${industry.title}.`
+                ? `أجنحة مصمّمة لقطاع ${industry.title}.`
                 : `Booths shaped for ${industry.title}.`}
             </h2>
             <p className="industry-detail-overview-body">
@@ -105,7 +105,7 @@ export function IndustryDetailSections({
                 </p>
                 <h2 className="industry-detail-pair-title industry-detail-pair-title--light">
                   {isArabic
-                    ? "ما يواجهه هذا القطاع على أرض المعرض."
+                    ? "تحديات هذا القطاع في المعارض."
                     : "What this sector faces on the show floor."}
                 </h2>
                 <ul className="industry-detail-challenge-list">
@@ -129,7 +129,7 @@ export function IndustryDetailSections({
                 </p>
                 <h2 className="industry-detail-pair-title">
                   {isArabic
-                    ? "كيف نصمم لهذه الضغوط."
+                    ? "كيف نعالجها بالتصميم."
                     : "How we design for those pressures."}
                 </h2>
                 <ul className="industry-detail-solution-list">
@@ -159,7 +159,7 @@ export function IndustryDetailSections({
                 </p>
                 <h2 className="industry-detail-section-title">
                   {isArabic
-                    ? "تنسيقات تناسب هذا القطاع."
+                    ? "أجنحة تناسب هذا القطاع."
                     : "Formats that fit this sector."}
                 </h2>
               </div>
@@ -187,7 +187,7 @@ export function IndustryDetailSections({
                       <h3>{item.title}</h3>
                       <p>{item.excerpt}</p>
                       <span>
-                        {isArabic ? "عرض النوع" : "View type"}
+                        {isArabic ? "عرض نوع الجناح" : "View type"}
                         <CtaArrow size="sm" />
                       </span>
                     </div>
@@ -209,7 +209,7 @@ export function IndustryDetailSections({
                 </p>
                 <h2 className="industry-detail-section-title">
                   {isArabic
-                    ? `مشاريع في ${industry.title}.`
+                    ? `مشاريع نفّذناها لقطاع ${industry.title}.`
                     : `Our work in ${industry.title}.`}
                 </h2>
               </div>
@@ -256,7 +256,7 @@ export function IndustryDetailSections({
           ) : (
             <p className="industry-detail-projects-empty">
               {isArabic
-                ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط جناح قطاعك."
+                ? "نضيف مشاريع جديدة قريباً — تواصل معنا لنخطّط لجناحك."
                 : "New projects coming soon — contact us to plan your sector booth."}
             </p>
           )}
@@ -273,7 +273,7 @@ export function IndustryDetailSections({
                 </p>
                 <h2 className="industry-detail-section-title">
                   {isArabic
-                    ? "استكشف خبرة قطاعات أخرى."
+                    ? "تعرّف على خبرتنا في قطاعات أخرى."
                     : "Explore other sector expertise."}
                 </h2>
               </div>

@@ -11,8 +11,8 @@ type ContactSectionProps = {
 
 export function ContactSection({ locale, content }: ContactSectionProps) {
   const config = getSiteConfig();
-  const placeLabel = locale === "ar" ? "الموقع" : "Studio";
-  const emailLabel = locale === "ar" ? "البريد" : "Email";
+  const placeLabel = locale === "ar" ? "المقر" : "Studio";
+  const emailLabel = locale === "ar" ? "البريد الإلكتروني" : "Email";
   const phoneLabel = locale === "ar" ? "الهاتف" : "Phone";
 
   return (

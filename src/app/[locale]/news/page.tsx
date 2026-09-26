@@ -59,10 +59,10 @@ export default async function NewsPage({ params }: PageProps) {
         }}
       />
       <CollectionGrid
-        eyebrow={locale === "ar" ? "من أرض المعرض" : "From the show floor"}
+        eyebrow={locale === "ar" ? "من قلب المعارض" : "From the show floor"}
         title={
           locale === "ar"
-            ? "أفكار عملية لمساحات أقوى"
+            ? "أفكار عملية لمساحات أكثر تأثيراً"
             : "Practical ideas for more powerful spaces"
         }
         ctaLabel={locale === "ar" ? "اقرأ المقال" : "Read article"}

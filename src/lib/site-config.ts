@@ -110,7 +110,7 @@ export function getSiteConfig(): SiteConfigShape {
     portfolio: {
       enabled: true,
       labelEn: "Download Portfolio",
-      labelAr: "تحميل ملف الأعمال",
+      labelAr: "حمّل ملف أعمالنا",
       href: process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "",
     },
     brandColors: {
@@ -132,8 +132,8 @@ export function getSiteConfig(): SiteConfigShape {
       },
       {
         locale: "ar",
-        title: "CPS — المبدعون المحترفون",
-        description: "تنتج CPS المعارض والفعاليات والمساحات الداخلية والعروض تحت سقف واحد في السعودية.",
+        title: "CPS | تصميم وتنفيذ المعارض والفعاليات في السعودية",
+        description: "تنفّذ CPS أجنحة المعارض والفعاليات والتجهيز الداخلي ووحدات العرض تحت سقف واحد في المملكة العربية السعودية.",
       },
     ],
   };

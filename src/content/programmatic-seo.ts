@@ -118,11 +118,11 @@ export function buildServiceLocationPage(
     : `${serviceTitle} in ${location.title}`;
 
   const lead = isArabic
-    ? `${serviceSupport} متاحة في ${location.title} بتصميم وإنتاج وتنفيذ من CPS.`
+    ? `${serviceSupport} ننفّذ ذلك في ${location.title} بفريق CPS، من التصميم حتى التركيب.`
     : `${serviceSupport} Available in ${location.title}, designed, built, and delivered by CPS.`;
 
   const overview = isArabic
-    ? `${localizeText(serviceRecord.excerpt, locale)} نقدّم هذه الخدمة في ${location.title} مع تنسيق محلي للوجستيات والمواقع وجداول التركيب. ${location.localExperience}`
+    ? `${localizeText(serviceRecord.excerpt, locale)} نقدّم هذه الخدمة في ${location.title} مع تنسيق محلي للوجستيات ومواقع المعارض ومواعيد التركيب. ${location.localExperience}`
     : `${localizeText(serviceRecord.excerpt, locale)} We deliver this service in ${location.title} with local logistics, venue coordination, and install planning. ${location.localExperience}`;
 
   const firstBenefit = serviceRecord.benefits[0]
@@ -131,15 +131,15 @@ export function buildServiceLocationPage(
 
   const highlights = [
     {
-      title: isArabic ? "تسليم محلي" : "Local delivery",
+      title: isArabic ? "تنفيذ محلي" : "Local delivery",
       description: isArabic
-        ? `فرق وتنسيق في ${location.title} لتقليل مخاطر الجدول والتركيب.`
+        ? `فرق عمل وتنسيق ميداني في ${location.title} للالتزام بمواعيد التركيب والجاهزية يوم الافتتاح.`
         : `Crews and coordination in ${location.title} to protect install windows and show-day readiness.`,
     },
     {
       title: isArabic ? "معايير CPS" : "CPS standards",
       description: isArabic
-        ? "نفس جودة التصميم والتصنيع عبر مدن المملكة."
+        ? "جودة التصميم والتصنيع نفسها في جميع مدن المملكة."
         : "The same design and fabrication quality across Saudi cities.",
     },
     ...(firstBenefit
@@ -155,18 +155,18 @@ export function buildServiceLocationPage(
   const faqs = [
     {
       question: isArabic
-        ? `هل تقدّمون ${serviceTitle} في ${location.title}؟`
+        ? `هل تقدّمون خدمات ${serviceTitle} في ${location.title}؟`
         : `Do you offer ${serviceTitle} in ${location.title}?`,
       answer: isArabic
-        ? `نعم. CPS تنفّذ ${serviceTitle} في ${location.title} مع تخطيط لوجستي وتركيب في الموقع.`
+        ? `نعم، تنفّذ CPS خدمات ${serviceTitle} في ${location.title}، مع تخطيط لوجستي ودعم للتركيب في الموقع.`
         : `Yes. CPS delivers ${serviceTitle} in ${location.title} with logistics planning and on-site install support.`,
     },
     {
       question: isArabic
-        ? "ما المدة المعتادة من الموجز إلى التسليم؟"
+        ? "ما المدة المعتادة من استلام الموجز حتى التسليم؟"
         : "What is a typical timeline from brief to delivery?",
       answer: isArabic
-        ? "يعتمد على حجم الجناح وتقويم المعرض. نحدد مراحل واضحة للتصميم والتصنيع والتركيب منذ البداية."
+        ? "تعتمد على حجم المشروع وموعد المعرض أو الفعالية، ونحدد منذ اليوم الأول مراحل واضحة للتصميم والتصنيع والتركيب."
         : "It depends on footprint and the show calendar. We lock clear stages for design, fabrication, and install from day one.",
     },
     ...(serviceRecord.faq[0]
@@ -262,18 +262,18 @@ export function buildBoothTypeLocationPage(
   const lead = boothType.excerpt
     ? boothType.excerpt
     : isArabic
-      ? `${boothTitle} لمعارض ${location.title} — بناء يناسب المساحة والعلامة وتقويم الحدث.`
+      ? `${boothTitle} لمعارض ${location.title}، بتصميم يراعي مساحتك وهوية علامتك وموعد المعرض.`
       : `${boothTitle} for shows in ${location.title} — built around footprint, brand, and the event calendar.`;
 
   const overview = isArabic
-    ? `${boothType.description} نقدّم هذا النوع في ${location.title} مع تنسيق المواقع والتركيب واللوجستيات. ${location.localExperience}`
+    ? `${boothType.description} ننفّذ هذا النوع من الأجنحة في ${location.title} مع التنسيق مع إدارات المعارض، وفرق التركيب، والدعم اللوجستي. ${location.localExperience}`
     : `${boothType.description} We deliver this format in ${location.title} with venue coordination, install crews, and logistics support. ${location.localExperience}`;
 
   const highlights = [
     {
-      title: isArabic ? "ملاءمة السوق المحلي" : "Local market fit",
+      title: isArabic ? "خبرة بالسوق المحلي" : "Local market fit",
       description: isArabic
-        ? `تصميم وتنفيذ مناسبين لمتطلبات المعارض في ${location.title}.`
+        ? `تصميم وتنفيذ يراعيان اشتراطات المعارض في ${location.title}.`
         : `Design and delivery tuned to exhibition requirements in ${location.title}.`,
     },
     ...(boothType.advantages[0]
@@ -285,9 +285,9 @@ export function buildBoothTypeLocationPage(
         ]
       : []),
     {
-      title: isArabic ? "من المفهوم إلى التركيب" : "From concept to install",
+      title: isArabic ? "من الفكرة إلى التركيب" : "From concept to install",
       description: isArabic
-        ? "فريق واحد يملك التصميم والتصنيع والتنفيذ في الموقع."
+        ? "فريق واحد مسؤول عن التصميم والتصنيع والتنفيذ في الموقع."
         : "One team owns design, fabrication, and on-site execution.",
     },
   ];
@@ -298,17 +298,17 @@ export function buildBoothTypeLocationPage(
         ? `هل يمكن تنفيذ ${boothTitle} في ${location.title}؟`
         : `Can you build ${boothTitle} in ${location.title}?`,
       answer: isArabic
-        ? `نعم. CPS تنفّذ ${boothTitle} في ${location.title} مع تخطيط للوصول والتركيب وفق قواعد المواقع.`
+        ? `نعم، تنفّذ CPS ${boothTitle} في ${location.title}، ونخطط للدخول والتركيب وفق أنظمة موقع المعرض.`
         : `Yes. CPS builds ${boothTitle} in ${location.title}, planning access and install around venue rules.`,
     },
     {
       question: isArabic
-        ? "هل يناسب هذا النوع معارض متعددة؟"
+        ? "هل يصلح هذا النوع لأكثر من معرض؟"
         : "Is this format suitable for multiple shows?",
       answer: isArabic
         ? boothType.useCases.length
-          ? `نعم — شائع في: ${boothType.useCases.join("، ")}.`
-          : "نعم، حسب المساحة وأهداف العلامة."
+          ? `نعم، ويُستخدم عادةً في: ${boothType.useCases.join("، ")}.`
+          : "نعم، بحسب المساحة وأهداف علامتك."
         : boothType.useCases.length
           ? `Yes — commonly used for: ${boothType.useCases.join(", ")}.`
           : "Yes, depending on footprint and brand goals.",

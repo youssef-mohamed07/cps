@@ -119,7 +119,7 @@ export default async function CataloguePage({ params, searchParams }: PageProps)
         image={catalogueImage}
         imageAlt={localizeText(service.catalogue.title, locale)}
         cta={{
-          label: ar ? "ابدأ مشروعاً" : "Start a Project",
+          label: ar ? "ابدأ مشروعك" : "Start a Project",
           href: localizePath(`${servicePath(service.slug)}#quote`, locale),
         }}
       />
@@ -139,7 +139,7 @@ export default async function CataloguePage({ params, searchParams }: PageProps)
             <h2>
               {ar ? (
                 <>
-                  لم تجد ما تحتاجه بالضبط؟{" "}
+                  لم تجد ما تبحث عنه؟{" "}
                   <Link href={contactHref} className="catalogue-bottom-link">
                     تواصل معنا.
                   </Link>

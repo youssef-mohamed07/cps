@@ -145,7 +145,7 @@ export function ContactPageSections({
                 href={getMailtoUrl({ subject: "Project inquiry — CPS" })}
                 className="contact-info-quick"
               >
-                {isArabic ? "أو راسلنا مباشرة" : "Or email us directly"}
+                {isArabic ? "أو راسلنا مباشرة عبر البريد الإلكتروني" : "Or email us directly"}
                 <CtaArrow size="sm" />
               </a>
             </div>

@@ -3,9 +3,7 @@ import Link from "next/link";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { BoothTypeCompareSection } from "@/components/sections/booth-type-compare-section";
-import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import { ProjectGalleryMarquee } from "@/components/sections/project-gallery-marquee";
-import type { BoothModelVariant } from "@/components/three/booth-model-viewer";
 import type { BoothComparisonRow } from "@/content/booth-comparison";
 import type { BoothTypeFeature } from "@/content/catalog";
 import { formatBoothTypeTitle } from "@/content/catalog";
@@ -67,22 +65,6 @@ export function BoothTypeDetailSections({
     locale,
   );
   const boothLabel = formatBoothTypeTitle(boothType.title);
-  const modelVariants: BoothModelVariant[] = [
-    "custom",
-    "modular",
-    "double-deck",
-    "portable",
-    "kiosks",
-    "outdoor",
-    "pavilions",
-    "sustainable",
-  ];
-  const modelVariant: BoothModelVariant = modelVariants.includes(
-    boothType.slug as BoothModelVariant,
-  )
-    ? (boothType.slug as BoothModelVariant)
-    : "custom";
-
   return (
     <>
       <section className="booth-detail-overview">
@@ -134,12 +116,6 @@ export function BoothTypeDetailSections({
         </div>
       </section>
 
-      <BoothTypeModelSection
-        locale={locale}
-        title={boothLabel}
-        variant={modelVariant}
-      />
-
       <BoothTypeCompareSection
         locale={locale}
         activeSlug={boothType.slug}
@@ -152,9 +128,9 @@ export function BoothTypeDetailSections({
           <div className="site-container booth-detail-spec-grid">
             {boothType.advantages.length ? (
               <Reveal className="booth-detail-spec-block">
-                <p className="eyebrow">{isArabic ? "ماذا نغطي" : "What we cover"}</p>
+                <p className="eyebrow">{isArabic ? "نطاق العمل" : "What we cover"}</p>
                 <h2 className="booth-detail-spec-title">
-                  {isArabic ? "ماذا نغطي." : "What We Cover"}
+                  {isArabic ? "ما يشمله التنفيذ" : "What We Cover"}
                 </h2>
                 <div className="booth-detail-cover-list">
                   {boothType.advantages.map((item, index) => (
@@ -175,10 +151,10 @@ export function BoothTypeDetailSections({
             {boothType.useCases.length ? (
               <Reveal delay={0.08} className="booth-detail-spec-block booth-detail-spec-block--usecases">
                 <p className="eyebrow eyebrow-on-dark">
-                  {isArabic ? "لمن هذا" : "Who this is for"}
+                  {isArabic ? "لمن يناسب" : "Who this is for"}
                 </p>
                 <h2 className="booth-detail-spec-title booth-detail-spec-title--light">
-                  {isArabic ? "لمن يناسب هذا النوع." : "Who This Is For"}
+                  {isArabic ? "لمن يناسب هذا الجناح؟" : "Who This Is For"}
                 </h2>
                 <div className="booth-detail-usecase-list">
                   {boothType.useCases.map((useCase, index) => (
@@ -199,9 +175,9 @@ export function BoothTypeDetailSections({
           <div className="site-container">
             <Reveal>
               <div className="project-detail-gallery-head">
-                <p className="eyebrow">{isArabic ? "المعرض" : "Gallery"}</p>
+                <p className="eyebrow">{isArabic ? "معرض الصور" : "Gallery"}</p>
                 <h2 className="project-detail-gallery-title">
-                  {isArabic ? "شاهد تفاصيل الجناح." : "See the booth in detail."}
+                  {isArabic ? "الجناح عن قرب" : "See the booth in detail."}
                 </h2>
               </div>
             </Reveal>
@@ -223,7 +199,7 @@ export function BoothTypeDetailSections({
                 </p>
                 <h2 className="booth-detail-section-title">
                   {isArabic
-                    ? `${boothLabel} على أرض الواقع.`
+                    ? `${boothLabel} في مشاريع نفّذناها.`
                     : `${boothLabel} in the field.`}
                 </h2>
               </div>
@@ -270,7 +246,7 @@ export function BoothTypeDetailSections({
           ) : (
             <p className="booth-detail-cases-empty">
               {isArabic
-                ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط جناحك."
+                ? "نضيف مشاريع جديدة قريباً — تواصل معنا لنخطّط لجناحك."
                 : "New work coming soon — contact us to plan your booth."}
             </p>
           )}
@@ -283,11 +259,11 @@ export function BoothTypeDetailSections({
             <Reveal>
               <div className="booth-detail-section-head">
                 <p className="eyebrow">
-                  {isArabic ? "أنواع أخرى" : "Other booth types"}
+                  {isArabic ? "أنواع أجنحة أخرى" : "Other booth types"}
                 </p>
                 <h2 className="booth-detail-section-title">
                   {isArabic
-                    ? "استكشف تنسيقات أخرى."
+                    ? "خيارات أخرى تناسب مساحتك."
                     : "Explore other formats."}
                 </h2>
               </div>
@@ -318,7 +294,7 @@ export function BoothTypeDetailSections({
                       <h3>{formatBoothTypeTitle(item.title)}</h3>
                       <p>{item.excerpt}</p>
                       <span>
-                        {isArabic ? "عرض النوع" : "View type"}
+                        {isArabic ? "عرض نوع الجناح" : "View type"}
                         <CtaArrow size="sm" />
                       </span>
                     </div>

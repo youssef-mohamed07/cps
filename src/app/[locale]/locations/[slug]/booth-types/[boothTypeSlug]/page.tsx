@@ -141,7 +141,7 @@ export default async function LocationBoothTypePage({ params }: PageProps) {
   const overviewTitle =
     boothType.overviewTitle ||
     (locale === "ar"
-      ? "صُمم هذا النوع لحضور أقوى على أرض المعرض."
+      ? "صُمّم هذا النوع من الأجنحة ليمنح علامتك حضوراً أقوى في المعرض."
       : "Built for stronger presence on the show floor.");
   const plainTitle = formatBoothTypeTitle(boothType.title, location.title);
 

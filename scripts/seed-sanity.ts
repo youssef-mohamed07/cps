@@ -451,7 +451,7 @@ async function seedServiceLocations() {
             answer: item.answer,
           })),
           cta: {
-            label: locale === "ar" ? "ابدأ مشروعاً" : "Start a Project",
+            label: locale === "ar" ? "ابدأ مشروعك" : "Start a Project",
             href: `#location-service-${location.slug}-${service.slug}-brief`,
           },
           order: location.order * 100 + serviceIndex + 1,
@@ -865,19 +865,19 @@ async function seedDictionaryAndPages() {
       title: locale === "ar" ? "الصفحة غير موجودة" : "Page not found",
       description:
         locale === "ar"
-          ? "الصفحة التي تبحث عنها غير متاحة."
+          ? "ربما نُقلت الصفحة التي تبحث عنها أو لم تعد متاحة."
           : "The page you are looking for is unavailable.",
       headline: locale === "ar" ? "404" : "404",
       body:
         locale === "ar"
-          ? "عد إلى الصفحة الرئيسية أو تصفح خدماتنا."
+          ? "يمكنك العودة إلى الصفحة الرئيسية أو تصفّح خدماتنا."
           : "Return home or browse our services.",
-      ctaLabel: locale === "ar" ? "الرئيسية" : "Home",
+      ctaLabel: locale === "ar" ? "العودة إلى الرئيسية" : "Home",
       ctaHref: "/",
       seo: seoMeta(
         locale === "ar" ? "CPS — الصفحة غير موجودة" : "CPS — Page not found",
         locale === "ar"
-          ? "الصفحة التي تبحث عنها غير متاحة."
+          ? "ربما نُقلت الصفحة التي تبحث عنها أو لم تعد متاحة."
           : "The page you are looking for is unavailable.",
       ),
     });

@@ -79,6 +79,7 @@ export default async function HomePage({ params }: PageProps) {
         items={dictionary.lifecycle.items}
         centered
       />
+      <ServicesSection locale={locale} content={dictionary.services} />
       <StatsSection
         id="home-stats"
         eyebrow={dictionary.stats.eyebrow}
@@ -86,7 +87,6 @@ export default async function HomePage({ params }: PageProps) {
         support={dictionary.stats.support}
         items={dictionary.stats.items}
       />
-      <ServicesSection locale={locale} content={dictionary.services} />
       <ProductionCapabilitiesSection locale={locale} compact />
       <FeaturedWork
         locale={locale}

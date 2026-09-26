@@ -85,40 +85,40 @@ const en: QuoteFormCopy = {
 const ar: QuoteFormCopy = {
   eyebrow: "اطلب عرض سعر",
   title: "جاهز لبدء مشروعك؟",
-  support: "أخبرنا بما تحتاجه وسنتواصل معك بالخطوة التالية.",
+  support: "أخبرنا بما تحتاجه، وسيتواصل معك فريقنا بالخطوة التالية.",
   labels: {
-    name: "الاسم",
-    company: "الشركة",
+    name: "الاسم الكامل",
+    company: "اسم الشركة / الجهة",
     email: "البريد الإلكتروني",
-    phone: "الهاتف",
+    phone: "رقم الجوال",
     item: "العنصر / النوع",
     projectName: "اسم المشروع أو المعرض",
     details: "تفاصيل المشروع",
     references: "ملفات مرجعية",
   },
   placeholders: {
-    name: "الاسم الكامل",
-    company: "الشركة أو الجهة",
+    name: "اسمك الكامل",
+    company: "اسم الشركة أو الجهة",
     email: "name@company.com",
     phone: "+966 5X XXX XXXX",
-    item: "اختر خياراً",
-    projectName: "اختياري — مثال: جناح LEAP 2026",
-    details: "النطاق، المكان، التواريخ، المساحة، وأي تفاصيل مهمة…",
-    references: "PDF أو صور أو رسومات — اختياري، حتى 5 ملفات",
+    item: "اختر من القائمة",
+    projectName: "اختياري — مثل: جناح LEAP 2026",
+    details: "نطاق العمل، المكان، التواريخ، المساحة، وأي تفاصيل ينبغي أن نعرفها…",
+    references: "ملفات PDF أو صور أو مخططات — اختياري، حتى 5 ملفات",
   },
-  submit: "اطلب عرض السعر",
+  submit: "اطلب عرض سعر",
   submitting: "جارٍ الإرسال…",
   success: {
     eyebrow: "اطلب عرض سعر",
-    title: "وصل طلبك",
-    message: "سيتواصل معك فريقنا بالخطوة التالية.",
+    title: "استلمنا طلب عرض السعر",
+    message: "شكراً لك. سيراجع فريقنا طلبك ويتواصل معك بالخطوة التالية.",
   },
   errors: {
     required: "هذا الحقل مطلوب.",
-    email: "أدخل بريداً إلكترونياً صالحاً.",
-    submit: "تعذر إرسال الطلب. حاول مرة أخرى أو تواصل معنا مباشرة.",
-    fileTooLarge: "كل ملف يجب أن يكون أقل من 10MB.",
-    tooManyFiles: "يمكنك رفع حتى 5 ملفات.",
+    email: "يرجى إدخال بريد إلكتروني صحيح.",
+    submit: "تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.",
+    fileTooLarge: "يجب ألا يتجاوز حجم الملف الواحد 10MB.",
+    tooManyFiles: "يمكنك رفع 5 ملفات كحد أقصى.",
   },
 };
 
@@ -131,14 +131,14 @@ export function getQuoteFormCopy(
   if (variant === "delivery") {
     return {
       ...base,
-      eyebrow: locale === "ar" ? "طلب خدمة مشروع قائم" : "Existing project support",
-      title: locale === "ar" ? "ما الذي يحتاجه مشروعك في الموقع؟" : "What does your existing project need?",
+      eyebrow: locale === "ar" ? "دعم مشروع قائم" : "Existing project support",
+      title: locale === "ar" ? "ما الذي يحتاجه مشروعك القائم؟" : "What does your existing project need?",
       support: locale === "ar"
-        ? "أرسل حالة الهيكل أو الأصول والموقع والموعد المطلوب لنحدد خطة التركيب أو النقل أو التخزين أو الصيانة."
+        ? "أخبرنا بحالة الهيكل أو المعدات، وموقع العمل، والموعد المطلوب، لنضع خطة التركيب أو النقل أو التخزين أو الصيانة."
         : "Share the structure or asset condition, location and required date so we can plan installation, logistics, storage or maintenance.",
       labels: {
         ...base.labels,
-        item: locale === "ar" ? "خدمة التسليم المطلوبة" : "Delivery service needed",
+        item: locale === "ar" ? "الخدمة المطلوبة" : "Delivery service needed",
         projectName: locale === "ar" ? "المشروع أو الهيكل القائم (اختياري)" : "Existing project or structure (optional)",
         details: locale === "ar" ? "حالة المشروع ومتطلبات الموقع" : "Project condition and site requirements",
       },
@@ -147,7 +147,7 @@ export function getQuoteFormCopy(
         item: locale === "ar" ? "اختر خدمة التركيب أو التسليم" : "Select an installation or delivery service",
         projectName: locale === "ar" ? "اسم المشروع أو نوع الهيكل" : "Project name or structure type",
         details: locale === "ar"
-          ? "الموقع، الموعد، الأبعاد، حالة الهيكل، متطلبات الدخول وأي رسومات متاحة…"
+          ? "الموقع، الموعد، الأبعاد، حالة الهيكل، قيود الدخول إلى الموقع، وأي مخططات متاحة…"
           : "Site, required date, dimensions, structure condition, access constraints and available drawings…",
       },
     };
@@ -157,10 +157,10 @@ export function getQuoteFormCopy(
       ...base,
       eyebrow: locale === "ar" ? "تفاصيل المشروع" : "Project details",
       title:
-        locale === "ar" ? "احكيلنا عن مشروعك" : "Tell us about your project",
+        locale === "ar" ? "أخبرنا عن مشروعك" : "Tell us about your project",
       support:
         locale === "ar"
-          ? "نموذج سريع — نرد عليك بالخطوة التالية."
+          ? "نموذج قصير، ونعود إليك بالخطوة التالية بوضوح."
           : "A short form — we'll reply with a clear next step.",
       labels: {
         ...base.labels,
@@ -183,11 +183,11 @@ export function getQuoteFormCopy(
       submit:
         locale === "ar" ? "أرسل تفاصيل مشروعك" : "Send Your Project Details",
       success: {
-        eyebrow: locale === "ar" ? "تواصل" : "Contact",
-        title: locale === "ar" ? "تم استلام التفاصيل" : "Details received",
+        eyebrow: locale === "ar" ? "تواصل معنا" : "Contact",
+        title: locale === "ar" ? "استلمنا تفاصيل مشروعك" : "Details received",
         message:
           locale === "ar"
-            ? "شكراً — فريقنا هيراجع الطلب ويرد عليك قريباً."
+            ? "شكراً لك. سيراجع فريقنا طلبك ويتواصل معك قريباً."
             : "Thanks — our team will review this and reply shortly.",
       },
     };
@@ -226,7 +226,7 @@ export const contactServiceOptions: Record<Locale, QuoteFormOption[]> = {
     { value: "exhibitions-booths", label: "المعارض والأجنحة" },
     { value: "event-fabrication", label: "تصنيع وتجهيز الفعاليات" },
     { value: "fit-out-interiors", label: "التجهيزات الداخلية" },
-    { value: "retail-displays", label: "عروض ونقاط البيع" },
+    { value: "retail-displays", label: "وحدات العرض ونقاط البيع" },
     { value: "custom-fabrication", label: "التصنيع المخصص" },
     { value: "printing-signage", label: "الطباعة واللافتات" },
     { value: "rental-solutions", label: "حلول التأجير" },

@@ -76,9 +76,9 @@ const en: ContactFormCopy = {
 };
 
 const ar: ContactFormCopy = {
-  eyebrow: "تواصل",
+  eyebrow: "تواصل معنا",
   title: "كيف يمكننا مساعدتك؟",
-  support: "اختر نوع الاستفسار وشارك التفاصيل المناسبة لك.",
+  support: "اختر نوع استفسارك، ثم أضف التفاصيل التي تخصّه.",
   inquiryLabel: "أتواصل مع CPS بصفتي",
   inquiryOptions: [
     { value: "client", label: "عميلاً" },
@@ -86,33 +86,33 @@ const ar: ContactFormCopy = {
     { value: "partner", label: "شريكاً / مورداً" },
   ],
   labels: {
-    name: "الاسم الكامل", companyName: "اسم الشركة", phone: "رقم الهاتف", country: "الدولة",
-    eventType: "ما الذي تخطط له؟", otherEventType: "أخبرنا بما تخطط له",
-    cvUrl: "رابط السيرة الذاتية / معرض الأعمال", notes: "ملاحظات", commercial: "البيانات التجارية",
+    name: "الاسم الكامل", companyName: "اسم الشركة", phone: "رقم الجوال", country: "الدولة",
+    eventType: "ما الذي تخطط له؟", otherEventType: "صف ما تخطط له",
+    cvUrl: "رابط السيرة الذاتية / نماذج الأعمال", notes: "ملاحظات", commercial: "البيانات التجارية",
     commercialRegister: "السجل التجاري", vatNumber: "الرقم الضريبي",
-    websiteSocial: "الموقع الإلكتروني / حساب التواصل", nationalAddress: "العنوان الوطني",
-    authorizedPersonName: "اسم الشخص المفوض", documents: "مستندات الشركة",
+    websiteSocial: "الموقع الإلكتروني / حساب التواصل الاجتماعي", nationalAddress: "العنوان الوطني",
+    authorizedPersonName: "اسم الشخص المفوَّض", documents: "مستندات الشركة",
     nationalAddressCertificate: "شهادة العنوان الوطني", companyProfile: "ملف الشركة",
     commercialRegisterFile: "ملف السجل التجاري", vatCertificate: "شهادة ضريبة القيمة المضافة",
     bank: "البيانات البنكية", bankName: "اسم البنك", iban: "رقم الآيبان", beneficiaryName: "اسم المستفيد",
   },
   placeholders: {
-    name: "اسمك الكامل", companyName: "اسم شركتك", phone: "+966 5X XXX XXXX",
+    name: "اسمك الكامل", companyName: "اسم الشركة أو الجهة", phone: "+966 5X XXX XXXX",
     country: "اختر الدولة", otherEventType: "صف المشروع أو الفعالية",
-    cvUrl: "https://…", notes: "هل هناك أي تفاصيل أخرى؟",
+    cvUrl: "https://…", notes: "أي تفاصيل أخرى ينبغي أن نعرفها؟",
   },
   countries: ["المملكة العربية السعودية", "الإمارات العربية المتحدة", "قطر", "الكويت", "البحرين", "عُمان", "مصر", "أخرى"],
-  eventTypes: ["جناح معرض", "تصنيع وتجهيز فعالية", "تجهيز داخلي", "عرض تجزئة", "طباعة أو لافتات"],
+  eventTypes: ["جناح معرض", "تصنيع وتجهيز فعالية", "تجهيز داخلي", "وحدات عرض للمتاجر", "طباعة ولافتات"],
   other: "أخرى",
   optional: "اختياري",
   chooseFile: "اختر ملفاً",
   submit: "أرسل الاستفسار",
   submitting: "جارٍ الإرسال…",
   successTitle: "تم استلام استفسارك",
-  successMessage: "شكراً — سيراجع فريقنا التفاصيل ويتواصل معك.",
+  successMessage: "شكراً لك. سيراجع فريقنا استفسارك ويتواصل معك قريباً.",
   errors: {
-    required: "أكمل الحقول المطلوبة.", phone: "أدخل رقم هاتف صالحاً.",
-    submit: "تعذر إرسال الاستفسار. حاول مرة أخرى.", fileTooLarge: "يجب أن يكون حجم كل ملف أقل من 10MB.",
+    required: "يرجى إكمال الحقول المطلوبة.", phone: "يرجى إدخال رقم جوال صحيح.",
+    submit: "تعذّر إرسال الاستفسار. يرجى المحاولة مرة أخرى.", fileTooLarge: "يجب ألا يتجاوز حجم الملف الواحد 10MB.",
   },
 };
 

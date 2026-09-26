@@ -17,7 +17,7 @@ function getLocalizedDefaults(locale: Locale): { title: string; description: str
 
   if (locale === "ar") {
     return {
-      title: `${config.name} — المبدعون المحترفون`,
+      title: `${config.name} | تصميم وتنفيذ المعارض والفعاليات`,
       description: config.description,
     };
   }

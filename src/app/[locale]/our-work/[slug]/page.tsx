@@ -206,7 +206,7 @@ export default async function ProjectPage({ params }: PageProps) {
         project={detail}
         labels={{
           ...labels,
-          approach: locale === "ar" ? "حل CPS" : "CPS Solution",
+          approach: locale === "ar" ? "حلّ CPS" : "CPS Solution",
         }}
         relatedProjects={relatedProjects}
       />

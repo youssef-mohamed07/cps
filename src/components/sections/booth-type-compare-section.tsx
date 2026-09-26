@@ -62,7 +62,7 @@ export function BoothTypeCompareSection({
             </h2>
             <p className="lede booth-compare-support">
               {isArabic
-                ? "نظرة سريعة على الفروقات بين أنواع الأجنحة — من الاستخدام الداخلي إلى سرعة التركيب."
+                ? "مقارنة سريعة بين أنواع الأجنحة — من ملاءمتها للقاعات المغلقة إلى سرعة تركيبها."
                 : "A quick look at how booth formats differ — from indoor use to setup speed."}
             </p>
           </div>
@@ -107,7 +107,7 @@ export function BoothTypeCompareSection({
                         </Link>
                         {isActive ? (
                           <span className="booth-compare-current">
-                            {isArabic ? "الحالي" : "Current"}
+                            {isArabic ? "النوع الحالي" : "Current"}
                           </span>
                         ) : null}
                       </th>

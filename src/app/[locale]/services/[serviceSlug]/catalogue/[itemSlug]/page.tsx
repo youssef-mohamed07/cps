@@ -139,7 +139,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
 
                 {item.cityAnchors?.length ? (
                   <div className="catalogue-product-cities">
-                    <h2>{ar ? "متاح في" : "Available in"}</h2>
+                    <h2>{ar ? "متوفر في" : "Available in"}</h2>
                     <ul>
                       {item.cityAnchors.map((city) => (
                         <li key={city.slug}>{localizeText(city.title, locale)}</li>
@@ -166,11 +166,11 @@ export default async function CatalogueItemPage({ params }: PageProps) {
           <div className="site-container catalogue-product-content-wrap">
             <div className="catalogue-product-content-head">
               <p className="eyebrow">{ar ? "تفاصيل المنتج" : "Product details"}</p>
-              <h2>{ar ? "التفاصيل الأساسية" : "At a glance"}</h2>
+              <h2>{ar ? "نظرة سريعة" : "At a glance"}</h2>
             </div>
             <div className="catalogue-product-content-grid">
               <section className="catalogue-product-content-card">
-                <h3><span aria-hidden="true">01</span>{ar ? "ما الذي يشمله" : "What's included"}</h3>
+                <h3><span aria-hidden="true">01</span>{ar ? "ما يشمله" : "What's included"}</h3>
                 <ul dir={ar ? "ltr" : undefined}>
                   {item.detail.included.map((entry) => (
                     <li key={entry}>{entry}</li>
@@ -186,7 +186,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                 </ul>
               </section>
               <section className="catalogue-product-content-card">
-                <h3><span aria-hidden="true">03</span>{ar ? "الخيارات المتاحة" : "Available options"}</h3>
+                <h3><span aria-hidden="true">03</span>{ar ? "الخيارات المتوفرة" : "Available options"}</h3>
                 <ul dir={ar ? "ltr" : undefined}>
                   {item.detail.options.map((entry) => (
                     <li key={entry}>{entry}</li>
@@ -194,7 +194,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                 </ul>
               </section>
               <section className="catalogue-product-content-card catalogue-product-content-card--coverage">
-                <h3><span aria-hidden="true">04</span>{ar ? "التغطية والتوفر" : "Coverage and availability"}</h3>
+                <h3><span aria-hidden="true">04</span>{ar ? "نطاق التغطية والتوفر" : "Coverage and availability"}</h3>
                 <p dir={ar ? "ltr" : undefined}>{item.detail.coverage}</p>
               </section>
             </div>
@@ -206,7 +206,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
         <section className="catalogue-related section-pad">
           <div className="site-container">
             <div className="catalogue-related-head">
-              <p className="eyebrow">{ar ? "اكتشف المزيد" : "Explore more"}</p>
+              <p className="eyebrow">{ar ? "استكشف المزيد" : "Explore more"}</p>
               <h2>{ar ? "خيارات أخرى قد تناسب مشروعك" : "Other options for your project"}</h2>
             </div>
             <div className="catalogue-related-grid">

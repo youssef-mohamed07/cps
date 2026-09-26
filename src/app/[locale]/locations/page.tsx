@@ -54,19 +54,19 @@ export default async function LocationsPage({ params }: PageProps) {
         image={items[0]?.image}
         imageAlt={items[0]?.imageAlt}
         cta={{
-          label: locale === "ar" ? "خطط لمعرضك" : "Plan your show",
+          label: locale === "ar" ? "خطّط لمشاركتك القادمة" : "Plan your show",
           href: "#locations-brief",
         }}
       />
       <CollectionGrid
         columns={3}
-        eyebrow={locale === "ar" ? "تغطية المدن" : "City coverage"}
+        eyebrow={locale === "ar" ? "المدن التي نغطيها" : "City coverage"}
         title={
           locale === "ar"
-            ? "تنفيذ محلي بمعايير ثابتة"
+            ? "تنفيذ محلي بالمعايير نفسها في كل مدينة"
             : "Local delivery. One consistent standard."
         }
-        ctaLabel={locale === "ar" ? "اكتشف المدينة" : "Explore city"}
+        ctaLabel={locale === "ar" ? "استكشف المدينة" : "Explore city"}
         items={items.map((item) => ({
           href: localizePath(`/locations/${item.slug}`, locale),
           title: item.title,

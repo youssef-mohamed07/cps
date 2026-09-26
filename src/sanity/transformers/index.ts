@@ -92,7 +92,7 @@ export function toSiteConfig(
     portfolio: {
       enabled: data.portfolio?.enabled ?? Boolean(portfolioHref),
       labelEn: sanitizeText(data.portfolio?.labelEn) || "Download Portfolio",
-      labelAr: sanitizeText(data.portfolio?.labelAr) || "تحميل ملف الأعمال",
+      labelAr: sanitizeText(data.portfolio?.labelAr) || "حمّل ملف أعمالنا",
       href: sanitizeText(portfolioHref),
     },
     googleMapsUrl: sanitizeText(data.googleMapsUrl) || undefined,

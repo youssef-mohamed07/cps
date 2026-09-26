@@ -9,15 +9,15 @@ export function ProductionReassuranceBand({ locale }: { locale: Locale }) {
     },
     {
       value: ar ? "٠١" : "01",
-      label: ar ? "فريق داخلي مسؤول" : "Accountable in-house team",
+      label: ar ? "فريق داخلي مسؤول بالكامل" : "Accountable in-house team",
     },
     {
       value: ar ? "QC" : "QC",
-      label: ar ? "فحص في كل مرحلة" : "Checked at every stage",
+      label: ar ? "فحص الجودة في كل مرحلة" : "Checked at every stage",
     },
     {
       value: ar ? "KSA" : "KSA",
-      label: ar ? "تركيب على مستوى المملكة" : "Nationwide installation",
+      label: ar ? "التركيب في جميع مناطق المملكة" : "Nationwide installation",
     },
   ];
 

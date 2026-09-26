@@ -11,35 +11,35 @@ type BoothTypeModelSectionProps = {
 const variantFocus: Record<BoothModelVariant, { en: string; ar: string }> = {
   custom: {
     en: "Bespoke shell, feature façade, reception, product displays, concealed storage and branded focal points.",
-    ar: "هيكل مخصص، واجهة مميزة، استقبال، وحدات عرض، مخزن مخفي، وعناصر بصرية تحمل هوية العلامة.",
+    ar: "هيكل مصمّم حسب الطلب، وواجهة لافتة، ومكتب استقبال، ووحدات عرض، ومخزن مخفي، وعناصر بصرية بهوية العلامة.",
   },
   modular: {
     en: "Repeatable wall modules, visible connection logic, interchangeable graphics, counters and storage modules.",
-    ar: "وحدات حائط قابلة للتكرار، تفاصيل التجميع، جرافيك قابل للتبديل، كاونترات، ووحدات تخزين.",
+    ar: "وحدات جدارية قابلة للتكرار، ووصلات تجميع ظاهرة، ورسومات قابلة للاستبدال، وطاولات عرض، ووحدات تخزين.",
   },
   "double-deck": {
     en: "Ground and upper floors, structural columns, staircase, guardrails, meeting space and all access clearances.",
-    ar: "الدور الأرضي والعلوي، الأعمدة الإنشائية، السلم، الدرابزين، مساحة الاجتماعات، ومسارات الحركة الآمنة.",
+    ar: "الطابقان الأرضي والعلوي، والأعمدة الإنشائية، والدرج، والدرابزين، ومساحة الاجتماعات، ومسارات الحركة الآمنة.",
   },
   portable: {
     en: "Portable frame, collapsible panels, transport cases, graphic skins and tool-free assembly details.",
-    ar: "هيكل متنقل، ألواح قابلة للطي، حقائب النقل، كسوات الجرافيك، وتفاصيل التركيب بدون أدوات.",
+    ar: "هيكل متنقل، وألواح قابلة للطي، وحقائب نقل، وأغطية رسومية، وتركيب دون أدوات.",
   },
   kiosks: {
     en: "Service counter, product display, integrated screen, lockable storage, cable routes and branded canopy.",
-    ar: "كاونتر خدمة، عرض للمنتج، شاشة مدمجة، تخزين قابل للقفل، مسارات للكابلات، ومظلة تحمل الهوية.",
+    ar: "طاولة خدمة، ومنصة لعرض المنتج، وشاشة مدمجة، وتخزين بقفل، ومسارات للكابلات، ومظلة بهوية العلامة.",
   },
   outdoor: {
     en: "Weather-ready enclosure, raised floor, canopy, ballast or anchors, drainage details and outdoor-rated lighting.",
-    ar: "هيكل مناسب للعوامل الجوية، أرضية مرتفعة، مظلة، نقاط تثبيت، تفاصيل تصريف، وإضاءة خارجية.",
+    ar: "هيكل مقاوم للعوامل الجوية، وأرضية مرتفعة، ومظلة، ونقاط تثبيت، وتفاصيل تصريف، وإضاءة مخصصة للأماكن المفتوحة.",
   },
   pavilions: {
     en: "Primary pavilion shell, entrances, zoning, reception, hospitality, exhibits, screens and back-of-house spaces.",
-    ar: "الهيكل الرئيسي، المداخل، توزيع المناطق، الاستقبال، الضيافة، المعروضات، الشاشات، والمساحات الخلفية.",
+    ar: "الهيكل الرئيسي للجناح، والمداخل، وتوزيع المناطق، والاستقبال، والضيافة، والمعروضات، والشاشات، ومساحات الخدمة الخلفية.",
   },
   sustainable: {
     en: "Reusable structure, demountable joints, certified material finishes, low-waste panels and planting elements.",
-    ar: "هيكل قابل لإعادة الاستخدام، وصلات قابلة للفك، خامات معتمدة، ألواح قليلة الهدر، وعناصر زراعية.",
+    ar: "هيكل قابل لإعادة الاستخدام، ووصلات قابلة للفك، وخامات معتمدة، وألواح قليلة الهدر، ونباتات طبيعية.",
   },
 };
 
@@ -65,19 +65,19 @@ const briefItems = {
   ar: [
     {
       title: "الهندسة والمقياس",
-      body: "يُنفذ الموديل بمقياس حقيقي 1:1 وبالوحدة المترية، ويشمل المنصة، الحوائط، الواجهة أو السقف، الكاونترات، التخزين، الشاشات، الأثاث، ووصلات التنفيذ الظاهرة.",
+      body: "يُنفَّذ النموذج بمقياس حقيقي 1:1 وبالنظام المتري، ويشمل المنصة والجدران والواجهة أو المظلة وطاولات العرض والتخزين والشاشات والأثاث ووصلات التنفيذ الظاهرة.",
     },
     {
       title: "الخامات والهوية",
-      body: "استخدم UV نظيفًا وخامات PBR منفصلة للدهانات والخشب والمعدن والزجاج والقماش، مع إبقاء الشعارات والنصوص وألوان الهوية قابلة للتعديل وفي أماكنها الصحيحة.",
+      body: "استخدم إسقاط UV نظيفاً وخامات PBR منفصلة للدهان والخشب والمعدن والزجاج والقماش، مع إبقاء الشعارات والنصوص وألوان الهوية قابلة للتعديل وفي مواضعها الصحيحة.",
     },
     {
       title: "الإضاءة والتشطيب",
-      body: "أضف صناديق الإضاءة وشرائط LED والسبوتات والشاشات المضيئة عند الحاجة، مع تنعيم الحواف الظاهرة ومعالجة الموديل من جميع زوايا المشاهدة.",
+      body: "أضف صناديق الإضاءة وشرائط LED والإضاءة الموجّهة والشاشات المضيئة عند الحاجة، مع تنعيم الحواف الظاهرة وإتقان النموذج من جميع زوايا المشاهدة.",
     },
     {
-      title: "تجهيز الويب",
-      body: "المستهدف 150–250 ألف مثلث، وخامات بدقة 2K كحد أقصى، وملف GLB مضغوط أقل من 15 MB. سمِّ العناصر بوضوح، واحذف الأجزاء المخفية، وضع نقطة الارتكاز بمنتصف الأرضية.",
+      title: "التجهيز للعرض على الويب",
+      body: "الهدف 150–250 ألف مضلع، وخامات بدقة 2K كحد أقصى، وملف GLB مضغوط بحجم أقل من 15 MB. سمِّ العناصر بوضوح، واحذف الأجزاء غير المرئية، واجعل نقطة الارتكاز في منتصف الأرضية.",
     },
   ],
 };
@@ -95,13 +95,13 @@ export function BoothTypeModelSection({
     <section className="booth-detail-model">
       <div className="site-container booth-detail-model-inner">
         <Reveal className="booth-detail-model-copy">
-          <p className="eyebrow">{isArabic ? "ملف إنتاج الموديل" : "3D model brief"}</p>
+          <p className="eyebrow">{isArabic ? "موجز النموذج ثلاثي الأبعاد" : "3D model brief"}</p>
           <h2 className="booth-detail-model-title">
-            {isArabic ? "المواصفات المطلوبة لتنفيذ الموديل." : "The specification for the final model."}
+            {isArabic ? "مواصفات النموذج النهائي" : "The specification for the final model."}
           </h2>
           <p className="booth-detail-model-body">
             {isArabic
-              ? `تم حذف النموذج المؤقت. يُنفذ موديل ${title} النهائي طبقًا للقائمة التالية ليكون جاهزًا للعرض التفاعلي.`
+              ? `أُزيل النموذج المؤقت. يُنفَّذ نموذج ${title} النهائي وفق القائمة التالية ليكون جاهزاً للعرض التفاعلي.`
               : `The placeholder has been removed. Produce the final ${title} asset to this checklist so it is ready for the interactive viewer.`}
           </p>
         </Reveal>
@@ -117,7 +117,7 @@ export function BoothTypeModelSection({
               </div>
               <span className="booth-model-brief-status">
                 <span aria-hidden="true" />
-                {isArabic ? "جاهز للتنفيذ" : "Ready for modelling"}
+                {isArabic ? "جاهز للنمذجة" : "Ready for modelling"}
               </span>
             </header>
 
@@ -138,12 +138,12 @@ export function BoothTypeModelSection({
             </ol>
 
             <footer className="booth-model-brief-delivery">
-              <strong>{isArabic ? "التسليم" : "Deliverables"}</strong>
+              <strong>{isArabic ? "المخرجات" : "Deliverables"}</strong>
               <ul aria-label={isArabic ? "ملفات التسليم" : "Delivery files"}>
                 <li>GLB</li>
                 <li>BLEND / FBX</li>
                 <li>{isArabic ? "خامات PBR" : "PBR textures"}</li>
-                <li>{isArabic ? "4 صور معاينة" : "4 preview renders"}</li>
+                <li>{isArabic ? "4 تصوّرات للمعاينة" : "4 preview renders"}</li>
               </ul>
             </footer>
           </div>

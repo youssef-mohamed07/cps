@@ -48,16 +48,21 @@ export function resolveServiceArchitecture(
         ? {
             ...localService.showcase,
             title: overlayText(localService.showcase.title, cmsService.designs.title),
-            items: cmsService.designs.items.map((item, index) => ({
-              title: overlayText(
-                localService.showcase.items[index]?.title ?? { en: "", ar: "" },
-                item.title,
-              ),
-              description: overlayText(
-                localService.showcase.items[index]?.description ?? { en: "", ar: "" },
-                item.description,
-              ),
-            })),
+            items: cmsService.designs.items.map((item, index) => {
+              const fallbackItem = localService.showcase.items[index];
+
+              return {
+                ...fallbackItem,
+                title: overlayText(
+                  fallbackItem?.title ?? { en: "", ar: "" },
+                  item.title,
+                ),
+                description: overlayText(
+                  fallbackItem?.description ?? { en: "", ar: "" },
+                  item.description,
+                ),
+              };
+            }),
           }
         : localService.showcase,
     why:

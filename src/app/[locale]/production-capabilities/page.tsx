@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         : "CPS — Production Capabilities",
     fallbackDescription:
       locale === "ar"
-        ? "منشأة إنتاج متكاملة للخشب والمعدن والأكريليك والطباعة والتركيب."
+        ? "منشأة إنتاج متكاملة تجمع أعمال الخشب والمعادن والأكريليك والطباعة والتركيب."
         : "One integrated production floor for wood, metal, acrylic, print and installation.",
   });
 }
@@ -56,16 +56,16 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
         eyebrow={ar ? "قدرات الإنتاج" : "Production Capabilities"}
         title={
           ar
-            ? "ما نسلّمه مدعوم بكيفية تصنيعه."
+            ? "جودة ما نسلّمه تبدأ من طريقة تصنيعه."
             : "What we deliver is supported by how we build it."
         }
         lead={
           ar
-            ? "منشأة واحدة تجمع الحرفة والتقنية والتجميع والتركيب."
+            ? "منشأة واحدة تجمع الحرفة اليدوية والتقنيات الحديثة والتجميع والتركيب."
             : "One production floor connects craft, technology, assembly and on-site installation."
         }
         cta={{
-          label: ar ? "ابدأ مشروعاً" : "Start a Project",
+          label: ar ? "ابدأ مشروعك" : "Start a Project",
           href: localizePath("/contact", locale),
         }}
       />
@@ -82,7 +82,7 @@ export default async function ProductionCapabilitiesPage({ params }: PageProps) 
           id="production-workshop"
           className="production-workshop"
           image={media.about.build}
-          imageAlt={ar ? "ورشة وإنتاج CPS" : "CPS workshop and production"}
+          imageAlt={ar ? "ورشة الإنتاج في CPS" : "CPS workshop and production"}
         />
         <CapabilityExplainerSection locale={locale} />
         <BeforeAfterSection

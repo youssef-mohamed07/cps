@@ -327,7 +327,7 @@ export function SiteHeader({
               className="site-brand"
               aria-label={
                 locale === "ar"
-                  ? "CPS — المبدعون المحترفون"
+                  ? "CPS — الصفحة الرئيسية"
                   : "CPS — Creatives Professionals"
               }
               onClick={closeAll}

@@ -149,7 +149,7 @@ export function HomeHero({ locale, content }: HomeHeroProps) {
             src={getSiteLogo()}
             alt={
               locale === "ar"
-                ? "CPS — المبدعون المحترفون"
+                ? "شعار CPS"
                 : "CPS — Creatives Professionals"
             }
             width={380}

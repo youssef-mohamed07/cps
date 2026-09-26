@@ -50,7 +50,7 @@ export function AboutPageSections({
             <p className="about-story-mark">
               {page.closingLine ??
                 (isArabic
-                  ? "فريق واحد. دورة حياة كاملة. بلا فجوات."
+                  ? "فريق واحد يتولى مشروعك من الفكرة حتى التسليم، دون فجوات."
                   : "One team. Full lifecycle. No handoff gaps.")}
             </p>
           </Reveal>

@@ -74,7 +74,7 @@ export function getLocaleSeoDefaults(locale: Locale): {
 
   if (locale === "ar") {
     return {
-      title: `${config.name} | موقع الشركة`,
+      title: `${config.name} | الموقع الرسمي`,
       description: config.description,
     };
   }

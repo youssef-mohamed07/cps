@@ -12,7 +12,7 @@ export type BoothComparisonRow = {
 export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
   {
     slug: "custom",
-    label: { en: "Custom-Built Booths", ar: "أجنحة مخصصة بالكامل" },
+    label: { en: "Custom-Built Booths", ar: "أجنحة مصمّمة حسب الطلب" },
     indoor: true,
     outdoor: true,
     reusable: true,
@@ -21,7 +21,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
   },
   {
     slug: "modular",
-    label: { en: "Modular / System Booths", ar: "أجنحة معيارية / نظام" },
+    label: { en: "Modular / System Booths", ar: "أجنحة معيارية (أنظمة قابلة لإعادة التركيب)" },
     indoor: true,
     outdoor: false,
     reusable: true,
@@ -30,7 +30,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
   },
   {
     slug: "double-deck",
-    label: { en: "Double-Deck Booths", ar: "أجنحة طابقين" },
+    label: { en: "Double-Deck Booths", ar: "أجنحة بطابقين" },
     indoor: true,
     outdoor: false,
     reusable: true,
@@ -39,7 +39,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
   },
   {
     slug: "portable",
-    label: { en: "Portable & Pop-Up Displays", ar: "عروض محمولة و Pop-Up" },
+    label: { en: "Portable & Pop-Up Displays", ar: "عروض محمولة ومنصات مؤقتة" },
     indoor: true,
     outdoor: true,
     reusable: true,
@@ -50,7 +50,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
     slug: "kiosks",
     label: {
       en: "Kiosks & Small Footprint Stands",
-      ar: "أكشاك ومساحات صغيرة",
+      ar: "أكشاك وأجنحة صغيرة المساحة",
     },
     indoor: true,
     outdoor: true,
@@ -62,7 +62,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
     slug: "outdoor",
     label: {
       en: "Outdoor Structures & Activations",
-      ar: "هياكل خارجية وتفعيلات",
+      ar: "هياكل وتفعيلات في الهواء الطلق",
     },
     indoor: false,
     outdoor: true,
@@ -74,7 +74,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
     slug: "pavilions",
     label: {
       en: "Country / National Pavilions",
-      ar: "أجنحة / أجنحة وطنية",
+      ar: "أجنحة الدول والأجنحة الوطنية",
     },
     indoor: true,
     outdoor: false,
@@ -84,7 +84,7 @@ export const BOOTH_COMPARISON_ROWS: BoothComparisonRow[] = [
   },
   {
     slug: "sustainable",
-    label: { en: "Sustainable / Eco Booths", ar: "أجنحة مستدامة / Eco" },
+    label: { en: "Sustainable / Eco Booths", ar: "أجنحة مستدامة وصديقة للبيئة" },
     indoor: true,
     outdoor: true,
     reusable: true,
@@ -100,7 +100,7 @@ export const BOOTH_COMPARISON_COLUMNS = [
   {
     key: "highCustomization" as const,
     en: "High Customization",
-    ar: "تخصيص عالٍ",
+    ar: "قابلية تخصيص عالية",
   },
   { key: "fastSetup" as const, en: "Fast Setup", ar: "تركيب سريع" },
 ];

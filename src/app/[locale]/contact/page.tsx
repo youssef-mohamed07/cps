@@ -59,7 +59,7 @@ export default async function ContactPage({ params }: PageProps) {
         lead={page.lead}
         image={heroImage.src || media.contact.hero}
         imageAlt={heroImage.alt || (
-          locale === "ar" ? "مقر الشركة وقاعة الاستقبال" : "Company headquarters reception"
+          locale === "ar" ? "مكتب الاستقبال في مقر CPS" : "Company headquarters reception"
         )}
         cta={{
           label: dictionary.nav.cta,

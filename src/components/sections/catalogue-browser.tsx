@@ -67,7 +67,7 @@ export function CatalogueBrowser({
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={locale === "ar" ? "مثال: لافتة، فينيل، صندوق إضاءة" : "Try signage, vinyl, light box"}
+              placeholder={locale === "ar" ? "ابحث مثلاً: لافتات، فينيل، صناديق إضاءة" : "Try signage, vinyl, light box"}
             />
           </label>
         ) : null}
@@ -129,7 +129,7 @@ export function CatalogueBrowser({
                 <p>{localizeText(entry.description, locale)}</p>
                 {entry.cityAnchors?.length ? (
                   <div className="catalogue-city-anchors">
-                    <span>{locale === "ar" ? "متاح في" : "Available in"}</span>
+                    <span>{locale === "ar" ? "متوفر في" : "Available in"}</span>
                     <ul>
                       {entry.cityAnchors.map((city) => (
                         <li key={city.slug}>
@@ -156,7 +156,7 @@ export function CatalogueBrowser({
           );
         })}
       </div>
-      {!visible.length ? <p className="catalogue-empty">{locale === "ar" ? "لا توجد عناصر مطابقة للبحث." : "No items match your search."}</p> : null}
+      {!visible.length ? <p className="catalogue-empty">{locale === "ar" ? "لا توجد نتائج مطابقة لبحثك." : "No items match your search."}</p> : null}
     </>
   );
 }

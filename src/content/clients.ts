@@ -30,11 +30,11 @@ export const clientLogos: ClientLogo[] = [
 ];
 
 export function logosEyebrow(locale: Locale) {
-  return locale === "ar" ? "يثقون بنا" : "Trusted by";
+  return locale === "ar" ? "عملاؤنا" : "Trusted by";
 }
 
 export function logosSupport(locale: Locale) {
   return locale === "ar"
-    ? "مجموعة من العملاء الذين نفذت لهم CPS."
+    ? "نخبة من الجهات التي نفّذت CPS مشاريعها."
     : "A selection of clients CPS has produced for.";
 }

@@ -67,7 +67,7 @@ export function LocationDetailSections({
             </p>
             <h2 className="location-detail-overview-title">
               {isArabic
-                ? `تنفيذ أجنحة في ${location.title}.`
+                ? `تصميم وتنفيذ الأجنحة في ${location.title}.`
                 : `Booth delivery in ${location.title}.`}
             </h2>
             <p className="location-detail-overview-body">
@@ -106,7 +106,7 @@ export function LocationDetailSections({
                 </p>
                 <h2 className="location-detail-section-title">
                   {isArabic
-                    ? "دعم محلي بمعايير CPS."
+                    ? "فريق محلي بمعايير CPS نفسها."
                     : "Local support. One CPS standard."}
                 </h2>
               </div>
@@ -133,11 +133,11 @@ export function LocationDetailSections({
             <div className="location-detail-section-head location-detail-section-head--split">
               <div>
                 <p className="eyebrow">
-                  {isArabic ? "أعمالنا هنا" : "Work here"}
+                  {isArabic ? "أعمالنا في المدينة" : "Work here"}
                 </p>
                 <h2 className="location-detail-section-title">
                   {isArabic
-                    ? `مشاريع في ${location.title}.`
+                    ? `مشاريع نفّذناها في ${location.title}.`
                     : `Our work in ${location.title}.`}
                 </h2>
               </div>
@@ -184,7 +184,7 @@ export function LocationDetailSections({
           ) : (
             <p className="location-detail-projects-empty">
               {isArabic
-                ? "مشاريع جديدة قريباً — تواصل معنا لتخطيط معرضك."
+                ? "نضيف مشاريع جديدة قريباً — تواصل معنا لنخطّط لمشاركتك القادمة."
                 : "New work coming soon — contact us to plan your show."}
             </p>
           )}
@@ -201,7 +201,7 @@ export function LocationDetailSections({
                 </p>
                 <h2 className="location-detail-section-title">
                   {isArabic
-                    ? `خدمات وأنواع أجنحة في ${location.title}.`
+                    ? `الخدمات وأنواع الأجنحة المتوفرة في ${location.title}.`
                     : `Services and booth types in ${location.title}.`}
                 </h2>
               </div>
@@ -267,7 +267,7 @@ export function LocationDetailSections({
                   {isArabic ? "تغطية إقليمية" : "Regional coverage"}
                 </p>
                 <h2 className="location-detail-section-title">
-                  {isArabic ? "مواقع أخرى." : "Other locations."}
+                  {isArabic ? "مدن أخرى نعمل فيها." : "Other locations."}
                 </h2>
               </div>
             </Reveal>

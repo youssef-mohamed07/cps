@@ -5,7 +5,6 @@ import { QuoteForm } from "@/components/forms/quote-form";
 import { CtaArrow } from "@/components/motion/cta-arrow";
 import { Reveal } from "@/components/motion/reveal";
 import { FaqSection } from "@/components/sections/faq-section";
-import { BoothTypeModelSection } from "@/components/sections/booth-type-model-section";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { ProjectLaunchSection } from "@/components/sections/project-launch-section";
 import { blueprintClientLogos } from "@/content/clients";
@@ -28,70 +27,70 @@ import type { CmsProject } from "@/sanity/transformers/collections";
 const industriesHeadline: Record<string, { en: string; ar: string }> = {
   "exhibitions-booths": {
     en: "Sectors we build exhibition booths for",
-    ar: "قطاعات نبني لها أجنحة المعارض",
+    ar: "القطاعات التي نصمّم لها أجنحة المعارض",
   },
   "event-fabrication": {
     en: "Sectors we build event structures for",
-    ar: "قطاعات نبني لها هياكل الفعاليات",
+    ar: "القطاعات التي ننفّذ لها هياكل الفعاليات",
   },
   "fit-out-interiors": {
     en: "Sectors we fit out for",
-    ar: "قطاعات نجهّز لها المساحات",
+    ar: "القطاعات التي نجهّز مساحاتها",
   },
   "retail-displays": {
     en: "Sectors we produce displays for",
-    ar: "قطاعات ننتج لها عروض التجزئة",
+    ar: "القطاعات التي ننتج لها وحدات العرض",
   },
   "custom-fabrication": {
     en: "Sectors we fabricate for",
-    ar: "قطاعات نصنّع لها",
+    ar: "القطاعات التي نصنّع لها حسب الطلب",
   },
   "printing-signage": {
     en: "Sectors we produce signage for",
-    ar: "قطاعات ننتج لها اللافتات",
+    ar: "القطاعات التي ننتج لها المطبوعات واللافتات",
   },
   "rental-solutions": {
     en: "Sectors we rent to",
-    ar: "قطاعات نقدّم لها التأجير",
+    ar: "القطاعات التي نوفّر لها حلول التأجير",
   },
   "installation-project-delivery": {
     en: "Sectors we deliver for",
-    ar: "قطاعات نسلّم لها المشاريع",
+    ar: "القطاعات التي ننفّذ لها التركيب والتسليم",
   },
 };
 
 const projectsHeadline: Record<string, { en: string; ar: string }> = {
   "exhibitions-booths": {
     en: "Recent exhibitions & booths work",
-    ar: "مشاريع معارض وأجنحة حديثة",
+    ar: "أحدث مشاريع المعارض والأجنحة",
   },
   "event-fabrication": {
     en: "Recent event fabrication work",
-    ar: "مشاريع تجهيز فعاليات حديثة",
+    ar: "أحدث مشاريع الفعاليات",
   },
   "fit-out-interiors": {
     en: "Recent fit-out & interiors work",
-    ar: "مشاريع تجهيز داخلي حديثة",
+    ar: "أحدث مشاريع التجهيز الداخلي",
   },
   "retail-displays": {
     en: "Recent retail displays work",
-    ar: "مشاريع عروض تجزئة حديثة",
+    ar: "أحدث مشاريع وحدات العرض في المتاجر",
   },
   "custom-fabrication": {
     en: "Recent custom fabrication work",
-    ar: "مشاريع تصنيع مخصص حديثة",
+    ar: "أحدث مشاريع التصنيع حسب الطلب",
   },
   "printing-signage": {
     en: "Recent printing & signage work",
-    ar: "مشاريع طباعة ولافتات حديثة",
+    ar: "أحدث مشاريع الطباعة واللافتات",
   },
   "rental-solutions": {
     en: "Recent rental solutions work",
-    ar: "مشاريع حلول تأجير حديثة",
+    ar: "أحدث مشاريع التأجير",
   },
   "installation-project-delivery": {
     en: "Recent installation & project delivery work",
-    ar: "مشاريع تركيب وتسليم حديثة",
+    ar: "أحدث مشاريع التركيب والتسليم",
   },
 };
 
@@ -102,7 +101,7 @@ const projectsCta: Record<string, { en: string; ar: string }> = {
   },
   "event-fabrication": {
     en: "View All Event Fabrication Work",
-    ar: "عرض كل مشاريع تجهيز الفعاليات",
+    ar: "عرض كل مشاريع الفعاليات",
   },
   "fit-out-interiors": {
     en: "View All Fit-Out & Interiors Work",
@@ -110,11 +109,11 @@ const projectsCta: Record<string, { en: string; ar: string }> = {
   },
   "retail-displays": {
     en: "View All Retail Displays Work",
-    ar: "عرض كل مشاريع عروض التجزئة",
+    ar: "عرض كل مشاريع وحدات العرض في المتاجر",
   },
   "custom-fabrication": {
     en: "View All Custom Fabrication Work",
-    ar: "عرض كل مشاريع التصنيع المخصص",
+    ar: "عرض كل مشاريع التصنيع حسب الطلب",
   },
   "printing-signage": {
     en: "View All Printing & Signage Work",
@@ -122,11 +121,11 @@ const projectsCta: Record<string, { en: string; ar: string }> = {
   },
   "rental-solutions": {
     en: "View All Rental Solutions Work",
-    ar: "عرض كل مشاريع حلول التأجير",
+    ar: "عرض كل مشاريع التأجير",
   },
   "installation-project-delivery": {
     en: "View All Installation & Project Delivery Work",
-    ar: "عرض كل مشاريع التركيب وتسليم المشاريع",
+    ar: "عرض كل مشاريع التركيب والتسليم",
   },
 };
 
@@ -167,19 +166,18 @@ export function ServiceArchitecturePage({
       value: entry.slug,
       label: localizeText(entry.title, locale),
     }));
-  const featuredMatches = service.showcase.items
-    .map((showcaseItem) =>
-      catalogueItems.find((entry) => entry.title.en === showcaseItem.title.en),
-    )
-    .filter((entry): entry is (typeof catalogueItems)[number] => Boolean(entry));
-  const remainingCatalogueItems = catalogueItems.filter(
-    (entry) => !featuredMatches.some((featuredEntry) => featuredEntry.slug === entry.slug),
-  );
-  const featured = [
-    ...featuredMatches,
-    ...remainingCatalogueItems.filter((entry) => Boolean(entry.image)),
-    ...remainingCatalogueItems.filter((entry) => !entry.image),
-  ].slice(0, 5);
+  const featured = service.showcase.items
+    .map((showcaseItem) => {
+      const catalogueItem = catalogueItems.find(
+        (entry) =>
+          entry.slug === showcaseItem.catalogueItemSlug ||
+          entry.title.en === showcaseItem.title.en,
+      );
+
+      return catalogueItem ? { ...catalogueItem, showcaseItem } : null;
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+    .slice(0, 5);
   const totalCatalogueItems = service.catalogue.categories.reduce(
     (acc, cat) => acc + cat.items.length,
     0,
@@ -235,14 +233,14 @@ export function ServiceArchitecturePage({
           </p>
           <div className="service-architecture-hero-actions">
             <Link href="#quote" className="hero-cta">
-              {ar ? "ابدأ مشروعاً" : "Start a Project"}
+              {ar ? "ابدأ مشروعك" : "Start a Project"}
               <CtaArrow tone="white" size="sm" />
             </Link>
             <Link
               href={localizePath(allProjectsHref, locale)}
               className="hero-cta-ghost service-architecture-hero-work"
             >
-              {ar ? "عرض أعمالنا" : "View Our Work"}
+              {ar ? "شاهد أعمالنا" : "View Our Work"}
               <CtaArrow tone="white" size="sm" />
             </Link>
           </div>
@@ -252,15 +250,15 @@ export function ServiceArchitecturePage({
       <section className="service-trusted">
         <div className="site-container">
           <div className="service-trusted-copy">
-            <p className="eyebrow">{ar ? "يثقون بنا" : "Trusted By"}</p>
+            <p className="eyebrow">{ar ? "عملاء يثقون بنا" : "Trusted By"}</p>
             <h2 className="display">
               {ar
-                ? "نفذنا لأسماء رائدة في السعودية"
+                ? "نفّذنا لعلامات رائدة في المملكة"
                 : "Delivered for leading brands in Saudi Arabia"}
             </h2>
             <p>
               {ar
-                ? "مجموعة من العملاء الذين نفذت لهم CPS."
+                ? "نخبة من العملاء الذين نفّذت CPS مشاريعهم."
                 : "A selection of clients CPS has produced for."}
             </p>
           </div>
@@ -297,7 +295,7 @@ export function ServiceArchitecturePage({
               </ul>
               <div className="service-architecture-overview-actions">
                 <Link href="#quote" className="hero-cta">
-                  {ar ? "ابدأ مشروعاً" : "Start a Project"}
+                  {ar ? "ابدأ مشروعك" : "Start a Project"}
                   <CtaArrow tone="white" size="sm" />
                 </Link>
                 <Link
@@ -345,7 +343,7 @@ export function ServiceArchitecturePage({
           <div className="service-showcase-grid">
             {featured.map((entry, index) => (
               <Reveal
-                key={entry.title.en}
+                key={entry.slug}
                 delay={index * 0.04}
                 className="service-showcase-item-reveal"
               >
@@ -359,7 +357,7 @@ export function ServiceArchitecturePage({
                   <div className="service-showcase-card-media">
                     <Image
                       src={entry.image || service.image}
-                      alt={localizeText(entry.title, locale)}
+                      alt={localizeText(entry.showcaseItem.title, locale)}
                       fill
                       sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
                       className="object-cover"
@@ -377,10 +375,10 @@ export function ServiceArchitecturePage({
                   </div>
                   <div className="service-showcase-card-body">
                     <h3 className="service-showcase-card-title">
-                      {localizeText(entry.title, locale)}
+                      {localizeText(entry.showcaseItem.title, locale)}
                     </h3>
                     <p className="service-showcase-card-desc">
-                      {localizeText(entry.description, locale)}
+                      {localizeText(entry.showcaseItem.description, locale)}
                     </p>
                   </div>
                   <div className="service-showcase-card-footer">
@@ -403,11 +401,11 @@ export function ServiceArchitecturePage({
               >
                 <div className="service-showcase-card-header">
                   <span className="service-showcase-badge">
-                    {ar ? "الكتالوج الشامل" : "Full Catalogue"}
+                    {ar ? "الكتالوج الكامل" : "Full Catalogue"}
                   </span>
                   {totalCatalogueItems > 0 ? (
                     <span className="service-showcase-count-pill">
-                      +{totalCatalogueItems} {ar ? "قدرة" : "Capabilities"}
+                      +{totalCatalogueItems} {ar ? "عنصراً" : "Capabilities"}
                     </span>
                   ) : null}
                 </div>
@@ -431,19 +429,11 @@ export function ServiceArchitecturePage({
         </div>
       </section>
 
-      {service.slug === "exhibitions-booths" ? (
-        <BoothTypeModelSection
-          locale={locale}
-          title={localizeText(service.title, locale)}
-          variant="custom"
-        />
-      ) : null}
-
       <section className="service-benefits">
         <div className="site-container">
           <Reveal>
             <div className="section-head">
-              <p className="eyebrow">{ar ? "الفوائد" : "Benefits"}</p>
+              <p className="eyebrow">{ar ? "المزايا" : "Benefits"}</p>
               <h2 className="display">{ar ? "ما تحصل عليه" : "What you get"}</h2>
             </div>
           </Reveal>
@@ -582,7 +572,7 @@ export function ServiceArchitecturePage({
         title={ar ? "من الموجز إلى التسليم" : "From brief to handover"}
         support={
           ar
-            ? "نفس العملية من خمس خطوات خلف كل مشروع، مهما كانت الخدمة."
+            ? "خمس خطوات ثابتة نتّبعها في كل مشروع، أيّاً كانت الخدمة."
             : "The same five-step process behind every project, whatever the service."
         }
         steps={sharedProcess.map((step) => ({
@@ -594,10 +584,10 @@ export function ServiceArchitecturePage({
       <section className="service-capabilities-link">
         <div className="site-container">
           <div>
-            <p className="eyebrow">{ar ? "كيف نبني" : "How We Build"}</p>
+            <p className="eyebrow">{ar ? "كيف ننفّذ" : "How We Build"}</p>
             <h2 className="display">
               {ar
-                ? "كل مشروع مدعوم بأرض إنتاج واحدة."
+                ? "كل مشروع يُنفَّذ في مصنع واحد."
                 : "Every project is backed by one production floor."}
             </h2>
           </div>
@@ -605,7 +595,7 @@ export function ServiceArchitecturePage({
             href={localizePath("/production-capabilities", locale)}
             className="btn-secondary"
           >
-            {ar ? "شاهد قدرات الإنتاج" : "See Production Capabilities"}
+            {ar ? "تعرّف على قدرات الإنتاج" : "See Production Capabilities"}
           </Link>
         </div>
       </section>
@@ -636,19 +626,19 @@ export function ServiceArchitecturePage({
                       ? industryTitle.ar
                       : industryTitle.en
                     : ar
-                      ? `قطاعات نبني لها ${localizeText(service.title, locale)}`
+                      ? `القطاعات التي نخدمها في ${localizeText(service.title, locale)}`
                       : `Sectors we build ${localizeText(service.title, locale).toLowerCase()} for`}
                 </h2>
                 <p className="about-industries-support">
                   {ar
-                    ? "خبرات تصنيع متخصصة مصممة لتلبية متطلبات ومعايير كل قطاع بدقة."
+                    ? "خبرة تصنيع تراعي معايير كل قطاع ومتطلبات مساحاته."
                     : "Tailored fabrication expertise engineered to meet specific industry standards and footprints."}
                 </p>
                 <Link
                   href={`${localizePath("/our-work", locale)}?service=${encodeURIComponent(service.slug)}#work-filters`}
                   className="about-industries-link"
                 >
-                  <span>{ar ? "استعرض المشاريع" : "Explore industry work"}</span>
+                  <span>{ar ? "شاهد مشاريع القطاعات" : "Explore industry work"}</span>
                   <CtaArrow size="sm" />
                 </Link>
               </Reveal>
@@ -751,7 +741,7 @@ export function ServiceArchitecturePage({
         }
         support={
           ar
-            ? "إجابات مباشرة عن الجداول والنطاق والتنفيذ قبل ما تبدأ."
+            ? "إجابات واضحة عن المدد الزمنية ونطاق العمل والتنفيذ قبل أن تبدأ."
             : "Straight answers on timelines, scope, and delivery — before you start."
         }
         items={resolvedFaq}
@@ -792,7 +782,7 @@ export function ServiceArchitecturePage({
                 <h2 className="display">{ar ? "أكمل مشروعك" : "Complete the build"}</h2>
                 <p className="service-related-lead">
                   {ar
-                    ? "حلول متكاملة تكمّل مساحتك وتضمن تناغم التصميم والإنتاج."
+                    ? "خدمات تكمّل مشروعك وتحافظ على انسجام التصميم والتنفيذ."
                     : "Integrated capabilities to complement your space with unified fabrication standards."}
                 </p>
               </div>
@@ -821,7 +811,7 @@ export function ServiceArchitecturePage({
                     </div>
                     <div className="service-related-card-content">
                       <span className="service-related-card-tag">
-                        {ar ? "خدمة مكملة" : "Complementary"}
+                        {ar ? "خدمة مكمّلة" : "Complementary"}
                       </span>
                       <h3 className="service-related-card-title">
                         {localizeText(entry.title, locale)}

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     path: "/services",
     locale,
     fallbackTitle: locale === "ar" ? "CPS — خدماتنا" : "CPS — Services",
-    fallbackDescription: locale === "ar" ? "ثمان خدمات إنتاج وتصنيع وتجهيز تحت سقف واحد." : "Eight production, fabrication and fit-out services under one roof.",
+    fallbackDescription: locale === "ar" ? "ثماني خدمات في الإنتاج والتصنيع والتجهيز الداخلي تحت سقف واحد." : "Eight production, fabrication and fit-out services under one roof.",
   });
 }
 
@@ -48,11 +48,11 @@ export default async function ServicesPage({ params }: PageProps) {
       <PageHero
         locale={locale}
         eyebrow={ar ? "الخدمات" : "Services"}
-        title={ar ? "ثمان خدمات. أرض إنتاج واحدة." : "Eight services. One production floor."}
-        lead={ar ? "من المعارض والفعاليات إلى التجهيز الداخلي والطباعة والتسليم — فريق واحد يحمل مشروعك حتى النهاية." : "From exhibitions and events to fit-out, print and delivery — one team carries your project to completion."}
+        title={ar ? "ثماني خدمات ومصنع واحد" : "Eight services. One production floor."}
+        lead={ar ? "من المعارض والفعاليات إلى التجهيز الداخلي والطباعة والتسليم — فريق واحد يتابع مشروعك حتى اكتماله." : "From exhibitions and events to fit-out, print and delivery — one team carries your project to completion."}
         image={firstService?.image ?? ""}
         imageAlt={firstService?.imageAlt ?? firstService?.title ?? ""}
-        cta={{ label: ar ? "ابدأ مشروعاً" : "Start a Project", href: localizePath("/contact", locale) }}
+        cta={{ label: ar ? "ابدأ مشروعك" : "Start a Project", href: localizePath("/contact", locale) }}
         secondaryCta={{ label: ar ? "شاهد أعمالنا" : "View Our Work", href: localizePath("/our-work", locale) }}
       />
       <CollectionGrid

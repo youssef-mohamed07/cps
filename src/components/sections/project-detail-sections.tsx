@@ -99,7 +99,7 @@ export function ProjectDetailSections({
         }
       : null,
     project.event
-      ? { label: isArabic ? "الحدث" : "Event", value: project.event }
+      ? { label: isArabic ? "الفعالية" : "Event", value: project.event }
       : null,
     project.size
       ? { label: isArabic ? "المساحة" : "Size", value: project.size }
@@ -172,10 +172,10 @@ export function ProjectDetailSections({
           images={project.gallery}
           videoSrc={project.motionVideo}
           eyebrow={isArabic ? "أبرز لحظات الفعالية" : "EVENT HIGHLIGHT"}
-          heading={isArabic ? "نظرة على الفعالية" : "A Look Back at the Event"}
+          heading={isArabic ? "لمحة من الفعالية" : "A Look Back at the Event"}
           support={
             isArabic
-              ? "استرجع اللحظات والتجارب وأبرز التفاصيل التي جعلتها فعالية لا تُنسى."
+              ? "أبرز اللحظات والتفاصيل التي صنعت تجربة الفعالية."
               : "Relive the moments, experiences, and highlights that made it unforgettable."
           }
         />
@@ -186,7 +186,7 @@ export function ProjectDetailSections({
           <div className="site-container">
             <Reveal>
               <div className="project-detail-story-head">
-                <p className="eyebrow">{isArabic ? "القصة" : "The story"}</p>
+                <p className="eyebrow">{isArabic ? "قصة المشروع" : "The story"}</p>
                 <h2 className="project-detail-story-title">
                   {isArabic
                     ? "من التحدي إلى النتيجة."
@@ -224,7 +224,7 @@ export function ProjectDetailSections({
               <div className="project-detail-gallery-head">
                 <p className="eyebrow">{labels.gallery}</p>
                 <h2 className="project-detail-gallery-title">
-                  {isArabic ? "معرض المشروع." : "Project gallery."}
+                  {isArabic ? "صور المشروع" : "Project gallery."}
                 </h2>
                 <p className="project-detail-gallery-count">
                   {gallery.length}{" "}
@@ -247,9 +247,9 @@ export function ProjectDetailSections({
           <div className="site-container">
             <Reveal>
               <div className="project-detail-related-head">
-                <p className="eyebrow">{isArabic ? "المزيد" : "More work"}</p>
+                <p className="eyebrow">{isArabic ? "المزيد من أعمالنا" : "More work"}</p>
                 <h2 className="project-detail-related-title">
-                  {isArabic ? "أعمال أخرى." : "More of our work."}
+                  {isArabic ? "مشاريع أخرى" : "More of our work."}
                 </h2>
                 <Link
                   href={localizePath("/our-work", locale)}

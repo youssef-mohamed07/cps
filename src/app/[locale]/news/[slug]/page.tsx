@@ -80,7 +80,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
           lead={article.excerpt}
           image={article.image}
           imageAlt={article.imageAlt}
-          meta={`${article.author}${article.publishedAt ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}` : ""} · ${article.readingTime} ${locale === "ar" ? "دقيقة قراءة" : "min read"}`}
+          meta={`${article.author}${article.publishedAt ? ` · ${new Date(article.publishedAt).toLocaleDateString(locale)}` : ""} · ${article.readingTime} ${locale === "ar" ? "دقائق قراءة" : "min read"}`}
         />
 
         <section className="section-pad">

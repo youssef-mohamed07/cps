@@ -33,7 +33,7 @@ export function LegalPage({ locale, title, lead, body }: LegalPageProps) {
             <p className="eyebrow">{locale === "ar" ? "سياسة CPS" : "CPS policy"}</p>
             <p>
               {locale === "ar"
-                ? "نسخة واضحة ومختصرة من سياستنا الحالية."
+                ? "ملخص واضح لسياستنا المعمول بها حالياً."
                 : "A clear, concise version of our current policy."}
             </p>
           </aside>
